@@ -5,6 +5,9 @@ const cors = require("cors");
 const env = require("dotenv").config();
 const session = require("express-session");
 
+app.set("trust proxy");
+
+// BODY PARSER
 app.use(bodyParser.json());
 // CORS
 let corsOptions = {};
@@ -34,11 +37,11 @@ if (process.env.NODE_ENV === "development") {
   sessionOptions = {
     resave: false,
     saveUninitialized: true,
+    session: "secret",
   };
 }
 app.use(session(sessionOptions));
 
-app.set("trust proxy");
 
 // ROUTES
 
