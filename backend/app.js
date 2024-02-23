@@ -1,12 +1,11 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const env = require("dotenv").config();
 const expressSession = require("express-session");
-const bodyParser = require("body-parser");
-const http = require("http").createServer(app);
-const cors = require("cors");
-app.use("trust proxy", 1);
 
+app.use(bodyParser.json());
 // CORS
 let corsOptions = {};
 if (process.env.NODE_ENV === "production") {
@@ -23,7 +22,6 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(cors(corsOptions));
 // MIDDLEWARES
-app.use(bodyParser.json());
 let sessionOptions = {};
 if (process.env.NODE_ENV === "production") {
   sessionOptions = {
@@ -39,10 +37,14 @@ if (process.env.NODE_ENV === "development") {
   };
 }
 app.use(sessionOptions);
+
+app.use("trust proxy");
+
 // ROUTES
 
 // SERVER
-http.listen(process.env.PORT, () => {
+const server = require("http").createServer(app);
+server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
 
