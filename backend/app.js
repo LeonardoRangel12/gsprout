@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const env = require("dotenv").config();
-const expressSession = require("express-session");
+const session = require("express-session");
 
 app.use(bodyParser.json());
 // CORS
@@ -36,9 +36,9 @@ if (process.env.NODE_ENV === "development") {
     saveUninitialized: true,
   };
 }
-app.use(sessionOptions);
+app.use(session(sessionOptions));
 
-app.use("trust proxy");
+app.set("trust proxy");
 
 // ROUTES
 
