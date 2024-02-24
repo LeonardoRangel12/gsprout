@@ -28,11 +28,22 @@ async function getUsuarios() {
   return usuarios;
 }
 
-async function getUsuarioById(userEmail) {
+async function getUsuarioByEmail(userEmail) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const userFound = await dbCon
       .collection("users")
       .findOne({ email: userEmail });
+
+    return userFound;
+  });
+  return result;
+}
+
+async function getUsuarioById(userId) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const userFound = await dbCon
+      .collection("users")
+      .findOne({ _id: userEmail });
 
     return userFound;
   });
@@ -117,9 +128,42 @@ async function getJuegoByName(juegoName) {
   return result;
 }
 
+async function getDeseadosByUsuario(userId) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const deseadosFound = await dbCon
+      .collection("deseados")
+      .findOne({ id_usuario: userId });
+    return deseadosFound;
+  });
+  return result;
+}
+
+async function createNewDeseados(idusuario, idjuego) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon.collection("deseados").insertOne({ id_usuario: idusuario, deseados: [idjuego]});
+    return result;
+  });
+  return result;
+}
+
+async function addToDeseados(idusuario, idjuego) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    if (!await getUsuarioById(idusuario)){
+      result = await createUsuario(idusuario, idjuego);
+    }
+    const updateFields = { $set: data };
+    const result = await dbCon
+      .collection("games")
+      .updateOne({ id: juegoId }, updateFields);
+    return result;
+  });
+  return result;
+}
+
 module.exports = {
   createUsuario,
   getUsuarios,
+  getUsuarioByEmail,
   getUsuarioById,
   updateUsuario,
   deleteUsuario,

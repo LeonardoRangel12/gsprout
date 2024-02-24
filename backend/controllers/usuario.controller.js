@@ -1,6 +1,7 @@
 const usuarioSchema = require("../models/usuario.model");
 const usuarioService = require("../services/usuario.service");
 const bcryptUtil = require("../utils/bcrypt.util");
+
 const createUsuario = async (req, res) => {
   // Validate request with JOI
   let { error, value } = usuarioSchema.validate(req.body);
@@ -9,7 +10,7 @@ const createUsuario = async (req, res) => {
   }
 
   //   Check if user exists
-  if (await usuarioService.getUsuarioById(value.email)) {
+  if (await usuarioService.getUsuarioByEmail(value.email)) {
     return res.status(400).send("User exists");
   }
 
@@ -39,7 +40,7 @@ const getUsuarios = async (req, res) => {
 const loginUsuario = async (req, res) => {
   try {
     // Get user by email
-    const usuario = await usuarioService.getUsuarioById(req.body.email);
+    const usuario = await usuarioService.getUsuarioByEmail(req.body.email);
     if (!usuario) return res.status(404).send("User not found");
     // Compare password
     if (
@@ -54,7 +55,7 @@ const loginUsuario = async (req, res) => {
 };
 const getUsuarioById = async (req, res) => {
   try {
-    const usuario = await usuarioService.getUsuarioById(req.params.email);
+    const usuario = await usuarioService.getUsuarioByEmail(req.params.email);
     return res.status(200).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
@@ -76,7 +77,7 @@ const updateUsuario = async (req, res) => {
 };
 
 const deleteUsuario = async (req, res) => {
-  if (!await usuarioService.getUsuarioById(req.params.email)) {
+  if (!await usuarioService.getUsuarioByEmail(req.params.email)) {
     return res.status(400).send("User does not exist");
   }
 
