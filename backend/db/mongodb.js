@@ -13,7 +13,7 @@ async function dbConnectionWrapper (functionWrapped){
 }
 
 async function createUsuario(data){
-    console.log(data)
+    
     result = await dbConnectionWrapper(async (dbCon) => {
         const result = await dbCon.collection("users").insertOne(data)
         return result
@@ -30,11 +30,10 @@ async function getUsuarios(){
 }
 
 async function getUsuarioById(userEmail){
-    console.log(userEmail)
+    
     result = await dbConnectionWrapper(async (dbCon) => {
         const userFound = await dbCon.collection("users").findOne({email: userEmail})
-        console.log(userEmail)
-        console.log(userFound)
+        
         return userFound
     })
     return result;
@@ -44,7 +43,7 @@ async function updateUsuario(userEmail, data){
     result = await dbConnectionWrapper(async (dbCon) => {
         const updateFields = { $set: data };
         const result = await dbCon.collection("users").updateOne({ email: userEmail }, updateFields);
-        console.log(result)
+        
         return result
     })
     return result;
@@ -53,7 +52,49 @@ async function updateUsuario(userEmail, data){
 async function deleteUsuario(userEmail){
     result = await dbConnectionWrapper(async (dbCon) => {
         const result = await dbCon.collection("users").deleteOne({ email: userEmail });
-        console.log(result)
+        
+        return result
+    })
+    return result;
+}
+
+
+async function createJuego(data){
+    result = await dbConnectionWrapper(async (dbCon) => {
+        const result = await dbCon.collection("juegos").insertOne(data)
+        return result
+    })
+    return result;
+}
+
+async function getJuegos(){
+    juegos = await dbConnectionWrapper(async (dbCon) => {
+        const result = await dbCon.collection("juegos").find().toArray()
+        return result
+    })
+    return juegos;
+}
+
+async function getJuegoById(juegoId){
+    result = await dbConnectionWrapper(async (dbCon) => {
+        const juegoFound = await dbCon.collection("juegos").findOne({id: juegoId})
+        return juegoFound
+    })
+    return result;
+}
+
+async function updateJuego(juegoId, data){
+    result = await dbConnectionWrapper(async (dbCon) => {
+        const updateFields = { $set: data };
+        const result = await dbCon.collection("juegos").updateOne({ id: juegoId }, updateFields);
+        return result
+    })
+    return result;
+}
+
+async function deleteJuego(juegoId){
+    result = await dbConnectionWrapper(async (dbCon) => {
+        const result = await dbCon.collection("juegos").deleteOne({ id: juegoId });
         return result
     })
     return result;
@@ -64,5 +105,10 @@ module.exports = {
         getUsuarios,
         getUsuarioById,
         updateUsuario,
-        deleteUsuario
+        deleteUsuario,
+        createJuego,
+        getJuegos,
+        getJuegoById,
+        updateJuego,
+        deleteJuego
     };

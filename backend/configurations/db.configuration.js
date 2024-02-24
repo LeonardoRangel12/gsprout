@@ -1,6 +1,5 @@
 let db;
 
-// JARA CHAMBA
 if(process.env.NODE_ENV === "production") {
   db = require("../db/mongodb");
 }
