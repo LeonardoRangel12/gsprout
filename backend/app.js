@@ -10,10 +10,10 @@ app.set("trust proxy");
 // BODY PARSER
 app.use(bodyParser.json());
 // CORS
-const corsOptions = require("./options/cors.options");
+const corsOptions = require("./configurations/cors.configuration");
 app.use(cors(corsOptions));
 // MIDDLEWARES
-const sessionOptions = require("./options/session.options");
+const sessionOptions = require("./configurations/session.configuration");
 app.use(session(sessionOptions));
 
 
