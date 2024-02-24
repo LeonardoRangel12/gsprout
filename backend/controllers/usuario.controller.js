@@ -94,6 +94,13 @@ const logoutUsuario = async (req, res) => {
   res.status(200).send("Logged out");
 };
 
+const getUsuario = async (req, res) => {
+  if (req.session.usuario) {
+    return usuarioService.getUsuarioByEmail(req.session.usuario.email);
+  }
+  return res.status(404).send("User not found");
+};
+
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -102,4 +109,5 @@ module.exports = {
   updateUsuario,
   deleteUsuario,
   logoutUsuario,
+  getUsuario,
 };
