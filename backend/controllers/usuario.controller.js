@@ -87,6 +87,12 @@ const deleteUsuario = async (req, res) => {
     return res.status;
   }
 };
+
+const logoutUsuario = async (req, res) => {
+  req.session.destroy();
+  res.status(200).send("Logged out");
+};
+
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -94,4 +100,5 @@ module.exports = {
   loginUsuario,
   updateUsuario,
   deleteUsuario,
+  logoutUsuario,
 };
