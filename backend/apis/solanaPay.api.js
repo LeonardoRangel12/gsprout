@@ -19,7 +19,7 @@ const paymentRequests = new Map();
 // const keypair = Keypair.fromSecretKey(privateKeyBytes);
 // const publicKey = "9m5TqpsHkPmTYz5aRraLd1ntTtAaLuWuXcMCsRpuvjg8"
 
-const verifyPayment = async (req, res) => {
+const generatePayment = async (req, res) => {
   const juego = juegoService.getJuegoById(req.params.id);
   if (!juego) {
     return res.status(404).send("Juego not found");
@@ -44,6 +44,7 @@ const verifyPayment = async (req, res) => {
       recipient,
       amount,
       memo,
+      id: req.params.id,
     });
     const { url } = urlData;
     return res.status(200).send({ url: url.toString(), ref });
@@ -52,7 +53,7 @@ const verifyPayment = async (req, res) => {
   }
 };
 
-const generatePayment = async (req, res) => {
+const verifyPayment = async (req, res) => {
   const reference = req.params.reference;
   if (!reference) {
     res.status(400).send("Missing reference query parameter");
@@ -99,8 +100,6 @@ const verifyTransaction = async (reference) => {
   const connection = new Connection(quickNodeEndpoint, "confirmed");
 
   const found = await findReference(connection, reference);
-
-  console.log(found.signature);
 
   const response = await validateTransfer(
     connection,
