@@ -4,7 +4,7 @@ const upload = multer();
 const express = require('express');
 const router = express.Router();
 
-router.get('/',upload.none(),juegocontroller.getJuegos);
+router.get('/',upload.none(),juegocontroller.getJuegos);  
 router.post('/',upload.none(),juegocontroller.createJuego);
 router.put('/:id',upload.none(),juegocontroller.updateJuego);
 router.delete('/:id',upload.none(),juegocontroller.deleteJuego);

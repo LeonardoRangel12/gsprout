@@ -5,7 +5,10 @@ const juegoSchema = Joi.object({
     categoria: Joi.string().min(3).max(30).required(),
     precio: Joi.number().required(),
     stock: Joi.number().optional(),
-    imagen: Joi.string().min(3).max(30).required(),
+    imagen: Joi.object({
+        filename: Joi.string().min(3).max(30).required().without('.'),
+        extension: Joi.string().min(3).max(5).required().allow('png', 'jpg', 'jpeg'),
+    }),
     urlNFT: Joi.string().min(3).max(30).optional(),
 });
 
