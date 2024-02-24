@@ -62,7 +62,6 @@ const deleteJuego = async(req,res)=>{
     }catch{
         res.status(500).send(error);
     }
-    
 }
 
 module.exports = {
