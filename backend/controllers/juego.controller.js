@@ -1,7 +1,8 @@
 const { restart } = require("nodemon");
 const juegoSchema = require("../models/juego.model");
 const juegoService = require("../services/juego.service");
-const bcryptUtil = require("../utils/bcrypt.util");
+const cryptojsUtil = require("../utils/cryptojs.util");
+
 //Creacion de juegos
 const createJuego = async (req, res) => {
   let { error, value } = juegoSchema.validate(req.body);
@@ -9,13 +10,14 @@ const createJuego = async (req, res) => {
     //Si hay un error en la validacion
     return res.status(400).send(error.details);
   }
-  if (createJuego.getJuegoById(value.id)) {
+
+  if (await juegoService.getJuegoByName(value.nombre)) {
     //Niega la creacion si este existe
     return res.status(400).send("Juego existe");
   }
 
   // Encripta el regex de la licencia
-  value.regexLicense = bcryptUtil.hashPassword(value.regexLicense);
+  value.regexLicense = await cryptojsUtil.encrypt(value.regexLicense);
   try {
     const juego = await juegoService.createJuego(value);
     req.name = juego;
@@ -24,6 +26,23 @@ const createJuego = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+//Creacion de varios juegos
+const createSeveralJuegos = async (req, res) => {
+  let juegos = req.body;
+  for(let i = 0; i < juegos.length; i++){
+    juegos[i].regexLicense = juegos[i].regex;
+    delete juegos[i].regex;
+    juegos[i].regexLicense = bcryptUtil.hashPassword(juegos[i].regexLicense);
+    juegos[i].precio = 1
+    try {
+      const juego = await juegoService.createJuego(juegos[i]);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  }
+  return res.status(201).send(juegos);
+}
 
 //Obtencion de juegos
 const getJuegos = async (req, res) => {
@@ -76,4 +95,5 @@ module.exports = {
   getJuegoById,
   updateJuego,
   deleteJuego,
+  createSeveralJuegos
 };

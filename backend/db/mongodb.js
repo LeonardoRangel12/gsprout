@@ -107,6 +107,16 @@ async function deleteJuego(juegoId) {
   return result;
 }
 
+async function getJuegoByName(juegoName) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const juegoFound = await dbCon
+      .collection("games")
+      .findOne({ name: juegoName });
+    return juegoFound;
+  });
+  return result;
+}
+
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -118,4 +128,5 @@ module.exports = {
   getJuegoById,
   updateJuego,
   deleteJuego,
+  getJuegoByName
 };
