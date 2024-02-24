@@ -34,7 +34,15 @@
                             </div>
 
                             <div class="mt-6">
-                                <button type="submit" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">Inicia sesión</button>
+                                <button type="submit" class="relative w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                                    <span v-if="loading" class="absolute inset-0 flex items-center justify-center">
+                                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V2.5A1.5 1.5 0 0010.5 1h-2A1.5 1.5 0 007 2.5V4a8 8 0 017.75 7.996L12 20l-4.75-8.004A8 8 0 014 12z"></path>
+                                        </svg>
+                                    </span>
+                                    <span v-else>Inicia sesión</span>
+                                </button>
                             </div>
                         </form>
 
@@ -56,6 +64,8 @@ const formData = ref({
     password: ''
 });
 
+const loading = ref(false);
+
 const login = async () => {
     if (!formData.value.email || !formData.value.username || !formData.value.password) {
         console.warn('Por favor, completa todos los campos del formulario.');
@@ -63,14 +73,17 @@ const login = async () => {
     }
 
     try {
+        loading.value = true; // Mostrar el círculo de carga
         const response = await axios.post('http://localhost:3000/usuarios/login', {
             email: formData.value.email,
             username: formData.value.username,
             password: formData.value.password
         });
         console.log(response); // Aquí puedes manejar la respuesta del servidor
+        loading.value = false; // Ocultar el círculo de carga después de recibir una respuesta
     } catch (error) {
         console.error('Hubo un error en la solicitud:', error);
+        loading.value = false; // Ocultar el círculo de carga en caso de error
     }
 };
 
