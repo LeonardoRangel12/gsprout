@@ -63,12 +63,12 @@ const login = async () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:3000/login', {
+        const response = await axios.post('http://localhost:3000/usuarios/login', {
             email: formData.value.email,
             username: formData.value.username,
             password: formData.value.password
         });
-        console.log(response.data); // Aquí puedes manejar la respuesta del servidor
+        console.log(response); // Aquí puedes manejar la respuesta del servidor
     } catch (error) {
         console.error('Hubo un error en la solicitud:', error);
     }
