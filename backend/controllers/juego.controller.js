@@ -50,7 +50,7 @@ const getJuegos = async (req, res) => {
     const juegos = await juegoService.getJuegos();
     return res.status(200).send(juegos);
   } catch {
-    return res.status(500).send(error);
+    return res.status(500).send("Internal Server Error");
   }
 };
 

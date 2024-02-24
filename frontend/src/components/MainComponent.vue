@@ -21,7 +21,7 @@
       <section class="game-list-section mb-8">
         <h2 class="text-2xl font-bold mb-4">New Releases</h2>
         <div class="grid grid-cols-3 gap-8">
-          <div v-for="game in newReleases" :key="game.id" class="game-card">
+          <div v-for="game in newGames" :key="game.id" class="game-card">
             <div class="game-card-content p-4 border border-gray-700 rounded-lg">
               <img :src="game.imageSmall" :alt="game.title + ' Image'" class="game-image-small mb-2" />
               <h3 class="text-lg font-bold">{{ game.title }}</h3>
@@ -41,7 +41,7 @@
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import Hero from './HeroComponent.vue';
-import axios from 'axios';
+import axios from '../main';
 
 export default {
   components: {
@@ -52,18 +52,21 @@ export default {
   data() {
     return {
       games: [],
-      cart: []
+      featuredGames: [],
+      newGames: [],
     };
   },
-  computed: {
-    featuredGames() {
-      return this.games.slice(0, 6);
-    },
-    newReleases() {
-      return this.games.slice(6, 12);
-    }
+  async created(){
+    await this.getJuegos();
   },
   methods: {
+    async getJuegos(){
+      const res = await axios.get('/juegos');
+      this.games = res.data;
+      this.featuredGames = this.games;
+      this.newGames = this.games;
+
+    },
     addToCart(game) {
       this.cart.push(game);
     },
