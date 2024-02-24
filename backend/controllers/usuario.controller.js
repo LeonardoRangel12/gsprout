@@ -19,10 +19,9 @@ const createUsuario = async (req, res) => {
   // Create user
   try {
     const usuario = await usuarioService.createUsuario(value);
-    res.status(201).send(usuario);
+    await res.status(201).send(usuario);
   } catch (error) {
-    console.log(error)
-    res.status(500).send(error);
+    await res.status(500).send(error);
   }
 };
 
@@ -31,9 +30,9 @@ const getUsuarios = async (req, res) => {
   try {
     const usuarios = await usuarioService.getUsuarios();
     console.log(usuarios)
-    res.status(200).send(usuarios);
+    await res.status(200).send(usuarios);
   } catch (error) {
-    res.status(500).send(error);
+    await res.status(500).send(error);
   }
 };
 
@@ -48,18 +47,17 @@ const loginUsuario = async (req, res) => {
     )
       return res.status(401).send("Invalid password");
     req.session.usuario = usuario; 
-    res.status(200).send(usuario);
+    return res.status(200).send(usuario);
   } catch (error) {
-    res.status;
+    return res.status(500).send(error);
   }
 };
 const getUsuarioById = async (req, res) => {
   try {
     const usuario = await usuarioService.getUsuarioById(req.params.email);
-    res.status(200).send(usuario);
+    return res.status(200).send(usuario);
   } catch (error) {
-    console.log(error)
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
@@ -71,10 +69,9 @@ const updateUsuario = async (req, res) => {
 
   try {
     const usuario = await usuarioService.updateUsuario(req.params.email, value);
-    res.status(200).send(usuario);
+    return res.status(200).send(usuario);
   } catch (error) {
-    console.log(error)
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
@@ -85,10 +82,9 @@ const deleteUsuario = async (req, res) => {
 
   try {
     await usuarioService.deleteUsuario(req.params.email);
-    res.status(204).send();
+    return res.status(204).send();
   } catch (error) {
-    console.log(error)
-    res.status;
+    return res.status;
   }
 };
 module.exports = {
