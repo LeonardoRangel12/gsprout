@@ -48,7 +48,7 @@
   
   <script>
   import { ref } from 'vue';
-  
+  import axios from '../main';
   export default {
     setup() {
       const formData = ref({
@@ -57,10 +57,22 @@
         password: ''
       });
       
-      const register = () => {
-        // Lógica de registro
+      const register = async function() {
+          if (!formData.value.email || !formData.value.username || !formData.value.password) {
+              console.warn('Por favor, completa todos los campos del formulario.');
+              return;
+          }
+          try {
+              const response = await axios.post('http://localhost:3000/usuarios/', { // Se define la creacion de usuario. Las contraseñas 
+                  email: formData.value.email,
+                  username: formData.value.username,
+                  password: formData.value.password
+              });
+              console.log(response); // Aquí puedes manejar la respuesta del servidor
+          } catch (error) {
+              console.error('Hubo un error en la solicitud:', error);
+          }
       };
-      
       return { formData, register }
     }
   }
