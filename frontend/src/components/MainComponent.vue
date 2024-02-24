@@ -1,11 +1,14 @@
 <script>
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
+import Hero from './HeroComponent.vue';
 import axios from 'axios';
+
 export default {
   components: {
     Navbar, 
-    Footer 
+    Footer,
+    Hero
   },
   data() {
     return {
@@ -46,11 +49,8 @@ export default {
 <template>
   <div class="dark:bg-gray-900">
     <Navbar /> <!-- Aquí se incluye el componente Navbar -->
-    <div class="hero bg-gray-800 text-white py-20 px-4 text-center">
-      <h1 class="text-4xl font-bold mb-4">Welcome to the GSprout Store</h1>
-      <p class="text-lg">Explore a world of gaming with our vast collection!</p>
-    </div>
-
+    <Hero /> <!-- Aquí se incluye el componente Hero -->
+    
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
         <h2 class="text-2xl font-bold mb-4">Featured Games</h2>
