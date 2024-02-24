@@ -100,7 +100,8 @@ const login = async () => {
 };
 
 const switchToRegister = () => {
-    // Aquí puedes agregar la lógica para cambiar al componente de registro
+    // Redirige al usuario a la página de registro
+    router.push('/register');
 };
 </script>
 <style>
