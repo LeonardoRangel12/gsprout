@@ -1,55 +1,7 @@
-<script>
-import Navbar from './navbarComponent.vue';
-import Footer from './FooterComponent.vue';
-import Hero from './HeroComponent.vue';
-import axios from 'axios';
-
-export default {
-  components: {
-    Navbar, 
-    Footer,
-    Hero
-  },
-  data() {
-    return {
-      games: [
-        async function(){
-          const response = await axios.get('http://localhost:8000/juegos/');
-          this.games = response.data;
-          this.games.forEach(element => {
-          });
-        }
-        //{ id: 1, title: "Game 1", description: "Description of Game 1", image: "game1.jpg", imageSmall: "game1-small.jpg", price: 19.99 },
-      ],
-      cart: []
-    };
-  },
-  computed: {
-    featuredGames() {
-      return this.games.slice(0, 6);
-    },
-    newReleases() {
-      return this.games.slice(6, 12);
-    }
-  },
-  methods: {
-    addToCart(game) {
-      this.cart.push(game);
-    },
-    checkout() {
-      if (this.cart.length > 0) {
-        // Implement checkout logic here
-        alert("Checkout completed!");
-        this.cart = []; // Empty the cart after checkout
-      }
-    }
-  }
-};
-</script>
 <template>
   <div class="dark:bg-gray-900">
-    <Navbar /> <!-- Aquí se incluye el componente Navbar -->
-    <Hero /> <!-- Aquí se incluye el componente Hero -->
+    <Navbar class="z-50 relative" /> <!-- Aquí se incluye el componente Navbar -->
+    <Hero class="relative z-40" /> <!-- Aquí se incluye el componente Hero -->
     
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
@@ -85,7 +37,46 @@ export default {
   </div>
 </template>
 
+<script>
+import Navbar from './navbarComponent.vue';
+import Footer from './FooterComponent.vue';
+import Hero from './HeroComponent.vue';
+import axios from 'axios';
 
+export default {
+  components: {
+    Navbar, 
+    Footer,
+    Hero
+  },
+  data() {
+    return {
+      games: [],
+      cart: []
+    };
+  },
+  computed: {
+    featuredGames() {
+      return this.games.slice(0, 6);
+    },
+    newReleases() {
+      return this.games.slice(6, 12);
+    }
+  },
+  methods: {
+    addToCart(game) {
+      this.cart.push(game);
+    },
+    checkout() {
+      if (this.cart.length > 0) {
+        // Implement checkout logic here
+        alert("Checkout completed!");
+        this.cart = []; // Empty the cart after checkout
+      }
+    }
+  }
+};
+</script>
 
 <style>
 /* Add your global styles here */
