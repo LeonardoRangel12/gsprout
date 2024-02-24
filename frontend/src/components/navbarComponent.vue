@@ -8,11 +8,11 @@
         </a>
         <!-- Nav Links -->
         <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-          <li><a class="hover:text-gray-200" href="#">Inicio</a></li>
-          <li><a class="hover:text-gray-200" href="#">Tienda</a></li>
-          <li><a class="hover:text-gray-200" href="#">Subastas</a></li>
-          <li><a class="hover:text-gray-200" href="#">Intercambios</a></li>
-        </ul>
+      <li><router-link class="hover:text-gray-200" to="/main">Inicio</router-link></li>
+      <li><router-link class="hover:text-gray-200" to="/tienda">Tienda</router-link></li>
+      <li><router-link class="hover:text-gray-200" to="/subastas">Subastas</router-link></li>
+      <li><router-link class="hover:text-gray-200" to="/intercambios">Intercambios</router-link></li>
+    </ul>
         <!-- Header Icons -->
         <div class="hidden xl:flex items-center space-x-5 items-center">
           <a class="hover:text-gray-200" href="#">
@@ -60,6 +60,8 @@
 export default {
   name: 'NavbarComponent',
 };
+
+
 </script>
 
 <style scoped>

@@ -4,8 +4,8 @@ import Footer from './FooterComponent.vue';
 
 export default {
   components: {
-    Navbar, // Registra el componente Navbar
-    Footer // Registra el componente Footer
+    Navbar, 
+    Footer 
   },
   data() {
     return {
