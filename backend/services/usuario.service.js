@@ -16,7 +16,6 @@ async function updateUsuario(email, data) {
 }
 
 async function deleteUsuario(email) {
-    console.log(email)
     return await db.deleteUsuario(email);
 }
 module.exports = {

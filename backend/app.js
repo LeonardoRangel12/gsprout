@@ -29,6 +29,6 @@ server.listen(process.env.PORT, () => {
 app.get("/health_check", (req, res) => {
   res.status(200).send("OK");
 });
-/*const solanaPay = require("./apis/solanaPay.api.js")
+const solanaPay = require("./apis/solanaPay.api.js")
 app.get("/solana/:reference", solanaPay.generatePayment);
-app.post("/solana", solanaPay.generatePayment);*/
+app.post("/solana", solanaPay.generatePayment);
