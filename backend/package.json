@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "serve:dev": "cross-env NODE_ENV=development nodemon app.js",
-    "serve:prod": "cross-env NODE_ENV=production nodemon app.js"
+    "serve:prod": "cross-env NODE_ENV=production nodemon app.js",
+    "build": "webpack --mode production"
   },
   "author": "",
   "license": "ISC",
