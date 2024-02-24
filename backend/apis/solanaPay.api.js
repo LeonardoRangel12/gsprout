@@ -20,6 +20,13 @@ const paymentRequests = new Map();
 // const publicKey = "9m5TqpsHkPmTYz5aRraLd1ntTtAaLuWuXcMCsRpuvjg8"
 
 const generatePayment = async (req, res) => {
+
+  /*
+  This function will generate a payment request for the user
+  Will use the juego id to get the juego and the price
+  Will generate a payment request and return the url
+  */
+
   const juego = juegoService.getJuegoById(req.params.id);
   if (!juego) {
     return res.status(404).send("Juego not found");
@@ -53,7 +60,12 @@ const generatePayment = async (req, res) => {
   }
 };
 
-const verifyPayment = async (req, res) => {
+const verifyPayment = async (req, res, next) => {
+  /*
+  This function will verify the payment
+  Will use the reference to get the payment data
+  Will verify the payment and continue with the next middleware
+  */
   const reference = req.params.reference;
   if (!reference) {
     res.status(400).send("Missing reference query parameter");
@@ -62,18 +74,19 @@ const verifyPayment = async (req, res) => {
 
   try {
     const referencePublicKey = new PublicKey(reference.toString());
+    // IMPORTANT
+    // Set the id in the response locals to use it in the next middleware
+    res.locals.id = paymentData.id;
     const response = await verifyTransaction(referencePublicKey);
-    console.log(response);
     if (response) {
-      res.status(200).send("Payment verified");
+      next();
     } else {
-      res.status(400).send("Payment not verified");
+      return res.status(400).send("Payment not verified");
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
-  res.status(405).send("Method not allowed");
+  return res.status(405).send("Method not allowed");
 };
 
 async function generateUrl(recipient, amount, reference, label, message, memo) {
@@ -89,6 +102,11 @@ async function generateUrl(recipient, amount, reference, label, message, memo) {
 }
 
 const verifyTransaction = async (reference) => {
+  /*
+  This function will verify the transaction
+  Will use the reference to get the payment data
+  Will verify the transaction and return the result
+  */
   const paymentData = paymentRequests.get(reference.toBase58());
   if (!paymentData) {
     return false;
@@ -109,15 +127,13 @@ const verifyTransaction = async (reference) => {
       amount,
       splToken: undefined,
       reference,
-      memo
+      memo,
     },
     { commitment: "confirmed" }
   );
-
   if (response) {
     paymentRequests.delete(reference.toBase58());
   }
-  return response;
 };
 
 module.exports = {

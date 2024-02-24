@@ -1,7 +1,8 @@
 const { restart } = require("nodemon");
 const juegoSchema = require("../models/juego.model");
 const juegoService = require("../services/juego.service");
-const bcryptUtil = require("../utils/bcrypt.util");
+const cryptojsUtil = require("../utils/cryptojs.util");
+
 //Creacion de juegos
 const createJuego = async (req, res) => {
   let { error, value } = juegoSchema.validate(req.body);
@@ -15,7 +16,7 @@ const createJuego = async (req, res) => {
   }
 
   // Encripta el regex de la licencia
-  value.regexLicense = bcryptUtil.hashPassword(value.regexLicense);
+  value.regexLicense = await cryptojsUtil.encrypt(value.regexLicense);
   try {
     const juego = await juegoService.createJuego(value);
     req.name = juego;
