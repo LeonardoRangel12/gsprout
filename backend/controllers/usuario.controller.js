@@ -9,7 +9,7 @@ const createUsuario = async (req, res) => {
   }
 
   //   Check if user exists
-  if (usuarioService.getUsuarioById(value.email)) {
+  if (await usuarioService.getUsuarioById(value.email)) {
     return res.status(400).send("User exists");
   }
 
@@ -21,6 +21,7 @@ const createUsuario = async (req, res) => {
     const usuario = await usuarioService.createUsuario(value);
     res.status(201).send(usuario);
   } catch (error) {
+    console.log(error)
     res.status(500).send(error);
   }
 };
@@ -29,6 +30,7 @@ const getUsuarios = async (req, res) => {
   // Get all users
   try {
     const usuarios = await usuarioService.getUsuarios();
+    console.log(usuarios)
     res.status(200).send(usuarios);
   } catch (error) {
     res.status(500).send(error);
@@ -45,7 +47,7 @@ const loginUsuario = async (req, res) => {
       !(await bcryptUtil.comparePassword(req.body.password, usuario.password))
     )
       return res.status(401).send("Invalid password");
-    req.session.usuario = usuario;
+    req.session.usuario = usuario; 
     res.status(200).send(usuario);
   } catch (error) {
     res.status;
@@ -56,6 +58,7 @@ const getUsuarioById = async (req, res) => {
     const usuario = await usuarioService.getUsuarioById(req.params.email);
     res.status(200).send(usuario);
   } catch (error) {
+    console.log(error)
     res.status(500).send(error);
   }
 };
@@ -70,15 +73,21 @@ const updateUsuario = async (req, res) => {
     const usuario = await usuarioService.updateUsuario(req.params.email, value);
     res.status(200).send(usuario);
   } catch (error) {
+    console.log(error)
     res.status(500).send(error);
   }
 };
 
 const deleteUsuario = async (req, res) => {
+  if (!await usuarioService.getUsuarioById(req.params.email)) {
+    return res.status(400).send("User does not exist");
+  }
+
   try {
     await usuarioService.deleteUsuario(req.params.email);
     res.status(204).send();
   } catch (error) {
+    console.log(error)
     res.status;
   }
 };

@@ -22,6 +22,7 @@
     "@solana/pay": "^0.2.5",
     "@solana/web3.js": "^1.90.0",
     "aws-sdk": "^2.1565.0",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bignumber.js": "^9.1.2",
     "bip39": "^3.1.0",
