@@ -7,6 +7,7 @@ import LoginComponentVue from './components/LoginComponent.vue'
 import RegisterComponentVue from './components/RegisterComponent.vue'
 import MainComponentVue from './components/MainComponent.vue'
 
+axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data'
 axios.defaults.headers['Access-Control-Allow-Origin'] = '*'
 axios.defaults.headers['HttpOnly'] = true

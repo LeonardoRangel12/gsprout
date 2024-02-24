@@ -20,6 +20,7 @@ app.use(session(sessionOptions));
 // ROUTES
 app.use('/usuarios',require('./routers/usuario.router.js'));
 app.use('/juegos', require('./routers/juego.router.js'));
+app.use('/solana', require('./routers/solana.router.js'));
 // SERVER
 const server = require("http").createServer(app);
 server.listen(process.env.PORT, () => {
@@ -29,6 +30,3 @@ server.listen(process.env.PORT, () => {
 app.get("/health_check", (req, res) => {
   res.status(200).send("OK");
 });
-const solanaPay = require("./apis/solanaPay.api.js")
-app.get("/solana/:reference", solanaPay.generatePayment);
-app.post("/solana", solanaPay.generatePayment);
