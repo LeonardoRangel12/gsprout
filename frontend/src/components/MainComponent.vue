@@ -9,9 +9,9 @@
         <div class="grid grid-cols-3 gap-8">
           <div v-for="game in featuredGames" :key="game.id" class="game-card">
             <div class="game-card-content p-4 border border-gray-700 rounded-lg">
-              <img :src="game.image" :alt="game.title + ' Image'" class="game-image mb-2" />
-              <h3 class="text-lg font-bold">{{ game.title }}</h3>
-              <p class="text-gray-400 text-sm">{{ game.description }}</p>
+              <img :src="game.imagen" :alt="game.nombre + ' Image'" class="game-image mb-2" />
+              <h3 class="text-lg font-bold">{{ game.nombre }}</h3>
+              <p class="text-gray-400 text-sm">{{ game.descripcion }}</p>
               <button @click="addToCart(game)" class="add-to-cart-btn mt-4">Add to Cart</button>
             </div>
           </div>
@@ -23,9 +23,9 @@
         <div class="grid grid-cols-3 gap-8">
           <div v-for="game in newGames" :key="game.id" class="game-card">
             <div class="game-card-content p-4 border border-gray-700 rounded-lg">
-              <img :src="game.imageSmall" :alt="game.title + ' Image'" class="game-image-small mb-2" />
-              <h3 class="text-lg font-bold">{{ game.title }}</h3>
-              <p class="text-gray-400 text-sm">{{ game.description }}</p>
+              <img :src="game.imagen" :alt="game.nombre + ' Image'" class="game-image-small mb-2" />
+              <h3 class="text-lg font-bold">{{ game.nombre }}</h3>
+              <p class="text-gray-400 text-sm">{{ game.descripcion }}</p>
               <button @click="addToCart(game)" class="add-to-cart-btn mt-4">Add to Cart</button>
             </div>
           </div>
