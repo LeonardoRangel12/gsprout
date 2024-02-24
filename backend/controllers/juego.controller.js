@@ -30,11 +30,11 @@ const createJuego = async (req, res) => {
 //Creacion de varios juegos
 const createSeveralJuegos = async (req, res) => {
   let juegos = req.body;
-  for(let i = 0; i < juegos.length; i++){
+  for (let i = 0; i < juegos.length; i++) {
     juegos[i].regexLicense = juegos[i].regex;
     delete juegos[i].regex;
     juegos[i].regexLicense = bcryptUtil.hashPassword(juegos[i].regexLicense);
-    juegos[i].precio = 1
+    juegos[i].precio = 1;
     try {
       const juego = await juegoService.createJuego(juegos[i]);
     } catch (error) {
@@ -42,7 +42,7 @@ const createSeveralJuegos = async (req, res) => {
     }
   }
   return res.status(201).send(juegos);
-}
+};
 
 //Obtencion de juegos
 const getJuegos = async (req, res) => {
@@ -95,5 +95,5 @@ module.exports = {
   getJuegoById,
   updateJuego,
   deleteJuego,
-  createSeveralJuegos
+  createSeveralJuegos,
 };

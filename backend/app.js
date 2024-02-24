@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const env = require("dotenv").config();
 const session = require("express-session");
-const { Keypair } = require("@solana/web3.js");
 app.set("trust proxy");
 
 // BODY PARSER
