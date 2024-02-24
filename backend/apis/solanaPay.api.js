@@ -1,17 +1,16 @@
+const juegoService = require("../services/juego.service.js");
 const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
 const { encodeURL, validateTransfer, findReference } = require("@solana/pay");
 const BigNumber = require("bignumber.js");
 const base58 = require("bs58");
-
 // CONSTANTS
 const destinyWallet = process.env.WALLET;
 const recipient = new PublicKey(destinyWallet);
-const label = "GSprout";
+const label = "Compra de producto";
 // const memo = "GSprout Demo public memo";
-const amount = new BigNumber(0.1); // 0.1 SOL
+// const amount = new BigNumber(0.1); // 0.1 SOL
 const quickNodeEndpoint = process.env.QUICKNODE_URL;
 const paymentRequests = new Map();
-
 
 // BUYER WALLET
 // const privateKey =
@@ -22,10 +21,20 @@ const paymentRequests = new Map();
 
 const generatePayment = async (req, res) => {
   if (req.method === "POST") {
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
+    const juego = juegoService.getJuegoById(req.params.id);
+    if (!juego) {
+      return res.status(404).send("Juego not found");
+    }
+
+    const amount = new BigNumber(juego.precio);
+    const message = juego.nombre;
+    const memo = juego.nombre;
+
     try {
       const reference = new Keypair().publicKey;
-      const message = "GSprout Payment";
-      const memo = req.body.memo;
       const urlData = await generateUrl(
         recipient,
         amount,
@@ -92,7 +101,6 @@ const verifyTransaction = async (reference) => {
 
   // Devnet connection
   const connection = new Connection(quickNodeEndpoint, "confirmed");
-
 
   const found = await findReference(connection, reference);
 
