@@ -7,6 +7,7 @@ import LoginComponentVue from './components/LoginComponent.vue'
 import RegisterComponentVue from './components/RegisterComponent.vue'
 import MainComponentVue from './components/MainComponent.vue'
 import SolanaPayComponentVue from './components/SolanaPayComponent.vue'
+import UserProfileComponentVue from './components/UserProfileComponent.vue'
 
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data'
@@ -18,7 +19,9 @@ const routes = [
   { path: '/main', component: MainComponentVue },
   { path: '/', component: LoginComponentVue },
   { path: '/register', component: RegisterComponentVue },
-  { path: '/solanaPay', component: SolanaPayComponentVue }
+  { path: '/solanaPay', component: SolanaPayComponentVue },
+  { path: '/profile', component: UserProfileComponentVue }
+
 ]
 
 const router = createRouter({
