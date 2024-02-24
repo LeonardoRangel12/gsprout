@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "development") {
   sessionOptions = {
     resave: false,
     saveUninitialized: true,
-    session: "secret",
+    secret: "secret",
   };
 }
 
