@@ -91,9 +91,7 @@ export default {
             </div>
         </div>
 
-        <div class="hero bg-gray-800 text-white py-20 px-4 text-center">
-            <Footer /> <!-- Aquí se incluye el componente Footer -->
-        </div>
+        <Footer /> <!-- Aquí se incluye el componente Footer -->
         
     </div>
 </template>
