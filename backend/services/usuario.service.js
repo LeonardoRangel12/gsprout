@@ -7,8 +7,13 @@ async function createUsuario(data) {
 async function getUsuarios() {
     return await db.getUsuarios();
 }
-async function getUsuarioById(email) {
-    return await db.getUsuarioById(email);
+
+async function getUsuarioById(id) {
+    return await db.getUsuarioById(id);
+}
+
+async function getUsuarioByEmail(email) {
+    return await db.getUsuarioByEmail(email);
 }
 
 async function updateUsuario(email, data) {
@@ -21,6 +26,7 @@ async function deleteUsuario(email) {
 module.exports = {
     createUsuario,
     getUsuarios,
+    getUsuarioByEmail,
     getUsuarioById,
     updateUsuario,
     deleteUsuario

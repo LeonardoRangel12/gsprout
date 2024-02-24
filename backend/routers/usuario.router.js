@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/',upload.none(),userController.getUsuarios);
+router.get('/me',upload.none(),userController.getUsuario);
 router.post('/login',upload.none(),userController.loginUsuario);
 router.post('/logout', userController.logoutUsuario);
 router.post('/',upload.none(),userController.createUsuario);
