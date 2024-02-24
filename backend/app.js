@@ -10,36 +10,10 @@ app.set("trust proxy");
 // BODY PARSER
 app.use(bodyParser.json());
 // CORS
-let corsOptions = {};
-if (process.env.NODE_ENV === "production") {
-  corsOptions = {
-    origin: "http://frontend",
-    credentials: true,
-  };
-}
-if (process.env.NODE_ENV === "development") {
-  corsOptions = {
-    origin: true,
-    credentials: true,
-  };
-}
+const corsOptions = require("./options/cors.options");
 app.use(cors(corsOptions));
 // MIDDLEWARES
-let sessionOptions = {};
-if (process.env.NODE_ENV === "production") {
-  sessionOptions = {
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  };
-}
-if (process.env.NODE_ENV === "development") {
-  sessionOptions = {
-    resave: false,
-    saveUninitialized: true,
-    session: "secret",
-  };
-}
+const sessionOptions = require("./options/session.options");
 app.use(session(sessionOptions));
 
 
