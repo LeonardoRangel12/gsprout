@@ -54,13 +54,26 @@
 </template>
 
 <script setup>
+import {} from 'axios';
 import { ref } from 'vue';
 
 const formData = ref({
-    usuarioCorreo: '',
-    contrasena: ''
+    username: '',
+    password:''
 });
-
+const axios = async function(){
+    if(!formData.value.usuarioCorreo || !formData.value.contrasena){
+        console.warn('Por favor, completa todos los campos del formulario.');
+        return;
+    }
+    else{
+        const response = await axios.post('http://localhost:3000/login', {
+            username: formData.value.usuarioCorreo,
+            email: formData.value.contrasena,
+            password: formData.value.password
+        });
+    }
+}
 const login = () => {
     if (!formData.value.usuarioCorreo || !formData.value.contrasena) {
         console.warn('Por favor, completa todos los campos del formulario.');
