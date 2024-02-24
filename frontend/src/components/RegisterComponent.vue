@@ -48,7 +48,8 @@
   
   <script>
   import { ref } from 'vue';
-  import axios from '../main';
+  import axios from 'axios';
+
   export default {
     setup() {
       const formData = ref({
