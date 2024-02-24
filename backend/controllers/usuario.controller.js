@@ -19,9 +19,9 @@ const createUsuario = async (req, res) => {
   // Create user
   try {
     const usuario = await usuarioService.createUsuario(value);
-    await res.status(201).send(usuario);
+    return res.status(201).send(usuario);
   } catch (error) {
-    await res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
@@ -30,9 +30,9 @@ const getUsuarios = async (req, res) => {
   try {
     const usuarios = await usuarioService.getUsuarios();
     console.log(usuarios)
-    await res.status(200).send(usuarios);
+    return res.status(200).send(usuarios);
   } catch (error) {
-    await res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
