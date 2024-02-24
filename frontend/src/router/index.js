@@ -1,6 +1,6 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import RegisterComponent from '@/views/RegisterComponent.vue';
+import RegisterComponent from '@/components/RegisterComponent.vue';
 
 const routes = [
   {
