@@ -29,14 +29,14 @@
   
                 <div v-if="!isLogin">
                   <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
-                    Nombre
+                    Usuario
                   </label>
                   
                   <input
                     v-model="formData.nombre"
                     type="text"
                     class="block w-full input"
-                    placeholder="Tu nombre"
+                    placeholder="Usuario"
                   >
                 </div>
   
