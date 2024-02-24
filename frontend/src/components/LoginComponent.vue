@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axios from '../main';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -78,7 +78,7 @@ const login = async () => {
 
     try {
         loading.value = true; // Mostrar el círculo de carga
-        const response = await axios.post('http://localhost:3000/usuarios/login', {
+        const response = await axios.post('/usuarios/login', {
             email: formData.value.email,
             username: formData.value.username,
             password: formData.value.password

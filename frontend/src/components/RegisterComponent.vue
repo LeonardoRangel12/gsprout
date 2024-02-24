@@ -48,7 +48,7 @@
   
   <script>
   import { ref } from 'vue';
-  import axios from 'axios';
+  import axios from '../main';
 
   export default {
     setup() {
@@ -64,7 +64,7 @@
               return;
           }
           try {
-              const response = await axios.post('http://localhost:3000/usuarios/', { // Se define la creacion de usuario. Las contraseñas 
+              const response = await axios.post('/usuarios/', { // Se define la creacion de usuario. Las contraseñas 
                   email: formData.value.email,
                   username: formData.value.username,
                   password: formData.value.password
