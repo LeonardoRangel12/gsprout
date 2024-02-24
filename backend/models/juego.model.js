@@ -7,6 +7,7 @@ const juegoSchema = Joi.object({
     stock: Joi.number().optional(),
     imagen: Joi.string().min(3).max(30).required().pattern(/^([a-zA-Z0-9])+\.(jpg|png|jpeg)$/), // Solo acepta imagenes con extension jpg, png o jpeg
     urlNFT: Joi.string().min(3).max(80).optional(),
+    regexLicense: Joi.string().min(3).max(80).optional()
 });
 
 module.exports = juegoSchema;
