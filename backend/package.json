@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@solana/pay": "^0.2.5",
+    "@solana/spl-token": "^0.4.1",
     "@solana/web3.js": "^1.90.0",
     "aws-sdk": "^2.1565.0",
     "bcrypt": "^5.1.1",

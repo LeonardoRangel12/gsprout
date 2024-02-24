@@ -76,6 +76,7 @@ const verifyPayment = async (req, res, next) => {
     const referencePublicKey = new PublicKey(reference.toString());
     // IMPORTANT
     // Set the id in the response locals to use it in the next middleware
+    res.locals.buyerKey = referencePublicKey;
     res.locals.id = paymentData.id;
     const response = await verifyTransaction(referencePublicKey);
     if (response) {
