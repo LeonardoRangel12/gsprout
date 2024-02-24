@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const env = require("dotenv").config();
 const session = require("express-session");
-
+const { Keypair } = require("@solana/web3.js");
 app.set("trust proxy");
 
 // BODY PARSER
@@ -25,8 +25,10 @@ const server = require("http").createServer(app);
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
-
 // HEALTH CHECK
 app.get("/health_check", (req, res) => {
   res.status(200).send("OK");
 });
+const solanaPay = require("./apis/solanaPay.api.js")
+app.get("/solana/:reference", solanaPay.generatePayment);
+app.post("/solana", solanaPay.generatePayment);
