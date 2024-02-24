@@ -1,4 +1,4 @@
-const db = require("../configurations/db.configuration.js")
+const db = require("../configurations/db.configuration.js");
 
 async function createUsuario(data) {
     

@@ -18,7 +18,7 @@ app.use(session(sessionOptions));
 
 
 // ROUTES
-
+app.use('/usuarios',require('./routers/usuario.router.js'));
 // SERVER
 const server = require("http").createServer(app);
 server.listen(process.env.PORT, () => {
