@@ -64,7 +64,7 @@ async function deleteUsuario(userEmail) {
 
 async function createJuego(data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("juegos").insertOne(data);
+    const result = await dbCon.collection("games").insertOne(data);
     return result;
   });
   return result;
@@ -72,7 +72,7 @@ async function createJuego(data) {
 
 async function getJuegos() {
   juegos = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("juegos").find().toArray();
+    const result = await dbCon.collection("games").find().toArray();
     return result;
   });
   return juegos;
@@ -81,7 +81,7 @@ async function getJuegos() {
 async function getJuegoById(juegoId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const juegoFound = await dbCon
-      .collection("juegos")
+      .collection("games")
       .findOne({ id: juegoId });
     return juegoFound;
   });
@@ -92,7 +92,7 @@ async function updateJuego(juegoId, data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const updateFields = { $set: data };
     const result = await dbCon
-      .collection("juegos")
+      .collection("games")
       .updateOne({ id: juegoId }, updateFields);
     return result;
   });
@@ -101,7 +101,7 @@ async function updateJuego(juegoId, data) {
 
 async function deleteJuego(juegoId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("juegos").deleteOne({ id: juegoId });
+    const result = await dbCon.collection("games").deleteOne({ id: juegoId });
     return result;
   });
   return result;
