@@ -21,6 +21,7 @@ app.use(session(sessionOptions));
 app.use('/usuarios',require('./routers/usuario.router.js'));
 app.use('/juegos', require('./routers/juego.router.js'));
 app.use('/solana', require('./routers/solana.router.js'));
+app.use('/historialcompras', require('./routers/historialcompras.router.js'));
 // SERVER
 const server = require("http").createServer(app);
 server.listen(process.env.PORT, () => {
