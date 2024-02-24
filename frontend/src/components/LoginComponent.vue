@@ -19,33 +19,26 @@
                     <div class="mt-8">
                         <form @submit.prevent="login">
                             <div>
-                                <label for="usuarioCorreo"
-                                    class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Usuario o Correo</label>
-                                <input type="text" name="usuarioCorreo" id="usuarioCorreo" v-model="formData.usuarioCorreo"
-                                    placeholder="Nombre de usuario o Correo electrónico"
-                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                                <label for="usuarioCorreo" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Correo</label>
+                                <input type="text" name="usuarioCorreo" id="usuarioCorreo" v-model="formData.email" placeholder="Correo electrónico" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             </div>
 
                             <div class="mt-6">
-                                <label for="contrasena"
-                                    class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Contraseña</label>
-                                <input type="password" name="contrasena" id="contrasena" v-model="formData.contrasena"
-                                    placeholder="*****"
-                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                                <label for="username" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Usuario</label>
+                                <input type="text" name="username" id="username" v-model="formData.username" placeholder="Nombre de usuario" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             </div>
 
                             <div class="mt-6">
-                                <button
-                                    class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                                    Inicia sesión
-                                </button>
+                                <label for="contrasena" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Contraseña</label>
+                                <input type="password" name="contrasena" id="contrasena" v-model="formData.password" placeholder="*****" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             </div>
 
+                            <div class="mt-6">
+                                <button type="submit" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">Inicia sesión</button>
+                            </div>
                         </form>
 
-                        <p class="mt-6 text-sm text-center text-gray-400">No tienes una cuenta aún? <a href="#"
-                                class="text-blue-500 focus:outline-none focus:underline hover:underline"
-                                @click="switchToRegister">Regístrate</a>.</p>
+                        <p class="mt-6 text-sm text-center text-gray-400">No tienes una cuenta aún? <a href="#" class="text-blue-500 focus:outline-none focus:underline hover:underline" @click="switchToRegister">Regístrate</a>.</p>
                     </div>
                 </div>
             </div>
@@ -54,38 +47,34 @@
 </template>
 
 <script setup>
-import {} from 'axios';
+import axios from 'axios';
 import { ref } from 'vue';
 
 const formData = ref({
+    email: '',
     username: '',
-    password:''
+    password: ''
 });
-const axios = async function(){
-    if(!formData.value.usuarioCorreo || !formData.value.contrasena){
-        console.warn('Por favor, completa todos los campos del formulario.');
-        return;
-    }
-    else{
-        const response = await axios.post('http://localhost:3000/login', {
-            username: formData.value.usuarioCorreo,
-            email: formData.value.contrasena,
-            password: formData.value.password
-        });
-    }
-}
-const login = () => {
-    if (!formData.value.usuarioCorreo || !formData.value.contrasena) {
+
+const login = async () => {
+    if (!formData.value.email || !formData.value.username || !formData.value.password) {
         console.warn('Por favor, completa todos los campos del formulario.');
         return;
     }
 
-    // Aquí puedes agregar tu lógica de inicio de sesión
+    try {
+        const response = await axios.post('http://localhost:3000/login', {
+            email: formData.value.email,
+            username: formData.value.username,
+            password: formData.value.password
+        });
+        console.log(response.data); // Aquí puedes manejar la respuesta del servidor
+    } catch (error) {
+        console.error('Hubo un error en la solicitud:', error);
+    }
 };
 
 const switchToRegister = () => {
     // Aquí puedes agregar la lógica para cambiar al componente de registro
 };
 </script>
-
-
