@@ -23,6 +23,7 @@
         </button>
       </div>
     </main>
+    <Footer />
   </div>
 </template>
 
@@ -30,10 +31,12 @@
 import axios from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from './navbarComponent.vue';
+import Footer from './FooterComponent.vue';
 
 export default {
   components: {
-    Navbar // Registra el componente Navbar
+    Navbar, // Registra el componente Navbar
+    Footer // Registra el componente Footer
   },
   data() {
     return {
