@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axios from '../main';
 import { ref } from 'vue';
 
 const formData = ref({
