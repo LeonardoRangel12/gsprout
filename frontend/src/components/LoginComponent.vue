@@ -46,7 +46,7 @@
                             </div>
                         </form>
 
-                        <p class="mt-6 text-sm text-center text-gray-400">No tienes una cuenta aún? <a href="#" class="text-blue-500 focus:outline-none focus:underline hover:underline" @click="switchToRegister">Regístrate</a>.</p>
+                        <p class="mt-6 text-sm text-center text-gray-400">No tienes una cuenta  aún? <a href="#" class="text-blue-500 focus:outline-none focus:underline hover:underline" @click="switchToRegister">Regístrate</a>.</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axios from '../main';
 import { ref } from 'vue';
 
 const formData = ref({
