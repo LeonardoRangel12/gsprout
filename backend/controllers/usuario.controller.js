@@ -2,20 +2,23 @@ const usuarioSchema = require("../models/usuario.model");
 const usuarioService = require("../services/usuario.service");
 const bcryptUtil = require("../utils/bcrypt.util");
 const createUsuario = async (req, res) => {
+  // Validate request with JOI
   let { error, value } = usuarioSchema.validate(req.body);
   if (error) {
     return res.status(400).send(error.details);
   }
 
+  //   Check if user exists
   if (usuarioService.getUsuarioById(value.email)) {
     return res.status(400).send("User exists");
   }
 
+  // Hashes password
   value.password = await bcryptUtil.hashPassword(value.password);
 
+  // Create user
   try {
     const usuario = await usuarioService.createUsuario(value);
-    req.session.usuario = usuario;
     res.status(201).send(usuario);
   } catch (error) {
     res.status(500).send(error);
@@ -23,6 +26,7 @@ const createUsuario = async (req, res) => {
 };
 
 const getUsuarios = async (req, res) => {
+  // Get all users
   try {
     const usuarios = await usuarioService.getUsuarios();
     res.status(200).send(usuarios);
@@ -33,8 +37,15 @@ const getUsuarios = async (req, res) => {
 
 const loginUsuario = async (req, res) => {
   try {
+    // Get user by email
     const usuario = await usuarioService.getUsuarioById(req.body.email);
-    if (usuario) req.session.usuario = usuario;
+    if (!usuario) return res.status(404).send("User not found");
+    // Compare password
+    if (
+      !(await bcryptUtil.comparePassword(req.body.password, usuario.password))
+    )
+      return res.status(401).send("Invalid password");
+    req.session.usuario = usuario;
     res.status(200).send(usuario);
   } catch (error) {
     res.status;
