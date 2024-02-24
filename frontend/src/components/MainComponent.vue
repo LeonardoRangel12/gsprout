@@ -1,7 +1,7 @@
 <script>
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-
+import axios from 'axios';
 export default {
   components: {
     Navbar, 
@@ -10,13 +10,13 @@ export default {
   data() {
     return {
       games: [
-        { id: 1, title: "Game 1", description: "Description of Game 1", image: "game1.jpg", imageSmall: "game1-small.jpg", price: 19.99 },
-        { id: 2, title: "Game 2", description: "Description of Game 2", image: "game2.jpg", imageSmall: "game2-small.jpg", price: 29.99 },
-        { id: 3, title: "Game 3", description: "Description of Game 3", image: "game3.jpg", imageSmall: "game3-small.jpg", price: 24.99 },
-        { id: 4, title: "Game 4", description: "Description of Game 4", image: "game4.jpg", imageSmall: "game4-small.jpg", price: 34.99 },
-        { id: 5, title: "Game 5", description: "Description of Game 5", image: "game5.jpg", imageSmall: "game5-small.jpg", price: 39.99 },
-        { id: 6, title: "Game 6", description: "Description of Game 6", image: "game6.jpg", imageSmall: "game6-small.jpg", price: 29.99 },
-        // Add more games here
+        async function(){
+          const response = await axios.get('http://localhost:8000/juegos/');
+          this.games = response.data;
+          this.games.forEach(element => {
+          });
+        }
+        //{ id: 1, title: "Game 1", description: "Description of Game 1", image: "game1.jpg", imageSmall: "game1-small.jpg", price: 19.99 },
       ],
       cart: []
     };
