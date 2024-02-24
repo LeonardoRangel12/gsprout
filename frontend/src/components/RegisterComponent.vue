@@ -77,7 +77,7 @@ export default {
     };
 
     const switchToLogin = () => {
-        router.push('/login'); // Redirige al usuario a la página de inicio de sesión
+        router.push('/'); // Redirige al usuario a la página de inicio de sesión
     };
 
     return { formData, register, switchToLogin }

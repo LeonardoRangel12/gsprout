@@ -89,7 +89,7 @@ const login = async () => {
         // Si la respuesta es exitosa (código 200), redirige al usuario
         if (response.status === 200) {
             // Redireccionar al usuario a la página deseada después del inicio de sesión
-            router.push('/dashboard'); // Cambia '/dashboard' a la ruta que desees
+            router.push('/main'); // Cambia '/dashboard' a la ruta que desees
         }
 
         loading.value = false; // Ocultar el círculo de carga después de recibir una respuesta

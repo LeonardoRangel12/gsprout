@@ -14,8 +14,8 @@ axios.defaults.headers['HttpOnly'] = true
 axios.defaults.withCredentials = true
 
 const routes = [
-  { path: '/', component: MainComponentVue },
-  { path: '/login', component: LoginComponentVue },
+  { path: '/main', component: MainComponentVue },
+  { path: '/', component: LoginComponentVue },
   { path: '/register', component: RegisterComponentVue }
 ]
 
