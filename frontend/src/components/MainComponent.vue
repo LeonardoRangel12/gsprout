@@ -34,10 +34,6 @@
           </div>
         </section>
       </div>
-  
-      <footer class="bg-gray-800 text-white py-8 text-center">
-        <p>&copy; 2024 GSprout Store. All rights reserved.</p>
-      </footer>
     </div>
   </template>
   

@@ -57,6 +57,9 @@
 <script setup>
 import axios from '../main';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter(); // Obtener el enrutador de Vue
 
 const formData = ref({
     email: '',
@@ -79,7 +82,15 @@ const login = async () => {
             username: formData.value.username,
             password: formData.value.password
         });
+
         console.log(response); // Aquí puedes manejar la respuesta del servidor
+
+        // Si la respuesta es exitosa (código 200), redirige al usuario
+        if (response.status === 200) {
+            // Redireccionar al usuario a la página deseada después del inicio de sesión
+            router.push('/dashboard'); // Cambia '/dashboard' a la ruta que desees
+        }
+
         loading.value = false; // Ocultar el círculo de carga después de recibir una respuesta
     } catch (error) {
         console.error('Hubo un error en la solicitud:', error);
@@ -91,7 +102,6 @@ const switchToRegister = () => {
     // Aquí puedes agregar la lógica para cambiar al componente de registro
 };
 </script>
-
 <style>
 .border-blue-400 {
     border-color: transparent;
