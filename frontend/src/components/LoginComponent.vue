@@ -1,11 +1,10 @@
 <template>
     <div class="bg-white dark:bg-gray-900">
         <div class="flex justify-center h-screen">
-            <div class="hidden bg-cover lg:block lg:w-2/3" style="background-image:url('../assets/LoginRegisterImg.jpg')">
+            <div class="hidden bg-cover lg:block lg:w-2/3" style="background-image:url(https://i.imgur.com/kTmAFF5.jpg)">
                 <div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
                     <div>
-                        <div class="text-white font-semibold">Nombre del Estudiante</div>
-                        <div class="text-gray-400 text-sm">Programa de Electrónica</div>
+                        
                     </div>
                 </div>
             </div>
@@ -75,3 +74,5 @@ const switchToRegister = () => {
     // Aquí puedes agregar la lógica para cambiar al componente de registro
 };
 </script>
+
+
