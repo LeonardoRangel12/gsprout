@@ -1,7 +1,7 @@
 let sessionOptions = {};
 if (process.env.NODE_ENV === "production") {
   sessionOptions = {
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
   };
