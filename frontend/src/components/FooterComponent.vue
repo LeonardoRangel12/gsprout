@@ -1,5 +1,5 @@
 <template>
-  <footer class="hero bg-gray-800 text-white py-20 px-4 text-center">
+  <footer class="hero bg-gray-900 text-gray-300 py-20 px-4 text-center">
     <div class="container mx-auto px-4">
       <div class="flex flex-wrap text-center lg:text-left">
         <div class="w-full lg:w-6/12 px-4">
@@ -21,16 +21,16 @@
               <ul class="list-unstyled">
                 <!-- Enlaces a las diferentes páginas -->
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-white font-semibold block pb-2 text-sm" to="/main">Inicio</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/main">Inicio</router-link>
                 </li>
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-white font-semibold block pb-2 text-sm" to="/tienda">Tienda</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/tienda">Tienda</router-link>
                 </li>
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-white font-semibold block pb-2 text-sm" to="/subastas">Subastas</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/subastas">Subastas</router-link>
                 </li>
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-white font-semibold block pb-2 text-sm" to="/intercambios">Intercambios</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/intercambios">Intercambios</router-link>
                 </li>
               </ul>
             </div>
