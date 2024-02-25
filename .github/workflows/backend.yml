@@ -36,14 +36,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Npm install
-        uses: anna-money/github-actions-npm@v4
-        with:
-          target: backend
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
 
       - name: Build
-        working-directory: backend
+        working-directory: ./backend
         run: npm run build
+
 
 
 
