@@ -9,7 +9,7 @@ env:
     ECR_REPOSITORY: hackathon_front
     ECS_CLUSTER: hackathon
     ECS_SERVICE: frontend
-    ECS_TD: hackathon_frontend_td
+    ECS_TD: hackathon_front_td
 jobs:
     Testing:
         runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
 
             - name: Get task definition
               run: |
-                aws ecs describe-task-definition --task-definition ${{env.ECS_TD}} --query taskDefinition > ${{env.ECS_TD}}.json
+                aws ecs describe-task-definition --task-definition ${{env.ECS_TD}} --region ${{env.AWS_REGION}} --query taskDefinition > ${{env.ECS_TD}}.json
 
             - name: Deploy to ECS
               id: task-def
