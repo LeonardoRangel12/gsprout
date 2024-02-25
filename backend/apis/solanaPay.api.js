@@ -32,7 +32,6 @@ const generatePayment = async (req, res) => {
     return res.status(404).send("Juego not found");
   }
   const amount = new BigNumber(juego.precio);
-  console.log(juego.precio);
   const message = juego.nombre;
   const memo = juego.nombre;
   try {
@@ -50,7 +49,7 @@ const generatePayment = async (req, res) => {
       recipient,
       amount,
       memo,
-      id: req.params.id,
+      juego: juego,
     });
     const { url } = urlData;
     return res.status(200).send({ url: url.toString(), ref });
@@ -76,7 +75,7 @@ const verifyPayment = async (req, res, next) => {
     // IMPORTANT
     // Set the id in the response locals to use it in the next middleware
     res.locals.buyerKey = referencePublicKey;
-    res.locals.id = "65da697ef5f031b87ed724e1";
+    res.locals.juego = paymentRequests.get(reference).juego;
     const response = await verifyTransaction(referencePublicKey);
     if (response) {
       next();
@@ -114,11 +113,6 @@ const verifyTransaction = async (reference) => {
   }
 
   const { recipient, amount, memo, id } = paymentData;
-
-  console.log('recipient', recipient.toBase58());
-  console.log('amount', amount);
-  console.log('reference', reference.toBase58());
-  console.log('memo', memo);
 
   // Devnet connection
   const connection = new Connection(quickNodeEndpoint, "confirmed");

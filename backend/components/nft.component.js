@@ -1,14 +1,33 @@
-const { Connection, Keypair, LAMPORTS_PER_SOL } = require("@solana/web3.js");
+const { Connection, Keypair} = require("@solana/web3.js");
 const {
-  createMint,
   getOrCreateAssociatedTokenAccount,
   mintTo,
-  setAuthority,
-  transfer,
 } = require("@solana/spl-token");
-const base58 = require("bs58");
-
+const fs = require("fs");
+const {
+  Metaplex,
+  keypairIdentity,
+  bundlrStorage,
+} = require("@metaplex-foundation/js");
 const JuegoService = require("../services/juego.service");
+const base58 = require("bs58");
+const QUICKNODE_URL = process.env.QUICKNODE_URL;
+const CONNECTION = new Connection(QUICKNODE_URL, "confirmed");
+  // OUR OWN WALLET
+  const privateKey = process.env.WALLET_PRIVATE_KEY;
+  const privateKeyBytes = base58.decode(privateKey);
+  const WALLET = Keypair.fromSecretKey(privateKeyBytes);
+
+const METAPLEX = Metaplex.make(CONNECTION)
+  .use(keypairIdentity(WALLET))
+  .use(
+    bundlrStorage ({
+      address: "https://devnet.bundlr.network",
+      providerUrl: QUICKNODE_URL,
+      timeout: 60000,
+    })
+  );
+
 const mintNFT = async (req, res) => {
   /*
     This function will mint an NFT with the license generated
@@ -18,44 +37,53 @@ const mintNFT = async (req, res) => {
     */
   const buyerKey = res.locals.buyerKey;
   const license = res.locals.license;
-  const juegoId = res.locals.id;
-  const juego = await JuegoService.getJuegoById(juegoId);
+  const juego = res.locals.juego;
 
-  if (!juego) {
-    return res.status(404).send("Juego no encontrado");
-  }
-  const quickNodeEndpoint = process.env.QUICKNODE_URL;
-  const connection = new Connection(quickNodeEndpoint, "confirmed");
-  // Mint the NFT
+  console.log(juego.nombre);
 
-  // SIGNER (us)
 
-  const privateKey = process.env.WALLET_PRIVATE_KEY;
-  const privateKeyBytes = base58.decode(privateKey);
-  const signer = Keypair.fromSecretKey(privateKeyBytes);
-
-//   create mint
-  let signature = await mintTo(connection, signer, license, buyerKey, signer.publicKey, 1);
-
-  await setAuthority(
-    connection,
-    buyerKey,
-    buyerKey,
-    signer.publicKey,
-    0,
-    null,
+  // MINT THE NFT
+  const { nft } = await METAPLEX.nfts().create(
+    {
+      uri: license,
+      name: "NFT",
+      sellerFeeBasisPoints: 0,
+      creators: [
+        {
+          address: WALLET.publicKey,
+          verified: true,
+          share: 100,
+        },
+      ],
+      properties: {
+        files: [
+          {
+            uri: juego.imagen,
+            type: "image/png",
+          },
+        ],
+      },      
+    },
+    {
+      commitment: "confirmed",
+    }
   );
 
-  signature = await transfer(
-    connection,
-    signer,
-    signer.publicKey,
-    buyerKey,
-    signer.publicKey,
-    1,
-  );
+  // console.log(nft.mint.address.toBase58());
+  // // SENDS THE NFT TO THE BUYER
 
-    return res.status(200).send({ signature });
+  // const buyerTokenAccount = await getOrCreateAssociatedTokenAccount(
+  //   buyerKey,
+  //   nft.mint.address
+  // );
+
+  // await mintTo(nft.mint, nft, buyerTokenAccount, WALLET, [], {
+  //   commitment: "finalized",
+  // });
+
+
+
+  return res.send(nft.mint.address.toBase58());
 };
 
 module.exports = {
