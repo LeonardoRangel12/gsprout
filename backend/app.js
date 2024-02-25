@@ -23,6 +23,7 @@ app.use('/solana', require('./routers/solana.router.js'));
 app.use('/deseados', require('./routers/deseados.router.js'));
 app.use('/historialcompras', require('./routers/historialcompras.router.js'));
 app.use('/compras', require('./routers/compra.router.js'));
+app.use('/publicaciones', require('./routers/publicaciones.router.js'));
 // SERVER
 const server = require("http").createServer(app);
 server.listen(process.env.PORT, () => {

@@ -110,7 +110,7 @@ async function updateJuego(juegoId, data) {
 
 async function deleteJuego(juegoId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("games").deleteOne({ id: juegoId });
+    const result = await dbCon.collection("games").deleteOne({ _id: new ObjectId(juegoId) });
     return result;
   });
   return result;
@@ -183,6 +183,52 @@ async function deleteJuegoOfDeseados(userId, juegoId) {
   return result;
 }
 
+async function createPublicacion (data){
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon.collection("publicaciones").insertOne(data);
+    return result;
+  });
+  return result;
+}
+
+async function getPublicaciones (){
+  result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon.collection("publicaciones").find().toArray();
+    return result;
+  });
+  return result;
+}
+
+async function getPublicacionById (id){
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const publicacionFound = await dbCon
+      .collection("publicaciones")
+      .findOne({ _id: new ObjectId(id) });
+      console.log(publicacionFound);
+    return publicacionFound;
+  });
+  return result;
+}
+
+async function updatePublicacion (id, data){
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const updateFields = { $set: data };
+    const result = await dbCon
+      .collection("publicaciones")
+      .updateOne({ _id: new ObjectId(id) }, updateFields);
+    return result;
+  });
+  return result;
+}
+
+async function deletePublicacion(id){
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon.collection("publicaciones").deleteOne({ _id: new ObjectId(id) });
+    return result;
+  });
+  return result;
+}
+
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -200,4 +246,9 @@ module.exports = {
   createNewDeseados,
   addToDeseados,
   deleteJuegoOfDeseados,
+  createPublicacion,
+  getPublicaciones,
+  getPublicacionById,
+  deletePublicacion,
+  updatePublicacion
 };
