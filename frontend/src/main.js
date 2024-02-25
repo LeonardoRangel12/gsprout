@@ -12,7 +12,7 @@ import UserProfileComponentVue from './components/UserProfileComponent.vue';
 import Auctions from './components/AuctionsComponent.vue';
 import StoreComponentVue from './components/StoreComponent.vue';
 import GameViewComponentVue from './components/GameViewComponent.vue';
-import WishList from './components/WishListComponent.vue.vue';
+import WishList from './components/WishListComponent.vue';
 
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data';
