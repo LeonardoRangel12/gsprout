@@ -13,6 +13,9 @@ const addToDeseadosByUsuario = async (req, res) => {
     }
     try {
         const deseados = await deseadosService.addToDeseados(req.params.idusuario, req.params.idjuego);
+        if(deseados instanceof Error){
+            return res.status(500).send(deseados.message);
+        }
         return res.status(201).send(deseados);
     } catch (error) {
         return res.status(500).send(error);
@@ -30,7 +33,7 @@ const getDeseadosByUsuario = async (req, res) => {
 
 const deleteJuegoOfDeseados = async (req, res) => {
     try {
-        const deseados = await deseadosService.deleteJuegoOfDeseados(req.params.idusuario);
+        const deseados = await deseadosService.deleteJuegoOfDeseados(req.params.idusuario, req.params.idjuego);
         return res.status(200).send(deseados);
     } catch {
         return res.status(500).send("Internal Server Error");

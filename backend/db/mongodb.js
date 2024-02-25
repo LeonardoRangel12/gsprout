@@ -2,9 +2,9 @@ require("dotenv").config();
 const { MongoClient, ObjectId } = require("mongodb");
 const _url = process.env.MONGODB_URI;
 const _database = process.env.MONGODB_DATABASE_NAME;
-const client = new MongoClient(_url);
 
 async function dbConnectionWrapper(functionWrapped) {
+  const client = new MongoClient(_url);
   await client.connect();
   dbCon = client.db(_database, { useUnifiedTopology: true });
   const result = await functionWrapped(dbCon);
@@ -41,9 +41,7 @@ async function getUsuarioByEmail(userEmail) {
 
 async function getUsuarioById(email) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const userFound = await dbCon
-      .collection("users")
-      .findOne({ email });
+    const userFound = await dbCon.collection("users").findOne({ email });
 
     return userFound;
   });
@@ -132,15 +130,17 @@ async function getDeseadosByUsuario(userId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const deseadosFound = await dbCon
       .collection("deseados")
-      .findOne({ id_usuario: userId });
-    return deseadosFound;
+      .findOne({ id_usuario: userId }, { projection: { _id: 0, deseados: 1 } });
+    return deseadosFound.deseados;
   });
   return result;
 }
 
 async function createNewDeseados(idusuario, idjuego) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("deseados").insertOne({ id_usuario: idusuario, deseados: [idjuego]});
+    const result = await dbCon
+      .collection("deseados")
+      .insertOne({ id_usuario: idusuario, deseados: [idjuego] });
     return result;
   });
   return result;
@@ -149,15 +149,18 @@ async function createNewDeseados(idusuario, idjuego) {
 async function addToDeseados(idusuario, idjuego) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     let result;
-    if (!await getDeseadosByUsuario(idusuario)){
+    if (!(await getDeseadosByUsuario(idusuario))) {
       result = await createNewDeseados(idusuario, idjuego);
     }
-    if(await getDeseadosByUsuario(idusuario).deseados.includes(idjuego)){
-      return "Juego ya en deseados";
+    const deseados = await getDeseadosByUsuario(idusuario);
+    if (deseados.includes(idjuego)) {
+      return new Error("Juego ya en deseados");
     }
-    
-    result = await dbCon.collection("deseados").updateOne({ id_usuario: idusuario }, { $push: { deseados: idjuego } });
-    
+
+    result = await dbCon
+      .collection("deseados")
+      .updateOne({ id_usuario: idusuario }, { $push: { deseados: idjuego } });
+
     return result;
   });
   return result;
@@ -165,13 +168,16 @@ async function addToDeseados(idusuario, idjuego) {
 
 async function deleteJuegoOfDeseados(userId, juegoId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("deseados").updateOne({
-      id_usuario: userId
-    }, {
-      $pull: {
-        items: { id: juegoId }
+    const result = await dbCon.collection("deseados").updateOne(
+      {
+        id_usuario: userId,
+      },
+      {
+        $pull: {
+          deseados: juegoId,
+        },
       }
-    });
+    );
     return result;
   });
   return result;
@@ -193,5 +199,5 @@ module.exports = {
   getDeseadosByUsuario,
   createNewDeseados,
   addToDeseados,
-  deleteJuegoOfDeseados
+  deleteJuegoOfDeseados,
 };
