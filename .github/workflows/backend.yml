@@ -30,13 +30,14 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: '20.x'
+                node-version: '18.x'
                       
             - name: Build
               working-directory: ./backend
               run: |
                   npm install --global webpack@5.89.0 webpack-cli@5.1.4
-                  npm install
+                  npm ci
+                  webpack --mode=production --config webpack.config.js
                   npm run build
 
             # # Setup sonar-scanner
