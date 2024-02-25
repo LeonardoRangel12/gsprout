@@ -1,108 +1,94 @@
 <template>
-    <div class="bg-gray-900 text-white">
-      <Navbar />
-      <div class="p-8 rounded-md w-full">
+  <div class="bg-gray-900 text-white">
+    <Navbar />
+    <div class="container mx-auto py-8">
+      <div class="px-4 sm:px-8">
         <div class="flex items-center justify-between pb-6">
           <div>
-            <h2 class="font-semibold">WishList</h2>
-            <span class="text-xs">Tus juegos favoritos</span>
+            <h2 class="text-3xl font-semibold">WishList</h2>
+            <p class="text-gray-400">Explora tus juegos favoritos</p>
           </div>
           <div class="flex items-center space-x-4">
-            <div class="flex bg-gray-800 items-center p-2 rounded-md">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            <div class="relative">
+              <input type="text" placeholder="Buscar..." class="bg-gray-800 text-white px-4 py-2 rounded-md outline-none">
+              <svg class="absolute top-3 right-4 h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <input class="bg-gray-800 outline-none ml-1 block text-white" type="text" name="" id="" placeholder="Buscar...">
             </div>
           </div>
         </div>
-        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table class="min-w-full leading-normal">
-              <thead>
-                <tr>
-                  <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                    Nombre
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                    Descripción
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                    Precio
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                    Conseguir
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="juego in juegos" :key="juego.id" :class="{ 'bg-gray-700': juego.activo, 'bg-gray-900': !juego.activo }">
-                  <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 w-10 h-10">
-                        <img class="w-full h-full rounded-full" :src="juego.imagen" :alt="juego.nombre" />
-                      </div>
-                      <div class="ml-3">
-                        <p class="text-gray-300 whitespace-no-wrap">{{ juego.nombre }}</p>
-                      </div>
+        <div class="overflow-x-auto">
+          <table class="w-full divide-y divide-gray-800">
+            <thead class="bg-gray-800">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Nombre</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Descripción</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Precio</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800">
+              <tr v-for="juego in juegos" :key="juego.id" :class="{ 'bg-gray-700': juego.activo, 'bg-gray-800': !juego.activo }">
+                <td class="px-6 py-8 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 w-16 h-16">
+                      <img :src="juego.imagen" alt="juego.nombre" class="w-full h-full rounded-md">
                     </div>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                    <p class="text-gray-300 whitespace-no-wrap">{{ juego.descripcion }}</p>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                    <p class="text-gray-300 whitespace-no-wrap">{{ juego.precio }}</p>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                    <p class="text-gray-300 whitespace-no-wrap">{{ juego.remainingTime }}</p>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                    <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Comprar</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-300">{{ juego.nombre }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-8 whitespace-nowrap">
+                  <div class="text-sm text-gray-300">{{ juego.descripcion }}</div>
+                </td>
+                <td class="px-6 py-8 whitespace-nowrap">
+                  <div class="text-sm text-gray-300">{{ juego.precio }}</div>
+                </td>
+                <td class="px-6 py-8 whitespace-nowrap text-right text-sm font-medium">
+                  <button class="text-indigo-600 hover:text-indigo-900">Comprar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <Footer />
     </div>
-  </template>
-  
-  <script>
-  import Navbar from './navbarComponent.vue';
-  import Footer from './FooterComponent.vue';
-  import axios from 'axios'; // Importa Axios
-  
-  export default {
-    components: {
-      Navbar,
-      Footer
-    },
-    data() {
-      return {
-        juegos: [] // Inicializa juegos como un array vacío
-      };
-    },
-    async created() {
-      await this.getJuegos(); // Llama a la función getJuegos al crear el componente
-    },
-    methods: {
-      async getJuegos() {
-        try {
-          const response = await axios.get('/juegos'); // Hace una solicitud GET a '/juegos'
-          this.juegos = response.data; // Asigna los datos de la respuesta a la variable juegos
-        } catch (error) {
-          console.error('Error al obtener juegos:', error); // Manejo de errores
-        }
+    <Footer />
+  </div>
+</template>
+
+<script>
+import Navbar from './navbarComponent.vue';
+import Footer from './FooterComponent.vue';
+import axios from 'axios'; // Importa Axios
+
+export default {
+  components: {
+    Navbar,
+    Footer
+  },
+  data() {
+    return {
+      juegos: [] // Inicializa juegos como un array vacío
+    };
+  },
+  async created() {
+    await this.getJuegos(); // Llama a la función getJuegos al crear el componente
+  },
+  methods: {
+    async getJuegos() {
+      try {
+        const response = await axios.get('/juegos'); // Hace una solicitud GET a '/juegos'
+        this.juegos = response.data; // Asigna los datos de la respuesta a la variable juegos
+      } catch (error) {
+        console.error('Error al obtener juegos:', error); // Manejo de errores
       }
     }
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos específicos para este componente van aquí */
-  </style>
-  
+  }
+};
+</script>
+
+<style scoped>
+/* Estilos específicos para este componente van aquí */
+</style>
