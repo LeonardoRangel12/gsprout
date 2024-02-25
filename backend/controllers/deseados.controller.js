@@ -4,7 +4,7 @@ const juegoService = require("../services/juego.service");
 const deseadosService = require("../services/deseados.service");
 const bcryptUtil = require("../utils/bcrypt.util");
 
-const addToDeseados = async (req, res) => {
+const addToDeseadosByUsuario = async (req, res) => {
     if(!await usuarioService.getUsuarioById(req.params.idusuario)){
         return res.status(400).send("Usuario no existe");
     }
@@ -19,9 +19,26 @@ const addToDeseados = async (req, res) => {
     }
 }
 
+const getDeseadosByUsuario = async (req, res) => {
+    try {
+        const deseados = await deseadosService.getDeseadosByUsuario(req.params.idusuario);
+        return res.status(200).send(deseados);
+    } catch {
+        return res.status(500).send("Internal Server Error");
+    }
+};
+
+const deleteJuegoOfDeseados = async (req, res) => {
+    try {
+        const deseados = await deseadosService.deleteJuegoOfDeseados(req.params.idusuario);
+        return res.status(200).send(deseados);
+    } catch {
+        return res.status(500).send("Internal Server Error");
+    }
+};
 
 module.exports = {
-    addToDeseados,
-    getDeseados,
-    deleteDeseados
+    addToDeseadosByUsuario,
+    getDeseadosByUsuario,
+    deleteJuegoOfDeseados
 }

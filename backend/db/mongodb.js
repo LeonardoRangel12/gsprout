@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const _url = process.env.MONGODB_URI;
 const _database = process.env.MONGODB_DATABASE_NAME;
 const client = new MongoClient(_url);
@@ -39,11 +39,11 @@ async function getUsuarioByEmail(userEmail) {
   return result;
 }
 
-async function getUsuarioById(userId) {
+async function getUsuarioById(email) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const userFound = await dbCon
       .collection("users")
-      .findOne({ _id: userEmail });
+      .findOne({ email });
 
     return userFound;
   });
@@ -93,7 +93,7 @@ async function getJuegoById(juegoId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const juegoFound = await dbCon
       .collection("games")
-      .findOne({ id: juegoId });
+      .findOne({ _id: new ObjectId(juegoId) });
     return juegoFound;
   });
   return result;
@@ -148,15 +148,30 @@ async function createNewDeseados(idusuario, idjuego) {
 
 async function addToDeseados(idusuario, idjuego) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    if (!await getUsuarioById(idusuario)){
-      result = await createUsuario(idusuario, idjuego);
-    }else{
-      
+    let result;
+    if (!await getDeseadosByUsuario(idusuario)){
+      result = await createNewDeseados(idusuario, idjuego);
     }
-    const updateFields = { $set: data };
-    const result = await dbCon
-      .collection("games")
-      .updateOne({ id: juegoId }, updateFields);
+    if(await getDeseadosByUsuario(idusuario).deseados.includes(idjuego)){
+      return "Juego ya en deseados";
+    }
+    
+    result = await dbCon.collection("deseados").updateOne({ id_usuario: idusuario }, { $push: { deseados: idjuego } });
+    
+    return result;
+  });
+  return result;
+}
+
+async function deleteJuegoOfDeseados(userId, juegoId) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon.collection("deseados").updateOne({
+      id_usuario: userId
+    }, {
+      $pull: {
+        items: { id: juegoId }
+      }
+    });
     return result;
   });
   return result;
@@ -174,5 +189,9 @@ module.exports = {
   getJuegoById,
   updateJuego,
   deleteJuego,
-  getJuegoByName
+  getJuegoByName,
+  getDeseadosByUsuario,
+  createNewDeseados,
+  addToDeseados,
+  deleteJuegoOfDeseados
 };
