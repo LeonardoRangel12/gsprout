@@ -6,11 +6,10 @@ on:
       - 'frontend/**'
 env:
     AWS_REGION: us-west-1
-    ECR_REPOSITORY: hackathon_back
+    ECR_REPOSITORY: hackathon_front
     ECS_CLUSTER: hackathon
     ECS_SERVICE: frontend
     ECS_TD: hackathon_frontend_td
-
 jobs:
     Testing:
         runs-on: ubuntu-latest
