@@ -30,13 +30,15 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: '18.18.0'
-          
+                node-version: '18.x'
+                      
             - name: Build
               working-directory: ./backend
               run: |
-                npm ci
-                npm run build
+                  npm cache clean --force
+                  npm i -g webpack webpack-cli
+                  npm ci
+                  npx webpack --mode production
 
             # # Setup sonar-scanner
             # - name: Set up SonarQube
