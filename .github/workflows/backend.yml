@@ -23,21 +23,22 @@ env:
 jobs:
     Testing:
         runs-on: ubuntu-latest
-
         steps:
             - name: Code checkout
               uses: actions/checkout@v4
 
-            - name: Use Node.js 18.18.0
+            - name: Set up Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: 18.18.0
-        
-            - name: Build
+                node-version: '18.x'
+
+            - name: Node install
               working-directory: ./backend
-              run: |
-                npm install
-                npx webpack --mode production
+              run: npm install
+
+            - name: Node build
+              working-directory: ./backend
+              run: npm run build
 
             # # Setup sonar-scanner
             # - name: Set up SonarQube
