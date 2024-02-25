@@ -63,7 +63,7 @@
           </svg>
           Perfil
         </router-link>
-        <button class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-600">
+        <button @click="logout" class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'NavbarComponent',
   data() {
@@ -85,6 +87,17 @@ export default {
   methods: {
     toggleProfileMenu() {
       this.showProfileMenu = !this.showProfileMenu;
+    },
+    logout() {
+      axios.post('/usuarios/logout')
+        .then(response => {
+          // Si la solicitud de logout fue exitosa, redirige al usuario a '/'
+          this.$router.push('/');
+        })
+        .catch(error => {
+          console.error('Error al cerrar sesión:', error);
+          // Maneja el error, por ejemplo, mostrando un mensaje de error al usuario
+        });
     }
   }
 };
