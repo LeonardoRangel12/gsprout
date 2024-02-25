@@ -2,7 +2,7 @@
     <div class="bg-gray-900">
         <div class="bg-gradient-to-b from-violet-600/[.15] via-transparent">
             
-            <div class=" mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-8 relative">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-8 relative">
 
                 <!-- Fondo de la imagen -->
                 <div class="absolute inset-0 z-1">
@@ -15,13 +15,13 @@
                     <!-- Título -->
                     <div class="max-w-3xl text-center mx-auto">
                         <h1 class="block font-medium text-gray-200 text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                            Bienvenido a la tienda GSprout
+                            Bienvenido a la tienda <span v-if="username" class="text-blue-500">{{ username }}</span>
                         </h1>
                     </div>
                     <!-- Fin de Título -->
 
                     <div class="max-w-3xl text-center mx-auto">
-                        <p class="text-lg text-gray-400"> ¡Explora un mundo de juegos con nuestra vasta colección!</p>
+                        <p class="text-lg text-gray-400">¡Explora un mundo de juegos con nuestra vasta colección!</p>
                     </div>
 
                     <!-- Botones -->
@@ -44,3 +44,19 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+
+const username = ref(''); // Inicializamos el nombre de usuario como una referencia reactiva
+
+onMounted(async () => {
+    try {
+        const response = await axios.get('/usuarios/username'); // Realiza una solicitud GET al endpoint del backend que devuelve el nombre de usuario
+        username.value = response.data.username; // Actualiza el valor de la referencia username con el nombre de usuario obtenido del backend
+    } catch (error) {
+        console.error('Error al obtener el nombre de usuario:', error);
+    }
+});
+</script>
