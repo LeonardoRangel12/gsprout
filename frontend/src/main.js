@@ -15,7 +15,10 @@ import GameViewComponentVue from './components/GameViewComponent.vue';
 import WishList from './components/WishListComponent.vue';
 import NewGameComponentVue from './components/NewGamesComponent.vue';
 
-axios.defaults.baseURL = 'http://localhost:3000/';
+if(process.env.NODE_ENV === 'development') 
+  axios.defaults.baseURL = 'http://localhost:3000/';
+if(process.env.NODE_ENV === 'production')
+  axios.defaults.baseURL = '/api';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data';
 axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 // axios.defaults.headers['HttpOnly'] = true;

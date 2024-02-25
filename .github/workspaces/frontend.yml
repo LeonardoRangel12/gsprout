@@ -1,0 +1,100 @@
+name: frontend deploy
+on: 
+  push:
+
+      paths:
+      - 'frontend/**'
+env:
+    AWS_REGION: us-west-1
+    ECR_REPOSITORY: hackathon_back
+    ECS_CLUSTER: hackathon
+    ECS_SERVICE: frontend
+    ECS_TD: hackathon_frontend_td
+
+jobs:
+    Testing:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: '18.x'
+
+            - name: Node install
+              run: npm install
+
+            - name: Node build
+              run: npm run build
+
+            # # Setup sonar-scanner
+            # - name: Set up SonarQube
+            #   uses: warchant/setup-sonar-scanner@v7
+
+            # - name: SonarQube Scan
+            #   run: sonar-scanner
+            #         -Dsonar.host.url=${{ secrets.SONAR_URL }}
+            #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            #         -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            #         -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            #         -Dsonar.sources=src/
+            #         -Dsonar.junit.reportsPath=target/surefire-reports/ 
+            #         -Dsonar.jacoco.reportsPath=target/jacoco.exec 
+            #         -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+            #         -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/  
+
+            # - name: SonarQube quality gate check
+            #   id: sonarqube-quality-gate
+            #   uses: sonarsource/sonarqube-quality-gate-action@master
+            #   # Force timeout
+            #   timeout-minutes: 5
+            #   env:
+            #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            #     SONAR_HOST: ${{ secrets.SONAR_URL }}
+    BUILD_AND_PUBLISH:
+        needs: Testing
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+            
+            - name: Build & Upload image to ECR
+              uses: appleboy/docker-ecr-action@master
+              with:
+                access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                registry: ${{ secrets.REGISTRY }}
+                repo: ${{env.ECR_REPOSITORY}}
+                tags: latest, ${{github.run_number}}
+                region: ${{env.AWS_REGION}}
+                daemon_off: false
+                dockerfile: ./Dockerfile
+                context: ./frontend
+
+    DEPLOY:
+        needs: BUILD_AND_PUBLISH
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{env.AWS_REGION}}
+
+            - name: Deploy to ECS
+              id: task-def
+              uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+              with:
+                task-definition: ${{env.ECS_TD}}
+                service: ${{env.ECS_SERVICE}}
+                cluster: ${{env.ECS_CLUSTER}}
+                wait-for-service-stability: true
+
+              
+

@@ -32,7 +32,11 @@ module.exports = {
             "NODE_ENV",
             "SECRET",
             "PORT",
-            ""
+            "MONGODB_URI",
+            "MONGODB_DATABASE_NAME",
+            "WALLET_PRIVATE_KEY",
+            "WALLET",
+            "QUICKNODE_URL"
         ]),
     ],
 };
