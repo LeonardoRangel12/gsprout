@@ -16,9 +16,9 @@
                 <div class="flex justify-between items-center mt-4">
                   <div class="text-gray-400 flex items-center">
                     <span class="mr-1 text-lg ">{{ game.precio }}</span>
-                    <span class="text-xs text-gradient">SOL</span>
+                    <span class="text-lg text-gradient">SOL</span>
                   </div>
-                  <p class="text-xs text-gray-400">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+                  <p class="text-lg text-gray-400">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
                 </div>
               </div>
             </div>
