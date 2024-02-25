@@ -19,7 +19,7 @@ app.use(session(sessionOptions));
 // ROUTES
 app.use('/usuarios',require('./routers/usuario.router.js'));
 app.use('/juegos', require('./routers/juego.router.js'));
-app.use('/solana', require('./routers/solana.router.js'));
+// app.use('/solana', require('./routers/solana.router.js'));
 app.use('/deseados', require('./routers/deseados.router.js'));
 app.use('/historialcompras', require('./routers/historialcompras.router.js'));
 app.use('/compras', require('./routers/compra.router.js'));

@@ -13,17 +13,24 @@
               <div class="p-4">
                 <h3 class="text-lg font-bold mb-2">{{ game.nombre }}</h3>
                 <p class="text-gray-300 leading-relaxed">{{ game.descripcion }}</p>
-                <div class="flex justify-between items-center mt-4">
-                  <div class="text-gray-400 flex items-center">
-                    <span class="mr-1 text-lg ">{{ game.precio }}</span>
-                    <span class="text-lg text-gradient">SOL</span>
-                  </div>
-                  <p class="text-lg text-gray-400">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
-                </div>
+
               </div>
             </div>
             <button type="submit" @click="switchToBuy(game._id)"
-              class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto">Comprar</button>
+        class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto transition duration-300 ease-in-out">
+  <div class="flex justify-between items-center">
+    <div class="text-gray-400 flex items-center">
+      <span class="text-sm uppercase tracking-wide">Comprar</span>
+      <span class="mr-1 text-lg">{{ game.precio }}</span>
+      <span class="text-lg text-gradient">SOL</span>
+    </div>
+    <p class="text-lg text-gray-400">
+      {{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD
+    </p>
+  </div>
+</button>
+
+
           </div>
         </div>
       </section>
