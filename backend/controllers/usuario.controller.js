@@ -97,7 +97,6 @@ const logoutUsuario = async (req, res) => {
 };
 
 const getUsuario = async (req, res) => {
-  console.log(req.session.usuario);
   if (req.session.usuario) {
     return usuarioService.getUsuarioByEmail(req.session.usuario.email);
   }

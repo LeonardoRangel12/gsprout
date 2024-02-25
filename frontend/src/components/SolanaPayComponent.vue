@@ -32,7 +32,8 @@ import axios from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-
+import {useRouter} from 'vue-router';
+useRouter();
 export default {
   components: {
     Navbar,
@@ -43,10 +44,12 @@ export default {
       reference: "",
       qr: null,
       qrLoading: false,
+      id: "",
     };
   },
   methods: {
     async handleGenerateClick() {
+<<<<<<< HEAD
       try {
         this.qrLoading = true;
         const res = await axios.post("/solana", {
@@ -84,6 +87,16 @@ export default {
       }
     },
     generateQRCode(url) {
+=======
+      this.qrLoading = true;
+      const res = await axios.post("/solana/"+this.$router.currentRoute.value.query.id, {
+        amount: 0.001,
+        currency: "USD",
+        description: "Test Payment",
+      });
+      const { url, ref } = res.data;
+      this.reference = ref;
+>>>>>>> 6e2413b4010ab3ad32d6c171eccca42a3136ded5
       this.qr = new QRCodeStyling({
         width: 200,
         height: 200,
@@ -110,6 +123,9 @@ export default {
       }
       this.reference = "";
     },
+    getId(){
+      console.log(this.$router.currentRoute.value.query.id);
+    }
   },
 };
 </script>
