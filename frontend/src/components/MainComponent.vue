@@ -2,7 +2,6 @@
   <div class="bg-gray-900 text-white">
     <Navbar />
     <Hero />
-
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
         <h2 class="text-3xl font-bold mb-6 text-center">Featured Games</h2>

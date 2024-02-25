@@ -1,5 +1,5 @@
 <template>
-  <div class="dark">
+  <div class="bg-gray-900">
     <Navbar />
     <main class="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-900 text-white">
       <div class="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">

@@ -1,6 +1,7 @@
-<template>
-  <navbarComponent />  
+<template >
+  
   <div class="bg-gray-900 text-white">
+    <navbarComponent />  
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
         <h2 class="text-3xl font-bold mb-6 text-center">Juegos Mamalones</h2>
@@ -68,11 +69,4 @@ export default {
 };
 </script>
 
-<style>
-.text-gradient {
-  background-image: linear-gradient(to right, #00FFA3, #03E1FF, #DC1FFF);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-</style>
+

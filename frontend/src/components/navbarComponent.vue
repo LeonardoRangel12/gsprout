@@ -1,5 +1,5 @@
 <template>
-  <section class="relative mx-auto">
+  <section class="relative mx-auto ">
     <!-- navbar -->
     <nav class="top-0 left-0 z-60 flex justify-between bg-gray-900 text-white w-screen">
       <div class="px-5 xl:px-12 py-6 flex w-full items-center">
