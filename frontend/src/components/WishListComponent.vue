@@ -4,8 +4,8 @@
       <div class="p-8 rounded-md w-full">
         <div class="flex items-center justify-between pb-6">
           <div>
-            <h2 class="font-semibold">Juegos en Subasta</h2>
-            <span class="text-xs">Todos los juegos disponibles</span>
+            <h2 class="font-semibold">WishList</h2>
+            <span class="text-xs">Tus juegos favoritos</span>
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex bg-gray-800 items-center p-2 rounded-md">
@@ -13,10 +13,6 @@
                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
               </svg>
               <input class="bg-gray-800 outline-none ml-1 block text-white" type="text" name="" id="" placeholder="Buscar...">
-            </div>
-            <div class="space-x-4">
-              <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Nuevo Reporte</button>
-              <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Crear</button>
             </div>
           </div>
         </div>
@@ -35,10 +31,9 @@
                     Precio
                   </th>
                   <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                    Tiempo Restante
                   </th>
                   <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                    Estado
+                    Conseguir
                   </th>
                 </tr>
               </thead>
@@ -64,8 +59,7 @@
                     <p class="text-gray-300 whitespace-no-wrap">{{ juego.remainingTime }}</p>
                   </td>
                   <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                    <span v-if="juego.activo" class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Activo</span>
-                    <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactivo</span>
+                    <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Comprar</button>
                   </td>
                 </tr>
               </tbody>
