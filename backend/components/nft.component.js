@@ -1,15 +1,9 @@
 const { Connection, Keypair } = require("@solana/web3.js");
 const {
-  getOrCreateAssociatedTokenAccount,
-  mintTo,
-} = require("@solana/spl-token");
-const fs = require("fs");
-const {
   Metaplex,
   keypairIdentity,
   bundlrStorage,
 } = require("@metaplex-foundation/js");
-const JuegoService = require("../services/juego.service");
 const base58 = require("bs58");
 const QUICKNODE_URL = process.env.QUICKNODE_URL;
 const CONNECTION = new Connection(QUICKNODE_URL, "confirmed");
