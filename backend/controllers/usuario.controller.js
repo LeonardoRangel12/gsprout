@@ -98,7 +98,8 @@ const logoutUsuario = async (req, res) => {
 
 const getUsuario = async (req, res) => {
   if (req.session.usuario) {
-    return usuarioService.getUsuarioByEmail(req.session.usuario.email);
+    const usuario = await usuarioService.getUsuarioByEmail(req.session.usuario.email);
+    return res.status(200).send(usuario);
   }
   return res.status(404).send("User not found");
 };
