@@ -27,7 +27,7 @@ const generatePayment = async (req, res) => {
   Will generate a payment request and return the url
   */
 
-  const juego = juegoService.getJuegoById(req.params.id);
+  const juego = await juegoService.getJuegoById(req.params.id);
   if (!juego) {
     return res.status(404).send("Juego not found");
   }
@@ -37,7 +37,7 @@ const generatePayment = async (req, res) => {
   const memo = juego.nombre;
 
   try {
-    const reference = new Keypair().publicKey;
+    const reference = new PublicKey(process.env.WALLET);
     const urlData = await generateUrl(
       recipient,
       amount,
