@@ -36,8 +36,9 @@ jobs:
               working-directory: ./backend
               run: |
                   npm cache clean --force
+                  npm i -g webpack webpack-cli
                   npm ci
-                  npm run build
+                  npx webpack --mode production
 
             # # Setup sonar-scanner
             # - name: Set up SonarQube

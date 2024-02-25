@@ -28,7 +28,9 @@ jobs:
 
             - name: Node build
               working-directory: ./frontend
-              run: npm run build
+              run: |
+                npm run build
+                zip -r frontend.zip dist/
 
             # # Setup sonar-scanner
             # - name: Set up SonarQube
@@ -54,12 +56,12 @@ jobs:
             #   env:
             #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             #     SONAR_HOST: ${{ secrets.SONAR_URL }}
-    BUILD_AND_PUBLISH:
-        needs: Testing
-        runs-on: ubuntu-latest
-        steps:
-            - name: Code checkout
-              uses: actions/checkout@v4
+    # BUILD_AND_PUBLISH:
+    #     needs: Testing
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Code checkout
+    #           uses: actions/checkout@v4
             
             - name: Build & Upload image to ECR
               uses: appleboy/docker-ecr-action@master
@@ -74,12 +76,12 @@ jobs:
                 dockerfile: ./frontend/Dockerfile
                 context: ./frontend
 
-    DEPLOY:
-        needs: BUILD_AND_PUBLISH
-        runs-on: ubuntu-latest
-        steps:
-            - name: Code checkout
-              uses: actions/checkout@v4
+    # DEPLOY:
+    #     needs: BUILD_AND_PUBLISH
+    #     runs-on: ubuntu-latest
+    #     steps:
+            # - name: Code checkout
+            #   uses: actions/checkout@v4
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
