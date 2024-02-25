@@ -97,7 +97,7 @@ export default {
     },
     switchToBuy(gameid) {
       // Redirect the user to the registration page
-      this.$router.push('/solanaPay?id=' + gameid);
+      this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.games.find(game => game._id === gameid).precio);
     }
   }
 };
