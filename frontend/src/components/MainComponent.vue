@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-900 text-white">
-    <Navbar />
+    <Navbar class="" style="z-index: 9999;" />
     <Hero />
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">

@@ -4,7 +4,7 @@
     <navbarComponent />  
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
-        <h2 class="text-3xl font-bold mb-6 text-center">Juegos Mamalones</h2>
+        <h2 class="text-3xl font-bold mb-6 text-center">Juegos</h2>
         <ul class="divide-y divide-gray-700">
           <li v-for="(game, index) in featuredGames.slice(0, 20)" :key="game._id" class="py-4 flex items-center justify-between">
             <div class="flex items-center">
