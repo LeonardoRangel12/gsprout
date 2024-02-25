@@ -35,8 +35,9 @@ jobs:
             - name: Build
               working-directory: ./backend
               run: |
+                  npm install --global webpack@5.89.0 webpack-cli@5.1.4
                   npm install
-                  npx webpack --mode production
+                  npm run build
 
             # # Setup sonar-scanner
             # - name: Set up SonarQube
