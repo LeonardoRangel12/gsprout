@@ -73,7 +73,7 @@ const mintNFT = async (req, res) => {
   //   commitment: "finalized",
   // });
   
-  return res.status(201).send(nft.mint.address.toBase58());
+  return res.status(201);
   // return res.send(nft.mint.address.toBase58());
 };
 
