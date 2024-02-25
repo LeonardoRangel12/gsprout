@@ -6,6 +6,6 @@ COPY --from=repo /gsprout /gsprout
 WORKDIR /gsprout/backend
 RUN npm i && npm run build
 RUN mkdir -p /app
-COPY dist /app
+COPY ./dist /app
 WORKDIR /app
 CMD ["node", "app.bundle.js"]
