@@ -30,19 +30,17 @@ jobs:
   
       steps:
       - uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      
+      - name: Install dependencies
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        working-directory: ./backend
-        run: npm ci
-
-      - name: Build
-        working-directory: ./backend
-        run: npm run build
+        
+      - run: |
+          cd backend
+          npm ci
+          npm run build
+      
 
 
 
