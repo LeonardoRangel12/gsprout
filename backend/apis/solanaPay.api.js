@@ -74,7 +74,7 @@ const verifyPayment = async (req, res, next) => {
     const referencePublicKey = new PublicKey(reference.toString());
     // IMPORTANT
     // Set the id in the response locals to use it in the next middleware
-    res.locals.buyerKey = referencePublicKey;
+    res.locals.buyerKey = referencePublicKey; 
     res.locals.juego = paymentRequests.get(reference).juego;
     const response = await verifyTransaction(referencePublicKey);
     if (response) {
@@ -86,7 +86,6 @@ const verifyPayment = async (req, res, next) => {
     console.log(error);
     return res.status(500).send("Internal Server Error");
   }
-  return res.status(405).send("Method not allowed");
 };
 
 async function generateUrl(recipient, amount, reference, label, message, memo) {
@@ -116,8 +115,7 @@ const verifyTransaction = async (reference) => {
 
   // Devnet connection
   const connection = new Connection(quickNodeEndpoint, "confirmed");
-
-  const found = await findReference(connection, reference);
+  const found = await findReference(connection, reference); // Problema aqui: la referencia no se encuentra
   const response = await validateTransfer(
     connection,
     found.signature,
