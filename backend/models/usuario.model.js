@@ -7,6 +7,8 @@ const usuarioSchema = Joi.object({
     nombre: Joi.string().min(3).max(30).required(),
     descripcion: Joi.string().min(3).max(100).optional(),
     horas_juego: Joi.number().min(0).optional(),
+    juego_favorito: Joi.string().min(3).max(30).optional(),
+    foto: Joi.string().min(3).max(1000).optional(),
 });
 
 module.exports = usuarioSchema;

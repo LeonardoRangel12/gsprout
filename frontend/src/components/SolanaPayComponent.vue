@@ -3,7 +3,8 @@
     <Navbar />
     <main class="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-900 text-white">
       <div class="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <h1 class="text-2xl font-semibold">Solana Pay Demo</h1>
+        <h1 class="text-2xl font-semibold">Solana Pay: Generate your pay for {{ price }} SOL&#8779;${{ (SOL_TO_USD_RATE *
+          price).toFixed(2) }} USDT</h1>
       </div>
       <div v-if="qr" class="mt-8">
         <div ref="qrCode"></div>
@@ -15,10 +16,12 @@
         <p>No QR code available</p>
       </div>
       <div class="mt-8">
-        <button @click="handleGenerateClick" :disabled="qrLoading" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button @click="handleGenerateClick" :disabled="qrLoading"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           {{ qrLoading ? 'Generating...' : 'Generate Solana Pay Order' }}
         </button>
-        <button @click="handleVerifyClick" :disabled="qrLoading || !reference" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+        <button @click="handleVerifyClick" :disabled="qrLoading || !reference"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
           Verify Transaction
         </button>
       </div>
@@ -42,16 +45,21 @@ export default {
     return {
       reference: "",
       qr: null,
-      qrLoading: false
+      qrLoading: false,
+      SOL_TO_USD_RATE: 0,
+      price: 0
     };
+  },
+  async created() {
+    await this.getExchange();
   },
   methods: {
     async handleGenerateClick() {
       try {
         this.qrLoading = true;
         const res = await axios.post("/solana/" + this.$router.currentRoute.value.query.id, {
-          amount: 0.001,
-          currency: "USD",
+          amount: this.price,
+          currency: "SOL",
           description: "Test Payment",
         });
         const { url, ref } = res.data;
@@ -85,8 +93,8 @@ export default {
     },
     generateQRCode(url) {
       this.qr = new QRCodeStyling({
-        width: 200,
-        height: 200,
+        width: 300,
+        height: 300,
         data: url,
         image: "",
         dotsOptions: {
@@ -101,11 +109,20 @@ export default {
           margin: 20,
         },
       });
-      this.qr.download({
+      /*this.qr.download({
         name: "solana-pay-qr",
         extension: "svg",
-      })
-      this.qr.append(this.$refs.qrCode);
+      })*/
+      this.$nextTick(() => {
+        if (this.$refs.qrCode) {
+          // Remove any existing images
+          while (this.$refs.qrCode.childNodes.length > 0) {
+            this.$refs.qrCode.removeChild(this.$refs.qrCode.childNodes[0]);
+          }
+          // Append the new image
+          this.qr.append(this.$refs.qrCode);
+        }
+      });
     },
     clearQRCode() {
       if (this.qr) {
@@ -113,13 +130,24 @@ export default {
         this.qr = null;
       }
       this.reference = "";
+    },
+    async getExchange() {
+      try {
+        const res = await axios.get('/exchange');
+        this.SOL_TO_USD_RATE = res.data.sell;
+        this.price = this.$router.currentRoute.value.query.price;
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
   }
-};
+}
 </script>
 
 <style scoped>
 .dark {
-  background-color: #1a1a1a; /* Dark gray background */
+  background-color: #1a1a1a;
+  /* Dark gray background */
 }
 </style>

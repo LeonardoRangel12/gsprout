@@ -23,9 +23,6 @@ jobs:
     Testing:
       runs-on: ubuntu-latest
       continue-on-error: true
-      strategy:
-        matrix:
-          node-version: [17.x, 18.x, 19.x, 20.x, 21.x]
   
       steps:
       - uses: actions/checkout@v4
@@ -33,10 +30,10 @@ jobs:
       - name: Install dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18.18.0'
       - working-directory: ./backend
         run: |
-          npm install
+          npm ci
           npm run build
           
       
@@ -68,33 +65,27 @@ jobs:
         #   env:
         #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         #     SONAR_HOST: ${{ secrets.SONAR_URL }}
-    BUILD_AND_PUBLISH:
+            
+
+      - name: Build & Upload image to ECR
+        uses: appleboy/docker-ecr-action@master
+        with:
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry: ${{ secrets.REGISTRY }}
+          repo: ${{env.ECR_REPOSITORY}}
+          tags: latest, ${{github.run_number}}
+          region: ${{env.AWS_REGION}}
+          daemon_off: false
+          dockerfile: ./backend/Dockerfile
+          context: ./backend
+
+    DEPLOY:
         needs: Testing
         runs-on: ubuntu-latest
         steps:
-            - name: Code checkout
-              uses: actions/checkout@v4
-            
-
-            - name: Build & Upload image to ECR
-              uses: appleboy/docker-ecr-action@master
-              with:
-                access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                registry: ${{ secrets.REGISTRY }}
-                repo: ${{env.ECR_REPOSITORY}}
-                tags: latest, ${{github.run_number}}
-                region: ${{env.AWS_REGION}}
-                daemon_off: false
-                dockerfile: ./backend/Dockerfile
-                context: ./backend
-
-    DEPLOY:
-        needs: BUILD_AND_PUBLISH
-        runs-on: ubuntu-latest
-        steps:
-            - name: Code checkout
-              uses: actions/checkout@v4
+            # - name: Code checkout
+            #   uses: actions/checkout@v4
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
@@ -103,14 +94,24 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{env.AWS_REGION}}
 
+            - name: Get task definition
+              id: get-task-def
+              if: ${{steps.configure_aws_credentials.outputs.status}} == 'success'
+              run: |
+                aws ecs describe-task-definition --task-definition ${{env.ECS_TD}} --region ${{env.AWS_REGION}} --query taskDefinition > ${{env.ECS_TD}}.json
+
             - name: Deploy to ECS
+              if: ${{steps.get-task-def.outputs.status}} == 'success'
               id: task-def
               uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
               with:
-                task-definition: ${{env.ECS_TD}}
+                task-definition: ${{env.ECS_TD}}.json
                 service: ${{env.ECS_SERVICE}}
                 cluster: ${{env.ECS_CLUSTER}}
                 wait-for-service-stability: true
 
-              
+            - name: Force new deployment
+              if: ${{steps.task-def.outputs.status}} == 'success'
+              run: aws ecs update-service --cluster ${{env.ECS_CLUSTER}} --service ${{env.ECS_SERVICE}} --force-new-deployment
+            
 
