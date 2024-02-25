@@ -72,7 +72,7 @@ export default {
 
       try {
         const res = await axios.get(`/solana/${this.reference}`);
-        if (res.status == 200) {
+        if (res.status == 200 || res.status == 201) {
           alert("Transaction verified");
           this.clearQRCode();
         } else {

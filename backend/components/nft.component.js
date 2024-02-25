@@ -1,4 +1,4 @@
-const { Connection, Keypair} = require("@solana/web3.js");
+const { Connection, Keypair } = require("@solana/web3.js");
 const {
   getOrCreateAssociatedTokenAccount,
   mintTo,
@@ -13,15 +13,15 @@ const JuegoService = require("../services/juego.service");
 const base58 = require("bs58");
 const QUICKNODE_URL = process.env.QUICKNODE_URL;
 const CONNECTION = new Connection(QUICKNODE_URL, "confirmed");
-  // OUR OWN WALLET
-  const privateKey = process.env.WALLET_PRIVATE_KEY;
-  const privateKeyBytes = base58.decode(privateKey);
-  const WALLET = Keypair.fromSecretKey(privateKeyBytes);
+// OUR OWN WALLET
+const privateKey = process.env.WALLET_PRIVATE_KEY;
+const privateKeyBytes = base58.decode(privateKey);
+const WALLET = Keypair.fromSecretKey(privateKeyBytes);
 
 const METAPLEX = Metaplex.make(CONNECTION)
   .use(keypairIdentity(WALLET))
   .use(
-    bundlrStorage ({
+    bundlrStorage({
       address: "https://devnet.bundlr.network",
       providerUrl: QUICKNODE_URL,
       timeout: 60000,
@@ -41,7 +41,6 @@ const mintNFT = async (req, res) => {
 
   console.log(juego.nombre);
 
-
   // MINT THE NFT
   const { nft } = await METAPLEX.nfts().create(
     {
@@ -59,10 +58,10 @@ const mintNFT = async (req, res) => {
         files: [
           {
             uri: juego.imagen,
-            type: "image/png",
+            type: "image/jpg",
           },
         ],
-      },      
+      },
     },
     {
       commitment: "confirmed",
@@ -81,9 +80,8 @@ const mintNFT = async (req, res) => {
   //   commitment: "finalized",
   // });
 
-
-
-  return res.send(nft.mint.address.toBase58());
+  return res.status(201);
+  // return res.send(nft.mint.address.toBase58());
 };
 
 module.exports = {
