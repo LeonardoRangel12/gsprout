@@ -77,7 +77,9 @@ export default {
                 username: formData.value.username,
                 password: formData.value.password
             });
-            console.log(response);
+            if(response.status === 201) {
+                router.push('/?registered=true');
+            }
         } catch (error) {
             console.error('Hubo un error en la solicitud:', error);
         }

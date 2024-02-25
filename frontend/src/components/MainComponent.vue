@@ -66,9 +66,20 @@ export default {
     };
   },
   async created() {
+    await this.getExchange();
     await this.getJuegos();
   },
   methods: {
+    async getExchange(){
+      try{
+        const res = await axios.get('/exchange');
+        console.log(res);
+        this.SOL_TO_USD_RATE = res.data.sell;
+      }
+      catch(error){
+        console.error(error);
+      }
+    },
     async getJuegos() {
       const res = await axios.get('/juegos');
       this.games = res.data;
