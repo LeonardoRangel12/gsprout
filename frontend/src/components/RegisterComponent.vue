@@ -71,7 +71,7 @@ export default {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:3000/usuarios/', {
+            const response = await axios.post('/usuarios/', {
                 nombre: formData.value.nombre,
                 email: formData.value.email,
                 username: formData.value.username,
