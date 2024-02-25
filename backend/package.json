@@ -2,21 +2,38 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "dist/app.bundle.js",
   "scripts": {
     "serve:dev": "cross-env NODE_ENV=development nodemon app.js",
     "serve:prod": "cross-env NODE_ENV=production nodemon app.js",
-    "build": "webpack --mode production --config webpack.config.js"
+    "build": "parcel build app.js"
+  },
+  "parcelOptions": {
+    "outDir": "./dist",
+    "production": true,
+    "transformers": {
+      "*.html": [
+        "html-loader"
+      ]
+    }
+  },
+  "parcelPacker": {
+    "env": {
+      "NODE_ENV": "process.env.NODE_ENV",
+      "PORT": "process.env.PORT",
+      "MONGODB_URI": "process.env.MONGODB_URI",
+      "MONGODB_DATABASE_NAME": "process.env.MONGODB_DATABASE_NAME",
+      "WALLET_PRIVATE_KEY": "process.env.WALLET_PRIVATE_KEY",
+      "WALLET": "process.env.WALLET",
+      "QUICKNODE_URL": "process.env.QUICKNODE_URL"
+    }
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^7.0.3",
     "html-loader": "^5.0.0",
-    "nodemon": "^3.1.0",
-    "path": "^0.12.7",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
+    "path": "^0.12.7"
   },
   "dependencies": {
     "@metaplex-foundation/js": "^0.19.5",
@@ -26,6 +43,7 @@
     "@solana/spl-token": "^0.4.1",
     "@solana/web3.js": "^1.90.0",
     "aws-sdk": "^2.1565.0",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bignumber.js": "^9.1.2",
@@ -43,6 +61,8 @@
     "mongodb": "^6.3.0",
     "multer": "^1.4.5-lts.1",
     "nock": "^13.5.3",
+    "nodemon": "^3.1.0",
+    "parcel": "^2.11.0",
     "qrcode": "^1.5.3",
     "reregexp": "^1.6.1",
     "uuid": "^9.0.1"
