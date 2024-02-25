@@ -24,7 +24,7 @@
                   <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/main">Inicio</router-link>
                 </li>
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/tienda">Tienda</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/Store">Tienda</router-link>
                 </li>
                 <li>
                   <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/auctions">Subastas</router-link>
