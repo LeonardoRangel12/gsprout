@@ -7,7 +7,7 @@ module.exports = {
         filename: 'app.bundle.js'
     },
     mode: 'production',
-    devtool: 'source-map',
+    // devtool: 'source-map',
     target: "node",
     experiments: {
         topLevelAwait: true,
