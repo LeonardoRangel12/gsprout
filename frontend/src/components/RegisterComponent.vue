@@ -18,6 +18,11 @@
           <div class="mt-8">
             <form @submit.prevent="register">
               <div>
+                <label for="nombre" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Nombre Completo</label>
+                <input type="text" name="nombre" id="nombre" v-model="formData.nombre" placeholder="Nombre Completo" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              </div>
+
+              <div class="mt-6">
                 <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Correo</label>
                 <input type="email" name="email" id="email" v-model="formData.email" placeholder="Correo electrónico" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               </div>
@@ -53,6 +58,7 @@ import { useRouter } from 'vue-router';
 export default {
   setup() {
     const formData = ref({
+      nombre: '',
       email: '',
       username: '', 
       password: ''
@@ -60,24 +66,25 @@ export default {
     const router = useRouter();
 
     const register = async function() {
-        if (!formData.value.email || !formData.value.username || !formData.value.password) {
+        if (!formData.value.nombre || !formData.value.email || !formData.value.username || !formData.value.password) {
             console.warn('Por favor, completa todos los campos del formulario.');
             return;
         }
         try {
-            const response = await axios.post('http://localhost:3000/usuarios/', { // Se define la creacion de usuario. Las contraseñas 
+            const response = await axios.post('http://localhost:3000/usuarios/', {
+                nombre: formData.value.nombre,
                 email: formData.value.email,
                 username: formData.value.username,
                 password: formData.value.password
             });
-            console.log(response); // Aquí puedes manejar la respuesta del servidor
+            console.log(response);
         } catch (error) {
             console.error('Hubo un error en la solicitud:', error);
         }
     };
 
     const switchToLogin = () => {
-        router.push('/'); // Redirige al usuario a la página de inicio de sesión
+        router.push('/');
     };
 
     return { formData, register, switchToLogin }
