@@ -1,7 +1,6 @@
 <template>
     <div class="bg-gray-900">
         <div class="bg-gradient-to-b from-violet-600/[.15] via-transparent">
-            
             <div class="mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-8 relative">
 
                 <!-- Fondo de la imagen -->
@@ -39,7 +38,6 @@
                     <!-- Fin de Botones -->
                 </div>
                 <!-- Fin del contenido del hero -->
-
             </div>
         </div>
     </div>
@@ -49,12 +47,21 @@
 import axios from '../main';
 import { ref, onMounted } from 'vue';
 
-
 const username = ref(''); // Inicializamos el nombre de usuario como una referencia reactiva
+
 onMounted(async () => {
     try {
-        const response = await axios.get('/usuarios/me'); // Realiza una solicitud GET al endpoint del backend que devuelve el nombre de usuario
-        username.value = response.data.username; // Actualiza el valor de la referencia username con el nombre de usuario obtenido del backend
+        // Aquí obtienes la cookie guardada
+        const savedCookie = document.cookie;
+
+        // Luego, puedes incluir la cookie en la solicitud al backend
+        const response = await axios.get('/usuarios/me', {
+    withCredentials: true
+});
+
+
+        // Actualizas el valor de la referencia username con el nombre de usuario obtenido del backend
+        username.value = response.data.username;
     } catch (error) {
         console.error('Error al obtener el nombre de usuario:', error);
     }

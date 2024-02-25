@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-semibold">Solana Pay Demo</h1>
       </div>
       <div v-if="qr" class="mt-8">
-        <div v-html="qr.getHtml()"></div>
+        <div ref="qrCode"></div>
       </div>
       <div v-else-if="qrLoading" class="mt-8">
         <p>Loading...</p>
@@ -15,10 +15,10 @@
         <p>No QR code available</p>
       </div>
       <div class="mt-8">
-        <button @click="handleGenerateClick" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Generate Solana Pay Order
+        <button @click="handleGenerateClick" :disabled="qrLoading" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          {{ qrLoading ? 'Generating...' : 'Generate Solana Pay Order' }}
         </button>
-        <button @click="handleVerifyClick" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+        <button @click="handleVerifyClick" :disabled="qrLoading || !reference" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
           Verify Transaction
         </button>
       </div>
@@ -32,31 +32,58 @@ import axios from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-import {useRouter} from 'vue-router';
-useRouter();
+
 export default {
   components: {
-    Navbar, // Registra el componente Navbar
-    Footer // Registra el componente Footer
+    Navbar,
+    Footer
   },
   data() {
     return {
       reference: "",
       qr: null,
-      qrLoading: false,
-      id: "",
+      qrLoading: false
     };
   },
   methods: {
     async handleGenerateClick() {
-      this.qrLoading = true;
-      const res = await axios.post("/solana/"+this.$router.currentRoute.value.query.id, {
-        amount: 0.001,
-        currency: "USD",
-        description: "Test Payment",
-      });
-      const { url, ref } = res.data;
-      this.reference = ref;
+      try {
+        this.qrLoading = true;
+        const res = await axios.post("/solana", {
+          amount: 0.001,
+          currency: "USD",
+          description: "Test Payment",
+        });
+        const { url, ref } = res.data;
+        this.reference = ref;
+        this.generateQRCode(url);
+      } catch (error) {
+        console.error("Error generating QR code:", error);
+        alert("Error generating QR code. Please try again later.");
+      } finally {
+        this.qrLoading = false;
+      }
+    },
+    async handleVerifyClick() {
+      if (!this.reference) {
+        alert("Please generate a transaction first");
+        return;
+      }
+
+      try {
+        const res = await axios.get(`/solana/${this.reference}`);
+        if (res.status == 200) {
+          alert("Transaction verified");
+          this.clearQRCode();
+        } else {
+          alert("Transaction not found");
+        }
+      } catch (error) {
+        console.error("Error verifying transaction:", error);
+        alert("Error verifying transaction. Please try again later.");
+      }
+    },
+    generateQRCode(url) {
       this.qr = new QRCodeStyling({
         width: 200,
         height: 200,
@@ -74,35 +101,20 @@ export default {
           margin: 20,
         },
       });
-
-      this.qr.download({ name: "solana-pay-qr", extension: "svg" })
-      this.qrLoading = false;
+      this.qr.append(this.$refs.qrCode);
     },
-    async handleVerifyClick() {
-      if (!this.reference) {
-        alert("Please generate a transaction first");
-        return;
+    clearQRCode() {
+      if (this.qr) {
+        this.qr.clear();
+        this.qr = null;
       }
-
-      const res = await axios.get(`/solana/${this.reference}`);
-
-      if (res.status == 200) {
-        alert("Transaction verified");
-        this.qr = undefined;
-        this.reference = undefined;
-      } else {
-        alert("Transaction not found");
-      }
-    },
-    getId(){
-      console.log(this.$router.currentRoute.value.query.id);
+      this.reference = "";
     }
-  },
+  }
 };
 </script>
 
 <style scoped>
-/* Add your custom styles here */
 .dark {
   background-color: #1a1a1a; /* Dark gray background */
 }
