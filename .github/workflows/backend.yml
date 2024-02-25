@@ -32,9 +32,11 @@ jobs:
                 node-version: '18.x'
 
             - name: Node install
+              working-directory: ./backend
               run: npm install
 
             - name: Node build
+              working-directory: ./backend
               run: npm run build
 
             # # Setup sonar-scanner
