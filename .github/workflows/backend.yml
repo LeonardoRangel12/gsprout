@@ -35,6 +35,9 @@ jobs:
             - name: Node install
               working-directory: ./backend
               run: npm install
+            - name: Webpack install
+              working-directory: ./backend
+              run: npm install webpack webpack-cli --global
 
             - name: Node build
               working-directory: ./backend

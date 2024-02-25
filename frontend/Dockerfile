@@ -1,4 +1,4 @@
-FROM node:18.18.0 AS build
+FROM bitnami/node:18.18.0 AS build
 RUN npm i && npm run build
 
 FROM nginx:alpine
