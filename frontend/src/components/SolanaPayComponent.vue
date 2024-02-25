@@ -32,7 +32,8 @@ import axios from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-
+import {useRouter} from 'vue-router';
+useRouter();
 export default {
   components: {
     Navbar, // Registra el componente Navbar
@@ -43,12 +44,13 @@ export default {
       reference: "",
       qr: null,
       qrLoading: false,
+      id: "",
     };
   },
   methods: {
     async handleGenerateClick() {
       this.qrLoading = true;
-      const res = await axios.post("/solana", {
+      const res = await axios.post("/solana/"+this.$router.currentRoute.value.query.id, {
         amount: 0.001,
         currency: "USD",
         description: "Test Payment",
@@ -92,6 +94,9 @@ export default {
         alert("Transaction not found");
       }
     },
+    getId(){
+      console.log(this.$router.currentRoute.value.query.id);
+    }
   },
 };
 </script>
