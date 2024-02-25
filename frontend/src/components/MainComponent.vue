@@ -12,7 +12,7 @@
             <div class="p-4">
               <h3 class="text-xl font-bold mb-2">{{ game.nombre }}</h3>
               <p class="text-gray-400">{{ game.descripcion }}</p>
-              <button @click="addToCart(game)" class="block w-full mt-4 py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Add to Cart</button>
+              <button @click="addToCart(game)" class="block w-full mt-4 py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500">Add to Cart</button>
             </div>
           </div>
         </div>
