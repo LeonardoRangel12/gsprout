@@ -47,6 +47,8 @@ const loginUsuario = async (req, res) => {
       !(await bcryptUtil.comparePassword(req.body.password, usuario.password))
     )
       return res.status(401).send("Invalid password");
+
+
     req.session.usuario = usuario; 
     return res.status(200).send(usuario);
   } catch (error) {
@@ -95,6 +97,7 @@ const logoutUsuario = async (req, res) => {
 };
 
 const getUsuario = async (req, res) => {
+  console.log(req.session.usuario);
   if (req.session.usuario) {
     return usuarioService.getUsuarioByEmail(req.session.usuario.email);
   }

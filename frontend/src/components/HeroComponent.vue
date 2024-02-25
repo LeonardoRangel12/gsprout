@@ -46,14 +46,14 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axios from '../main';
 import { ref, onMounted } from 'vue';
 
-const username = ref(''); // Inicializamos el nombre de usuario como una referencia reactiva
 
+const username = ref(''); // Inicializamos el nombre de usuario como una referencia reactiva
 onMounted(async () => {
     try {
-        const response = await axios.get('/usuarios/username'); // Realiza una solicitud GET al endpoint del backend que devuelve el nombre de usuario
+        const response = await axios.get('/usuarios/me'); // Realiza una solicitud GET al endpoint del backend que devuelve el nombre de usuario
         username.value = response.data.username; // Actualiza el valor de la referencia username con el nombre de usuario obtenido del backend
     } catch (error) {
         console.error('Error al obtener el nombre de usuario:', error);

@@ -15,7 +15,7 @@ import StoreComponentVue from './components/StoreComponent.vue';
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data';
 axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers['HttpOnly'] = true;
+// axios.defaults.headers['HttpOnly'] = true;
 axios.defaults.withCredentials = true;
 
 const routes = [
