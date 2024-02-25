@@ -9,7 +9,7 @@
         <!-- Nav Links -->
         <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
           <li><router-link class="hover:text-gray-200" to="/main">Inicio</router-link></li>
-          <li><router-link class="hover:text-gray-200" to="/tienda">Tienda</router-link></li>
+          <li><router-link class="hover:text-gray-200" to="/Store">Tienda</router-link></li>
           <li><router-link class="hover:text-gray-200" to="/auctions">Subastas</router-link></li>
           <li><router-link class="hover:text-gray-200" to="/intercambios">Intercambios</router-link></li>
         </ul>
