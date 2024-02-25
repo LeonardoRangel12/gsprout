@@ -20,7 +20,7 @@
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           {{ qrLoading ? 'Generating...' : 'Generate Solana Pay Order' }}
         </button>
-        <button @click="handleVerifyClick" :disabled="qrLoading || !reference"
+        <button @click="handleVerifyClick" :disabled="qrLoading"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
           Verify Transaction
         </button>
@@ -65,11 +65,10 @@ export default {
         const { url, ref } = res.data;
         this.reference = ref;
         this.generateQRCode(url);
+        this.qrLoading = false;
       } catch (error) {
         console.error("Error generating QR code:", error);
         alert("Error generating QR code. Please try again later.");
-      } finally {
-        this.qrLoading = false;
       }
     },
     async handleVerifyClick() {
@@ -77,12 +76,10 @@ export default {
         alert("Please generate a transaction first");
         return;
       }
-
       try {
-        const res = await axios.get(`/solana/${this.reference}`);
+        const res = await axios.get('/solana/'+this.reference);
         if (res.status == 200 || res.status == 201) {
           alert("Transaction verified");
-          this.clearQRCode();
         } else {
           alert("Transaction not found");
         }

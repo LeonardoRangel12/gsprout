@@ -33,7 +33,7 @@ const mintNFT = async (req, res) => {
   const license = res.locals.license;
   const juego = res.locals.juego;
 
-  console.log(juego.nombre);
+  console.log(juego.imagen);
 
   // MINT THE NFT
   const { nft } = await METAPLEX.nfts().create(
@@ -62,7 +62,6 @@ const mintNFT = async (req, res) => {
     }
   );
 
-  // console.log(nft.mint.address.toBase58());
   // // SENDS THE NFT TO THE BUYER
 
   // const buyerTokenAccount = await getOrCreateAssociatedTokenAccount(
@@ -73,7 +72,7 @@ const mintNFT = async (req, res) => {
   // await mintTo(nft.mint, nft, buyerTokenAccount, WALLET, [], {
   //   commitment: "finalized",
   // });
-
+  
   return res.status(201);
   // return res.send(nft.mint.address.toBase58());
 };
