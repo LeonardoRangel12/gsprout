@@ -49,7 +49,7 @@ export default {
     async handleGenerateClick() {
       try {
         this.qrLoading = true;
-        const res = await axios.post("/solana", {
+        const res = await axios.post("/solana/" + this.$router.currentRoute.value.query.id, {
           amount: 0.001,
           currency: "USD",
           description: "Test Payment",
@@ -101,6 +101,10 @@ export default {
           margin: 20,
         },
       });
+      this.qr.download({
+        name: "solana-pay-qr",
+        extension: "svg",
+      })
       this.qr.append(this.$refs.qrCode);
     },
     clearQRCode() {
