@@ -10,7 +10,10 @@
           <div class="mt-6 lg:mb-0 mb-6 flex justify-center lg:justify-start">
             <button class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
               <i class="fab fa-twitter flex justify-center items-center">
-                <img class="h-6" src="https://about.twitter.com/content/dam/about-twitter/x/brand-toolkit/logo-black.png.twimg.1920.png" alt="logo">
+                <a href="https://twitter.com/HypirionGSprout">
+                  <img class="h-6" src="https://about.twitter.com/content/dam/about-twitter/x/brand-toolkit/logo-black.png.twimg.1920.png" alt="logo">
+
+                </a>
               </i>
             </button>
             <!-- Agrega más botones de redes sociales si es necesario -->
