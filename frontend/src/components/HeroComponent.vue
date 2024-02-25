@@ -14,7 +14,7 @@
             <!-- Título -->
             <div class="max-w-3xl text-center mx-auto">
               <h1 class="block font-medium text-gray-200 text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                Bienvenido a gsprout <span v-if="username" class="text-blue-500">{{ username }}</span>
+                Bienvenido a G'Sprout <span v-if="username" class="text-blue-500">{{ username }}</span>
               </h1>
             </div>
             <!-- Fin de Título -->

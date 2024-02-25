@@ -4,7 +4,9 @@
     <nav class="top-0 left-0 z-60 flex justify-between bg-gray-900 text-white w-screen">
       <div class="px-5 xl:px-12 py-6 flex w-full items-center">
         <a class="text-3xl font-bold font-heading" href="#">
-          <img class="h-12" src="https://i.imgur.com/QDzM74E.png" alt="logo">
+          <router-link to="/main">
+            <img class="h-12" src="https://i.imgur.com/QDzM74E.png" alt="logo">
+          </router-link>
         </a>
         <!-- Nav Links -->
         <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
