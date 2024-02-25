@@ -39,7 +39,10 @@ jobs:
         working-directory: ./backend
         run: |
           npm install
-          npx webpack
+          npm cache clean --force
+          npm i webpack
+          npm i webpack-cli
+          npm run build
 
 
         # # Setup sonar-scanner
