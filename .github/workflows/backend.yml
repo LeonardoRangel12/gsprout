@@ -65,29 +65,23 @@ jobs:
         #   env:
         #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         #     SONAR_HOST: ${{ secrets.SONAR_URL }}
-    BUILD_AND_PUBLISH:
-        needs: Testing
-        runs-on: ubuntu-latest
-        steps:
-            - name: Code checkout
-              uses: actions/checkout@v4
             
 
-            - name: Build & Upload image to ECR
-              uses: appleboy/docker-ecr-action@master
-              with:
-                access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                registry: ${{ secrets.REGISTRY }}
-                repo: ${{env.ECR_REPOSITORY}}
-                tags: latest, ${{github.run_number}}
-                region: ${{env.AWS_REGION}}
-                daemon_off: false
-                dockerfile: ./backend/Dockerfile
-                context: ./backend
+      - name: Build & Upload image to ECR
+        uses: appleboy/docker-ecr-action@master
+        with:
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry: ${{ secrets.REGISTRY }}
+          repo: ${{env.ECR_REPOSITORY}}
+          tags: latest, ${{github.run_number}}
+          region: ${{env.AWS_REGION}}
+          daemon_off: false
+          dockerfile: ./backend/Dockerfile
+          context: ./backend
 
     DEPLOY:
-        needs: BUILD_AND_PUBLISH
+        needs: Testing
         runs-on: ubuntu-latest
         steps:
             - name: Code checkout
