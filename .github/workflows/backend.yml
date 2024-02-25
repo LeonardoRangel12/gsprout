@@ -8,7 +8,7 @@ env:
     AWS_REGION: us-west-1
     ECR_REPOSITORY: hackathon_back
     ECS_CLUSTER: hackathon
-    ECS_SERVICE: backend
+    ECS_SERVICE: backend_hackathon
     ECS_TD: hackathon_back_td
 
     MONGODB_DATABASE_NAME: ${{ secrets.MONGODB_DATABASE_NAME }}
