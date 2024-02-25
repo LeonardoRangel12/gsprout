@@ -19,7 +19,7 @@
                             <span class="flex items-center mr-4">
     <span class="text-white font-bold text-lg">{{ game.precio }}</span>
     <span class="ml-2"></span>
-    <span class="text-gradient text-xs">SOL</span>
+    <span class="text-gradient text-xl">SOL</span>
 </span>
 
                             <span class="text-blue-500 font-bold mr-4">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</span>
