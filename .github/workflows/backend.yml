@@ -41,7 +41,7 @@ jobs:
               working-directory: ./backend
               run: |
                 npm install
-                npm run build
+                npx webpack --mode production
 
             # # Setup sonar-scanner
             # - name: Set up SonarQube
@@ -85,7 +85,7 @@ jobs:
                 tags: latest, ${{github.run_number}}
                 region: ${{env.AWS_REGION}}
                 daemon_off: false
-                dockerfile: ./Dockerfile
+                dockerfile: ./backend/Dockerfile
                 context: ./backend
 
     DEPLOY:

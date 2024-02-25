@@ -71,7 +71,7 @@ jobs:
                 tags: latest, ${{github.run_number}}
                 region: ${{env.AWS_REGION}}
                 daemon_off: false
-                dockerfile: ./Dockerfile
+                dockerfile: ./frontend/Dockerfile
                 context: ./frontend
 
     DEPLOY:
