@@ -13,7 +13,6 @@
           <li><router-link class="hover:text-gray-200" to="/main">Inicio</router-link></li>
           <li><router-link class="hover:text-gray-200" to="/Store">Tienda</router-link></li>
           <li><router-link class="hover:text-gray-200" to="/auctions">Subastas</router-link></li>
-          <li><router-link class="hover:text-gray-200" to="/intercambios">Intercambios</router-link></li>
         </ul>
         <!-- Header Icons -->
         <div class="hidden xl:flex items-center space-x-5 items-center">
