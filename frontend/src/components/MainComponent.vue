@@ -20,17 +20,17 @@
               class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto transition duration-300 ease-in-out">
               <div class="flex justify-between items-center">
                 <div class="text-gray-400">
-                  <span class="text-lg uppercase tracking-wide">Comprar</span> 
+                  <span class="text-lg uppercase tracking-wide">Comprar</span>
                 </div>
 
                 <div class="text-gray-400 flex items-center">
                   <span class="mr-1 text-lg">{{ game.precio }}</span>
-                  <span class="text-lg text-gradient">SOL</span>  
+                  <span class="text-lg text-gradient">SOL</span>
                 </div>
 
                 <p class="text-lg text-gray-400">
-                  {{(game.precio * SOL_TO_USD_RATE).toFixed(2)}} USD
-                </p>  
+                  {{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD
+                </p>
               </div>
             </button>
 
@@ -74,13 +74,13 @@ export default {
     await this.getJuegos();
   },
   methods: {
-    async getExchange(){
-      try{
+    async getExchange() {
+      try {
         const res = await axios.get('/exchange');
         console.log(res);
         this.SOL_TO_USD_RATE = res.data.sell;
       }
-      catch(error){
+      catch (error) {
         console.error(error);
       }
     },

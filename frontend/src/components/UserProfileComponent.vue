@@ -152,7 +152,6 @@ export default {
     },
     async updateDescription() {
       try {
-        const response = await axios.put('/usuarios/me', { descripcion: this.newDescription });
         this.user.descripcion = this.newDescription;
         this.closeModal();
       } catch (error) {

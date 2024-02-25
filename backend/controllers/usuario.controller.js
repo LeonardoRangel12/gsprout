@@ -69,7 +69,7 @@ const updateUsuario = async (req, res) => {
   if (error) {
     return res.status(400).send(error.details);
   }
-
+  
   try {
     const usuario = await usuarioService.updateUsuario(req.params.email, value);
     return res.status(200).send(usuario);

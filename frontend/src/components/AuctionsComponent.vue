@@ -7,18 +7,6 @@
           <h2 class="font-semibold">Juegos en Subasta</h2>
           <span class="text-xs">Todos los juegos disponibles</span>
         </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex bg-gray-800 items-center p-2 rounded-md">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-            </svg>
-            <input class="bg-gray-800 outline-none ml-1 block text-white" type="text" name="" id="" placeholder="Buscar...">
-          </div>
-          <div class="space-x-4">
-            <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Nuevo Reporte</button>
-            <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Crear</button>
-          </div>
-        </div>
       </div>
       <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">

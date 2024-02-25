@@ -4,23 +4,8 @@
     <div class="p-8 rounded-md w-full">
       <div class="flex items-center justify-between pb-6">
         <div>
-          <h2 class="font-semibold">Juegos en Subasta</h2>
+          <h2 class="font-semibold">Tienda</h2>
           <span class="text-xs">Todos los juegos disponibles</span>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div class="flex bg-gray-800 items-center p-2 rounded-md">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd" />
-            </svg>
-            <input class="bg-gray-800 outline-none ml-1 block text-white" type="text" name="" id=""
-              placeholder="Buscar...">
-          </div>
-          <div class="space-x-4">
-            <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Nuevo Reporte</button>
-            <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Crear</button>
-          </div>
         </div>
       </div>
       <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -34,10 +19,6 @@
                 </th>
                 <th
                   class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Descripción
-                </th>
-                <th
-                  class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
                   Precio
                 </th>
                 <th
@@ -46,11 +27,10 @@
                 </th>
                 <th
                   class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Tiempo Restante
+                  
                 </th>
                 <th
                   class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Estado
                 </th>
               </tr>
             </thead>
@@ -68,9 +48,6 @@
                   </div>
                 </td>
                 <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.descripcion }}</p>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
                   <p class="text-gray-300 whitespace-no-wrap">{{ juego.precio }} SOL</p>
                   <p class="text-gray-300 whitespace-no-wrap">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
                 </td>
@@ -78,12 +55,8 @@
                   <p class="text-gray-300 whitespace-no-wrap">{{ juego.vendedor || 'gsprout' }}</p>
                 </td>
                 <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.remainingTime }}</p>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <span v-if="juego.activo"
-                    class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Activo</span>
-                  <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactivo</span>
+                  <button type="submit" @click="switchToBuy(juego._id)"
+                    class="py-1 px-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500">Comprar</button>
                 </td>
               </tr>
             </tbody>
@@ -114,7 +87,6 @@ export default {
   async created() {
     await this.getJuegos();
     await this.getExchange();
-    this.setRandomRemainingTime();
   },
   methods: {
     async getJuegos() {
@@ -137,15 +109,13 @@ export default {
         console.error('Error al obtener el tipo de cambio:', error);
       }
     },
-    setRandomRemainingTime() {
-      this.juegos.forEach(juego => {
-        const totalSeconds = Math.floor(Math.random() * ((10 * 60) - (5 * 60) + 1)) + (5 * 60);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        juego.remainingTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      });
-    }
+    switchToBuy(gameid) {
+      // Redirect the user to the registration page
+      this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
+    },
   }
 };
 </script>
-<style scoped>/* Estilos específicos para este componente van aquí */</style>
+<style scoped>
+/* Estilos específicos para este componente van aquí */
+</style>

@@ -48,12 +48,12 @@ async function getUsuarioById(email) {
   return result;
 }
 
-async function updateUsuario(userEmail, data) {
+async function updateUsuario(id, data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const updateFields = { $set: data };
     const result = await dbCon
       .collection("users")
-      .updateOne({ email: userEmail }, updateFields);
+      .updateOne({ _id: new ObjectId(id) }, updateFields);
 
     return result;
   });
