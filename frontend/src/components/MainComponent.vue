@@ -1,13 +1,14 @@
 <template>
   <div class="bg-gray-900 text-white">
-    <Navbar  />
-    <Hero  />
-    
+    <Navbar />
+    <Hero />
+
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
         <h2 class="text-3xl font-bold mb-6 text-center">Featured Games</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          <div v-for="game in featuredGames" :key="game._id" class="game-card bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col justify-between h-full">
+          <div v-for="game in featuredGames" :key="game._id"
+            class="game-card bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col justify-between h-full">
             <div>
               <img :src="game.imagen" :alt="game.nombre + ' Image'" class="game-image h-64 w-full object-cover" />
               <div class="p-4">
@@ -22,14 +23,15 @@
                 </div>
               </div>
             </div>
-            <button type="submit" @click="switchToBuy(game._id)" class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto">Comprar</button>
+            <button type="submit" @click="switchToBuy(game._id)"
+              class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto">Comprar</button>
           </div>
         </div>
       </section>
     </div>
-    <NewGames />  
-
+    <NewGames />
     <Footer />
+
   </div>
 </template>
 
@@ -43,10 +45,11 @@ import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    Navbar, 
+    Navbar,
     Footer,
     Hero,
     NewGames,
+
   },
   data() {
     return {
@@ -56,11 +59,11 @@ export default {
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
     };
   },
-  async created(){
+  async created() {
     await this.getJuegos();
   },
   methods: {
-    async getJuegos(){
+    async getJuegos() {
       const res = await axios.get('/juegos');
       this.games = res.data;
       // Limitar la cantidad de juegos mostrados a 12
@@ -85,9 +88,9 @@ export default {
 
 <style>
 .text-gradient {
-    background-image: linear-gradient(to right, #00FFA3, #03E1FF, #DC1FFF);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  background-image: linear-gradient(to right, #00FFA3, #03E1FF, #DC1FFF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 </style>
