@@ -45,6 +45,8 @@ jobs:
           npm i -g webpack-cli
           npm i webpack
           npm i webpack-cli
+          npm ci
+          npx webpack --config webpack.config.js
           webpack --config webpack.config.js
 
 
