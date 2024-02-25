@@ -4,7 +4,7 @@
     <Hero />
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
-        <h2 class="text-3xl font-bold mb-6 text-center">Featured Games</h2>
+        <h2 class="text-3xl font-bold mb-6 text-center">Juegos Destacados</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <div v-for="game in featuredGames" :key="game._id"
             class="game-card bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col justify-between h-full">
@@ -19,14 +19,18 @@
             <button type="submit" @click="switchToBuy(game._id)"
               class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto transition duration-300 ease-in-out">
               <div class="flex justify-between items-center">
-                <div class="text-gray-400 flex items-center">
-                  <span class="text-lg uppercase tracking-wide">Comprar</span>
-                  <span class="mr-1 text-lg">{{ game.precio }}</span>
-                  <span class="text-lg text-gradient">SOL</span>
+                <div class="text-gray-400">
+                  <span class="text-lg uppercase tracking-wide">Comprar</span> 
                 </div>
+
+                <div class="text-gray-400 flex items-center">
+                  <span class="mr-1 text-lg">{{ game.precio }}</span>
+                  <span class="text-lg text-gradient">SOL</span>  
+                </div>
+
                 <p class="text-lg text-gray-400">
-                  {{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD
-                </p>
+                  {{(game.precio * SOL_TO_USD_RATE).toFixed(2)}} USD
+                </p>  
               </div>
             </button>
 
