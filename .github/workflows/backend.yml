@@ -26,7 +26,7 @@ jobs:
       continue-on-error: true
       strategy:
         matrix:
-          node-version: [17.x 18.x, 19.x, 20.x, 21.x]
+          node-version: [17.x, 18.x, 19.x, 20.x, 21.x]
   
       steps:
       - uses: actions/checkout@v3
@@ -36,18 +36,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Npm install
+        uses: anna-money/github-actions-npm@v4
+        with:
+          target: backend
+
       - name: Build
-        working-directory: ./backend
-        run: |
-          npm install
-          npm cache clean --force
-          npm i -g webpack
-          npm i -g webpack-cli
-          npm i -D webpack
-          npm i -D webpack-cli
-          npm ci
-          npx webpack --config webpack.config.js
-          webpack --config webpack.config.js
+        working-directory: backend
+        run: npm run build
+
 
 
         # # Setup sonar-scanner
