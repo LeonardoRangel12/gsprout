@@ -1,117 +1,113 @@
 <template>
-    <section class="bg-gray-900 text-white">
-        <Navbar />
-        <div class="subastas-section py-8">
-            <h2 class="text-2xl font-bold mb-4">Subastas</h2>
-            <p class="mb-6 text-gray-400">Explora nuestras emocionantes subastas. ¡Haz tu oferta antes de que el tiempo se
-                agote!</p>
-            <ul class="grid grid-cols-1 md:grid-cols-5 gap-6 p-10">
-                <li v-for="item in subastas" :key="item.id" class="bg-gray-800 rounded-lg shadow-md">
-                    <div class="p-6">
-                        <span class="text-gray-300 text-4xl font-semibold">{{ item.counter }}</span>
-                        <img :src="item.image" alt="Imagen de subasta" class="w-32 h-32 object-cover mt-4">
-                        <h3 class="text-lg font-semibold my-4">{{ item.name }}</h3>
-                        <p class="text-gray-400 mb-4">{{ item.description }}</p>
-                        <div class="flex justify-between">
-                            <p class="text-gray-300 font-semibold">{{ item.price }}</p>
-                            <p class="text-gray-300 font-semibold">{{ item.remainingTime }}</p>
-                        </div>
-                        <button class="bg-blue-500 text-white rounded-lg px-4 py-2 mt-4 font-semibold w-full">Pujar</button>
-                    </div>
-                </li>
-            </ul>
+  <div class="bg-gray-900 text-white">
+    <Navbar />
+    <div class="p-8 rounded-md w-full">
+      <div class="flex items-center justify-between pb-6">
+        <div>
+          <h2 class="font-semibold">Juegos en Subasta</h2>
+          <span class="text-xs">Todos los juegos disponibles</span>
         </div>
-        <Footer />
-    </section>
+        <div class="flex items-center space-x-4">
+          <div class="flex bg-gray-800 items-center p-2 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
+            <input class="bg-gray-800 outline-none ml-1 block text-white" type="text" name="" id="" placeholder="Buscar...">
+          </div>
+          <div class="space-x-4">
+            <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Nuevo Reporte</button>
+            <button class="bg-indigo-600 px-4 py-2 rounded-md font-semibold cursor-pointer">Crear</button>
+          </div>
+        </div>
+      </div>
+      <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+          <table class="min-w-full leading-normal">
+            <thead>
+              <tr>
+                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
+                  Nombre
+                </th>
+                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
+                  Descripción
+                </th>
+                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
+                  Precio
+                </th>
+                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
+                  Tiempo Restante
+                </th>
+                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
+                  Estado
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="juego in juegos" :key="juego.id" :class="{ 'bg-gray-700': juego.activo, 'bg-gray-900': !juego.activo }">
+                <td class="px-5 py-5 border-b border-gray-800 text-sm">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 w-10 h-10">
+                      <img class="w-full h-full rounded-full" :src="juego.imagen" :alt="juego.nombre" />
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-gray-300 whitespace-no-wrap">{{ juego.nombre }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-5 border-b border-gray-800 text-sm">
+                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.descripcion }}</p>
+                </td>
+                <td class="px-5 py-5 border-b border-gray-800 text-sm">
+                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.precio }}</p>
+                </td>
+                <td class="px-5 py-5 border-b border-gray-800 text-sm">
+                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.remainingTime }}</p>
+                </td>
+                <td class="px-5 py-5 border-b border-gray-800 text-sm">
+                  <span v-if="juego.activo" class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Activo</span>
+                  <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactivo</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <Footer />
+  </div>
 </template>
-  
+
 <script>
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
+import axios from 'axios'; // Importa Axios
 
 export default {
-    components: {
-        Navbar,
-        Footer,
-    },
-    name: 'SubastasSection',
-    data() {
-        return {
-            subastas: [
-                {
-                    id: 1,
-                    image: 'https://picsum.photos/200',
-                    name: 'Producto 1',
-                    description: 'Descripción del producto 1',
-                    price: '$100',
-                    remainingTime: '10:00',
-                },
-                {
-                    id: 2,
-                    image: 'https://picsum.photos/200',
-                    name: 'Producto 2',
-                    description: 'Descripción del producto 2',
-                    price: '$150',
-                    remainingTime: '08:30',
-                },
-                {
-                    id: 3,
-                    image: 'https://picsum.photos/200',
-                    name: 'Producto 3',
-                    description: 'Descripción del producto 3',
-                    price: '$200',
-                    remainingTime: '06:45',
-                },
-                {
-                    id: 4,
-                    image: 'https://picsum.photos/200',
-                    name: 'Producto 4',
-                    description: 'Descripción del producto 4',
-                    price: '$250',
-                    remainingTime: '04:20',
-                },
-                {
-                    id: 5,
-                    image: 'https://picsum.photos/200',
-                    name: 'Producto 5',
-                    description: 'Descripción del producto 5',
-                    price: '$300',
-                    remainingTime: '02:15',
-                },
-            ],
-        };
-    },
-    created() {
-        this.startCountdown();
-    },
-    methods: {
-        startCountdown() {
-            setInterval(() => {
-                this.subastas.forEach((item) => {
-                    const time = item.remainingTime.split(':');
-                    let minutes = parseInt(time[0]);
-                    let seconds = parseInt(time[1]);
-                    if (seconds > 0 || minutes > 0) {
-                        if (seconds === 0) {
-                            minutes--;
-                            seconds = 59;
-                        } else {
-                            seconds--;
-                        }
-                        item.remainingTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    }
-                });
-            }, 1000);
-        },
-    },
+  components: {
+    Navbar,
+    Footer
+  },
+  data() {
+    return {
+      juegos: [] // Inicializa juegos como un array vacío
+    };
+  },
+  async created() {
+    await this.getJuegos(); // Llama a la función getJuegos al crear el componente
+  },
+  methods: {
+    async getJuegos() {
+      try {
+        const response = await axios.get('/juegos'); // Hace una solicitud GET a '/juegos'
+        this.juegos = response.data; // Asigna los datos de la respuesta a la variable juegos
+      } catch (error) {
+        console.error('Error al obtener juegos:', error); // Manejo de errores
+      }
+    }
+  }
 };
 </script>
-  
+
 <style scoped>
-/* Estilos CSS personalizados para este componente */
-.subastas-section {
-    max-width: 1200px;
-    margin: 0 auto;
-}
+/* Estilos específicos para este componente van aquí */
 </style>
-  
