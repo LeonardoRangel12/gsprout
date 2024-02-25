@@ -1,8 +1,8 @@
 const juegoService = require("../services/juego.service.js");
 const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
-const { validateTransfer, findReference } = require("@solana/pay");
+const { validateTransfer, findReference, encodeURL } = require("@solana/pay");
 const BigNumber = require("bignumber.js");
-const QRCode = require('qrcode'); // Importamos la librería qrcode
+const QRCode = require("qrcode"); // Importamos la librería qrcode
 
 // CONSTANTS
 const destinyWallet = process.env.WALLET;
@@ -12,12 +12,18 @@ const quickNodeEndpoint = process.env.QUICKNODE_URL;
 const paymentRequests = new Map();
 
 async function generateUrl(recipient, amount, reference, label, message, memo) {
-  const url = `https://example.com/pay?recipient=${recipient.toString()}&amount=${amount.toString()}&reference=${reference.toString()}&label=${label}&message=${message}&memo=${memo}`;
+  const url = encodeURL({
+    recipient,
+    amount,
+    reference,
+    label,
+    message,
+    memo,
+  });
   return { url };
 }
 
 const generatePayment = async (req, res) => {
-
   /*
   This function will generate a payment request for the user
   Will use the juego id to get the juego and the price
@@ -53,10 +59,11 @@ const generatePayment = async (req, res) => {
     const { url } = urlData;
 
     // Generamos el código QR con la URL
-    const qrCodeDataUrl = await QRCode.toDataURL(url);
+    // const qrCodeDataUrl = await QRCode.toDataURL(url);
 
-    return res.status(200).send({ url: qrCodeDataUrl, ref });
+    return res.status(200).send({ url: url, ref });
   } catch (error) {
+    console.log(error);
     return res.status(500).send("Internal Server Error");
   }
 };
@@ -111,7 +118,7 @@ async function verifyTransaction(reference) {
   if (response) {
     paymentRequests.delete(reference.toBase58());
   }
-};
+}
 
 module.exports = {
   verifyPayment,
