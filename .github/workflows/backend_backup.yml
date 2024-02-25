@@ -1,0 +1,68 @@
+name: backend deploy
+on: 
+  push:
+
+      paths:
+      - 'backend/**'
+env:
+    AWS_REGION: us-west-1
+    ECR_REPOSITORY: hackathon_back
+    ECS_CLUSTER: hackathon
+    ECS_SERVICE: backend
+    ECS_TD: hackathon_back_td
+
+    MONGODB_DATABASE_NAME: ${{ secrets.MONGODB_DATABASE_NAME }}
+    MONGODB_URI: ${{ secrets.MONGODB_URI }}
+    QUICKNODE_URL: ${{ secrets.QUICKNODE_URL }}
+    SECRET: ${{ secrets.SECRET }}
+    WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
+    NODE_ENV: production
+    # PORT: ${{ vars.PORT }}
+    # NODE_ENV: ${{ vars.NODE_ENV }}
+
+jobs:
+    BUILD_AND_PUBLISH:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+            
+
+            - name: Build & Upload image to ECR
+              uses: appleboy/docker-ecr-action@master
+              with:
+                access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                registry: ${{ secrets.REGISTRY }}
+                repo: ${{env.ECR_REPOSITORY}}
+                tags: latest, ${{github.run_number}}
+                region: ${{env.AWS_REGION}}
+                daemon_off: false
+                dockerfile: ./backend/Dockerfile
+                context: ./backend
+
+    DEPLOY:
+        needs: BUILD_AND_PUBLISH
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{env.AWS_REGION}}
+
+            - name: Deploy to ECS
+              id: task-def
+              uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+              with:
+                task-definition: ${{env.ECS_TD}}
+                service: ${{env.ECS_SERVICE}}
+                cluster: ${{env.ECS_CLUSTER}}
+                wait-for-service-stability: true
+
+              
+
