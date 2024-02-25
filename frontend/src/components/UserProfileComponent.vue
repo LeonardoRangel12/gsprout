@@ -8,7 +8,7 @@
                         <div class="flex flex-col items-center">
                             <img src="https://randomuser.me/api/portraits/men/94.jpg"
                                 class="w-32 h-32 bg-gray-300 rounded-full mb-4 shadow-md" />
-                            <h1 class="text-2xl font-bold text-white">{{user.nombre}}</h1>
+                            <h1 class="text-2xl font-bold text-white">{{ user.nombre }}</h1>
                             <div class="mt-2 text-sm text-gray-400">Nivel 15</div>
                             <div class="mt-4 flex justify-center">
                                 <a href="#" class="bg-indigo-600 hover:bg-blue-600 text-white py-2 px-6 rounded">Agregar
@@ -23,7 +23,7 @@
                             </div>
                             <div class="flex justify-between mb-2">
                                 <div class="text-gray-400">Horas de Juego:</div>
-                                <div class="font-semibold">{{user.horas_juego}}</div>
+                                <div class="font-semibold">{{ user.horas_juego }}</div>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <div class="text-gray-400">Logros Desbloqueados:</div>
@@ -43,7 +43,7 @@
                 <div class="col-span-1 sm:col-span-9">
                     <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-white">Sobre mí</h2>
-                        <p class="text-gray-400">{{user.descripcion}}</p>
+                        <p class="text-gray-400">{{ user.descripcion }}</p>
                     </div>
                     <div class="mt-6">
                         <h2 class="text-2xl font-bold mb-4 text-white">Últimas Noticias</h2>
@@ -88,13 +88,14 @@ export default {
                 this.user.nombre = response.data.nombre;
                 this.user.descripcion = response.data.descripcion;
                 this.user.horas_juego = response.data.horas_juego;
-                console.log("blob");
-                console.log(response.data);
-                console.log(this.user.nombre);
             } catch (error) {
-                console.error(error);
+                if (error.response && error.response.status === 401) {
+                    this.$router.push('/');
+                } else {
+                    console.error(error);
+                }
             }
-        }
+        },
     }
 };
 </script>

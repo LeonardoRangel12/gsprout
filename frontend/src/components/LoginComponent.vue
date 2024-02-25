@@ -69,13 +69,15 @@ const formData = ref({
 });
 
 const loading = ref(false);
-
+console.log(router);
+if(router.currentRoute.value.query.registered){
+        alert('Usuario registrado correctamente');
+}
 const login = async () => {
     if (!formData.value.email || !formData.value.username || !formData.value.password) {
         console.warn('Por favor, completa todos los campos del formulario.');
         return;
     }
-
     try {
         loading.value = true; // Mostrar el círculo de carga
         const response = await axios.post('/usuarios/login', {
@@ -88,7 +90,6 @@ const login = async () => {
             // Redireccionar al usuario a la página deseada después del inicio de sesión
             router.push('/main'); // Cambia '/dashboard' a la ruta que desees
         }
-
         loading.value = false; // Ocultar el círculo de carga después de recibir una respuesta
     } catch (error) {
         console.error('Hubo un error en la solicitud:', error);
