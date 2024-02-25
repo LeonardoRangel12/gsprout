@@ -90,14 +90,21 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{env.AWS_REGION}}
 
+            - name: Get task definition
+              run: |
+                aws ecs describe-task-definition --task-definition ${{env.ECS_TD}} --query taskDefinition > ${{env.ECS_TD}}.json
+
             - name: Deploy to ECS
               id: task-def
               uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
               with:
-                task-definition: ${{env.ECS_TD}}
+                task-definition: ${{env.ECS_TD}}.json
                 service: ${{env.ECS_SERVICE}}
                 cluster: ${{env.ECS_CLUSTER}}
                 wait-for-service-stability: true
+
+            - name: Force new deployment
+              run: aws ecs update-service --cluster ${{env.ECS_CLUSTER}} --service ${{env.ECS_SERVICE}} --force-new-deployment
 
               
 
