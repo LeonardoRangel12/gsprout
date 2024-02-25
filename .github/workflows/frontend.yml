@@ -28,7 +28,7 @@ jobs:
               run: npm install
 
             - name: Node build
-              working-directory: ./backend
+              working-directory: ./frontend
               run: npm run build
 
             # # Setup sonar-scanner

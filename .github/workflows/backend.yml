@@ -16,6 +16,7 @@ env:
     QUICKNODE_URL: ${{ secrets.QUICKNODE_URL }}
     SECRET: ${{ secrets.SECRET }}
     WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
+    NODE_ENV: production
     # PORT: ${{ vars.PORT }}
     # NODE_ENV: ${{ vars.NODE_ENV }}
 
