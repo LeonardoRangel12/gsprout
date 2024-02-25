@@ -10,6 +10,7 @@ import MainComponentVue from './components/MainComponent.vue';
 import SolanaPayComponentVue from './components/SolanaPayComponent.vue';
 import UserProfileComponentVue from './components/UserProfileComponent.vue';
 import Auctions from './components/AuctionsComponent.vue';
+import StoreComponentVue from './components/StoreComponent.vue';
 
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data';
@@ -24,6 +25,7 @@ const routes = [
   { path: '/solanaPay', component: SolanaPayComponentVue },
   { path: '/profile', component: UserProfileComponentVue },
   { path: '/auctions', component: Auctions },
+  { path: '/store', component: StoreComponentVue }
 ];
 
 const router = createRouter({
