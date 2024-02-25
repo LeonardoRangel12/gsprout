@@ -150,6 +150,8 @@ async function addToDeseados(idusuario, idjuego) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     if (!await getUsuarioById(idusuario)){
       result = await createUsuario(idusuario, idjuego);
+    }else{
+      
     }
     const updateFields = { $set: data };
     const result = await dbCon
