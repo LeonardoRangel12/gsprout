@@ -19,14 +19,18 @@
             <button type="submit" @click="switchToBuy(game._id)"
               class="block w-full py-2 px-4 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 mt-auto transition duration-300 ease-in-out">
               <div class="flex justify-between items-center">
-                <div class="text-gray-400 flex items-center">
-                  <span class="text-lg uppercase tracking-wide">Comprar</span>
-                  <span class="mr-1 text-lg">{{ game.precio }}</span>
-                  <span class="text-lg text-gradient">SOL</span>
+                <div class="text-gray-400">
+                  <span class="text-lg uppercase tracking-wide">Comprar</span> 
                 </div>
+
+                <div class="text-gray-400 flex items-center">
+                  <span class="mr-1 text-lg">{{ game.precio }}</span>
+                  <span class="text-lg text-gradient">SOL</span>  
+                </div>
+
                 <p class="text-lg text-gray-400">
-                  {{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }} USD
-                </p>
+                  {{(game.precio * SOL_TO_USD_RATE).toFixed(2)}} USD
+                </p>  
               </div>
             </button>
 
