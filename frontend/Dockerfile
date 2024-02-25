@@ -1,5 +1,5 @@
 FROM node:18.18.0 AS build
-WORKDIR /
+WORKDIR /frontend
 RUN npm i && npm run build
 
 FROM nginx:alpine
