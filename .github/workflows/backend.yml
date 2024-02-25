@@ -22,48 +22,49 @@ env:
 
 jobs:
     Testing:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Code checkout
-              uses: actions/checkout@v4
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [14.x, 16.x, 18.x]
+  
+      steps:
+      - uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: '18.x'
-                      
-            - name: Build
-              working-directory: ./backend
-              run: |
-                  npm install --global webpack@5.89.0 webpack-cli@5.1.4
-                  npm ci
-                  webpack --mode=production --config webpack.config.js
-                  npm run build
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-            # # Setup sonar-scanner
-            # - name: Set up SonarQube
-            #   uses: warchant/setup-sonar-scanner@v7
+      - name: Build
+        run: |
+          npm install
+          npx webpack
 
-            # - name: SonarQube Scan
-            #   run: sonar-scanner
-            #         -Dsonar.host.url=${{ secrets.SONAR_URL }}
-            #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            #         -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            #         -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            #         -Dsonar.sources=src/
-            #         -Dsonar.junit.reportsPath=target/surefire-reports/ 
-            #         -Dsonar.jacoco.reportsPath=target/jacoco.exec 
-            #         -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
-            #         -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/  
 
-            # - name: SonarQube quality gate check
-            #   id: sonarqube-quality-gate
-            #   uses: sonarsource/sonarqube-quality-gate-action@master
-            #   # Force timeout
-            #   timeout-minutes: 5
-            #   env:
-            #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            #     SONAR_HOST: ${{ secrets.SONAR_URL }}
+        # # Setup sonar-scanner
+        # - name: Set up SonarQube
+        #   uses: warchant/setup-sonar-scanner@v7
+
+        # - name: SonarQube Scan
+        #   run: sonar-scanner
+        #         -Dsonar.host.url=${{ secrets.SONAR_URL }}
+        #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        #         -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+        #         -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+        #         -Dsonar.sources=src/
+        #         -Dsonar.junit.reportsPath=target/surefire-reports/ 
+        #         -Dsonar.jacoco.reportsPath=target/jacoco.exec 
+        #         -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+        #         -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/  
+
+        # - name: SonarQube quality gate check
+        #   id: sonarqube-quality-gate
+        #   uses: sonarsource/sonarqube-quality-gate-action@master
+        #   # Force timeout
+        #   timeout-minutes: 5
+        #   env:
+        #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #     SONAR_HOST: ${{ secrets.SONAR_URL }}
     BUILD_AND_PUBLISH:
         needs: Testing
         runs-on: ubuntu-latest
