@@ -8,7 +8,7 @@
                         <div class="flex flex-col items-center">
                             <img src="https://randomuser.me/api/portraits/men/94.jpg"
                                 class="w-32 h-32 bg-gray-300 rounded-full mb-4 shadow-md" />
-                            <h1 class="text-2xl font-bold text-white">John Doe</h1>
+                            <h1 class="text-2xl font-bold text-white">{{user.nombre}}</h1>
                             <div class="mt-2 text-sm text-gray-400">Nivel 15</div>
                             <div class="mt-4 flex justify-center">
                                 <a href="#" class="bg-indigo-600 hover:bg-blue-600 text-white py-2 px-6 rounded">Agregar
@@ -19,11 +19,11 @@
                         <div class="text-white">
                             <div class="flex justify-between mb-2">
                                 <div class="text-gray-400">Juego Favorito:</div>
-                                <div class="font-semibold">The Witcher 3</div>
+                                <div class="font-semibold">Jesucristo</div>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <div class="text-gray-400">Horas de Juego:</div>
-                                <div class="font-semibold">250 horas</div>
+                                <div class="font-semibold">{{user.horas_juego}}</div>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <div class="text-gray-400">Logros Desbloqueados:</div>
@@ -43,12 +43,7 @@
                 <div class="col-span-1 sm:col-span-9">
                     <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-white">Sobre mí</h2>
-                        <p class="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est
-                            vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas
-                            suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus
-                            et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in
-                            luctus risus rhoncus id.
-                        </p>
+                        <p class="text-gray-400">{{user.descripcion}}</p>
                     </div>
                     <div class="mt-6">
                         <h2 class="text-2xl font-bold mb-4 text-white">Últimas Noticias</h2>
@@ -68,11 +63,38 @@
 <script>
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-
+import axios from '../main';
 export default {
     components: {
         Navbar,
         Footer
+    },
+    data() {
+        return {
+            user: {
+                nombre: '',
+                descripcion: '',
+                horas_juego: 0,
+            },
+        }
+    },
+    async created() {
+        await this.getUser();
+    },
+    methods: {
+        async getUser() {
+            try {
+                const response = await axios.get('/usuarios/me');
+                this.user.nombre = response.data.nombre;
+                this.user.descripcion = response.data.descripcion;
+                this.user.horas_juego = response.data.horas_juego;
+                console.log("blob");
+                console.log(response.data);
+                console.log(this.user.nombre);
+            } catch (error) {
+                console.error(error);
+            }
+        }
     }
 };
 </script>
