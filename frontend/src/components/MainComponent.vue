@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-900 text-white">
-    <Navbar class="z-50 relative" /> <!-- Aquí se incluye el componente Navbar -->
-    <Hero class="relative z-40" /> <!-- Aquí se incluye el componente Hero -->
+    <Navbar class="z-50 relative" />
+    <Hero class="relative z-40" />
     
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
@@ -18,8 +18,9 @@
         </div>
       </section>
     </div>
+    <NewGames />  
 
-    <Footer /> <!-- Aquí se incluye el componente Footer -->
+    <Footer />
   </div>
 </template>
 
@@ -27,14 +28,16 @@
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import Hero from './HeroComponent.vue';
+import NewGames from './NewGamesComponent.vue';
 import axios from '../main';
 import { useRouter } from 'vue-router';
-const router = useRouter();
+
 export default {
   components: {
     Navbar, 
     Footer,
-    Hero
+    Hero,
+    NewGames,
   },
   data() {
     return {
@@ -50,7 +53,8 @@ export default {
     async getJuegos(){
       const res = await axios.get('/juegos');
       this.games = res.data;
-      this.featuredGames = this.games;
+      // Limitar la cantidad de juegos mostrados a 12
+      this.featuredGames = this.games.slice(0, 12);
       this.newGames = this.games;
 
     },

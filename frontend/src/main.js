@@ -13,6 +13,7 @@ import Auctions from './components/AuctionsComponent.vue';
 import StoreComponentVue from './components/StoreComponent.vue';
 import GameViewComponentVue from './components/GameViewComponent.vue';
 import WishList from './components/WishListComponent.vue';
+import NewGameComponentVue from './components/NewGamesComponent.vue';
 
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers['Content-Type'] = 'multipart/form-data';
@@ -29,7 +30,8 @@ const routes = [
   { path: '/auctions', component: Auctions },
   { path: '/store', component: StoreComponentVue },
   { path: '/gameView', component: GameViewComponentVue },
-  { path: '/wishlist', component: WishList }
+  { path: '/wishlist', component: WishList },
+  { path: '/newgame', component: NewGameComponentVue }
 ];
 
 const router = createRouter({
