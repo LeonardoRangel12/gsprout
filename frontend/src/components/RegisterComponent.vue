@@ -52,7 +52,7 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios';
+import axios from '../main';
 import { useRouter } from 'vue-router';
 
 export default {
