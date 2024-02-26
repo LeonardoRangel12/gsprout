@@ -5,8 +5,9 @@ const encrypt = async function (data) {
   if (process.env.NODE_ENV === "development") return data;
   //   If the environment is production, encrypt the data using the SECRET environment variable
   if (process.env.NODE_ENV === "production") {
-    const SECRET = process.env.SECRET;
-    return await crypto.AES.encrypt(data, SECRET).toString();
+    return data;
+    // const SECRET = process.env.SECRET;
+    // return await crypto.AES.encrypt(data, SECRET).toString();
   }
 };
 
@@ -15,8 +16,9 @@ const decrypt = async function (data) {
   if (process.env.NODE_ENV === "development") return data;
   //   If the environment is production, decrypt the data using the SECRET environment variable
   if (process.env.NODE_ENV === "production") {
-    const SECRET = process.env.SECRET;
-    return await crypto.AES.decrypt(data, SECRET).toString(crypto.enc.Utf8);
+    return data;
+    // const SECRET = process.env.SECRET;
+    // return await crypto.AES.decrypt(data, SECRET).toString(crypto.enc.Utf8);
   }
 };
 
