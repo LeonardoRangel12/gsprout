@@ -91,24 +91,24 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{env.AWS_REGION}}
 
-            - name: Get task definition
-              id: get-task-def
-              if: ${{steps.configure_aws_credentials.outputs.status}} == 'success'
-              run: |
-                aws ecs describe-task-definition --task-definition ${{env.ECS_TD}} --region ${{env.AWS_REGION}} --query taskDefinition > ${{env.ECS_TD}}.json
+            # - name: Get task definition
+            #   id: get-task-def
+            #   if: ${{steps.configure_aws_credentials.outputs.status}} == 'success'
+            #   run: |
+            #     aws ecs describe-task-definition --task-definition ${{env.ECS_TD}} --region ${{env.AWS_REGION}} --query taskDefinition > ${{env.ECS_TD}}.json
 
-            - name: Deploy to ECS
-              if: ${{steps.get-task-def.outputs.status}} == 'success'
-              id: task-def
-              uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
-              with:
-                task-definition: ${{env.ECS_TD}}.json
-                service: ${{env.ECS_SERVICE}}
-                cluster: ${{env.ECS_CLUSTER}}
-                wait-for-service-stability: true
+            # - name: Deploy to ECS
+            #   if: ${{steps.get-task-def.outputs.status}} == 'success'
+            #   id: task-def
+            #   uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+            #   with:
+            #     task-definition: ${{env.ECS_TD}}.json
+            #     service: ${{env.ECS_SERVICE}}
+            #     cluster: ${{env.ECS_CLUSTER}}
+            #     wait-for-service-stability: true
 
             - name: Force new deployment
-              if: ${{steps.task-def.outputs.status}} == 'success'
+              # if: ${{steps.task-def.outputs.status}} == 'success'
               run: aws ecs update-service --cluster ${{env.ECS_CLUSTER}} --service ${{env.ECS_SERVICE}} --force-new-deployment
 
               
