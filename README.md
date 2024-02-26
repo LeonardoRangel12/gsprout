@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/QDzM74E.png" alt="Madeline" width="15" height="15">
+  <img src="https://i.imgur.com/QDzM74E.png" alt="Madeline" width="150" height="150">
 </p>
 
 ## About the Project
@@ -29,7 +29,7 @@ Building G'sprout presented its challenges. One major hurdle was integrating NFT
 Navigating regulatory and compliance issues in the rapidly evolving blockchain landscape was another challenge. Ensuring legal compliance and protecting user and partner interests required careful planning and collaboration with legal experts.
 
 Despite these challenges, our team remained resilient and determined, driven by our shared vision to create a transformative platform for gamers worldwide.
-<img src="https://i.imgur.com/qqeTACn.png" alt="Roadmap" width="150" height="150">
+<img src="https://i.imgur.com/qqeTACn.png" alt="Roadmap" >
 
 ### Milestone 1: Research and Planning
 - Market research on digital gaming and NFTs.
