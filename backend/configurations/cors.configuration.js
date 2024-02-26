@@ -2,7 +2,7 @@ let corsOptions = {};
 
 if (process.env.NODE_ENV === "production") {
   corsOptions = {
-    origin: "http://frontend",
+    origin: true,
     credentials: true,
   };
 }
