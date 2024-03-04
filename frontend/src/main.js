@@ -15,14 +15,22 @@ import GameViewComponentVue from './components/GameViewComponent.vue';
 import WishList from './components/WishListComponent.vue';
 import NewGameComponentVue from './components/NewGamesComponent.vue';
 
-if(process.env.NODE_ENV === 'development') 
-  axios.defaults.baseURL = 'http://localhost:3000/';
+let baseURL = '';
+if(process.env.NODE_ENV === 'development')
+  baseURL = 'http://localhost:3000/';
 if(process.env.NODE_ENV === 'production')
-  axios.defaults.baseURL = '/backend/';
-axios.defaults.headers['Content-Type'] = 'multipart/form-data';
-axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+  baseURL = '/backend/';
+
+const newAxios = axios.create({
+  baseURL: baseURL,
+  "Content-Type": 'multipart/form-data',
+  "Access-Control-Allow-Origin": '*',
+  "withCredentials": true
+})
+// axios.defaults.headers['Content-Type'] = 'multipart/form-data';
+// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 // axios.defaults.headers['HttpOnly'] = true;
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 const routes = [
   { path: '/', component: LoginComponentVue },
@@ -44,4 +52,4 @@ const router = createRouter({
 
 createApp(App).use(router).mount('#app');
 
-export default axios;
+export default newAxios;
