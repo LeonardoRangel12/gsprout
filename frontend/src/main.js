@@ -21,11 +21,16 @@ if(process.env.NODE_ENV === 'development')
 if(process.env.NODE_ENV === 'production')
   baseURL = '/backend/';
 
+const token = localStorage.getItem('token');
+
 const newAxios = axios.create({
   baseURL: baseURL,
   "Content-Type": 'multipart/form-data',
   "Access-Control-Allow-Origin": '*',
-  "withCredentials": true
+  "withCredentials": true,
+  headers:{
+    "Authorization": `${token}`
+  },
 })
 // axios.defaults.headers['Content-Type'] = 'multipart/form-data';
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';

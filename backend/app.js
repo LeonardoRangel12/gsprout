@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const env = require("dotenv").config();
-const session = require("express-session");
+// const session = require("express-session");
 app.set("trust proxy");
 
 // BODY PARSER
@@ -12,8 +12,9 @@ app.use(bodyParser.json());
 const corsOptions = require("./configurations/cors.configuration");
 app.use(cors(corsOptions));
 // MIDDLEWARES
-const sessionOptions = require("./configurations/session.configuration");
-app.use(session(sessionOptions));
+// const sessionOptions = require("./configurations/session.configuration");
+// app.use(session(sessionOptions));
+
 
 
 // ROUTES
