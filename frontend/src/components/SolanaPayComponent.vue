@@ -16,6 +16,7 @@
         <p>No QR code available</p>
       </div>
       <div class="mt-8">
+        <ConnectWalletButton></ConnectWalletButton>
         <button @click="handleGenerateClick" :disabled="qrLoading"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           {{ qrLoading ? 'Generating...' : 'Generate Solana Pay Order' }}
@@ -35,10 +36,11 @@ import axios from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-
+import { ConnectWalletButton } from 'vue-connect-wallet';
 export default {
   components: {
     Navbar,
+    ConnectWalletButton,
     Footer
   },
   data() {
