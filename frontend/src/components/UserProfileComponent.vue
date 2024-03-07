@@ -89,7 +89,7 @@
 <script>
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-import axios from 'axios';
+import axios from '../main';
 
 export default {
   components: {
@@ -123,6 +123,8 @@ export default {
     async getUser() {
       try {
         const response = await axios.get('/usuarios/me');
+        console.log(response);
+        console.log(response.data);
         this.user.username = response.data.username;
         this.user.nombre = response.data.nombre;
         this.user.descripcion = response.data.descripcion;

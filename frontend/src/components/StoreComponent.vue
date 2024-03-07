@@ -71,7 +71,7 @@
 <script>
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-import axios from 'axios';
+import axios from '../main';
 
 export default {
   components: {

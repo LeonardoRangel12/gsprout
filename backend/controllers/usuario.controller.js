@@ -1,7 +1,8 @@
+const jwtSchema = require("../models/jwt.model");
 const usuarioSchema = require("../models/usuario.model");
 const usuarioService = require("../services/usuario.service");
 const bcryptUtil = require("../utils/bcrypt.util");
-
+const jwtUtil = require("../utils/jwt.util");
 const createUsuario = async (req, res) => {
   // Validate request with JOI
   let { error, value } = usuarioSchema.validate(req.body);
@@ -30,7 +31,6 @@ const getUsuarios = async (req, res) => {
   // Get all users
   try {
     const usuarios = await usuarioService.getUsuarios();
-    console.log(usuarios)
     return res.status(200).send(usuarios);
   } catch (error) {
     return res.status(500).send(error);
@@ -40,17 +40,19 @@ const getUsuarios = async (req, res) => {
 const loginUsuario = async (req, res) => {
   try {
     // Get user by email
-    const usuario = await usuarioService.getUsuarioByEmail(req.body.email);
+    const { error, value } = jwtSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send(error.details);
+    }
+    const { email, password } = value;
+    const usuario = await usuarioService.getUsuarioByEmail(email);
     if (!usuario) return res.status(404).send("User not found");
     // Compare password
-    if (
-      !(await bcryptUtil.comparePassword(req.body.password, usuario.password))
-    )
+    if (!(await bcryptUtil.comparePassword(password, usuario.password)))
       return res.status(401).send("Invalid password");
 
-
-    req.session.usuario = usuario; 
-    return res.status(200).send(usuario);
+    const token = await jwtUtil.generateToken(usuario);
+    return res.status(200).json({ token });
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -69,7 +71,7 @@ const updateUsuario = async (req, res) => {
   if (error) {
     return res.status(400).send(error.details);
   }
-  
+
   try {
     const usuario = await usuarioService.updateUsuario(req.params.email, value);
     return res.status(200).send(usuario);
@@ -79,7 +81,7 @@ const updateUsuario = async (req, res) => {
 };
 
 const deleteUsuario = async (req, res) => {
-  if (!await usuarioService.getUsuarioByEmail(req.params.email)) {
+  if (!(await usuarioService.getUsuarioByEmail(req.params.email))) {
     return res.status(400).send("User does not exist");
   }
 
@@ -91,14 +93,17 @@ const deleteUsuario = async (req, res) => {
   }
 };
 
-const logoutUsuario = async (req, res) => {
-  req.session.destroy();
-  res.status(200).send("Logged out");
-};
+// EXPRESS-SESSION
+// const logoutUsuario = async (req, res) => {
+//   req.session.destroy();
+//   res.status(200).send("Logged out");
+// };
 
 const getUsuario = async (req, res) => {
-  if (req.session.usuario) {
-    const usuario = await usuarioService.getUsuarioByEmail(req.session.usuario.email);
+
+  const client = req.usuario;
+  if (client) {
+    const usuario = await usuarioService.getUsuarioByEmail(client.email);
     return res.status(200).send(usuario);
   }
   return res.status(404).send("User not found");
@@ -111,6 +116,6 @@ module.exports = {
   loginUsuario,
   updateUsuario,
   deleteUsuario,
-  logoutUsuario,
+  // logoutUsuario,
   getUsuario,
 };

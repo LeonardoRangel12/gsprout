@@ -87,6 +87,8 @@ const login = async () => {
         });
         // Si la respuesta es exitosa (código 200), redirige al usuario
         if (response.status === 200) {
+            // JWT
+            localStorage.setItem('token', response.data.token); // Guardar el token en el almacenamiento local
             // Redireccionar al usuario a la página deseada después del inicio de sesión
             router.push('/main'); // Cambia '/dashboard' a la ruta que desees
         }
