@@ -1,9 +1,8 @@
-// main.js
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import "./style.css";
 import App from "./App.vue";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import LoginComponentVue from "./components/LoginComponent.vue";
 import RegisterComponentVue from "./components/RegisterComponent.vue";
 import MainComponentVue from "./components/MainComponent.vue";
@@ -19,27 +18,23 @@ import NewGameComponentVue from "./components/NewGamesComponent.vue";
 import "./../node_modules/solana-wallets-vue/styles.css";
 // import {ConnectWalletButton} from "vue-connect-wallet";
 
-let baseURL = "";
+let baseURL: string = "";
 if (process.env.NODE_ENV === "development") baseURL = "http://localhost:3000/";
 if (process.env.NODE_ENV === "production") baseURL = "/backend/";
 
-const token = localStorage.getItem("token");
+const token: string | null = localStorage.getItem("token");
 
-const newAxios = axios.create({
+const newAxios: AxiosInstance = axios.create({
   baseURL: baseURL,
-  "Content-Type": "multipart/form-data",
-  "Access-Control-Allow-Origin": "*",
-  withCredentials: true,
   headers: {
     Authorization: `${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
   },
+  withCredentials: true,
 });
-// axios.defaults.headers['Content-Type'] = 'multipart/form-data';
-// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.headers['HttpOnly'] = true;
-// axios.defaults.withCredentials = true;
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   { path: "/", component: LoginComponentVue },
   { path: "/register", component: RegisterComponentVue },
   { path: "/main", component: MainComponentVue },
@@ -57,25 +52,6 @@ const router = createRouter({
   routes,
 });
 
-// // WALLET PLUGIN
-// import SolanaWallets from "solana-wallets-vue";
-
-// import "../node_modules/solana-wallets-vue/styles.css";
-
-// import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-
-// import {
-//   PhantomWalletAdapter,
-//   SlopeWalletAdapter,
-// } from "@solana/wallet-adapter-wallets";
-
-// const walletOptions = {
-//   wallets: [
-//     new PhantomWalletAdapter(),
-//     new SlopeWalletAdapter(),
-//   ],
-//   autoConnect: true,
-// };
 createApp(App).use(router).mount("#app");
 
 export default newAxios;
