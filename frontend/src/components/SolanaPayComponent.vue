@@ -66,14 +66,13 @@ export default {
   },
   async created() {
     await this.getExchange();
-
   },
   methods: {
     async handleGenerateClick() {
       try {
         this.qrLoading = true;
         const res = await axios.post(
-          "/solana/" + this.$router.currentRoute.value.query.id,
+          "/solana/pay/" + this.$router.currentRoute.value.query.id,
           {
             amount: this.price,
             currency: "SOL",
@@ -95,7 +94,7 @@ export default {
         return;
       }
       try {
-        const res = await axios.get("/solana/" + this.reference);
+        const res = await axios.get("/solana/pay/" + this.reference);
         if (res.status == 200 || res.status == 201) {
           alert("Transaction verified");
         } else {
