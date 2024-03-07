@@ -16,9 +16,8 @@ import WishList from "./components/WishListComponent.vue";
 import NewGameComponentVue from "./components/NewGamesComponent.vue";
 
 // CONNECT WALLET
-import "./../node_modules/vue-connect-wallet/dist/style.css";
+import "./../node_modules/solana-wallets-vue/styles.css";
 // import {ConnectWalletButton} from "vue-connect-wallet";
-import VueConnectWallet from "vue-connect-wallet";
 
 let baseURL = "";
 if (process.env.NODE_ENV === "development") baseURL = "http://localhost:3000/";
@@ -58,6 +57,25 @@ const router = createRouter({
   routes,
 });
 
+// // WALLET PLUGIN
+// import SolanaWallets from "solana-wallets-vue";
+
+// import "../node_modules/solana-wallets-vue/styles.css";
+
+// import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+
+// import {
+//   PhantomWalletAdapter,
+//   SlopeWalletAdapter,
+// } from "@solana/wallet-adapter-wallets";
+
+// const walletOptions = {
+//   wallets: [
+//     new PhantomWalletAdapter(),
+//     new SlopeWalletAdapter(),
+//   ],
+//   autoConnect: true,
+// };
 createApp(App).use(router).mount("#app");
 
 export default newAxios;
