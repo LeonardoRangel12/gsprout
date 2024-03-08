@@ -1,5 +1,7 @@
+const { WALLET } = require("../configurations/metaplex.configuration");
 const metaplexUtil = require("../utils/metaplex.util");
 const axios = require("axios");
+const { PublicKey } = require("@solana/web3.js");
 const mintNFT = async (req, res) => {
   /*
     This function will mint an NFT with the license generated
@@ -27,22 +29,21 @@ const mintNFT = async (req, res) => {
   });
 
   // Create collection
-  const { collectionNft } = await metaplexUtil.createCollection({
+  const collectionNft = await metaplexUtil.createCollection({
     uri,
     name: "GSprout",
     sellerFeeBasisPoints: 0,
     isCollection: true,
+    // updateAuthority: WALLET.publicKey
   });
-
   // MINT THE NFT
-  console.log(collectionNft);
   const { nft } = await metaplexUtil.mintNFT({
     uri,
     name: "GSprout NFT",
     // Comission for the seller (us) for every transaction
     // 500 = 5%
     sellerFeeBasisPoints: 500,
-    collection: collectionNft,
+    collection: collectionNft.mintAddress,
   });
 
   // // SENDS THE NFT TO THE BUYER
@@ -54,8 +55,8 @@ const mintNFT = async (req, res) => {
 };
 
 const getWalletNFTs = async (req, res) => {
-  const publicKey = new PublicKey(req.params.publicKey);
-  const nfts = await METAPLEX.nfts().findAllByOwner({ owner: publicKey });
+  const publicKey = req.params.publicKey;
+  const nfts = await metaplexUtil.getWalletNFTs({ owner: publicKey});
   return res.send(nfts);
 };
 

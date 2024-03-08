@@ -3,6 +3,7 @@ const {
   METAPLEX,
   WALLET,
 } = require("../configurations/metaplex.configuration");
+const { PublicKey } = require("@solana/web3.js");
 
 const uploadImage = async (imageBuffer) => {
   const file = toMetaplexFile(imageBuffer, "image.jpg");
@@ -13,21 +14,19 @@ const uploadImage = async (imageBuffer) => {
 };
 
 const uploadMetadata = async (metadata) => {
-  const  uri  = await METAPLEX.nfts().uploadMetadata(metadata);
+  const uri = await METAPLEX.nfts().uploadMetadata(metadata);
   return uri;
 };
 
 const createCollection = async (collectionData) => {
-
-  const  collectionNft  = await METAPLEX.nfts().create(collectionData, {
+  const collectionNft = await METAPLEX.nfts().create(collectionData, {
     commitment: "finalized",
   });
-  console.log(collectionNft);
   return collectionNft;
 };
 
 const mintNFT = async (nftData) => {
-  const  nft  = await METAPLEX.nfts().create(nftData, {
+  const nft = await METAPLEX.nfts().create(nftData, {
     commitment: "finalized",
   });
   return nft;
@@ -43,10 +42,18 @@ const transferNFT = async (nft, toOwner, fromOwner = WALLET.publicKey) => {
     { commitment: "finalized" }
   );
 };
+
+const getWalletNFTs = async (publicKey) => {
+  const nfts = await METAPLEX.nfts().findAllByOwner({
+    owner: new PublicKey(publicKey),
+  });
+  return nfts;
+};
 module.exports = {
   uploadImage,
   uploadMetadata,
   createCollection,
   mintNFT,
   transferNFT,
+  getWalletNFTs,
 };
