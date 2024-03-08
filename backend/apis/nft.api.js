@@ -1,4 +1,5 @@
 const metaplexUtil = require("../utils/metaplex.util");
+const axios = require("axios");
 const mintNFT = async (req, res) => {
   /*
     This function will mint an NFT with the license generated
@@ -15,7 +16,7 @@ const mintNFT = async (req, res) => {
     responseEncoding: null,
   });
   const buffer = Buffer.from(response.data, "utf-8");
-  const imageUri = metaplexUtil.uploadImage(buffer);
+  const imageUri = await metaplexUtil.uploadImage(buffer);
 
   // Upload metadata
   const { uri } = await metaplexUtil.uploadMetadata({
@@ -52,7 +53,7 @@ const mintNFT = async (req, res) => {
   // return res.send(nft.mint.address.toBase58());
 };
 
-const getNFTs = async (req, res) => {
+const getWalletNFTs = async (req, res) => {
   const publicKey = new PublicKey(req.params.publicKey);
   const nfts = await METAPLEX.nfts().findAllByOwner({ owner: publicKey });
   return res.send(nfts);
@@ -60,5 +61,5 @@ const getNFTs = async (req, res) => {
 
 module.exports = {
   mintNFT,
-  getNFTs,
+  getWalletNFTs,
 };

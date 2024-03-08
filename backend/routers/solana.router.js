@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const solanaPay = require("../apis/solanaPay.api.js");
-const { mintNFT, getNFTs } = require("../apis/nft.api.js");
+const { mintNFT, getWalletNFTs } = require("../apis/nft.api.js");
 const { generateLicense } = require("../middleware/license.middleware.js");
 const multer = require("multer");
 const upload = multer();
@@ -12,5 +12,5 @@ router.get(
   mintNFT
 );
 router.post("/pay/:id", upload.none(), solanaPay.generatePayment);
-router.get("/wallet/:publicKey", upload.none(), getNFTs);
+router.get("/wallet/:publicKey", upload.none(), getWalletNFTs);
 module.exports = router;

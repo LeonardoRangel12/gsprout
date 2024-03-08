@@ -13,19 +13,21 @@ const uploadImage = async (imageBuffer) => {
 };
 
 const uploadMetadata = async (metadata) => {
-  const { uri } = await METAPLEX.nfts().uploadMetadata(metadata);
+  const  uri  = await METAPLEX.nfts().uploadMetadata(metadata);
   return uri;
 };
 
 const createCollection = async (collectionData) => {
-  const { collectionNft } = await METAPLEX.nfts().create(collectionData, {
+
+  const  collectionNft  = await METAPLEX.nfts().create(collectionData, {
     commitment: "finalized",
   });
+  console.log(collectionNft);
   return collectionNft;
 };
 
 const mintNFT = async (nftData) => {
-  const { nft } = await METAPLEX.nfts().create(nftData, {
+  const  nft  = await METAPLEX.nfts().create(nftData, {
     commitment: "finalized",
   });
   return nft;
