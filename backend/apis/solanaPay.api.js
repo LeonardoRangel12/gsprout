@@ -2,15 +2,15 @@ const juegoService = require("../services/juego.service.js");
 const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
 const { encodeURL, validateTransfer, findReference } = require("@solana/pay");
 const BigNumber = require("bignumber.js");
-
+const { CONNECTION } = require("../configurations/metaplex.configuration.js");
 // CONSTANTS
 const destinyWallet = process.env.WALLET;
 const recipient = new PublicKey(destinyWallet);
 const label = "Compra de producto";
 // const memo = "GSprout Demo public memo";
 // const amount = new BigNumber(0.1); // 0.1 SOL
-const quickNodeEndpoint = process.env.QUICKNODE_URL;
 const paymentRequests = new Map();
+const connection = CONNECTION;
 
 // BUYER WALLET
 // const privateKey =
@@ -114,7 +114,6 @@ const verifyTransaction = async (reference) => {
   const { recipient, amount, memo, id } = paymentData;
 
   // Devnet connection
-  const connection = new Connection(quickNodeEndpoint, "confirmed");
   const found = await findReference(connection, reference); // Problema aqui: la referencia no se encuentra
   const response = await validateTransfer(
     connection,
