@@ -1,4 +1,4 @@
-const historialComprasSchema = require("../models/historialcompras.model");
+const historialComprasSchema = require("../../shared/models/historialcompras.model");
 const historialComprasService = require("../services/historialcompras.service");
 
 //Creacion de historial de compras

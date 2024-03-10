@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.19",
+    "@project-serum/anchor": "^0.26.0",
     "@solana/wallet-adapter-wallets": "^0.19.30",
+    "@solana/web3.js": "^1.91.0",
     "axios": "^1.6.5",
     "qr-code-styling": "^1.6.0-rc.1",
     "solana-wallets-vue": "^0.6.1",

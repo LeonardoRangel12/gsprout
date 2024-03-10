@@ -23,8 +23,8 @@
       <div v-else class="mt-8">
         <p>No QR code available</p>
       </div>
+
       <div class="mt-8">
-        <!-- <wallet-multi-button /> -->
         <button
           @click="handleGenerateClick"
           :disabled="qrLoading"
@@ -50,6 +50,8 @@ import axios from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
+import { useWallet } from "solana-wallets-vue";
+import * as web3 from "@solana/web3.js";
 export default {
   components: {
     Navbar,
@@ -66,6 +68,10 @@ export default {
   },
   async created() {
     await this.getExchange();
+    console.log(useWallet());
+    const transaction = new web3.Transaction();
+    const {signTransaction} =  useWallet();
+    signTransaction(transaction);
   },
   methods: {
     async handleGenerateClick() {
@@ -237,4 +243,4 @@ export default {
   background-color: #1a1a1a;
   /* Dark gray background */
 }
-</style>
+</style>./WalletMultiButton.vue

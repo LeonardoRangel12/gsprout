@@ -10,7 +10,6 @@ app.set("trust proxy");
 app.use(bodyParser.json());
 // CORS
 const corsOptions = require("./configurations/cors.configuration");
-const { createBubblegumTree, fetchNFT } = require("./utils/metaplex.util.js");
 app.use(cors(corsOptions));
 // MIDDLEWARES
 // const sessionOptions = require("./configurations/session.configuration");
@@ -18,13 +17,12 @@ app.use(cors(corsOptions));
 
 // createBubblegumTree();
 
-// const signature = new Uint8Array([
-//   56, 92, 193, 135, 3, 156, 36, 58, 244, 9, 113, 223, 42, 219, 53, 170, 217,
-//   135, 94, 71, 251, 102, 178, 119, 147, 94, 221, 141, 201, 95, 3, 80, 221, 172,
-//   80, 139, 109, 193, 148, 183, 58, 0, 12, 116, 214, 135, 243, 43, 98, 69, 82,
-//   123, 188, 1, 18, 114, 253, 128, 209, 17, 224, 187, 127, 10,
-// ]);
-// fetchNFT(signature).then((res) => {
+// // GET buffer from assets image
+// const fs = require("fs");
+// const { uploadImage } = require("./utils/metaplex.util.js");
+// const image  = fs.readFileSync("./assets/gsproutLogo.png");
+// const buffer = Buffer.from(image, "utf-8");
+// uploadImage(buffer).then((res) => {
 //   console.log(res);
 // });
 

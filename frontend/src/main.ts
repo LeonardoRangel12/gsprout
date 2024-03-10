@@ -13,9 +13,8 @@ import StoreComponentVue from "./components/StoreComponent.vue";
 import GameViewComponentVue from "./components/GameViewComponent.vue";
 import WishList from "./components/WishListComponent.vue";
 import NewGameComponentVue from "./components/NewGamesComponent.vue";
+import ConnectWalletButtonVue from "./components/WalletMultiButton.vue";
 
-// CONNECT WALLET
-import "./../node_modules/solana-wallets-vue/styles.css";
 // import {ConnectWalletButton} from "vue-connect-wallet";
 
 let baseURL: string = "";
@@ -52,6 +51,28 @@ const router = createRouter({
   routes,
 });
 
-createApp(App).use(router).mount("#app");
+import SolanaWallets, { initWallet } from "solana-wallets-vue";
+import "../node_modules/solana-wallets-vue/styles.css";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import {
+  PhantomWalletAdapter,
+  CloverWalletAdapter,
+  SolflareWalletAdapter,
+  CoinbaseWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+
+const walletOptions = {
+  wallets: [
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    new CloverWalletAdapter(),
+    new CoinbaseWalletAdapter(),
+    
+  ],
+  autoConnect: true,
+};
+initWallet(walletOptions);
+
+createApp(App).use(router,SolanaWallets, walletOptions).mount("#app");
 
 export default newAxios;

@@ -31,4 +31,7 @@ const MERKLETREE_KP = umi.eddsa.createKeypairFromSecretKey(
 );
 const MERKLETREE_SIGNER = createSignerFromKeypair(umi, MERKLETREE_KP);
 
-module.exports = { umi, WALLET, MERKLETREE_SIGNER, CONNECTION };
+// GSprout Logo for NFT
+const LOGO = "https://arweave.net/Rxr0SIW1QTV4qbIa9OFz4BcxN6rfi8xH4M8gc_NXysY"
+
+module.exports = { umi, WALLET, MERKLETREE_SIGNER, CONNECTION, LOGO };

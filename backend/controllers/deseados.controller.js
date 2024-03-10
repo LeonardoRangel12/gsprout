@@ -1,4 +1,4 @@
-const deseadosSchema = require("../models/deseados.model");
+const deseadosSchema = require("../../shared/models/deseados.model");
 const usuarioService = require("../services/usuario.service");
 const juegoService = require("../services/juego.service");
 const deseadosService = require("../services/deseados.service");

@@ -64,14 +64,15 @@ const {
   getAssetWithProof,
   findLeafAssetIdPda,
   parseLeafFromMintV1Transaction,
+  delegate,
+  verifyCreator,
 } = require("@metaplex-foundation/mpl-bubblegum");
 // Setting up the merkle tree
 const {
   umi,
   WALLET,
   MERKLETREE_SIGNER,
-} = require("../configurations/metaplex.configuration");
-const { sleep } = require("./common.util");
+} = require("../../shared/apis/umi.api");
 
 const uploadMetadata = async (data) => {
   const uri = await umi.uploader.uploadJson(data);
@@ -79,9 +80,9 @@ const uploadMetadata = async (data) => {
 };
 
 const uploadImage = async (imageBuffer) => {
-  const file = createGenericFile(imageBuffer, "image.jpg");
+  const file = createGenericFile(imageBuffer, "image");
   const imageUri = await umi.uploader.upload([file]);
-  return imageUri;
+  return imageUri[0];
 };
 
 const mintNFT = async (data) => {
@@ -91,13 +92,20 @@ const mintNFT = async (data) => {
   ];
   const nft = await mintV1(umi, {
     leafOwner: WALLET.publicKey,
+    leafDelegate: WALLET.publicKey,
     merkleTree: MERKLETREE_SIGNER,
     metadata,
   }).sendAndConfirm(umi, { confirm: { commitment: "finalized" } });
-  console.log(nft);
   return nft;
 };
 
+// Verify NFT
+const verifyNFT = async (assetWithProof) => {
+  const creator = generateSigner(umi);
+  await verifyCreator(umi, { ...assetWithProof, creator }).sendAndConfirm(umi, {
+    confirm: { commitment: "finalized" },
+  });
+};
 const getWalletNFTs = async (publicKey) => {
   const nfts = await umi.nfts.findAllByOwner({
     owner: publicKey,
@@ -113,12 +121,26 @@ const transferNFT = async (
   const [assetId, bump] = await fetchNFT(signature);
   const assetWithProof = await getAssetWithProof(umi, assetId);
 
+  await verifyNFT(assetWithProof);
+
   await transfer(umi, {
     ...assetWithProof,
     leafOwner: fromOwner,
     newLeafOwner: toOwner,
-  }).sendAndConfirm(umi, { confirm: { commitment: "confirmed" } });
+  }).sendAndConfirm(umi, { confirm: { commitment: "finalized" } });
+
+  // await delegateNFT(assetId, toOwner);
 };
+
+// const delegateNFT = async (assetId, leafOwner = publicKey(WALLET.publicKey), newLeafDelegate = publicKey(WALLET.publicKey)) => {
+//   const assetWithProof = await getAssetWithProof(umi, assetId);
+//   await delegate(umi, {
+//     ...assetWithProof,
+//     leafOwner: leafOwner,
+//     previousLeafDelegate: leafOwner,
+//     newLeafDelegate: newLeafDelegate,
+//   }).sendAndConfirm(umi, { confirm: { commitment: "confirmed" } });
+// };
 
 const fetchNFT = async (signature) => {
   try {
@@ -127,7 +149,7 @@ const fetchNFT = async (signature) => {
       merkleTree: MERKLETREE_SIGNER,
       leafIndex: leaf.nonce,
     });
-    
+
     return pda;
   } catch (e) {
     console.log(e);

@@ -1,8 +1,6 @@
-const { WALLET } = require("../configurations/metaplex.configuration");
 const metaplexUtil = require("../utils/metaplex.util");
 const axios = require("axios");
-const { PublicKey } = require("@solana/web3.js");
-const { none, percentAmount } = require("@metaplex-foundation/umi");
+const { none } = require("@metaplex-foundation/umi");
 const mintNFT = async (req, res) => {
   /*
     This function will mint an NFT with the license generated
@@ -25,12 +23,19 @@ const mintNFT = async (req, res) => {
     name: juego.nombre,
     description: juego.descripcion,
     image: imageUri,
-    license: license,
+    background_color: "#111827",
+    attributtes: [
+      {
+        trait_type: "license",
+        value: license,
+      }
+    ]
+
   });
   // // Create collection
   // const collectionNft = await metaplexUtil.createCollection({
   //   uri,
-  //   name: "GSprout",
+  //   name: juego.nombre,
   //   sellerFeeBasisPoints: 0,
   //   isCollection: true,
   //   // updateAuthority: WALLET.publicKey
@@ -38,7 +43,8 @@ const mintNFT = async (req, res) => {
   // MINT THE NFT
   const { signature } = await metaplexUtil.mintNFT({
     uri: metadataUri,
-    name: "GSprout NFT",
+    name: "GSprout",
+    symbol: "GSNFT",
     // Comission for the seller (us) for every transaction
     // 500 = 5%
     sellerFeeBasisPoints: 500,
@@ -48,7 +54,6 @@ const mintNFT = async (req, res) => {
   const buyerKey = res.locals.buyerKey;
 
   await metaplexUtil.transferNFT(signature, buyerKey);
-  console.log("TRANSFER FUNCIONA");
   return res.sendStatus(201);
   // return res.send(nft.mint.address.toBase58());
 };

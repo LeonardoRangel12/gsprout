@@ -1,0 +1,28 @@
+{
+  "name": "gsprout",
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ],
+  "description": "<p align=\"center\">   <img src=\"https://i.imgur.com/QDzM74E.png\" alt=\"Madeline\" width=\"150\" height=\"150\"> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@metaplex-foundation/digital-asset-standard-api": "^1.0.3",
+    "@metaplex-foundation/mpl-bubblegum": "^3.1.2",
+    "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
+    "@metaplex-foundation/umi": "^0.9.1",
+    "@metaplex-foundation/umi-bundle-defaults": "^0.9.1",
+    "@metaplex-foundation/umi-uploader-irys": "^0.9.1",
+    "@solana/web3.js": "^1.91.0",
+    "bs58": "^5.0.0",
+    "joi": "^17.12.2"
+  }
+}

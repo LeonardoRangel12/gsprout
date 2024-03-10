@@ -1,5 +1,5 @@
-const jwtSchema = require("../models/jwt.model");
-const usuarioSchema = require("../models/usuario.model");
+const jwtSchema = require("../../shared/models/jwt.model");
+const usuarioSchema = require("../../shared/models/usuario.model");
 const usuarioService = require("../services/usuario.service");
 const bcryptUtil = require("../utils/bcrypt.util");
 const jwtUtil = require("../utils/jwt.util");

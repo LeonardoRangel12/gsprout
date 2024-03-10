@@ -35,6 +35,7 @@
           </li>
         </ul>
         <!-- Header Icons -->
+        <wallet-multi-button></wallet-multi-button>
         <div class="hidden xl:flex items-center space-x-5 items-center">
           <router-link to="/WishList">
             <a class="hover:text-gray-200" href="#">
@@ -155,9 +156,11 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import {WalletMultiButton, initWallet} from "solana-wallets-vue";
 export default {
+  components: {
+    WalletMultiButton,
+  },
   name: "NavbarComponent",
   data() {
     return {

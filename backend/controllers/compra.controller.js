@@ -1,4 +1,4 @@
-const compraschema = require('../models/compra.model');
+const compraschema = require('../../shared/models/compra.model');
 const compraservice = require('../services/compra.service');
 
 const createCompra = async (req, res) => {
