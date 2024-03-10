@@ -1,4 +1,4 @@
-const metaplexUtil = require("../utils/metaplex.util");
+const metaplexUtil = require("../../shared/utils/metaplex.util");
 const axios = require("axios");
 const { none } = require("@metaplex-foundation/umi");
 const mintNFT = async (req, res) => {

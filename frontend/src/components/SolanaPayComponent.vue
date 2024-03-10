@@ -68,10 +68,6 @@ export default {
   },
   async created() {
     await this.getExchange();
-    console.log(useWallet());
-    const transaction = new web3.Transaction();
-    const {signTransaction} =  useWallet();
-    signTransaction(transaction);
   },
   methods: {
     async handleGenerateClick() {

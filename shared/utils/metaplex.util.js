@@ -72,7 +72,7 @@ const {
   umi,
   WALLET,
   MERKLETREE_SIGNER,
-} = require("../../shared/apis/umi.api");
+} = require("../apis/umi.api");
 
 const uploadMetadata = async (data) => {
   const uri = await umi.uploader.uploadJson(data);
@@ -132,15 +132,15 @@ const transferNFT = async (
   // await delegateNFT(assetId, toOwner);
 };
 
-// const delegateNFT = async (assetId, leafOwner = publicKey(WALLET.publicKey), newLeafDelegate = publicKey(WALLET.publicKey)) => {
-//   const assetWithProof = await getAssetWithProof(umi, assetId);
-//   await delegate(umi, {
-//     ...assetWithProof,
-//     leafOwner: leafOwner,
-//     previousLeafDelegate: leafOwner,
-//     newLeafDelegate: newLeafDelegate,
-//   }).sendAndConfirm(umi, { confirm: { commitment: "confirmed" } });
-// };
+const delegateNFT = async (assetId, leafOwner = publicKey(WALLET.publicKey), newLeafDelegate = publicKey(WALLET.publicKey)) => {
+  const assetWithProof = await getAssetWithProof(umi, assetId);
+  await delegate(umi, {
+    ...assetWithProof,
+    leafOwner: leafOwner,
+    previousLeafDelegate: leafOwner,
+    newLeafDelegate: newLeafDelegate,
+  }).sendAndConfirm(umi, { confirm: { commitment: "confirmed" } });
+};
 
 const fetchNFT = async (signature) => {
   try {
@@ -155,6 +155,15 @@ const fetchNFT = async (signature) => {
     console.log(e);
   }
 };
+
+const fetchNFTs = async (publicKey) => {
+  
+  const nfts = await umi.rpc.getAssetsByOwner({
+    owner: publicKey,
+    limit: 10,
+    page: 0,
+  })
+}
 
 ///////////////////////////////////////////////////////////////////
 // ONE USE ONLY
@@ -188,9 +197,11 @@ module.exports = {
   fetchTree,
   uploadImage,
   uploadMetadata,
+  delegateNFT,
   // createCollection,
   mintNFT,
   transferNFT,
   getWalletNFTs,
   fetchNFT,
+  fetchNFTs,
 };

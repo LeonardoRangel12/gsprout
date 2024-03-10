@@ -13,7 +13,7 @@ import StoreComponentVue from "./components/StoreComponent.vue";
 import GameViewComponentVue from "./components/GameViewComponent.vue";
 import WishList from "./components/WishListComponent.vue";
 import NewGameComponentVue from "./components/NewGamesComponent.vue";
-import ConnectWalletButtonVue from "./components/WalletMultiButton.vue";
+import AssetsComponentVue from "./components/AssetsComponent.vue";
 
 // import {ConnectWalletButton} from "vue-connect-wallet";
 
@@ -44,6 +44,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/gameView", component: GameViewComponentVue },
   { path: "/wishlist", component: WishList },
   { path: "/newgame", component: NewGameComponentVue },
+  { path: "/mygames", component: AssetsComponentVue },
 ];
 
 const router = createRouter({
@@ -72,7 +73,7 @@ const walletOptions = {
   autoConnect: true,
 };
 initWallet(walletOptions);
-
+//@ts-ignore
 createApp(App).use(router,SolanaWallets, walletOptions).mount("#app");
 
 export default newAxios;
