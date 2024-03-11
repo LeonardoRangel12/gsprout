@@ -51,15 +51,14 @@ import { connection } from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
-import { useWallet } from "solana-wallets-vue";
-import { createTransfer, parseURL} from "@solana/pay";
+import { WalletNotInitializedError, useWallet } from "solana-wallets-vue";
+import { createTransfer, parseURL } from "@solana/pay";
 import {
   SystemProgram,
   Transaction,
   LAMPORTS_PER_SOL,
   PublicKey,
   TransactionInstruction,
-  
 } from "@solana/web3.js";
 export default {
   components: {
@@ -119,17 +118,30 @@ export default {
       }
     },
     async makePaymentWithWallet(url) {
-      // Make transaction with wallet
-      const { publicKey, sendTransaction } = useWallet();
-      if (!publicKey.value) return;
+      try {
+        // Make transaction with wallet
+        const { publicKey, sendTransaction } = useWallet();
+        if (!publicKey.value) throw new WalletNotInitializedError();
 
-      const { recipient, amount, reference, label, message, memo} = parseURL(url);
+        const { recipient, amount, reference, label, message, memo } =
+          parseURL(url);
 
-      const tx = await createTransfer(connection, publicKey.value, {recipient, amount, reference, label, message, memo});
-      const signature = await sendTransaction(tx, connection);
-      await connection.confirmTransaction(signature, "processed");
-
-      console.log("Transaction sent:", signature);
+        const tx = await createTransfer(connection, publicKey.value, {
+          recipient,
+          amount,
+          reference,
+          label,
+          message,
+          memo,
+        });
+        const signature = await sendTransaction(tx, connection);
+        await connection.confirmTransaction(signature, "processed");
+        await this.handleVerifyClick();
+        console.log("Transaction sent:", signature);
+      } catch (error) {
+        console.error("Error making payment with wallet:", error);
+        alert("You can still make the payment by scanning the QR code");
+      }
     },
     generateQRCode(url) {
       this.qr = new QRCodeStyling({
