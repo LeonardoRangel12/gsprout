@@ -1,55 +1,3 @@
-// const { toMetaplexFile } = require("@metaplex-foundation/js");
-// const {
-//   METAPLEX,
-//   WALLET,
-// } = require("../configurations/metaplex.configuration");
-// const { PublicKey } = require("@solana/web3.js");
-
-// const uploadImage = async (imageBuffer) => {
-//   const file = toMetaplexFile(imageBuffer, "image.jpg");
-
-//   // UPLOAD THE IMAGE TO THE STORAGE
-//   const imageUri = await METAPLEX.storage().upload(file);
-//   return imageUri;
-// };
-
-// const uploadMetadata = async (metadata) => {
-//   const uri = await METAPLEX.nfts().uploadMetadata(metadata);
-//   return uri;
-// };
-
-// const createCollection = async (collectionData) => {
-//   const collectionNft = await METAPLEX.nfts().create(collectionData, {
-//     commitment: "finalized",
-//   });
-//   return collectionNft;
-// };
-
-// const mintNFT = async (nftData) => {
-//   const nft = await METAPLEX.nfts().create(nftData, {
-//     commitment: "finalized",
-//   });
-//   return nft;
-// };
-
-// const transferNFT = async (nft, toOwner, fromOwner = WALLET.publicKey) => {
-//   METAPLEX.nfts().transfer(
-//     {
-//       nftOrSft: nft,
-//       fromOwner: fromOwner,
-//       toOwner: toOwner,
-//     },
-//     { commitment: "finalized" }
-//   );
-// };
-
-// const getWalletNFTs = async (publicKey) => {
-//   const nfts = await METAPLEX.nfts().findAllByOwner({
-//     owner: new PublicKey(publicKey),
-//   });
-//   return nfts;
-// };
-
 const {
   generateSigner,
   createSignerFromKeypair,
@@ -68,24 +16,39 @@ const {
   verifyCreator,
 } = require("@metaplex-foundation/mpl-bubblegum");
 // Setting up the merkle tree
-const {
-  umi,
-  WALLET,
-  MERKLETREE_SIGNER,
-} = require("../apis/umi.api");
+const { umi, WALLET, MERKLETREE_SIGNER } = require("../apis/umi.api");
 
 const uploadMetadata = async (data) => {
+  /*
+    This function will receive the metadata of the game and will upload it to the blockchain
+    data: json object with the metadata of the nft
+
+    Will return the uri of the metadata
+  */
   const uri = await umi.uploader.uploadJson(data);
   return uri;
 };
 
 const uploadImage = async (imageBuffer) => {
+  /*
+    This function will receive the image of the game and will upload it to the blockchain
+    imageBuffer: buffer with the image of the game
+
+    Will return the uri of the image
+  */
   const file = createGenericFile(imageBuffer, "image");
   const imageUri = await umi.uploader.upload([file]);
   return imageUri[0];
 };
 
 const mintNFT = async (data) => {
+  /*
+    This function will mint an NFT
+    The function will receive the json object with the metadata of the game and the image
+    Returns the NFT minted
+    You can get the nft signature from here
+
+  */
   let metadata = data;
   metadata.creators = [
     { address: umi.identity.publicKey, verified: false, share: 100 },
@@ -99,16 +62,27 @@ const mintNFT = async (data) => {
   return nft;
 };
 
-// Verify NFT
-const verifyNFT = async (assetWithProof) => {
-  const creator = generateSigner(umi);
-  await verifyCreator(umi, { ...assetWithProof, creator }).sendAndConfirm(umi, {
-    confirm: { commitment: "finalized" },
-  });
-};
+// // Verify NFT
+// const verifyNFT = async (assetWithProof) => {
+//   /*
+//     This function will verify the NFT
+//     assetWithProof: json object with the asset and the proof of the Merkle tree
+//     */
+//   const creator = generateSigner(umi);
+//   await verifyCreator(umi, { ...assetWithProof, creator }).sendAndConfirm(umi, {
+//     confirm: { commitment: "finalized" },
+//   });
+// };
 const getWalletNFTs = async (publicKey) => {
-  const nfts = await umi.rpc.getAssetsByOwner({
+  /*
+    This function will receive the public key of the wallet and will return the NFTs of the wallet
+    publicKey: public key of the wallet
+    */
+  const nfts = await umi.rpc.searchAssets({
     owner: publicKey,
+    limit: 10,
+    page: 1,
+    compressed: true,
   });
   return nfts;
 };
@@ -118,10 +92,14 @@ const transferNFT = async (
   toOwner,
   fromOwner = publicKey(WALLET.publicKey)
 ) => {
+  /*
+    This function will transfer the NFT to the new owner
+    signature: signature of the NFT
+    toOwner: public key of the new owner
+    fromOwner: public key of the current owner
+    */
   const [assetId, bump] = await fetchNFT(signature);
   const assetWithProof = await getAssetWithProof(umi, assetId);
-
-  await verifyNFT(assetWithProof);
 
   await transfer(umi, {
     ...assetWithProof,
@@ -132,7 +110,17 @@ const transferNFT = async (
   // await delegateNFT(assetId, toOwner);
 };
 
-const delegateNFT = async (assetId, leafOwner = publicKey(WALLET.publicKey), newLeafDelegate = publicKey(WALLET.publicKey)) => {
+const delegateNFT = async (
+  assetId,
+  leafOwner = publicKey(WALLET.publicKey),
+  newLeafDelegate = publicKey(WALLET.publicKey)
+) => {
+  /*
+    This function will delegate permissions of the NFT to the new owner
+    assetId: id of the NFT
+    leafOwner: public key of the current owner
+    newLeafDelegate: public key of the new owner
+    */
   const assetWithProof = await getAssetWithProof(umi, assetId);
   await delegate(umi, {
     ...assetWithProof,
@@ -143,6 +131,10 @@ const delegateNFT = async (assetId, leafOwner = publicKey(WALLET.publicKey), new
 };
 
 const fetchNFT = async (signature) => {
+  /*
+    This function will receive the signature of the NFT and will return the id of the NFT
+    signature: signature of the NFT
+    */
   try {
     const leaf = await parseLeafFromMintV1Transaction(umi, signature);
     const pda = findLeafAssetIdPda(umi, {
@@ -157,13 +149,12 @@ const fetchNFT = async (signature) => {
 };
 
 const fetchNFTs = async (publicKey) => {
-  
   const nfts = await umi.rpc.getAssetsByOwner({
     owner: publicKey,
     limit: 10,
     page: 0,
-  })
-}
+  });
+};
 
 ///////////////////////////////////////////////////////////////////
 // ONE USE ONLY

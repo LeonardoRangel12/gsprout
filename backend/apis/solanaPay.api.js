@@ -33,9 +33,9 @@ const generatePayment = async (req, res) => {
   }
   const amount = new BigNumber(juego.precio);
   const message = juego.nombre;
-  const memo = juego.nombre;
+  const reference = new Keypair().publicKey;
+  const memo = reference.toBase58();
   try {
-    const reference = new Keypair().publicKey;
     const urlData = await generateUrl(
       recipient,
       amount,

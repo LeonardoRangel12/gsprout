@@ -47,11 +47,20 @@
 
 <script>
 import axios from "../main";
+import { connection } from "../main";
 import QRCodeStyling from "qr-code-styling";
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import { useWallet } from "solana-wallets-vue";
-import * as web3 from "@solana/web3.js";
+import { createTransfer, parseURL} from "@solana/pay";
+import {
+  SystemProgram,
+  Transaction,
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  TransactionInstruction,
+  
+} from "@solana/web3.js";
 export default {
   components: {
     Navbar,
@@ -85,6 +94,8 @@ export default {
         this.reference = ref;
         this.generateQRCode(url);
         this.qrLoading = false;
+
+        await this.makePaymentWithWallet(url);
       } catch (error) {
         console.error("Error generating QR code:", error);
         alert("Error generating QR code. Please try again later.");
@@ -106,6 +117,19 @@ export default {
         console.error("Error verifying transaction:", error);
         alert("Error verifying transaction. Please try again later.");
       }
+    },
+    async makePaymentWithWallet(url) {
+      // Make transaction with wallet
+      const { publicKey, sendTransaction } = useWallet();
+      if (!publicKey.value) return;
+
+      const { recipient, amount, reference, label, message, memo} = parseURL(url);
+
+      const tx = await createTransfer(connection, publicKey.value, {recipient, amount, reference, label, message, memo});
+      const signature = await sendTransaction(tx, connection);
+      await connection.confirmTransaction(signature, "processed");
+
+      console.log("Transaction sent:", signature);
     },
     generateQRCode(url) {
       this.qr = new QRCodeStyling({

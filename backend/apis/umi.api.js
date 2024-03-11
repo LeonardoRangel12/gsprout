@@ -9,7 +9,7 @@ const base58 = require("bs58");
 const { irysUploader } = require("@metaplex-foundation/umi-uploader-irys");
 const { dasApi } = require("@metaplex-foundation/digital-asset-standard-api");
 const { mplTokenMetadata } = require("@metaplex-foundation/mpl-token-metadata");
-
+/////////////////////////////////////////////////////////////////////////////////
 // CONNECTION TO QUICKNODE
 const RPC_URL = process.env.RPC_URL;
 const CONNECTION = new Connection(RPC_URL, "confirmed");

@@ -60,7 +60,7 @@ const mintNFT = async (req, res) => {
 
 const getWalletNFTs = async (req, res) => {
   const publicKey = req.params.publicKey;
-  const nfts = await metaplexUtil.getWalletNFTs({ owner: publicKey });
+  const nfts = await metaplexUtil.getWalletNFTs(publicKey);
   return res.send(nfts);
 };
 

@@ -35,7 +35,7 @@
           </li>
         </ul>
         <!-- Header Icons -->
-        <ConnectWalletButton address="0x00" />
+        <wallet-multi-button></wallet-multi-button>
         <div class="hidden xl:flex items-center space-x-5 items-center">
           <router-link to="/WishList">
             <a class="hover:text-gray-200" href="#">
@@ -156,10 +156,10 @@
 </template>
 
 <script>
-import {ConnectWalletButton} from "vue-connect-wallet";
+import { WalletMultiButton } from "solana-wallets-vue";
 export default {
   components: {
-    ConnectWalletButton,
+    WalletMultiButton,
   },
   name: "NavbarComponent",
   data() {
