@@ -2,7 +2,7 @@ const juegoService = require("../services/juego.service.js");
 const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
 const { encodeURL, validateTransfer, findReference } = require("@solana/pay");
 const BigNumber = require("bignumber.js");
-const { CONNECTION } = require("../../shared/apis/umi.api.js");
+const { CONNECTION } = require("./umi.api.js");
 // CONSTANTS
 const destinyWallet = process.env.WALLET;
 const recipient = new PublicKey(destinyWallet);

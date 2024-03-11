@@ -107,7 +107,7 @@ const verifyNFT = async (assetWithProof) => {
   });
 };
 const getWalletNFTs = async (publicKey) => {
-  const nfts = await umi.nfts.findAllByOwner({
+  const nfts = await umi.rpc.getAssetsByOwner({
     owner: publicKey,
   });
   return nfts;
