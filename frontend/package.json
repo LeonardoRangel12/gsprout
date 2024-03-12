@@ -15,6 +15,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.30",
     "@solana/web3.js": "^1.91.0",
     "axios": "^1.6.5",
+    "base64-arraybuffer": "^1.0.2",
     "qr-code-styling": "^1.6.0-rc.1",
     "solana-wallets-vue": "^0.6.1",
     "vue": "^3.4.19",

@@ -73,19 +73,7 @@ const mintNFT = async (data) => {
 //     confirm: { commitment: "finalized" },
 //   });
 // };
-const getWalletNFTs = async (publicKey) => {
-  /*
-    This function will receive the public key of the wallet and will return the NFTs of the wallet
-    publicKey: public key of the wallet
-    */
-  const nfts = await umi.rpc.searchAssets({
-    owner: publicKey,
-    limit: 10,
-    page: 1,
-    compressed: true,
-  });
-  return nfts;
-};
+
 
 const transferNFT = async (
   signature,
@@ -148,12 +136,19 @@ const fetchNFT = async (signature) => {
   }
 };
 
-const fetchNFTs = async (publicKey) => {
-  const nfts = await umi.rpc.getAssetsByOwner({
+const fetchNFTs = async (publicKey, page = 1) => {
+  /*
+    This function will receive the public key of the wallet and will return the NFTs of the wallet
+    publicKey: public key of the wallet
+    */
+  const nfts = await umi.rpc.searchAssets({
     owner: publicKey,
+    creator: WALLET.publicKey,
     limit: 10,
-    page: 0,
+    page,
+    compressed: true,
   });
+  return nfts;
 };
 
 ///////////////////////////////////////////////////////////////////
@@ -192,7 +187,6 @@ module.exports = {
   // createCollection,
   mintNFT,
   transferNFT,
-  getWalletNFTs,
   fetchNFT,
   fetchNFTs,
 };

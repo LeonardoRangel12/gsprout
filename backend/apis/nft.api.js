@@ -58,13 +58,15 @@ const mintNFT = async (req, res) => {
   // return res.send(nft.mint.address.toBase58());
 };
 
-const getWalletNFTs = async (req, res) => {
+const fetchNFTs = async (req, res) => {
   const publicKey = req.params.publicKey;
-  const nfts = await metaplexUtil.getWalletNFTs(publicKey);
+  const page = parseInt(req.params.page) || 1;
+
+  const nfts = await metaplexUtil.fetchNFTs(publicKey, page);
   return res.send(nfts);
 };
 
 module.exports = {
   mintNFT,
-  getWalletNFTs,
+  fetchNFTs,
 };
