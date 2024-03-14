@@ -44,6 +44,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/wishlist", component: WishList },
   { path: "/newgame", component: NewGameComponentVue },
   { path: "/mygames", component: AssetsComponentVue },
+  { path: "/mygames/:publicKey", component: AssetViewVue},
 ];
 
 const router = createRouter({
@@ -64,6 +65,7 @@ import {
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl, Connection } from "@solana/web3.js";
+import AssetViewVue from "./components/AssetView.vue";
 
 const walletOptions = {
   wallets: [

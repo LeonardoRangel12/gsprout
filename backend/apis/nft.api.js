@@ -28,9 +28,8 @@ const mintNFT = async (req, res) => {
       {
         trait_type: "license",
         value: license,
-      }
-    ]
-
+      },
+    ],
   });
   // // Create collection
   // const collectionNft = await metaplexUtil.createCollection({
@@ -63,10 +62,20 @@ const fetchNFTs = async (req, res) => {
   const page = parseInt(req.params.page) || 1;
 
   const nfts = await metaplexUtil.fetchNFTs(publicKey, page);
+  if (!nfts) return res.sendStatus(404);
+
   return res.send(nfts);
+};
+
+const fetchNFT = async (req, res) => {
+  const publicKey = req.params.publicKey;
+  const nft = await metaplexUtil.fetchNFT(publicKey);
+  if (!nft) return res.sendStatus(404);
+  return res.send(nft);
 };
 
 module.exports = {
   mintNFT,
   fetchNFTs,
+  fetchNFT,
 };

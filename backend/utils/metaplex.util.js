@@ -74,7 +74,6 @@ const mintNFT = async (data) => {
 //   });
 // };
 
-
 const transferNFT = async (
   signature,
   toOwner,
@@ -86,7 +85,26 @@ const transferNFT = async (
     toOwner: public key of the new owner
     fromOwner: public key of the current owner
     */
-  const [assetId, bump] = await fetchNFT(signature);
+
+  const getNFTPublicKey = async (signature) => {
+    /*
+      This INTERNAL function will receive the signature of the NFT and will return the id of the NFT
+      signature: signature of the NFT
+      */
+    try {
+      const leaf = await parseLeafFromMintV1Transaction(umi, signature);
+      const pda = findLeafAssetIdPda(umi, {
+        merkleTree: MERKLETREE_SIGNER,
+        leafIndex: leaf.nonce,
+      });
+
+      return pda;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const [assetId, bump] = await getNFTPublicKey(signature);
   const assetWithProof = await getAssetWithProof(umi, assetId);
 
   await transfer(umi, {
@@ -118,22 +136,13 @@ const delegateNFT = async (
   }).sendAndConfirm(umi, { confirm: { commitment: "confirmed" } });
 };
 
-const fetchNFT = async (signature) => {
+const fetchNFT = async (publicKey) => {
   /*
-    This function will receive the signature of the NFT and will return the id of the NFT
-    signature: signature of the NFT
-    */
-  try {
-    const leaf = await parseLeafFromMintV1Transaction(umi, signature);
-    const pda = findLeafAssetIdPda(umi, {
-      merkleTree: MERKLETREE_SIGNER,
-      leafIndex: leaf.nonce,
-    });
-
-    return pda;
-  } catch (e) {
-    console.log(e);
-  }
+    This function will receive the public key of the wallet and will return the NFTs of the wallet
+    publicKey: public key of the wallet
+  */
+  const nft = await umi.rpc.getAsset(publicKey);
+  return nft;
 };
 
 const fetchNFTs = async (publicKey, page = 1) => {
@@ -188,5 +197,6 @@ module.exports = {
   mintNFT,
   transferNFT,
   fetchNFT,
+
   fetchNFTs,
 };
