@@ -10,12 +10,11 @@ const createUsuario = async (req, res) => {
     return res.status(400).send(error.details);
   }
 
-  //   Check if user exists
-  if (await usuarioService.getUsuarioByEmail(value.email)) {
-    return res.status(400).send("User exists");
+  if (await usuarioService.getUsuarioByUsername(value.username)) {
+    return res.status(400).send("User exists with that username");
   }
 
-  // Hashes password
+  // // Hashes password
   value.password = await bcryptUtil.hashPassword(value.password);
 
   // Create user
@@ -39,27 +38,29 @@ const getUsuarios = async (req, res) => {
 
 const loginUsuario = async (req, res) => {
   try {
-    // Get user by email
-    const { error, value } = jwtSchema.validate(req.body);
-    if (error) {
-      return res.status(400).send(error.details);
-    }
-    const { email, password } = value;
-    const usuario = await usuarioService.getUsuarioByEmail(email);
+    // // Get user by email
+    // const { error, value } = jwtSchema.validate(req.body);
+    // if (error) {
+    //   return res.status(400).send(error.details);
+    // }
+    const { username, publicKey } = req.body;
+    const usuario = await usuarioService.loginUsuario( username, publicKey);
     if (!usuario) return res.status(404).send("User not found");
     // Compare password
+    const { password } = req.body;
     if (!(await bcryptUtil.comparePassword(password, usuario.password)))
       return res.status(401).send("Invalid password");
 
-    const token = await jwtUtil.generateToken(usuario);
+    const token = jwtUtil.generateToken(usuario);
     return res.status(200).json({ token });
   } catch (error) {
+    console.log(error);
     return res.status(500).send(error);
   }
 };
 const getUsuarioById = async (req, res) => {
   try {
-    const usuario = await usuarioService.getUsuarioByEmail(req.params.email);
+    const usuario = await usuarioService.getUsuarioByUsername(req.params.username);
     return res.status(200).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
@@ -81,7 +82,7 @@ const updateUsuario = async (req, res) => {
 };
 
 const deleteUsuario = async (req, res) => {
-  if (!(await usuarioService.getUsuarioByEmail(req.params.email))) {
+  if (!(await usuarioService.getUsuarioByUsername(req.params.username))) {
     return res.status(400).send("User does not exist");
   }
 
@@ -100,10 +101,9 @@ const deleteUsuario = async (req, res) => {
 // };
 
 const getUsuario = async (req, res) => {
-
   const client = req.usuario;
   if (client) {
-    const usuario = await usuarioService.getUsuarioByEmail(client.email);
+    const usuario = await usuarioService.getUsuarioByUsername(client.username);
     return res.status(200).send(usuario);
   }
   return res.status(404).send("User not found");

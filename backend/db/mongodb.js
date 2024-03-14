@@ -28,11 +28,46 @@ async function getUsuarios() {
   return usuarios;
 }
 
-async function getUsuarioByEmail(userEmail) {
+// async function getUsuarioByEmail(userEmail) {
+//   const result = await dbConnectionWrapper(async (dbCon) => {
+//     const userFound = await dbCon
+//       .collection("users")
+//       .findOne({ email: userEmail });
+
+//     return userFound;
+//   });
+//   return result;
+// }
+async function getUsuarioByPublicKey(publicKey) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const userFound = await dbCon
-      .collection("users")
-      .findOne({ email: userEmail });
+    const userFound = await dbCon.collection("users").findOne({
+      wallets: {
+        $in: [publicKey],
+      },
+    });
+
+    return userFound;
+  });
+  return result;
+}
+async function getUsuarioByUsername(username) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const userFound = await dbCon.collection("users").findOne({
+      username,
+    });
+
+    return userFound;
+  });
+  return result;
+}
+async function loginUsuario(username, publicKey) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const userFound = await dbCon.collection("users").findOne({
+      username,
+      wallets: {
+        $in: [publicKey],
+      },
+    });
 
     return userFound;
   });
@@ -110,7 +145,9 @@ async function updateJuego(juegoId, data) {
 
 async function deleteJuego(juegoId) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("games").deleteOne({ _id: new ObjectId(juegoId) });
+    const result = await dbCon
+      .collection("games")
+      .deleteOne({ _id: new ObjectId(juegoId) });
     return result;
   });
   return result;
@@ -183,7 +220,7 @@ async function deleteJuegoOfDeseados(userId, juegoId) {
   return result;
 }
 
-async function createPublicacion (data){
+async function createPublicacion(data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const result = await dbCon.collection("publicaciones").insertOne(data);
     return result;
@@ -191,7 +228,7 @@ async function createPublicacion (data){
   return result;
 }
 
-async function getPublicaciones (){
+async function getPublicaciones() {
   result = await dbConnectionWrapper(async (dbCon) => {
     const result = await dbCon.collection("publicaciones").find().toArray();
     return result;
@@ -199,18 +236,18 @@ async function getPublicaciones (){
   return result;
 }
 
-async function getPublicacionById (id){
+async function getPublicacionById(id) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const publicacionFound = await dbCon
       .collection("publicaciones")
       .findOne({ _id: new ObjectId(id) });
-      console.log(publicacionFound);
+    console.log(publicacionFound);
     return publicacionFound;
   });
   return result;
 }
 
-async function updatePublicacion (id, data){
+async function updatePublicacion(id, data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const updateFields = { $set: data };
     const result = await dbCon
@@ -221,9 +258,11 @@ async function updatePublicacion (id, data){
   return result;
 }
 
-async function deletePublicacion(id){
+async function deletePublicacion(id) {
   const result = await dbConnectionWrapper(async (dbCon) => {
-    const result = await dbCon.collection("publicaciones").deleteOne({ _id: new ObjectId(id) });
+    const result = await dbCon
+      .collection("publicaciones")
+      .deleteOne({ _id: new ObjectId(id) });
     return result;
   });
   return result;
@@ -232,7 +271,9 @@ async function deletePublicacion(id){
 module.exports = {
   createUsuario,
   getUsuarios,
-  getUsuarioByEmail,
+  getUsuarioByPublicKey,
+  getUsuarioByUsername,
+  loginUsuario,
   getUsuarioById,
   updateUsuario,
   deleteUsuario,
@@ -250,5 +291,5 @@ module.exports = {
   getPublicaciones,
   getPublicacionById,
   deletePublicacion,
-  updatePublicacion
+  updatePublicacion,
 };
