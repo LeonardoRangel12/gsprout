@@ -23,7 +23,7 @@
             </p>
           </div>
 
-          <div class="mt-8">
+          <div class="mt-8 flex justify-center">
             <wallet-multi-button class="flex center"></wallet-multi-button>
           </div>
           <div class="mt-8" v-show="connected">
