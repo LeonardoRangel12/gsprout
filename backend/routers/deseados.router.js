@@ -3,7 +3,8 @@ const historialcomprascontroller = require("../controllers/historialcompras.cont
 const multer = require("multer");
 const upload = multer();
 const deseadosController = require("../controllers/deseados.controller");
-router.get('/:idusuario/', upload.none(), deseadosController.getDeseadosByUsuario);
+const { getCache, setCache } = require("../middleware/redis.middleware");
+router.get('/:idusuario/', upload.none(), getCache, deseadosController.getDeseadosByUsuario, setCache);
 router.put('/:idusuario/:idjuego', upload.none(), deseadosController.addToDeseadosByUsuario);
 router.delete('/:idusuario/:idjuego', upload.none(), deseadosController.deleteJuegoOfDeseados);
 

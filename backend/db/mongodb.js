@@ -83,23 +83,23 @@ async function getUsuarioById(email) {
   return result;
 }
 
-async function updateUsuario(id, data) {
+async function updateUsuario(username, data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const updateFields = { $set: data };
     const result = await dbCon
       .collection("users")
-      .updateOne({ _id: new ObjectId(id) }, updateFields);
+      .updateOne({ username }, updateFields);
 
     return result;
   });
   return result;
 }
 
-async function deleteUsuario(userEmail) {
+async function deleteUsuario(username) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const result = await dbCon
       .collection("users")
-      .deleteOne({ email: userEmail });
+      .deleteOne({ username });
 
     return result;
   });

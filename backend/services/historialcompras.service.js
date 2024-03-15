@@ -3,7 +3,7 @@ const db = require("../configurations/db.configuration.js");
 async function createHistorialCompra(data) {
     return await db.createHistorialCompra(data);
 }
-async function getHistorialCompras(idusuario){
+async function getHistorialCompras(){
     return await db.getHistorialCompras();
 }
 async function getHistorialCompraById(id){

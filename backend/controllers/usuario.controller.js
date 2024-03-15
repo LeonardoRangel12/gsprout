@@ -58,10 +58,13 @@ const loginUsuario = async (req, res) => {
     return res.status(500).send(error);
   }
 };
-const getUsuarioById = async (req, res) => {
+const getUsuarioById = async (req, res, next) => {
   try {
     const usuario = await usuarioService.getUsuarioByUsername(req.params.username);
-    return res.status(200).send(usuario);
+    if (!usuario) return res.status(404).send("User not found");
+    req.data = usuario;
+    next();
+    // return res.status(200).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -100,13 +103,17 @@ const deleteUsuario = async (req, res) => {
 //   res.status(200).send("Logged out");
 // };
 
-const getUsuario = async (req, res) => {
-  const client = req.usuario;
-  if (client) {
-    const usuario = await usuarioService.getUsuarioByUsername(client.username);
-    return res.status(200).send(usuario);
+const getUsuario = async (req, res, next) => {
+  if (req.headers.authorization) {
+    const token = jwtUtil.verifyToken(req.headers.authorization);
+    const usuario = await usuarioService.getUsuarioByUsername(token.username);
+    if (!usuario) return res.status(404).send("User not found");
+    req.data = usuario;
+    next();
+    // return res.status(200).send(usuario);
   }
-  return res.status(404).send("User not found");
+  else
+  return res.status(401).send("Unauthorized");
 };
 
 module.exports = {

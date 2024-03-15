@@ -3,18 +3,19 @@ const verify = require('../middleware/session.middleware.js');
 const multer = require('multer');
 const upload = multer();
 const express = require('express');
+const { getCache, setCache } = require('../middleware/redis.middleware.js');
 const router = express.Router();
 
 // RUTA ACTUAL
 // /usuarios
 
 router.get('/',upload.none(),verify.verifySession,userController.getUsuarios);
-router.get('/me',upload.none(),verify.verifySession,userController.getUsuario);
+router.get('/me',upload.none(), getCache,verify.verifySession,userController.getUsuario, setCache);
 router.post('/login',upload.none(),userController.loginUsuario);
 // router.post('/logout', userController.logoutUsuario);
 router.post('/',upload.none(),userController.createUsuario);
 router.delete('/:username',upload.none(),verify.verifySession,userController.deleteUsuario);
-router.get('/:username',upload.none(),verify.verifySession,userController.getUsuarioById);
+router.get('/:username',upload.none(), verify.verifySession,getCache,userController.getUsuarioById, setCache);
 
 // SAME ROUTE
 router.put('/:id',upload.none(),verify.verifySession,userController.updateUsuario);

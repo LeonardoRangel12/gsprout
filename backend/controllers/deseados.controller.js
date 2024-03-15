@@ -22,10 +22,12 @@ const addToDeseadosByUsuario = async (req, res) => {
     }
 }
 
-const getDeseadosByUsuario = async (req, res) => {
+const getDeseadosByUsuario = async (req, res, next) => {
     try {
         const deseados = await deseadosService.getDeseadosByUsuario(req.params.idusuario);
-        return res.status(200).send(deseados);
+        // To redis
+        req.data = deseados;
+        next();
     } catch {
         return res.status(500).send("Internal Server Error");
     }

@@ -22,17 +22,20 @@ const createHistorialCompra = async (req, res) => {
 }
 const getHistorialCompras = async (req, res) => {
     try {
-        const historialCompra = await historialComprasService.getHistorialCompras(req.params.idusuario);
+        const historialCompra = await historialComprasService.getHistorialCompras();
         return res.status(200).send(historialCompra);
     }
     catch(error){
         return res.status(500).send(error);
     }
 }
-const getHistorialCompraById = async (req, res) => {
+const getHistorialCompraById = async (req, res, next) => {
     try {
         const historialCompra = await historialComprasService.getHistorialCompraById(req.params.id);
-        return res.status(200).send(historialCompra);
+        if(!historialCompra) return res.status(404).send("Historial de compra no existe");
+        req.data = historialCompra;
+        next();
+        // return res.status(200).send(historialCompra);
     }
     catch(error){
         return res.status(500).send(error);

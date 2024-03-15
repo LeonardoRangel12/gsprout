@@ -22,17 +22,17 @@ async function getUsuarioById(id) {
 async function loginUsuario(username, publicKey) {
     return await db.loginUsuario(username, publicKey);
 }
-async function getUsuarioByUsername(publicKey) {
-    return await db.getUsuarioByUsername(publicKey);
+async function getUsuarioByUsername(username) {
+    return await db.getUsuarioByUsername(username);
 }
 
 
-async function updateUsuario(email, data) {
-    return await db.updateUsuario(email, data);
+async function updateUsuario(username, data) {
+    return await db.updateUsuario(username, data);
 }
 
-async function deleteUsuario(email) {
-    return await db.deleteUsuario(email);
+async function deleteUsuario(username) {
+    return await db.deleteUsuario(username);
 }
 module.exports = {
     createUsuario,

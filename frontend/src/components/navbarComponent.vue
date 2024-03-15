@@ -39,9 +39,7 @@
         <div class="hidden xl:flex items-center space-x-5 items-center">
           <wallet-multi-button></wallet-multi-button>
           <router-link to="/mygames">
-            <a class="hover:text-gray-200" href="#">
-              Publicar
-            </a>
+            <a class="hover:text-gray-200" href="#"> Publicar </a>
           </router-link>
           <router-link to="/WishList">
             <a class="hover:text-gray-200" href="#">
@@ -162,7 +160,7 @@
 </template>
 
 <script>
-import { WalletMultiButton } from "solana-wallets-vue";
+import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 export default {
   components: {
     WalletMultiButton,
@@ -171,7 +169,17 @@ export default {
   data() {
     return {
       showProfileMenu: false,
+      connected: useWallet().connected,
     };
+  },
+  watch: {
+    connected: {
+      handler: async function (val) {
+        if(!val){
+          this.logout();
+        }
+      }
+    }
   },
   methods: {
     toggleProfileMenu() {
@@ -184,6 +192,7 @@ export default {
       this.$router.push("/");
     },
   },
+
 };
 </script>
 

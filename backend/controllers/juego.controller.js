@@ -54,10 +54,13 @@ const getJuegos = async (req, res) => {
 };
 
 //Obtencion de juego por id
-const getJuegoById = async (req, res) => {
+const getJuegoById = async (req, res, next) => {
   try {
     const juego = await juegoService.getJuegoById(req.params.id);
-    return res.status(200).send(juego);
+    if (!juego) return res.status(404).send("Juego no existe");
+    req.data = juego;
+    next();
+    // return res.status(200).send(juego);
   } catch {
     return res.status(500).send("Internal Server Error");
   }

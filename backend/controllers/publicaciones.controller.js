@@ -11,11 +11,13 @@ const getPublicaciones = async (req, res) => {
     }
 };
 
-const getPublicacionById = async (req, res) => {
+const getPublicacionById = async (req, res, next) => {
     try {
         const publicacion = await publicacionesService.getPublicacionById(req.params.id);
         if(!publicacion) return res.status(404).send("Publicacion no existe");
-        return res.status(200).send(publicacion);
+        req.data = publicacion;
+        next();
+        // return res.status(200).send(publicacion);
     } catch (error) {
         return res.status(500).send(error);
     }
