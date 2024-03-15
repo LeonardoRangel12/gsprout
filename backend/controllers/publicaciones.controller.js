@@ -1,4 +1,4 @@
-const publicacionesSchema = require("../../shared/models/publicaciones.model");
+const publicacionesSchema = require("../models/publicaciones.model");
 const publicacionesService = require("../services/publicaciones.service");
 
 const getPublicaciones = async (req, res) => {

@@ -1,4 +1,4 @@
-const juegoSchema = require("../../shared/models/juego.model");
+const juegoSchema = require("../models/juego.model");
 const juegoService = require("../services/juego.service");
 const cryptojsUtil = require("../utils/cryptojs.util");
 
