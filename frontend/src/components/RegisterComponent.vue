@@ -24,7 +24,9 @@
           </div>
 
           <div class="mt-8">
-            <wallet-multi-button></wallet-multi-button>
+            <div class="mt-8 flex justify-center">
+              <wallet-multi-button></wallet-multi-button>
+            </div>
             <form @submit.prevent="register">
               <!-- <div>
                 <label for="nombre" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Nombre Completo</label>
