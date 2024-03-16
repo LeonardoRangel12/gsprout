@@ -1,20 +1,23 @@
 <template>
-   <Navbar />
-  <div class="min-h-screen bg-gray-100 flex flex-col">
-   
-    <div class="flex-grow p-6">
+  <div class="min-h-screen bg-gray-900 text-white">
+    <Navbar />
+    <div class="container mx-auto p-6">
+      <h1 class="text-3xl font-bold mb-6">Biblioteca</h1>
       <button @click="getAssets"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
         Get Assets
       </button>
-      <div v-if="isLoading" class="mt-4 text-center text-gray-600">Loading...</div>
-      <div v-else-if="error" class="mt-4 text-center text-red-600">{{ error }}</div>
+      <div v-if="isLoading" class="text-center text-gray-400 mb-4">Loading...</div>
+      <div v-if="error" class="text-center text-red-600 mb-4">{{ error }}</div>
       <div v-else>
-        <div v-if="assets && assets.length === 0" class="mt-4 text-center text-gray-600">No assets available.</div>
-
-        <div v-else>
-          <div v-for="asset in assets" :key="asset.grouping.id" class="mt-4">
-            <AssetComponent :asset="asset" />
+        <div v-if="assets && assets.length === 0" class="text-center text-gray-400 mb-4">No assets available.</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div v-for="asset in assets" :key="asset.grouping.id">
+            <div class="bg-gray-800 rounded shadow">
+              <div class="aspect-w-16 aspect-h-9">
+                <AssetComponent :asset="asset" class="object-cover" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -60,7 +63,7 @@ export default {
         this.assets = response.data.items;
       } catch (error) {
         console.error(error);
-        this.error = "Error fetching assets.";
+        this.error = "Error fetching assets. Please try again later.";
       } finally {
         this.isLoading = false;
       }
@@ -68,3 +71,4 @@ export default {
   },
 };
 </script>
+
