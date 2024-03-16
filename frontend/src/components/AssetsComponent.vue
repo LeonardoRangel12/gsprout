@@ -1,49 +1,68 @@
 <template>
-  <Navbar></Navbar>
-  <button @click="getAssets()">Get Assets</button>
-  <!-- <div v-for="asset in assets" :key="asset.grouping.id">{{ asset.content  }} -->
+   <Navbar />
+  <div class="min-h-screen bg-gray-100 flex flex-col">
+   
+    <div class="flex-grow p-6">
+      <button @click="getAssets"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Get Assets
+      </button>
+      <div v-if="isLoading" class="mt-4 text-center text-gray-600">Loading...</div>
+      <div v-else-if="error" class="mt-4 text-center text-red-600">{{ error }}</div>
+      <div v-else>
+        <div v-if="assets && assets.length === 0" class="mt-4 text-center text-gray-600">No assets available.</div>
 
-  <!-- </div> -->
-  <div v-for="asset in assets" :key="asset.grouping.id">
-    <AssetComponent :asset="asset"></AssetComponent>
+        <div v-else>
+          <div v-for="asset in assets" :key="asset.grouping.id" class="mt-4">
+            <AssetComponent :asset="asset" />
+          </div>
+        </div>
+      </div>
     </div>
-  <Footer></Footer>
+    <Footer />
+  </div>
 </template>
-<script>
 
+<script>
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import AssetComponent from "./AssetComponent.vue";
 import axios from "../main";
 
 import { useWallet } from "solana-wallets-vue";
+
 export default {
   components: {
     Navbar,
-    AssetComponent: AssetComponent,
+    AssetComponent,
     Footer,
   },
   name: "AssetsComponent",
   data() {
     return {
       assets: [],
+      isLoading: false,
+      error: null,
     };
   },
-  async created() {},
   methods: {
     async getAssets() {
       try {
-        const {publicKey} = useWallet();
-        if (!publicKey.value) {
-          alert("No wallet connected");
-          return;
-        }
-        const {data:assets} = await axios.get("/solana/wallet/" + publicKey.value.toBase58() + "/1");
+        this.isLoading = true;
+        this.error = null;
         
-        console.log(assets);
-        this.assets = assets.items;
+        const { publicKey } = useWallet();
+        if (!publicKey.value) {
+          throw new Error("No wallet connected");
+        }
+        
+        const response = await axios.get("/solana/wallet/" + publicKey.value.toBase58() + "/1");
+        this.assets = response.data.items;
       } catch (error) {
         console.error(error);
+        this.error = "Error fetching assets.";
+      } finally {
+        this.isLoading = false;
       }
     },
   },
