@@ -1,6 +1,9 @@
 const metaplexUtil = require("../utils/metaplex.util");
 const axios = require("axios");
 const { none } = require("@metaplex-foundation/umi");
+const { deleteCache} = require("../utils/redis.util");
+const solanaSalt = "solana";
+
 const mintNFT = async (req, res) => {
   /*
     This function will mint an NFT with the license generated
@@ -53,6 +56,8 @@ const mintNFT = async (req, res) => {
   const buyerKey = res.locals.buyerKey;
 
   await metaplexUtil.transferNFT(signature, buyerKey);
+
+  deleteCache(`${solanaSalt}:${buyerKey}`);
   return res.sendStatus(201);
   // return res.send(nft.mint.address.toBase58());
 };
@@ -64,7 +69,11 @@ const fetchNFTs = async (req, res, next) => {
   const nfts = await metaplexUtil.fetchNFTs(publicKey, page);
   if (!nfts) return res.sendStatus(404);
 
-  req.data = nfts;
+  req.redis = {
+    key: `${solanaSalt}:${publicKey}:${page}`,
+    data: nfts,
+    status: 200,
+  };
   next();
   // return res.send(nfts);
 };
@@ -74,13 +83,27 @@ const fetchNFT = async (req, res, next) => {
   const nft = await metaplexUtil.fetchNFT(publicKey);
   if (!nft) return res.sendStatus(404);
   
-  req.data = nft;
+  req.redis = {
+    key: `${solanaSalt}:${publicKey}`,
+    data: nft,
+    status: 200,
+  }
   next();
   // return res.send(nft);
+};
+
+const generateCacheKey = (req, res, next) => {
+  const { publicKey, page } = req.params;
+  const key = page ? `${solanaSalt}:${publicKey}:${page}` : `${solanaSalt}:${publicKey}`;
+  req.redis = {
+    key
+  };
+  next();
 };
 
 module.exports = {
   mintNFT,
   fetchNFTs,
   fetchNFT,
+  generateCacheKey,
 };

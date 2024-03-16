@@ -2,8 +2,11 @@ const juegoSchema = require("../models/juego.model");
 const juegoService = require("../services/juego.service");
 const cryptojsUtil = require("../utils/cryptojs.util");
 
+// Para redis
+const juegoSalt = "juego";
+
 //Creacion de juegos
-const createJuego = async (req, res) => {
+const createJuego = async (req, res, next) => {
   let { error, value } = juegoSchema.validate(req.body);
   if (error) {
     //Si hay un error en la validacion
@@ -19,15 +22,20 @@ const createJuego = async (req, res) => {
   value.regexLicense = await cryptojsUtil.encrypt(value.regexLicense);
   try {
     const juego = await juegoService.createJuego(value);
-    req.name = juego;
-    return res.status(201).send(juego);
+    req.redis = {
+      key: `${juegoSalt}`,
+      data: juego,
+      status: 201,
+    };
+    next();
+    // return res.status(201).send(juego);
   } catch (error) {
     return res.status(500).send(error);
   }
 };
 
 //Creacion de varios juegos
-const createSeveralJuegos = async (req, res) => {
+const createSeveralJuegos = async (req, res, next) => {
   let juegos = req.body;
   for (let i = 0; i < juegos.length; i++) {
     juegos[i].regexLicense = juegos[i].regex;
@@ -40,14 +48,25 @@ const createSeveralJuegos = async (req, res) => {
       return res.status(500).send(error);
     }
   }
-  return res.status(201).send(juegos);
+  req.redis = {
+    key: `${juegoSalt}`,
+    data: juegos,
+    status: 201,
+  };
+  next();
+  // return res.status(201).send(juegos);
 };
 
 //Obtencion de juegos
-const getJuegos = async (req, res) => {
+const getJuegos = async (req, res, next) => {
   try {
     const juegos = await juegoService.getJuegos();
-    return res.status(200).send(juegos);
+
+    req.redis = {
+      key: `${juegoSalt}`,
+      data: juegos,
+    };
+    next();
   } catch {
     return res.status(500).send("Internal Server Error");
   }
@@ -67,7 +86,7 @@ const getJuegoById = async (req, res, next) => {
 };
 
 //Actualizar juego
-const updateJuego = async (req, res) => {
+const updateJuego = async (req, res,next) => {
   let { error, value } = juegoSchema.validate(req.body);
   if (error) {
     //Si hay un error en la validacion
@@ -75,22 +94,46 @@ const updateJuego = async (req, res) => {
   }
   try {
     const juego = await juegoService.updateJuego(req.params.id, value);
-    return res.status(200).send(juego);
+    if (!juego) return res.status(404).send("Juego no existe");
+
+    req.redis = {
+      key: `${juegoSalt}:${req.params.id}`,
+      data: juego,
+      status: 200,
+    };
+    next();
+    // return res.status(200).send(juego);
   } catch {
     return res.status(500).send(error);
   }
 };
 
 //Eliminar juego
-const deleteJuego = async (req, res) => {
+const deleteJuego = async (req, res,next) => {
   try {
     const juego = await juegoService.deleteJuego(req.params.id);
-    return res.status(200).send(juego);
+    if (!juego) return res.status(404).send("Juego no existe");
+
+    req.redis = {
+      key: `${juegoSalt}:${req.params.id}`,
+      data: juego,
+      status: 200,
+    };
+    next();
+    // return res.status(200).send(juego);
   } catch {
     return res.status(500).send(error);
   }
 };
 
+const generateCacheKey = (req, res, next) => {
+  const { id } = req.params;
+  const key = id ? `${juegoSalt}:${id}` : `${juegoSalt}`;
+  req.redis = {
+    key
+  };
+  next();
+};
 module.exports = {
   createJuego,
   getJuegos,
@@ -98,4 +141,5 @@ module.exports = {
   updateJuego,
   deleteJuego,
   createSeveralJuegos,
+  generateCacheKey,
 };

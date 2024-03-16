@@ -11,7 +11,6 @@ const createCompra = async (req, res) => {
     }
     try {
         const compra = await compraservice.createCompra(value);
-        req.name = compra;
         return res.status(201).send(compra);
     } catch (error) {
         return res.status(500).send(error);

@@ -8,6 +8,10 @@ const hashPassword = async (password) => {
         return password;
 };
 
+const hashText = async (text) => {
+    return await bcrypt.hash(text, 12);
+}
+
 const comparePassword = async (password, hash) => {
     if(process.env.NODE_ENV === "production") 
         return password === hash;
@@ -17,5 +21,6 @@ const comparePassword = async (password, hash) => {
 }
 module.exports = {
     hashPassword,
-    comparePassword
+    comparePassword,
+    hashText
 };

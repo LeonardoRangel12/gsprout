@@ -1,24 +1,25 @@
-const userController = require('../controllers/usuario.controller.js');
+const controller = require('../controllers/usuario.controller.js');
 const verify = require('../middleware/session.middleware.js');
 const multer = require('multer');
 const upload = multer();
 const express = require('express');
-const { getCache, setCache } = require('../middleware/redis.middleware.js');
+const { getCache, setCache, deleteCache } = require('../middleware/redis.middleware.js');
 const router = express.Router();
 
-// RUTA ACTUAL
-// /usuarios
+// GET
+router.get('/',upload.none(), controller.generateCacheKey, getCache,controller.getUsuarios, setCache);
+router.get('/me',upload.none(), getCache,verify.verifySession,controller.getUsuario);
+router.get('/:username',upload.none(), verify.verifySession,getCache,controller.getUsuarioById, setCache);
+// POST
+// router.post('/logout', controller.logoutUsuario);
+router.post('/login',upload.none(),controller.loginUsuario);
+router.post('/',upload.none(),controller.createUsuario, deleteCache);
+// DELETE
+router.delete('/:username',upload.none(),verify.verifySession,controller.deleteUsuario, deleteCache);
 
-router.get('/',upload.none(),verify.verifySession,userController.getUsuarios);
-router.get('/me',upload.none(), getCache,verify.verifySession,userController.getUsuario, setCache);
-router.post('/login',upload.none(),userController.loginUsuario);
-// router.post('/logout', userController.logoutUsuario);
-router.post('/',upload.none(),userController.createUsuario);
-router.delete('/:username',upload.none(),verify.verifySession,userController.deleteUsuario);
-router.get('/:username',upload.none(), verify.verifySession,getCache,userController.getUsuarioById, setCache);
-
+// PUT
+router.put('/:username',upload.none(), controller.generateCacheKey, getCache,verify.verifySession,controller.updateUsuario, setCache);
 // SAME ROUTE
-router.put('/:id',upload.none(),verify.verifySession,userController.updateUsuario);
-// router.put('/',upload.none(),verify.verifySession,userController.updateUsuario);
+// router.put('/',upload.none(),verify.verifySession,controller.updateUsuario);
 
 module.exports = router;

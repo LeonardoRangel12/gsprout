@@ -3,7 +3,10 @@ const usuarioSchema = require("../models/usuario.model");
 const usuarioService = require("../services/usuario.service");
 const bcryptUtil = require("../utils/bcrypt.util");
 const jwtUtil = require("../utils/jwt.util");
-const createUsuario = async (req, res) => {
+
+const usuarioSalt = "usuario";
+
+const createUsuario = async (req, res, next) => {
   // Validate request with JOI
   let { error, value } = usuarioSchema.validate(req.body);
   if (error) {
@@ -20,23 +23,34 @@ const createUsuario = async (req, res) => {
   // Create user
   try {
     const usuario = await usuarioService.createUsuario(value);
-    return res.status(201).send(usuario);
+    req.redis  ={
+      key: `${usuarioSalt}`,
+      data: usuario,
+      status: 201
+    }
+    // return res.status(201).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
   }
 };
 
-const getUsuarios = async (req, res) => {
+const getUsuarios = async (req, res, next) => {
   // Get all users
   try {
     const usuarios = await usuarioService.getUsuarios();
-    return res.status(200).send(usuarios);
+    req.redis = {
+      key: `${usuarioSalt}`,
+      data: usuarios,
+      status: 200
+    }
+    next();
+    // return res.status(200).send(usuarios);
   } catch (error) {
     return res.status(500).send(error);
   }
 };
 
-const loginUsuario = async (req, res) => {
+const loginUsuario = async (req, res, next) => {
   try {
     // // Get user by email
     // const { error, value } = jwtSchema.validate(req.body);
@@ -62,7 +76,11 @@ const getUsuarioById = async (req, res, next) => {
   try {
     const usuario = await usuarioService.getUsuarioByUsername(req.params.username);
     if (!usuario) return res.status(404).send("User not found");
-    req.data = usuario;
+    req.redis = {
+      key: `${usuarioSalt}:${req.params.username}`,
+      data: usuario,
+      status: 200
+    }
     next();
     // return res.status(200).send(usuario);
   } catch (error) {
@@ -70,30 +88,42 @@ const getUsuarioById = async (req, res, next) => {
   }
 };
 
-const updateUsuario = async (req, res) => {
+const updateUsuario = async (req, res, next) => {
   const { error, value } = usuarioSchema.validate(req.body);
   if (error) {
     return res.status(400).send(error.details);
   }
 
   try {
-    const usuario = await usuarioService.updateUsuario(req.params.email, value);
-    return res.status(200).send(usuario);
+    const usuario = await usuarioService.updateUsuario(req.params.username, value);
+    if (!usuario) return res.status(404).send("User not found");
+
+    req.redis = {
+      key: `${usuarioSalt}:${req.params.username}`,
+      data: usuario,
+      status: 200
+    }
+    next();
+    // return res.status(200).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
   }
 };
 
-const deleteUsuario = async (req, res) => {
+const deleteUsuario = async (req, res, next) => {
   if (!(await usuarioService.getUsuarioByUsername(req.params.username))) {
     return res.status(400).send("User does not exist");
   }
 
   try {
     await usuarioService.deleteUsuario(req.params.email);
-    return res.status(204).send();
+    req.redis = {
+      key: `${usuarioSalt}:${req.params.username}`,
+      status: 204
+    }
+    next();
   } catch (error) {
-    return res.status;
+    return res.status(500).send(error);
   }
 };
 
@@ -116,6 +146,15 @@ const getUsuario = async (req, res, next) => {
   return res.status(401).send("Unauthorized");
 };
 
+const generateCacheKey = (req, res, next) => {
+  const { username } = req.params;
+  const key = username ? `${usuarioSalt}:${username}` : `${usuarioSalt}`;
+  req.redis = {
+    key
+  };
+  next();
+};
+
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -125,4 +164,5 @@ module.exports = {
   deleteUsuario,
   // logoutUsuario,
   getUsuario,
+  generateCacheKey
 };
