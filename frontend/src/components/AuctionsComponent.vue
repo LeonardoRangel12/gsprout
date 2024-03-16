@@ -8,63 +8,29 @@
           <span class="text-xs">Todos los juegos disponibles</span>
         </div>
       </div>
-      <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-          <table class="min-w-full leading-normal">
-            <thead>
-              <tr>
-                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Nombre
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Descripción
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Precio
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Vendedor
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Tiempo Restante
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-800 bg-gray-800 text-left text-xs font-semibold uppercase tracking-wider">
-                  Estado
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="juego in juegos" :key="juego.id" :class="{ 'bg-gray-700': juego.activo, 'bg-gray-900': !juego.activo }">
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <div class="flex items-center">
-                    <div class="flex-shrink-0 w-10 h-10">
-                      <img class="w-full h-full rounded-full" :src="juego.imagen" :alt="juego.nombre" />
-                    </div>
-                    <div class="ml-3">
-                      <p class="text-gray-300 whitespace-no-wrap">{{ juego.nombre }}</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.descripcion }}</p>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.precio }} SOL</p>
-                  <p class="text-gray-300 whitespace-no-wrap">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.vendedor || 'gsprout' }}</p>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <p class="text-gray-300 whitespace-no-wrap">{{ juego.remainingTime }}</p>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-800 text-sm">
-                  <span v-if="juego.activo" class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Activo</span>
-                  <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactivo</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <div class="w-full h-64 bg-gray-600">
+            <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
+            <p class="text-gray-300">{{ juego.descripcion }}</p>
+            <div class="mt-4 flex justify-between items-center">
+              <div>
+                <p class="text-gray-300">{{ juego.precio }} SOL</p>
+                <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+              </div>
+              <div>
+                <p class="text-gray-300">{{ juego.vendedor || 'gsprout' }}</p>
+                <p class="text-gray-300">{{ juego.remainingTime }}</p>
+              </div>
+              <div>
+                <span v-if="juego.activo" class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Activo</span>
+                <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactivo</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
