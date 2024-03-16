@@ -1,33 +1,36 @@
 const client = require('../configurations/redis.configuration');
-const bcryptUtil = require('../utils/bcrypt.util');
+const cryptojsUtil = require('../utils/cryptojs.util');
 
-const getCache = (req, res, next) => {
+const getCache = async (req, res, next) => {
     const {key} = req.redis;
-    const redisKey = bcryptUtil.hashText(key);
-
-    client.get(redisKey, (err, data) => {
-        if (err) throw err;
-
-        if (data !== null) {
-            res.send(JSON.parse(data));
-        } else {
-            next();
+    
+    const redisKey = await cryptojsUtil.hashText(key);
+    try{
+        const response = await client.get(redisKey);
+        if(response){
+            return res.json(JSON.parse(response)).status(200);
         }
-    });
+        next();
+
+    }
+    catch(err){
+        console.log(err);
+    }
 };
 
-const setCache = (req, res, next) => {
+const setCache = async (req, res, next) => {
+
     const {key, data, status} = req.redis;
-    const redisKey = bcryptUtil.hashText(key);
+    const redisKey = cryptojsUtil.hashText(key);
     client.setEx(redisKey, 3600, JSON.stringify(data));
     
     return res.json(data).status(status || 200);
 
 };
 
-const deleteCache = (req, res, next) => {
+const deleteCache = async (req, res, next) => {
     const {key, data, status} = req.redis;
-    const redisKey = bcryptUtil.hashText(key);
+    const redisKey = cryptojsUtil.hashText(key);
     client.del(redisKey);
 
     return res.json(data).status(status || 200);

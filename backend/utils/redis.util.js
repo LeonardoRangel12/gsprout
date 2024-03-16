@@ -1,20 +1,20 @@
 const redisConnection = require("../configurations/redis.configuration");
-const bcryptUtil = require("../utils/bcrypt.util");
+const cryptojsUtil = require("../utils/cryptojs.util");
 const getCache = async (key) => {
-  const redisKey = await bcryptUtil.hashText(key);
+  const redisKey = await cryptojsUtil.hashText(key);
 
   const res = await redisConnection.get(redisKey);
 
     return res;
 };
 
-const setCache = async (key, data) => {
-  const redisKey = await bcryptUtil.hashText(key);
-  redisConnection.setEx(redisKey, 3600, JSON.stringify(data));
+const setCache = async (key, data, expiration = 3600) => {
+  const redisKey = await cryptojsUtil.hashText(key);
+  redisConnection.setEx(redisKey, expiration, JSON.stringify(data));
 };
 
 const deleteCache = async (key) => {
-  const redisKey = await bcryptUtil.hashText(key);
+  const redisKey = await cryptojsUtil.hashText(key);
   redisConnection.del(redisKey);
 };
 

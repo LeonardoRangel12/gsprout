@@ -1,5 +1,5 @@
 const crypto = require("crypto-js");
-
+const sha256 = require("crypto-js/sha256");
 const encrypt = async function (data) {
   // If the environment is development, return the data as is
   if (process.env.NODE_ENV === "development") return data;
@@ -22,7 +22,12 @@ const decrypt = async function (data) {
   }
 };
 
+const hashText = async function (text) {
+  return sha256(text).toString();
+};
+
 module.exports = {
   encrypt,
   decrypt,
+  hashText
 };
