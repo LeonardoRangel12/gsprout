@@ -8,7 +8,7 @@ const router = express.Router();
 
 // GET
 router.get('/',upload.none(), controller.generateCacheKey, getCache,controller.getUsuarios, setCache);
-router.get('/me',upload.none(), getCache,verify.verifySession,controller.getUsuario);
+router.get('/me',upload.none(),verify.verifySession,controller.getUsuario);
 router.get('/:username',upload.none(), verify.verifySession,getCache,controller.getUsuarioById, setCache);
 // POST
 // router.post('/logout', controller.logoutUsuario);
