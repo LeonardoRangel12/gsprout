@@ -66,7 +66,7 @@ const loginUsuario = async (req, res, next) => {
       return res.status(401).send("Invalid password");
 
     const token = jwtUtil.generateToken(usuario);
-    return res.status(200).json({ token });
+    return res.status(200).json({ token, username: usuario.username });
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
