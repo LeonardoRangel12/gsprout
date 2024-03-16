@@ -33,6 +33,11 @@
               >Subastas</router-link
             >
           </li>
+          <li>
+            <router-link class="hover:text-gray-200" to="/mygames"
+              >Mis Juegos</router-link
+            >
+          </li>
         </ul>
         <!-- Header Icons -->
 
