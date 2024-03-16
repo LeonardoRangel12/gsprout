@@ -138,9 +138,7 @@ const getUsuario = async (req, res, next) => {
     const token = jwtUtil.verifyToken(req.headers.authorization);
     const usuario = await usuarioService.getUsuarioByUsername(token.username);
     if (!usuario) return res.status(404).send("User not found");
-    req.data = usuario;
-    next();
-    // return res.status(200).send(usuario);
+    return res.status(200).send(usuario);
   }
   else
   return res.status(401).send("Unauthorized");
