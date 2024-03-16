@@ -11,7 +11,7 @@
             <h2 class="text-sm text-gray-400">{{ user.nombre }}</h2>
             <div class="mt-2 text-sm text-gray-400">Nivel {{ user.nivel }}</div>
             <div class="mt-4 flex justify-center">
-              <button @click="addFriend" class="bg-indigo-600 hover:bg-blue-600 text-white py-2 px-6 rounded">Agregar Amigo</button>
+              <button @click="addFriend" class="bg-indigo-600 hover:bg-blue-600 text-white py-2 px-6 rounded">Editar</button>
             </div>
           </div>
           <hr class="my-6 border-t border-gray-600">
