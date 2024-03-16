@@ -1,46 +1,46 @@
 <template>
   <div class="bg-gray-900">
     <Navbar />
-    <main
-      class="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-900 text-white"
-    >
-      <div
-        class="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex"
-      >
-        <h1 class="text-2xl font-semibold">
-          Solana Pay: Generate your pay for {{ price }} SOL&#8779;${{
-            (SOL_TO_USD_RATE * price).toFixed(2)
-          }}
-          USDT
-        </h1>
-      </div>
-      <div v-if="qr" class="mt-8">
-        <div ref="qrCode"></div>
-      </div>
-      <div v-else-if="qrLoading" class="mt-8">
-        <p>Loading...</p>
-      </div>
-      <div v-else class="mt-8">
-        <p>No QR code available</p>
-      </div>
+    <div class="container mx-auto py-8">
+      <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
+        <div class="col-span-1 sm:col-span-9">
+          <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+            <div class="bg-gray-700 rounded-lg p-6 shadow-lg flex">
+              <img src="https://i.imgur.com/U7Ej40w.jpg" class="w-23 h-23 bg-gray-300 mb-2 shadow-md mr-4">
+              <div>
+                <h2 class="text-2xl font-bold mb-4 text-white">Name Game</h2>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-lg font-bold  text-white"> {{ price }} SOL&#8779;${{(SOL_TO_USD_RATE * price).toFixed(2)}}USDT</span>
+                </div>
+                <h2 class="text-2xl font-bold mb-4  text-white " v-if="!showQR">Descripción</h2>
+                <p class=" text-white " v-if="!showQR">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risus rhoncus id. </p>
 
-      <div class="mt-8">
-        <button
-          @click="handleGenerateClick"
-          :disabled="qrLoading"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          {{ qrLoading ? "Generating..." : "Generate Solana Pay Order" }}
-        </button>
-        <button
-          @click="handleVerifyClick"
-          :disabled="qrLoading"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
-        >
-          Verify Transaction
-        </button>
+                <main class="flex-col items-center justify-center p-24 text-white">
+                  <div v-if="qr" class="mt-2">
+                    <div ref="qrCode"></div>
+                  </div>
+                </main>
+                <div class="mt-4 flex">
+                    <button
+                      @click="handleGenerateClick"
+                      :disabled="qrLoading"
+                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      {{ qrLoading ? "Generating..." : "Generate Solana Pay Order" }}
+                    </button>
+                    <button
+                      @click="handleVerifyClick"
+                      :disabled="qrLoading"
+                      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+                      Verify Transaction
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
+    </div>
+    
     <Footer />
   </div>
 </template>
@@ -72,6 +72,7 @@ export default {
       qrLoading: false,
       SOL_TO_USD_RATE: 0,
       price: 0,
+      showQR: false,
     };
   },
   async created() {
@@ -79,6 +80,7 @@ export default {
   },
   methods: {
     async handleGenerateClick() {
+      this.showQR = true;
       try {
         this.qrLoading = true;
         const res = await axios.post(
@@ -99,6 +101,7 @@ export default {
         console.error("Error generating QR code:", error);
         alert("Error generating QR code. Please try again later.");
       }
+      
     },
     async handleVerifyClick() {
       if (!this.reference) {
