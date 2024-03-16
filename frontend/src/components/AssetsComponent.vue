@@ -31,6 +31,7 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import AssetComponent from "./AssetComponent.vue";
 import axios from "../main";
+import Swal from 'sweetalert2'; // Importa SweetAlert
 
 import { useWallet } from "solana-wallets-vue";
 
@@ -63,6 +64,11 @@ export default {
         this.assets = response.data.items;
       } catch (error) {
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error fetching assets. Please try again later.'
+        });
         this.error = "Error fetching assets. Please try again later.";
       } finally {
         this.isLoading = false;
@@ -71,4 +77,3 @@ export default {
   },
 };
 </script>
-

@@ -33,15 +33,12 @@
                 </p>
               </div>
             </button>
-
-
           </div>
         </div>
       </section>
     </div>
     <NewGames />
     <Footer />
-
   </div>
 </template>
 
@@ -52,6 +49,7 @@ import Hero from './HeroComponent.vue';
 import NewGames from './NewGamesComponent.vue';
 import axios from '../main';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2'; // Importa SweetAlert
 
 export default {
   components: {
@@ -59,7 +57,6 @@ export default {
     Footer,
     Hero,
     NewGames,
-
   },
   data() {
     return {
@@ -79,8 +76,7 @@ export default {
         const res = await axios.get('/exchange');
         console.log(res);
         this.SOL_TO_USD_RATE = res.data.sell;
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
     },
@@ -90,20 +86,37 @@ export default {
       // Limitar la cantidad de juegos mostrados a 12
       this.featuredGames = this.games.slice(0, 12);
       this.newGames = this.games;
-
     },
     checkout() {
       if (this.cart.length > 0) {
         // Implement checkout logic here
-        alert("Checkout completed!");
-        this.cart = []; // Empty the cart after checkout
+        Swal.fire({
+          title: 'Checkout',
+          text: '¿Estás seguro de que quieres proceder con el pago?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Sí',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Aquí iría la lógica de pago
+            Swal.fire('¡Pago completado!', '', 'success');
+            this.cart = []; // Vaciar el carrito después del pago
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Tu carrito está vacío',
+        });
       }
     },
     switchToBuy(gameid) {
-      // Redirect the user to the registration page
+      // Redirige al usuario a la página de registro
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.games.find(game => game._id === gameid).precio);
-    }
-  }
+    },
+  },
 };
 </script>
 
