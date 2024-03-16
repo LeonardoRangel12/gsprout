@@ -77,7 +77,11 @@ const getJuegoById = async (req, res, next) => {
   try {
     const juego = await juegoService.getJuegoById(req.params.id);
     if (!juego) return res.status(404).send("Juego no existe");
-    req.data = juego;
+    req.redis = {
+      key: `${juegoSalt}:${req.params.id}`,
+      data: juego,
+      status: 200,
+    }
     next();
     // return res.status(200).send(juego);
   } catch {
