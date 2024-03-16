@@ -158,7 +158,7 @@ const login = async () => {
       alert("Usuario y/o contraseña incorrectos. Por favor, inténtalo de nuevo.");
       return;
     }
-
+  localStorage.setItem("username", res.data.username);
   localStorage.setItem("token", res.data.token);
   router.push("/main");
 };

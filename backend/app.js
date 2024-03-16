@@ -2,7 +2,13 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const env = require("dotenv").config();
+require("dotenv").config();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+  },
+});
 // const session = require("express-session");
 app.set("trust proxy");
 
@@ -26,6 +32,10 @@ app.use(cors(corsOptions));
 //   console.log(res);
 // });
 
+// WEBSOCKET
+const chatSocket = require("./sockets/chat.socket")(io);
+
+
 // ROUTES
 app.use("/usuarios", require("./routers/usuario.router.js"));
 app.use("/juegos", require("./routers/juego.router.js"));
@@ -36,7 +46,6 @@ app.use("/historialcompras", require("./routers/historialcompras.router.js"));
 app.use("/compras", require("./routers/compra.router.js"));
 app.use("/publicaciones", require("./routers/publicaciones.router.js"));
 // SERVER
-const server = require("http").createServer(app);
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });

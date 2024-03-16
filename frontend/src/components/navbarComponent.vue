@@ -38,6 +38,9 @@
               >Mis Juegos</router-link
             >
           </li>
+          <li>
+            <button @click="sendMessage('Hello', 'nanimon383')">Send Message</button>
+          </li>
         </ul>
         <!-- Header Icons -->
 
@@ -166,6 +169,7 @@
 
 <script>
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
+import io from "socket.io-client";
 export default {
   components: {
     WalletMultiButton,
@@ -175,6 +179,10 @@ export default {
     return {
       showProfileMenu: false,
       connected: useWallet().connected,
+      socket: null,
+      messages: {
+        nanimon383: [],
+      }
     };
   },
   watch: {
@@ -186,17 +194,49 @@ export default {
       }
     }
   },
+  mounted(){
+
+    this.socket = io("http://localhost:3000");
+
+    this.socket.emit("login", localStorage.getItem("token"));
+
+    this.socket.on("login", (message) => {
+      console.log("Login: " + message);
+    });
+
+    // Escucha los mensajes que recibe el usuario
+    this.socket.on("message", (data) => {
+      console.log(data);
+      alert("From: " + data.from + " Message: " + data.message + " To: " + data.to);
+      // this.messages[]
+    });
+
+  },
   methods: {
     toggleProfileMenu() {
       this.showProfileMenu = !this.showProfileMenu;
     },
     logout() {
+      localStorage.removeItem("username");
       // JWT
       localStorage.removeItem("token");
       // Si la solicitud de logout fue exitosa, redirige al usuario a '/'
       this.$router.push("/");
     },
+    sendMessage(message, to) {
+      const token = localStorage.getItem("token");
+      const data = {
+        message: message,
+        from: token,
+        to: to,
+      };
+      this.socket.emit("message", data);
+    },
   },
+  beforeUnmount() {
+    this.socket.off("message");
+    this.socket.off("login");
+  }
 
 };
 </script>

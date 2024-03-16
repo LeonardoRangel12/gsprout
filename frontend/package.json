@@ -17,6 +17,7 @@
     "axios": "^1.6.5",
     "base64-arraybuffer": "^1.0.2",
     "qr-code-styling": "^1.6.0-rc.1",
+    "socket.io-client": "^4.7.5",
     "solana-wallets-vue": "^0.6.1",
     "sweetalert2": "^11.10.6",
     "vue": "^3.4.19",

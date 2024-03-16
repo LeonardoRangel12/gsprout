@@ -79,8 +79,26 @@ const walletOptions = {
 };
 initWallet(walletOptions);
 const connection = new Connection(clusterApiUrl("devnet"));
-// @ts-ignore
-createApp(App).use(router, SolanaWallets, walletOptions).mount("#app");
 
+
+// Websocket
+// import io from "socket.io-client";
+// const socket = io("http://localhost:3000");
+
+
+
+const app = createApp(App);
+// @ts-ignore
+
+// app.use({
+//   install(app) {
+//     app.config.globalProperties.$socket = socket;
+//   },
+// });
+
+app.use(SolanaWallets, walletOptions);
+app.use(router);
+
+app.mount("#app");
 export default newAxios;
 export { connection };
