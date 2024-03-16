@@ -14,6 +14,7 @@ import GameViewComponentVue from "./components/GameViewComponent.vue";
 import WishList from "./components/WishListComponent.vue";
 import NewGameComponentVue from "./components/NewGamesComponent.vue";
 import AssetsComponentVue from "./components/AssetsComponent.vue";
+import GameDetailsComponentVue from "./components/GameDetailsComponent.vue";
 
 import "vue-connect-wallet/dist/style.css"
 let baseURL: string = "";
@@ -45,6 +46,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/newgame", component: NewGameComponentVue },
   { path: "/mygames", component: AssetsComponentVue },
   { path: "/mygames/:publicKey", component: AssetViewVue},
+  { path: "/game/:gameId", component: GameDetailsComponentVue },
 ];
 
 const router = createRouter({
