@@ -28,12 +28,22 @@
                                 </div>
                                 </div>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold mb-4 text-white">Name Game</h2>
-                                <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
-                                <p class="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risus rhoncus id. </p>
+                            <div flex flex-col>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/CxPhhR5.jpg" alt="">
+                                </div>
+                                <div>
+                                    <h2 class="text-2xl font-bold text-white">Name Game</h2>
+                                    <h2 class="text-base font-bold mb-4 text-white">Categoria</h2>
+                                    <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
+                                    <p class="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae 
+                                        tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. 
+                                        Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices 
+                                        posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risus rhoncus id. 
+                                    </p>
+                                </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,18 +53,50 @@
 </template>
   
 <script>
-import Navbar from './navbarComponent.vue';
-import Footer from './FooterComponent.vue';
-
+import axios from "../main";
+import { connection } from "../main";
+import Navbar from "./navbarComponent.vue";
+import Footer from "./FooterComponent.vue";
 export default {
-    components: {
-        Navbar,
-        Footer
-    }
+  components: {
+    Navbar,
+    Footer,
+  },
+  data() {
+    return {
+      juego: [],
+      reference: "",
+      SOL_TO_USD_RATE: 0,
+      price: 0,
+    };
+  },
+  async created() {
+    await this.getExchange();
+    await this.getJuegos();
+  },
+  methods: {
+    async getJuegos() {
+      const response = await axios.get("/juegos/" + this.$route.query.id);
+      this.juego = response.data;
+      console.log(response);
+      console.log(this.$route.query.id);
+    },
+    async getExchange() {
+      try {
+        const res = await axios.get("/exchange");
+        this.SOL_TO_USD_RATE = res.data.sell;
+        this.price = this.$router.currentRoute.value.query.price;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 };
 </script>
-  
+
 <style scoped>
-/* Estilos personalizados */
+.dark {
+  background-color: #1a1a1a;
+  /* Dark gray background */
+}
 </style>
-  
