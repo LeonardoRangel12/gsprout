@@ -177,7 +177,7 @@
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import io from "socket.io-client";
 import axios from "../main";
-import { provide } from "vue";
+import { computed, provide } from "vue";
 export default {
   components: {
     WalletMultiButton,
@@ -194,6 +194,7 @@ export default {
       usuario: "",
     };
   },
+
   watch: {
     connected: {
       handler: async function (val) {
@@ -232,17 +233,7 @@ export default {
       // Si la solicitud de logout fue exitosa, redirige al usuario a '/'
       this.$router.push("/");
     },
-    async getWishList() {
-      const res = await axios.get("/usuarios/me");
-      // Si la solicitud es exitosa, envia la lista de deseos con un evento
-      if (res.status == 200) {
-           provide("wishlist", res.data.wishList);
-      } else if (res.status == 401) {
-        this.logout();
-      } else if (res.status == 404) {
-        alert("Usuario no encontrado");
-      }
-    },
+
     sendMessage(message) {
       const token = localStorage.getItem("token");
       const data = {
