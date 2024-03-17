@@ -20,27 +20,28 @@
                 <h2 class="text-2xl font-bold mb-4 text-white" v-if="!showQR">Descripción</h2>
                 <p class="text-white" v-if="!showQR">{{ juego.descripcion }}</p>
               </div>
-
-              <!-- QR Code -->
-              <div class="mt-6" v-if="showQR">
-                <div ref="qrCode"></div>
+              <div class="flex flex-col items-center">
+                  <!-- QR Code -->
+                  <div class=" mt-6" v-if="showQR">
+                    <div ref="qrCode"></div>
+                  </div>
+                  
+                  <!-- Contenedor de los botones con margen superior -->
+                    <!-- Botones -->
+                    <div class="flex flex-col sm:flex-row sm:items-center mt-6">
+                      <button @click="handleGenerateClick"
+                              :disabled="qrLoading"
+                              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mb-4 sm:mb-0 sm:mr-4">
+                        {{ qrLoading ? "Generando..." : "Generar Orden de Pago Solana" }}
+                      </button>
+                      <button @click="handleVerifyClick"
+                              :disabled="qrLoading"
+                              class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
+                        Verificar Transacción
+                      </button>
+                    </div>
               </div>
               
-              <!-- Contenedor de los botones con margen superior -->
-              
-                <!-- Botones -->
-                <div class="flex flex-col sm:flex-row sm:items-center">
-                  <button @click="handleGenerateClick"
-                          :disabled="qrLoading"
-                          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mb-4 sm:mb-0 sm:mr-4">
-                    {{ qrLoading ? "Generando..." : "Generar Orden de Pago Solana" }}
-                  </button>
-                  <button @click="handleVerifyClick"
-                          :disabled="qrLoading"
-                          class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
-                    Verificar Transacción
-                  </button>
-                </div>
               
               
               <!-- Contenido adicional aquí -->
