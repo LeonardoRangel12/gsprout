@@ -153,10 +153,41 @@ async function getJuegoById(juegoId) {
   return result;
 }
 
+async function autocompleteJuegosSearch(queryString){
+  const juegosNames = await dbConnectionWrapper(async (dbCon) => {
+    const query = [
+      {
+        $search: {
+          index: "juegosSearch",
+          text: {
+            query: queryString,
+            path: ['nombre'],
+            fuzzy: {
+              maxEdits: 2
+            }
+          }
+        }        
+      },
+      {
+        $project: {
+          nombre: 1,
+          _id: 1,
+          imagen: 1
+        }
+      },
+      {
+        $limit: 5
+      }
+    ];
+    const result = await dbCon.collection("games").aggregate(query).toArray();
+    return result;
+  })
+  return juegosNames; 
+}
+
 async function searchJuegos(searchParams) {
   juegos = await dbConnectionWrapper(async (dbCon) => {
     let {queryString, minPrice, maxPrice, categoriesToFilter} = searchParams;
-    console.log(searchParams)
     const query = []
     if(queryString && queryString.length > 0){
       query.push(
@@ -211,6 +242,10 @@ async function searchJuegos(searchParams) {
           }
       });
   }
+    //limit to 20 results
+    query.push({
+      $limit: 20
+    })
     const result = await dbCon.collection("games").aggregate(query).toArray();
     return result;
   });
@@ -368,6 +403,7 @@ module.exports = {
   getJuegos,
   getJuegoById,
   searchJuegos,
+  autocompleteJuegosSearch,
   updateJuego,
   deleteJuego,
   getJuegoByName,
