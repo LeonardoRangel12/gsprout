@@ -4,7 +4,6 @@ module.exports = (io) => {
     socket.on("login", async (token) => {
       const { username } = jwtUtil.verifyToken(token);
       //  Check if the user is already connected to the room
-      console.log("connected to room", username);
       socket.join(username);
       socket.emit("login", "You are connected to chat");
     });

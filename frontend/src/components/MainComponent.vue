@@ -21,6 +21,8 @@
                 <button @click="switchToBuy(juego._id)" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                   Comprar
                 </button>
+                <button v-if="!isFavorite" @click="addToWishList(juego._id)">Añadir a favoritos</button>
+                <button v-else @click="removeFromWishList(juego._id)">Remover de favoritos</button>
               </div>
             </div>
           </div>
@@ -39,7 +41,7 @@ import Hero from './HeroComponent.vue';
 import NewGames from './NewGamesComponent.vue';
 import axios from '../main';
 import Swal from 'sweetalert2'; // Importa SweetAlert
-
+import { inject } from 'vue';
 export default {
   components: {
     Navbar,
@@ -53,11 +55,22 @@ export default {
       featuredGames: [],
       newGames: [],
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
+      wishlist: [],
     };
+  },
+  setup() {
+
   },
   async created() {
     await this.getExchange();
     await this.getJuegos();
+    await this.getWishList();
+
+  },
+  computed:{
+    isFavorite(juegoId){
+      return this.wishlist.includes(juegoId)
+    }
   },
   methods: {
     async getExchange() {
@@ -68,6 +81,27 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async addToWishList(juegoId){
+      try {
+        const res = await axios.post('/usuarios/wishlist/' + juegoId);
+        alert('Juego añadido a favoritos');
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async removeFromWishList(juegoId){
+      try {
+        const res = await axios.delete('/usuarios/wishlist/' + juegoId);
+        alert('Juego removido de favoritos');
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getWishList() {
+      inject('wishlist', (wishlist) => {
+      this.wishlist = wishlist;
+    })
     },
     async getJuegos() {
       try {
@@ -92,6 +126,10 @@ export default {
         console.error(error);
       }
     },
+  },
+
+  beforeUnmount() {
+    this.$root.$off('wishlist');
   },
 };
 </script>

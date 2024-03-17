@@ -1,6 +1,18 @@
 const client = require('../configurations/redis.configuration');
 const cryptojsUtil = require('../utils/cryptojs.util');
 
+/*
+    * getCache: Middleware que obtiene el cache de la base de datos
+    * setCache: Middleware que guarda el cache en la base de datos
+    * deleteCache: Middleware que elimina el cache en la base de datos
+    * 
+    * req.redis: {
+    *  key: String,
+    * data: Object to store in redis and return to the client,
+    * status: status code to return to the client
+    * }
+*/
+
 const getCache = async (req, res, next) => {
     const {key} = req.redis;
     

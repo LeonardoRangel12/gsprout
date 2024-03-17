@@ -39,7 +39,13 @@
             >
           </li>
           <li>
-            <button @click="sendMessage('Hello', 'nanimon383')">Send Message</button>
+            <input
+              v-model="usuario"
+              type="text"
+              placeholder="Usuario"
+              class="rounded-md"
+            />
+            <button @click="sendMessage('Hello', usuario)">Send Message</button>
           </li>
         </ul>
         <!-- Header Icons -->
@@ -170,6 +176,8 @@
 <script>
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import io from "socket.io-client";
+import axios from "../main";
+import { provide } from "vue";
 export default {
   components: {
     WalletMultiButton,
@@ -182,20 +190,20 @@ export default {
       socket: null,
       messages: {
         nanimon383: [],
-      }
+      },
+      usuario: "",
     };
   },
   watch: {
     connected: {
       handler: async function (val) {
-        if(!val){
+        if (!val) {
           this.logout();
         }
-      }
-    }
+      },
+    },
   },
-  mounted(){
-
+  mounted() {
     this.socket = io("http://localhost:3000");
 
     this.socket.emit("login", localStorage.getItem("token"));
@@ -207,10 +215,11 @@ export default {
     // Escucha los mensajes que recibe el usuario
     this.socket.on("message", (data) => {
       console.log(data);
-      alert("From: " + data.from + " Message: " + data.message + " To: " + data.to);
+      alert(
+        "From: " + data.from + " Message: " + data.message + " To: " + data.to
+      );
       // this.messages[]
     });
-
   },
   methods: {
     toggleProfileMenu() {
@@ -223,12 +232,23 @@ export default {
       // Si la solicitud de logout fue exitosa, redirige al usuario a '/'
       this.$router.push("/");
     },
-    sendMessage(message, to) {
+    async getWishList() {
+      const res = await axios.get("/usuarios/me");
+      // Si la solicitud es exitosa, envia la lista de deseos con un evento
+      if (res.status == 200) {
+           provide("wishlist", res.data.wishList);
+      } else if (res.status == 401) {
+        this.logout();
+      } else if (res.status == 404) {
+        alert("Usuario no encontrado");
+      }
+    },
+    sendMessage(message) {
       const token = localStorage.getItem("token");
       const data = {
         message: message,
         from: token,
-        to: to,
+        to: this.usuario,
       };
       this.socket.emit("message", data);
     },
@@ -236,8 +256,7 @@ export default {
   beforeUnmount() {
     this.socket.off("message");
     this.socket.off("login");
-  }
-
+  },
 };
 </script>
 

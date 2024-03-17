@@ -7,7 +7,14 @@ const generateToken = (payload) => {
 };
 
 const verifyToken = (token) => {
-    return jwt.verify(token, secret);
+    const jwtToken = token.split(' ')[1];
+    try{
+        return jwt.verify(jwtToken, secret);
+
+    }
+    catch(err){        
+        return null;
+    }
 }
 
 module.exports = {
