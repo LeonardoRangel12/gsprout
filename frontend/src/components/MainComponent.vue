@@ -6,10 +6,15 @@
       <section class="game-list-section mb-8">
         <h2 class="text-3xl font-bold mb-6 text-center">Juegos Destacados</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative">
             <div class="w-full h-64 bg-gray-600">
               <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
             </div>
+            <button @click="toggleFavorite(juego._id)" class="absolute top-2 right-2 text-red-500 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18.338l-.656-.623C4.203 13.23 1 10.12 1 6.5 1 3.463 3.462 1 6.5 1c1.61 0 3.086.73 4 1.88C10.414 1.729 11.89 1 13.5 1 16.538 1 19 3.463 19 6.5c0 3.621-3.203 6.73-8.344 11.215L10 18.339zM6.5 3C4.57 3 3 4.57 3 6.5c0 2.873 2.46 5.307 7 9.479 4.54-4.172 7-6.606 7-9.479C17 4.57 15.43 3 13.5 3c-1.407 0-2.454.63-3.169 1.654l-.331.479-.331-.48C8.954 3.63 7.907 3 6.5 3z" clip-rule="evenodd" />
+              </svg>
+            </button>
             <div class="p-4">
               <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
               <p class="text-gray-300">{{ juego.descripcion }}</p>
@@ -18,11 +23,9 @@
                   <p class="text-gray-300">{{ juego.precio }} SOL</p>
                   <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
                 </div>
-                <button @click="switchToBuy(juego._id)" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                <button @click="switchToBuy(juego._id)" class="btn-primary">
                   Comprar
                 </button>
-                <button v-if="!isFavorite" @click="addToWishList(juego._id)">Añadir a favoritos</button>
-                <button v-else @click="removeFromWishList(juego._id)">Remover de favoritos</button>
               </div>
             </div>
           </div>
@@ -126,6 +129,13 @@ export default {
         console.error(error);
       }
     },
+    async toggleFavorite(juegoId){
+      if(this.isFavorite(juegoId)){
+        await this.removeFromWishList(juegoId);
+      } else {
+        await this.addToWishList(juegoId);
+      }
+    }
   },
 
   beforeUnmount() {
@@ -135,10 +145,15 @@ export default {
 </script>
 
 <style>
-.text-gradient {
-  background-image: linear-gradient(to right, #00FFA3, #03E1FF, #DC1FFF);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.btn-primary {
+  background-color: #4F46E5;
+  color: #FFFFFF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #4338CA;
 }
 </style>
