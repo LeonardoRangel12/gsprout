@@ -106,6 +106,27 @@ async function deleteUsuario(username) {
   return result;
 }
 
+async function addToWishList(username, id) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon
+      .collection("users")
+      .updateOne({ username }, { $addToSet: { wishList: id } });
+
+    return result;
+  });
+  return result;
+}
+async function removeFromWishList(username, id) {
+  const result = await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon
+      .collection("users")
+      .updateOne({ username }, { $pull: { wishList: id } });
+
+    return result;
+  });
+  return result;
+}
+
 async function createJuego(data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const result = await dbCon.collection("games").insertOne(data);
@@ -277,6 +298,8 @@ module.exports = {
   getUsuarioById,
   updateUsuario,
   deleteUsuario,
+  addToWishList,
+  removeFromWishList,
   createJuego,
   getJuegos,
   getJuegoById,

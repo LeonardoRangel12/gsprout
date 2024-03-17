@@ -159,7 +159,7 @@ const login = async () => {
       return;
     }
   localStorage.setItem("username", res.data.username);
-  localStorage.setItem("token", res.data.token);
+  localStorage.setItem("token", "Bearer " + res.data.token);
   router.push("/main");
 };
 // const login = async () => {

@@ -34,6 +34,13 @@ async function updateUsuario(username, data) {
 async function deleteUsuario(username) {
     return await db.deleteUsuario(username);
 }
+
+async function addToWishList(username, id) {
+    return await db.addToWishList(username, id);
+}
+async function removeFromWishList(username, id) {
+    return await db.removeFromWishList(username, id);
+}
 module.exports = {
     createUsuario,
     getUsuarios,
@@ -42,5 +49,7 @@ module.exports = {
     getUsuarioByUsername,
     getUsuarioById,
     updateUsuario,
-    deleteUsuario
+    deleteUsuario,
+    addToWishList,
+    removeFromWishList,
 }

@@ -65,7 +65,9 @@ const loginUsuario = async (req, res, next) => {
     if (!(await bcryptUtil.comparePassword(password, usuario.password)))
       return res.status(401).send("Invalid password");
 
-    const token = jwtUtil.generateToken(usuario);
+    // Generate token
+    const data = { username: usuario.username, _id : usuario._id};
+    const token = jwtUtil.generateToken(data);
     return res.status(200).json({ token, username: usuario.username });
   } catch (error) {
     console.log(error);
@@ -134,15 +136,33 @@ const deleteUsuario = async (req, res, next) => {
 // };
 
 const getUsuario = async (req, res, next) => {
-  if (req.headers.authorization) {
     const token = jwtUtil.verifyToken(req.headers.authorization);
+    if (!token) return res.status(401).send("Unauthorized");
     const usuario = await usuarioService.getUsuarioByUsername(token.username);
     if (!usuario) return res.status(404).send("User not found");
     return res.status(200).send(usuario);
-  }
-  else
-  return res.status(401).send("Unauthorized");
 };
+
+const addToWishList = async (req, res, next) => {
+  
+  const {username} = jwtUtil.verifyToken(req.headers.authorization);
+  const { id } = req.params;
+
+  const usuario = await usuarioService.addToWishList(username, id);
+  if (!usuario) return res.status(404).send("User not found");
+
+  return res.status(200).send(usuario);
+}
+const removeFromWishList = async (req, res, next) => {
+  
+  const {username} = jwtUtil.verifyToken(req.headers.authorization);
+  const { id } = req.params;
+
+  const usuario = await usuarioService.removeFromWishList(username, id);
+  if (!usuario) return res.status(404).send("User not found");
+
+  return res.status(200).send(usuario);
+}
 
 const generateCacheKey = (req, res, next) => {
   const { username } = req.params;
@@ -153,6 +173,8 @@ const generateCacheKey = (req, res, next) => {
   next();
 };
 
+
+
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -162,5 +184,7 @@ module.exports = {
   deleteUsuario,
   // logoutUsuario,
   getUsuario,
-  generateCacheKey
+  generateCacheKey,
+  addToWishList,
+  removeFromWishList,
 };
