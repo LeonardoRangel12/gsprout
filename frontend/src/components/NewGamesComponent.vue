@@ -10,7 +10,7 @@
                 <img :src="game.imagen" :alt="game.nombre + ' Image'" class="h-16 w-16 object-cover rounded" />
                 <div class="ml-4">
                   <h3 class="text-xl font-bold">{{ game.nombre }}</h3>
-                  <p class="text-gray-400">{{ game.descripcion }}</p>
+                  
                   <span v-if="game.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Oferta</span>
                 </div>
               </div>
@@ -32,7 +32,7 @@
                 <img :src="game.imagen" :alt="game.nombre + ' Image'" class="h-16 w-16 object-cover rounded" />
                 <div class="ml-4">
                   <h3 class="text-xl font-bold">{{ game.nombre }}</h3>
-                  <p class="text-gray-400">{{ game.descripcion }}</p>
+                  
                   <span v-if="game.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Oferta</span>
                 </div>
               </div>

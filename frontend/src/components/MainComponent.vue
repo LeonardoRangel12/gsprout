@@ -146,6 +146,13 @@ export default {
       }
     },
   },
+  filters: {
+    truncate(value, maxLength) {
+      if (!value) return '';
+      if (value.length <= maxLength) return value;
+      return value.substr(0, maxLength) + '...';
+    }
+  }
 };
 </script>
 
