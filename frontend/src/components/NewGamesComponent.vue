@@ -50,9 +50,9 @@
           </ul>
         </div>
         <!-- Tarjeta de información del juego -->
-        <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="absolute bg-gray-800 p-4 rounded-lg shadow-lg">
+        <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="absolute p-4 rounded-lg " style="width: 600px; height: 400px;">
           <h3 class="text-xl font-bold">{{ hoveredGame.nombre }}</h3>
-          <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2">
+          <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2" style="max-height: 300px;">
           <p class="text-gray-300">{{ hoveredGame.descripcion }}</p>
           <span v-if="hoveredGame.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Oferta</span>
           <div class="text-right mt-2">
