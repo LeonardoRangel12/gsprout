@@ -1,5 +1,6 @@
 const { query } = require("express");
 const juegoSchema = require("../models/juego.model");
+const searchJuegosSchema = require("../models/searchJuegos.model");
 const juegoService = require("../services/juego.service");
 const cryptojsUtil = require("../utils/cryptojs.util");
 
@@ -89,9 +90,25 @@ const getJuegoById = async (req, res, next) => {
   }
 };
 
+const autocompleteJuegosSearch = async (req, res) => {
+  try{
+    const query = req.params.query;
+    const juegos = await juegoService.autocompleteJuegosSearch(query);
+    return res.status(200).send(juegos);
+  }catch(error){
+    console.log(error);
+    return res.status(500).send("Internal Server Error");
+  }
+}
+
 const searchJuegos = async (req, res) => {
   try{
-    const queryParams = req.body;
+    let { error, value } = searchJuegosSchema.validate(req.body);
+    if (error) {
+      //Si hay un error en la validacion
+      return res.status(400).send(error.details);
+    }
+    const queryParams = value;
     if (queryParams.minPrice > queryParams.maxPrice) {
       return res.status(400).send("Invalid price range");
     }
@@ -158,5 +175,6 @@ module.exports = {
   deleteJuego,
   createSeveralJuegos,
   generateCacheKey,
-  searchJuegos
+  searchJuegos,
+  autocompleteJuegosSearch
 };

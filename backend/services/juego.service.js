@@ -11,6 +11,10 @@ async function getJuegoById(id){
     return await db.getJuegoById(id);
 }
 
+async function autocompleteJuegosSearch(query){
+    return await db.autocompleteJuegosSearch(query);
+}
+
 async function searchJuegos(queryParams){
     return await db.searchJuegos(queryParams);
 }
@@ -33,5 +37,6 @@ module.exports = {
     updateJuego,
     deleteJuego,
     getJuegoByName,
-    searchJuegos
+    searchJuegos,
+    autocompleteJuegosSearch
 }

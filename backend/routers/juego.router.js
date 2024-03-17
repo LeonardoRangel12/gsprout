@@ -8,7 +8,11 @@ const router = express.Router();
 // GET
 router.get('/',upload.none(), controller.generateCacheKey, getCache,controller.getJuegos, setCache);  
 router.get('/:id', upload.none(),controller.generateCacheKey, getCache,controller.getJuegoById, setCache);
-    // /search, gets query params
+
+//No cached yet
+router.get('/search/autoComplete/:query', upload.none(), controller.autocompleteJuegosSearch);
+
+//No cached yet
 router.post('/search', upload.none(), controller.searchJuegos);
 // POST
 router.post('/',upload.none(),controller.createJuego, deleteCache);
