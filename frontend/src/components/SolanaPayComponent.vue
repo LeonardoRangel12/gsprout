@@ -6,14 +6,16 @@
         <div class="col-span-1 sm:col-span-9">
           <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
             <div class="bg-gray-700 rounded-lg p-6 shadow-lg flex">
-              <img src="https://i.imgur.com/U7Ej40w.jpg" class="w-23 h-23 bg-gray-300 mb-2 shadow-md mr-4">
+              <div class="flex flex-row w-25 h-full">
+                <img :src="juego.imagen" :alt="juego.nombre" class="w-full h-full bg-gray-300 mb-2 shadow-md mr-4">
+              </div>
               <div>
-                <h2 class="text-2xl font-bold mb-4 text-white">Name Game</h2>
+                <h2 class="text-2xl font-bold mb-4 text-white">{{ juego.nombre }}</h2>
                 <div class="flex justify-between items-center mt-4">
                   <span class="text-lg font-bold  text-white"> {{ price }} SOL&#8779;${{(SOL_TO_USD_RATE * price).toFixed(2)}}USDT</span>
                 </div>
                 <h2 class="text-2xl font-bold mb-4  text-white " v-if="!showQR">Descripción</h2>
-                <p class=" text-white " v-if="!showQR">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risus rhoncus id. </p>
+                <p class=" text-white " v-if="!showQR"> {{ juego.descripcion }} </p>
 
                 <main class="flex-col items-center justify-center p-24 text-white">
                   <div v-if="qr" class="mt-2">
@@ -67,6 +69,7 @@ export default {
   },
   data() {
     return {
+      juego: [],
       reference: "",
       qr: null,
       qrLoading: false,
@@ -77,8 +80,22 @@ export default {
   },
   async created() {
     await this.getExchange();
+    await this.getJuegos();
   },
   methods: {
+    async getJuegos() {
+      /*
+      try {
+        const response = await axios.get("/juegos/" + this.$route.query.id);
+        this.juego = response.data;
+      } catch (error) {
+        console.error(error);
+      }*/
+      const response = await axios.get("/juegos/" + this.$route.query.id);
+      this.juego = response.data;
+      console.log(response);
+      console.log(this.$route.query.id);
+    },
     async handleGenerateClick() {
       this.showQR = true;
       try {
