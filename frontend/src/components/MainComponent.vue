@@ -10,15 +10,16 @@
             <div class="w-full h-64 bg-gray-600">
               <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
             </div>
-            <button v-if="!wishlist.includes(juego._id)" @click="addToWishList(juego._id)" class="absolute top-2 right-2 text-red-500 focus:outline-none">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18.338l-.656-.623C4.203 13.23 1 10.12 1 6.5 1 3.463 3.462 1 6.5 1c1.61 0 3.086.73 4 1.88C10.414 1.729 11.89 1 13.5 1 16.538 1 19 3.463 19 6.5c0 3.621-3.203 6.73-8.344 11.215L10 18.339zM6.5 3C4.57 3 3 4.57 3 6.5c0 2.873 2.46 5.307 7 9.479 4.54-4.172 7-6.606 7-9.479C17 4.57 15.43 3 13.5 3c-1.407 0-2.454.63-3.169 1.654l-.331.479-.331-.48C8.954 3.63 7.907 3 6.5 3z" clip-rule="evenodd" />
+            <button v-if="!wishlist.includes(juego._id)" @click="addToWishList(juego._id)" class="absolute top-2 right-2 text-gray-500 focus:outline-none">
+              <svg @click.stop="addToWishList(juego._id)" class="h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
             </button>
             <button v-else @click="removeFromWishList(juego._id)" class="absolute top-2 right-2 text-red-500 focus:outline-none">
-              CHIHADOAHD
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18.338l-.656-.623C4.203 13.23 1 10.12 1 6.5 1 3.463 3.462 1 6.5 1c1.61 0 3.086.73 4 1.88C10.414 1.729 11.89 1 13.5 1 16.538 1 19 3.463 19 6.5c0 3.621-3.203 6.73-8.344 11.215L10 18.339zM6.5 3C4.57 3 3 4.57 3 6.5c0 2.873 2.46 5.307 7 9.479 4.54-4.172 7-6.606 7-9.479C17 4.57 15.43 3 13.5 3c-1.407 0-2.454.63-3.169 1.654l-.331.479-.331-.48C8.954 3.63 7.907 3 6.5 3z" clip-rule="evenodd" />
+              <svg @click.stop="removeFromWishList(juego._id)" class="h-6 w-6 fill-current text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
             </button>
 
@@ -47,15 +48,14 @@
 </template>
 
 <script>
-
 import Discord from './DiscordComponent.vue';
-
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import Hero from "./HeroComponent.vue";
 import NewGames from "./NewGamesComponent.vue";
 import axios from "../main";
-import Swal from "sweetalert2"; // Importa SweetAlert
+import Swal from "sweetalert2";
+
 export default {
   components: {
     Navbar,
@@ -77,26 +77,19 @@ export default {
     await this.getExchange();
     await this.getWishList();
     await this.getJuegos();
-
   },
   methods: {
     async getExchange() {
-      console.log("ENTRA");
       try {
         const res = await axios.get("/exchange");
-        console.log(res);
         this.SOL_TO_USD_RATE = res.data.sell;
       } catch (error) {
         console.error(error);
       }
     },
     async getWishList() {
-      console.log("ENTRA");
       const res = await axios.get("/usuarios/me");
-      console.log(res);
-      // Si la solicitud es exitosa, envia la lista de deseos con un evento
       if (res.status == 200) {
-        // this.wishlist = res.data.wishList;
         this.wishlist = res.data.wishList;
       } else if (res.status == 401) {
         this.logout();
@@ -129,12 +122,10 @@ export default {
     async isFavorite(juegoId) {
       return this.wishlist.includes(juegoId);
     },
-
     async getJuegos() {
       try {
         const res = await axios.get("/juegos");
         this.games = res.data;
-        // Limitar la cantidad de juegos mostrados a 12
         this.featuredGames = this.games.slice(0, 12);
         this.newGames = this.games;
       } catch (error) {
@@ -147,15 +138,11 @@ export default {
         if (!juego) {
           throw new Error("Juego no encontrado");
         }
-        // Redirige al usuario a la página de Solana Pay con los parámetros necesarios
         this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
       } catch (error) {
         console.error(error);
       }
     },
-  },
-
-  beforeUnmount() {
   },
 };
 </script>
