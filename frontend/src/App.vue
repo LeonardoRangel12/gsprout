@@ -1,11 +1,14 @@
 <script>
 import Swal from 'sweetalert2'
+import { Suspense } from 'vue';
 
 </script>
 
 <template>
-  
-  <RouterView />
+  <Suspense>
+    <RouterView />
+
+  </Suspense>
   
 
 </template>

@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, ref } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import "./style.css";
 import App from "./App.vue";
@@ -105,6 +105,8 @@ const app = createApp(App);
 app.use(SolanaWallets, walletOptions);
 app.use(router);
 
-app.mount("#app");
+
+
 export default newAxios;
-export { connection };
+export { connection};
+app.mount("#app");

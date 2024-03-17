@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-bold mb-6 text-center">Nuevos Juegos</h2>
         <div class="grid grid-cols-2 gap-6">
           <ul>
-            <li v-for="(game, index) in newGames.slice(0, 10)" :key="game._id" class="flex items-center justify-between py-4" @mouseenter="hoveredGame = game" @mouseleave="hoveredGame = null">
+            <li v-for="(game, index) in newGames.slice(0,10)" :key="game._id" class="flex items-center justify-between py-4" @mouseenter="hoveredGame = game" @mouseleave="hoveredGame = null">
               <div class="flex items-center">
                 <img :src="game.imagen" :alt="game.nombre + ' Image'" class="h-16 w-16 object-cover rounded" />
                 <div class="ml-4">
@@ -69,41 +69,59 @@
 </template>
 
 <script>
-import axios from '../main';
-import { useRouter } from 'vue-router';
+import { inject, ref, watchEffect } from 'vue';
 
 export default {
   data() {
     return {
       games: [],
       newGames: [],
-      SOL_TO_USD_RATE: 50,
+      SOL_TO_USD_RATE: ref(50),
       hoveredGame: null,
       cardPosition: { x: 0, y: 0 }
     };
+
+  },
+  props: {
+    games: {
+      type: Array,
+      default: []
+    },
+    SOL_TO_USD_RATE: {
+      type: Number,
+      default: 50
+    }
+  },
+  setup(props){
+    const games = props.games;
+    const newGames = games;
+    const SOL_TO_USD_RATE = props.SOL_TO_USD_RATE;
+    return { games, newGames, SOL_TO_USD_RATE };
+  },
+  mounted(){
   },
   async created() {
-    await this.getJuegos();
-    await this.getExchange();
+    // await this.getJuegos();
+    // await this.getExchange();
   },
   methods: {
-    async getJuegos() {
-      try {
-        const res = await axios.get('/juegos');
-        this.games = res.data;
-        this.newGames = this.games;
-      } catch (error) {
-        console.error('Error al obtener los juegos:', error);
-      }
-    },
-    async getExchange() {
-      try {
-        const res = await axios.get('/exchange');
-        this.SOL_TO_USD_RATE = res.data.sell;
-      } catch (error) {
-        console.error('Error al obtener el tipo de cambio:', error);
-      }
-    },
+    // async getJuegos() {
+    //   try {
+    //     const res = await axios.get('/juegos');
+    //     this.games = res.data;
+    //     this.newGames = this.games;
+    //   } catch (error) {
+    //     console.error('Error al obtener los juegos:', error);
+    //   }
+    // },
+    // async getExchange() {
+    //   try {
+    //     const res = await axios.get('/exchange');
+    //     this.SOL_TO_USD_RATE = res.data.sell;
+    //   } catch (error) {
+    //     console.error('Error al obtener el tipo de cambio:', error);
+    //   }
+    // },
     switchToBuy(gameid) {
       // Redirigir al usuario a la página de registro
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.games.find(game => game._id === gameid).precio);
