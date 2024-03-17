@@ -31,9 +31,11 @@
                   <p class="text-gray-300">{{ juego.precio }} SOL</p>
                   <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
                 </div>
-                <button @click="switchToBuy(juego._id)" class="btn-primary">
+                <!-- Boton ALV
+                  <button @click="switchToBuy(juego._id)" class="btn-primary">
                   Comprar
                 </button>
+                -->
               </div>
             </div>
           </div>
