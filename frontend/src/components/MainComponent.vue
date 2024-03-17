@@ -6,7 +6,7 @@
       <section class="game-list-section mb-8">
         <h2 class="text-3xl font-bold mb-6 text-center">Juegos Destacados</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative">
+          <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative cursor-pointer" @click="switchToBuy(juego._id)">
             <div class="w-full h-64 bg-gray-600">
               <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
             </div>
@@ -31,11 +31,6 @@
                   <p class="text-gray-300">{{ juego.precio }} SOL</p>
                   <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
                 </div>
-                <!-- Boton ALV
-                  <button @click="switchToBuy(juego._id)" class="btn-primary">
-                  Comprar
-                </button>
-                -->
               </div>
             </div>
           </div>
