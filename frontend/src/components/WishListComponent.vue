@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-900 text-white">
+  <div class="bg-gray-900 text-white"> 
     <Navbar />
     <div class="container mx-auto py-8">
       <div class="px-4 sm:px-8">
@@ -17,41 +17,26 @@
             </div>
           </div>
         </div>
-        <div class="overflow-x-auto">
-          <table class="w-full divide-y divide-gray-800">
-            <thead class="bg-gray-800">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Nombre</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Descripción</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Precio</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"></th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-800">
-              <tr v-for="juego in juegos" :key="juego.id" :class="{ 'bg-gray-700': juego.activo, 'bg-gray-800': !juego.activo }">
-                <td class="px-6 py-8 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="flex-shrink-0 w-16 h-16">
-                      <img :src="juego.imagen" alt="juego.nombre" class="w-full h-full rounded-md">
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-300">{{ juego.nombre }}</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-8 whitespace-nowrap">
-                  <div class="text-sm text-gray-300">{{ juego.descripcion }}</div>
-                </td>
-                <td class="px-6 py-8 whitespace-nowrap">
-                  <div class="text-sm text-gray-300">{{ juego.precio }}</div>
-                </td>
-                <td class="px-6 py-8 whitespace-nowrap text-right text-sm font-medium">
-                  <button class="text-indigo-600 hover:text-indigo-900">Comprar</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <div class="w-full h-64 bg-gray-600">
+            <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
+          </div>
+          <div class="p-4">
+              <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
+              <p class="text-gray-300">{{ juego.descripcion }}</p>
+              <div class="mt-4 flex justify-between items-center">
+                <div>
+                  <p class="text-gray-300">{{ juego.precio }} SOL</p>
+                  <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+                </div>
+                <button @click="switchToBuy(juego._id)" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                  Comprar
+                </button>
+              </div>
+            </div>
         </div>
+      </div>
       </div>
     </div>
     <Footer />
@@ -70,7 +55,8 @@ export default {
   },
   data() {
     return {
-      juegos: [] // Inicializa juegos como un array vacío
+      juegos: [], // Inicializa juegos como un array vacío
+      SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
     };
   },
   async created() {
@@ -80,9 +66,11 @@ export default {
     async getJuegos() {
       try {
         const response = await axios.get('/juegos'); // Hace una solicitud GET a '/juegos'
-        this.juegos = response.data; // Asigna los datos de la respuesta a la variable juegos
+        this.juegos = response.data.map(juego => ({
+          ...juego,
+        }));
       } catch (error) {
-        console.error('Error al obtener juegos:', error); // Manejo de errores
+        console.error('Error al obtener juegos:', error);
       }
     }
   }
