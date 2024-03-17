@@ -72,10 +72,9 @@ const fetchNFTs = async (req, res, next) => {
   req.redis = {
     key: `${solanaSalt}:${publicKey}:${page}`,
     data: nfts,
-    status: 200,
   };
+  res.send(nfts).status(200);
   next();
-  // return res.send(nfts);
 };
 
 const fetchNFT = async (req, res, next) => {
@@ -86,10 +85,9 @@ const fetchNFT = async (req, res, next) => {
   req.redis = {
     key: `${solanaSalt}:${publicKey}`,
     data: nft,
-    status: 200,
   }
+  res.send(nft).status(200);
   next();
-  // return res.send(nft);
 };
 
 const generateCacheKey = (req, res, next) => {

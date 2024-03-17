@@ -10,10 +10,9 @@ const getPublicaciones = async (req, res, next) => {
     req.redis = {
       key: `${publicacionesSalt}`,
       data: publicaciones,
-      status: 200,
     };
+    res.status(200).send(publicaciones);
     next();
-    // return res.status(200).send(publicaciones);
   } catch (error) {
     // console.log(error)
     return res.status(500).send(error);
@@ -29,10 +28,9 @@ const getPublicacionById = async (req, res, next) => {
     req.redis = {
       key: `${publicacionesSalt}:${req.params.id}`,
       data: publicacion,
-      status: 200,
     };
+    res.status(200).send(publicacion);
     next();
-    // return res.status(200).send(publicacion);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -49,16 +47,15 @@ const createPublicacion = async (req, res, next) => {
     req.redis = {
       key: `${publicacionesSalt}`,
       data: publicacion,
-      status: 201,
     };
+    res.status(201).send(publicacion);
     next();
-    // return res.status(201).send(publicacion);
   } catch (error) {
     return res.status(500).send(error);
   }
 };
 
-const updatePublicacion = async (req, res) => {
+const updatePublicacion = async (req, res,next) => {
   try {
     const publicacion = await publicacionesService.updatePublicacion(
       req.params.id,
@@ -68,9 +65,9 @@ const updatePublicacion = async (req, res) => {
     req.redis = {
       key: `${publicacionesSalt}:${req.params.id}`,
       data: publicacion,
-      status: 200,
     };
-    // return res.status(200).send(publicacion);
+    res.status(200).send(publicacion);
+    next();
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -91,10 +88,9 @@ const deletePublicacion = async (req, res, next) => {
     req.redis = {
       key: `${publicacionesSalt}:${req.params.id}`,
       data: publicacion,
-      status: 200,
     };
+    res.status(200).send(publicacion);
     next();
-    return res.status(200).send(publicacion);
   } catch (error) {
     return res.status(500).send(error);
   }

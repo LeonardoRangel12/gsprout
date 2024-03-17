@@ -26,10 +26,9 @@ const createJuego = async (req, res, next) => {
     req.redis = {
       key: `${juegoSalt}`,
       data: juego,
-      status: 201,
     };
+    res.status(201).send(juego);
     next();
-    // return res.status(201).send(juego);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -52,10 +51,9 @@ const createSeveralJuegos = async (req, res, next) => {
   req.redis = {
     key: `${juegoSalt}`,
     data: juegos,
-    status: 201,
   };
+  res.status(201).send(juegos);
   next();
-  // return res.status(201).send(juegos);
 };
 
 //Obtencion de juegos
@@ -67,6 +65,7 @@ const getJuegos = async (req, res, next) => {
       key: `${juegoSalt}`,
       data: juegos,
     };
+    res.send(juegos).status(200);
     next();
   } catch {
     return res.status(500).send("Internal Server Error");
@@ -83,8 +82,8 @@ const getJuegoById = async (req, res, next) => {
       data: juego,
       status: 200,
     }
+    res.status(200).send(juego);
     next();
-    // return res.status(200).send(juego);
   } catch {
     return res.status(500).send("Internal Server Error");
   }
@@ -118,10 +117,9 @@ const updateJuego = async (req, res,next) => {
     req.redis = {
       key: `${juegoSalt}:${req.params.id}`,
       data: juego,
-      status: 200,
     };
+    res.status(200).send(juego);
     next();
-    // return res.status(200).send(juego);
   } catch {
     return res.status(500).send(error);
   }
@@ -136,10 +134,9 @@ const deleteJuego = async (req, res,next) => {
     req.redis = {
       key: `${juegoSalt}:${req.params.id}`,
       data: juego,
-      status: 200,
     };
+    res.status(200).send(juego);
     next();
-    // return res.status(200).send(juego);
   } catch {
     return res.status(500).send(error);
   }

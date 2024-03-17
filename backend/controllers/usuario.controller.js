@@ -26,9 +26,9 @@ const createUsuario = async (req, res, next) => {
     req.redis  ={
       key: `${usuarioSalt}`,
       data: usuario,
-      status: 201
     }
-    // return res.status(201).send(usuario);
+    res.status(201).send(usuario);
+    next();
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -41,10 +41,9 @@ const getUsuarios = async (req, res, next) => {
     req.redis = {
       key: `${usuarioSalt}`,
       data: usuarios,
-      status: 200
     }
+    res.status(200).send(usuarios);
     next();
-    // return res.status(200).send(usuarios);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -81,10 +80,9 @@ const getUsuarioById = async (req, res, next) => {
     req.redis = {
       key: `${usuarioSalt}:${req.params.username}`,
       data: usuario,
-      status: 200
     }
+    res.status(200).send(usuario);
     next();
-    // return res.status(200).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -103,10 +101,9 @@ const updateUsuario = async (req, res, next) => {
     req.redis = {
       key: `${usuarioSalt}:${req.params.username}`,
       data: usuario,
-      status: 200
     }
+    res.status(200).send(usuario);
     next();
-    // return res.status(200).send(usuario);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -118,11 +115,11 @@ const deleteUsuario = async (req, res, next) => {
   }
 
   try {
-    await usuarioService.deleteUsuario(req.params.email);
+    if(!await usuarioService.deleteUsuario(req.params.email)) return res.status(404).send("User not found");
     req.redis = {
       key: `${usuarioSalt}:${req.params.username}`,
-      status: 204
     }
+    res.status(200).send("User deleted");
     next();
   } catch (error) {
     return res.status(500).send(error);
