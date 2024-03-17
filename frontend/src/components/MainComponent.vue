@@ -33,6 +33,8 @@
       </section>
     </div>
     <NewGames />
+    
+    <Discord />
     <Footer />
   </div>
 </template>
@@ -42,6 +44,7 @@ import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import Hero from './HeroComponent.vue';
 import NewGames from './NewGamesComponent.vue';
+import Discord from './DiscordComponent.vue';
 import axios from '../main';
 import Swal from 'sweetalert2'; // Importa SweetAlert
 import { inject } from 'vue';
@@ -51,6 +54,7 @@ export default {
     Footer,
     Hero,
     NewGames,
+    Discord,
   },
   data() {
     return {
