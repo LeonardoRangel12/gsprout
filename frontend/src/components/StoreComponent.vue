@@ -30,10 +30,10 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-import axios from '../main';
-
+import { getExchange, getWishList, getJuegos } from "../apis";
 export default {
   components: {
     Navbar,
@@ -45,31 +45,20 @@ export default {
       SOL_TO_USD_RATE: 50 // Ajusta este valor según el tipo de cambio actual
     };
   },
+  async setup(){
+    const exchange = ref(50);
+    const juegos = ref([]);
+    await Promise.all([getExchange(), getWishList(), getJuegos()]).then((values) => {
+      juegos.value = values[2];
+      exchange.value = values[0];
+    }).catch((error) => {
+      console.error(error);
+    });
+    return { juegos, SOL_TO_USD_RATE: exchange };
+  },
   async created() {
-    await this.getJuegos();
-    await this.getExchange();
   },
   methods: {
-    async getJuegos() {
-      try {
-        const response = await axios.get('/juegos');
-        this.juegos = response.data.map(juego => ({
-          ...juego,
-          vendedor: juego.vendedor || 'gsprout',
-          precioUSD: (juego.precio * this.SOL_TO_USD_RATE).toFixed(2) // Convertir precio a USD
-        }));
-      } catch (error) {
-        console.error('Error al obtener juegos:', error);
-      }
-    },
-    async getExchange() {
-      try {
-        const res = await axios.get('/exchange');
-        this.SOL_TO_USD_RATE = res.data.sell;
-      } catch (error) {
-        console.error('Error al obtener el tipo de cambio:', error);
-      }
-    },
     switchToBuy(gameid) {
       // Redirect the user to the registration page
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
