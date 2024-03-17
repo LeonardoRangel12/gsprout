@@ -39,6 +39,11 @@
             >
           </li>
           <li>
+            <router-link class="hover:text-gray-200" to="/messenger"
+              >mensajes</router-link
+            >
+          </li>
+          <li>
             <input
               v-model="usuario"
               type="text"
