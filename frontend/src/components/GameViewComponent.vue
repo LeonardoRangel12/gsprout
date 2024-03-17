@@ -8,23 +8,23 @@
                         <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
                             <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                                 <div>
-                                <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="">
+                                <img class="h-auto w-full rounded-lg" src="https://imgur.com/jFEwdGp.jpg" alt="">
                                 </div>
                                 <div class="grid grid-cols-5 gap-4">
                                 <div>
-                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" alt="">
+                                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/bMDFXHK.jpg" alt="">
                                 </div>
                                 <div>
-                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" alt="">
+                                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/75SiTJW.jpg" alt="">
                                 </div>
                                 <div>
-                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" alt="">
+                                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/APzwUim.jpg" alt="">
                                 </div>
                                 <div>
-                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" alt="">
+                                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/HLyiTZu.jpg" alt="">
                                 </div>
                                 <div>
-                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" alt="">
+                                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/J0kJ5Fh.jpg" alt="">
                                 </div>
                                 </div>
                             </div>
