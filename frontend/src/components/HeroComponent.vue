@@ -4,7 +4,7 @@
       <div class="mx-auto px-4 sm:px-6 lg:px-8 py-32 space-y-8 relative">
         <!-- Fondo de la imagen -->
         <div class="absolute inset-0 z-1">
-          <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/Header_1.jpg" alt="Imagen de fondo" class="object-cover w-full h-full" />
+          <img src="https://dlcdnwebimgs.asus.com/files/media/92A296C4-BA56-40C2-A462-AE2729261A0B/main/v1/images/large/1x/bg_armoury_crate_1.jpg" alt="Imagen de fondo" class="object-cover w-full h-full" />
         </div>
         <!-- Fin del fondo de la imagen -->
         <!-- Contenido del hero -->
