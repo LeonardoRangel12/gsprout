@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/',upload.none(), controller.generateCacheKey, getCache,controller.getJuegos, setCache);  
 router.get('/:id', upload.none(),controller.generateCacheKey, getCache,controller.getJuegoById, setCache);
     // /search, gets query params
-router.get('/search/params', upload.none(), controller.searchJuegos);
+router.post('/search', upload.none(), controller.searchJuegos);
 // POST
 router.post('/',upload.none(),controller.createJuego, deleteCache);
 router.post('/createSeveral',upload.none(),controller.createSeveralJuegos, deleteCache);
