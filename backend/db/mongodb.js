@@ -156,11 +156,7 @@ async function getJuegoById(juegoId) {
 async function searchJuegos(searchParams) {
   juegos = await dbConnectionWrapper(async (dbCon) => {
     let {queryString, minPrice, maxPrice, categoriesToFilter} = searchParams;
-    minPrice = parseFloat(minPrice)
-    maxPrice = parseFloat(maxPrice)
-    console.log("minPrice: ",minPrice)
-    console.log("query: ",queryString)
-    //filter to onl get games with prices between 0 and 1
+    console.log(searchParams)
     const query = []
     if(queryString && queryString.length > 0){
       query.push(
@@ -216,7 +212,6 @@ async function searchJuegos(searchParams) {
       });
   }
     const result = await dbCon.collection("games").aggregate(query).toArray();
-    console.log(result)
     return result;
   });
   return juegos;  

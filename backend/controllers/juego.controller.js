@@ -91,20 +91,17 @@ const getJuegoById = async (req, res, next) => {
 };
 
 const searchJuegos = async (req, res) => {
-  console.log("searchJuegos")
-  // try{
-    //Getting url queryParams
-    const queryParams = req.query;
-    console.log(queryParams);
+  try{
+    const queryParams = req.body;
     if (queryParams.minPrice > queryParams.maxPrice) {
       return res.status(400).send("Invalid price range");
     }
     const juegos = await juegoService.searchJuegos(queryParams);
     return res.status(200).send(juegos);
-  // }catch(error){
-  //   console.log(error);
-  //   return res.status(500).send("Internal Server Err");
-  // }
+  }catch(error){
+    console.log(error);
+    return res.status(500).send("Internal Server Err");
+  }
 }
 
 //Actualizar juego

@@ -7,9 +7,8 @@
           <div class="bg-gray-800 rounded-lg p-6 shadow-lg relative" style="height: 600px;">
             <!-- Imagen del juego en el fondo con opacidad -->
             <div class="absolute inset-0 bg-cover bg-center" :style="{ 'background-image': 'url(' + juego.imagen + ')', 'opacity': '0.4' }"></div>
-
             <!-- Contenido del juego y botones -->
-            <div class="relative z-10">
+            <div class="relative z-10 h-full">
               <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-white">{{ juego.nombre }}</h2>
               <div class="flex justify-between items-center mt-4">
                 <span class="text-lg sm:text-xl font-bold text-white">
@@ -20,31 +19,18 @@
                 <h2 class="text-2xl font-bold mb-4 text-white" v-if="!showQR">Descripción</h2>
                 <p class="text-white" v-if="!showQR">{{ juego.descripcion }}</p>
               </div>
-              <div class="flex flex-col items-center">
-                  <!-- QR Code -->
-                  <div class=" mt-6" v-if="showQR">
-                    <div ref="qrCode"></div>
-                  </div>
-                  
-                  <!-- Contenedor de los botones con margen superior -->
-                    <!-- Botones -->
-                    <div class="flex flex-col sm:flex-row sm:items-center mt-6">
-                      <button @click="handleGenerateClick"
-                              :disabled="qrLoading"
-                              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mb-4 sm:mb-0 sm:mr-4">
-                        {{ qrLoading ? "Generando..." : "Generar Orden de Pago Solana" }}
-                      </button>
-                      <button @click="handleVerifyClick"
-                              :disabled="qrLoading"
-                              class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
-                        Verificar Transacción
-                      </button>
-                    </div>
+                <div class="flex flex-col items-center justify-between h-full" v-if="showQR">
+                <div ref="qrCode"></div>
+                </div>
+              <!-- Contenedor de los botones con posición absoluta en el borde inferior -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 flex justify-center">
+                <button @click="handleGenerateClick" :disabled="qrLoading" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mr-4">
+                  {{ qrLoading ? "Generando..." : "Generar Orden de Pago Solana" }}
+                </button>
+                <button @click="handleVerifyClick" :disabled="qrLoading" class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
+                  Verificar Transacción
+                </button>
               </div>
-              
-              
-              
-              <!-- Contenido adicional aquí -->
             </div>
           </div>
         </div>
