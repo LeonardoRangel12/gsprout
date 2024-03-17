@@ -50,7 +50,7 @@
           </ul>
         </div>
         <!-- Tarjeta de información del juego -->
-        <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="absolute p-4 rounded-lg " style="width: 600px; height: 400px;">
+        <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="absolute p-4 rounded-lg shadow-lg" style="width: 600px; height: 400px;">
           <h3 class="text-xl font-bold">{{ hoveredGame.nombre }}</h3>
           <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2" style="max-height: 300px;">
           <p class="text-gray-300">{{ hoveredGame.descripcion }}</p>
@@ -62,7 +62,6 @@
             <span class="text-blue-500 font-bold">{{ (hoveredGame.precio * SOL_TO_USD_RATE).toFixed(2) }}</span>
             <span class="text-gray-400 text-sm">USD</span>
           </div>
-          <button class="mt-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500" @click="switchToBuy(hoveredGame._id)">Comprar</button>
         </div>
       </section>
     </div>
@@ -110,8 +109,21 @@ export default {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.games.find(game => game._id === gameid).precio);
     },
     updatePosition(event) {
+      const windowCenterX = window.innerWidth / 2;
+      const cardWidth = 600; // Ancho de la tarjeta
+      const buffer = 20; // Margen para evitar que la tarjeta se salga del borde
+
+      let xPos = event.clientX;
+      if (xPos > windowCenterX) {
+        // Si el mouse está a la derecha del centro de la ventana, mover la tarjeta a la izquierda
+        xPos -= cardWidth + buffer;
+      } else {
+        // Si el mouse está a la izquierda del centro de la ventana, mover la tarjeta a la derecha
+        xPos += buffer;
+      }
+
       this.cardPosition = {
-        x: event.clientX,
+        x: xPos,
         y: event.clientY
       };
     }
