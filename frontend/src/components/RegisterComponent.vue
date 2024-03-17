@@ -84,10 +84,26 @@
               <div class="mt-6">
                 <button
                   type="submit"
+                  id="registerButton"
                   class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                 >
                   Regístrate
                 </button>
+              </div>
+              <div v-if="errorMessages.length > 0 " class="block w-full px-4 py-2 mt-2 text-center text-red-600 bg-red-100">
+                <p v-for="error in errorMessages" :key="error">{{ error }}</p>
+              </div>
+              <div v-if="userRegistered" class="block w-full px-4 py-2 mt-2 text-green-600 bg-green-300 text-center">
+                <p>Usuario registrado con éxito</p>
+                <p>En unos momentos seras redireccionado al login</p>
+                <P>
+                  <a 
+                    href="#" 
+                    class="focus: outline-none focus:underline hover:underline" 
+                    @click="switchToLogin">
+                    ¡Acelera el proceso dando clic en este mensaje!
+                  </a>
+                </P>
               </div>
             </form>
 
@@ -108,8 +124,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import axios from "../main";
+import { reactive , ref } from "vue";
+import newAxios from "../main" ;
 import { useRouter } from "vue-router";
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 export default {
@@ -117,57 +133,85 @@ export default {
     WalletMultiButton,
   },
   setup() {
-    const { publicKey } = useWallet();
-    const formData = ref({
-      // nombre: "",
-      email: "",
-      username: "",
-      password: "",
+    useRouter();
+    const formData = reactive({
+      email: '',
+      username: '',
+      password: '',
       wallets: null,
     });
-    const router = useRouter();
-
-    const register = async function () {
-      const {connected} = useWallet();
-      if(connected === false) {
-        alert("Conecta tu wallet para continuar");
-        return;
-      }
-      if (
-        // !formData.value.nombre ||
-        !formData.value.email ||
-        !formData.value.username ||
-        !formData.value.password
-      ) {
-        console.warn("Por favor, completa todos los campos del formulario.");
-        return;
-      }
-      try {
-        const response = await axios.post("/usuarios/", {
-          // nombre: formData.value.nombre,
-          email: formData.value.email,
-          username: formData.value.username,
-          password: formData.value.password,
-          wallets: [publicKey.value.toBase58()],
-        });
-        if (response.status === 201) {
-          alert("Usuario registrado correctamente");
-          router.push("/");
-
-        }
-        if (response.status === 400) {
-          alert("El usuario ya existe");
-        }
-      } catch (error) {
-        console.error("Hubo un error en la solicitud:", error);
-      }
-    };
-
-    const switchToLogin = () => {
-      router.push("/");
-    };
-
-    return { formData, register, switchToLogin };
+    const errorMessages = ref([]);
+    const userRegistered = ref(false);
+    return {
+      formData,
+      errorMessages,
+      userRegistered,
+    }
   },
+  methods:
+  {
+    async register(){
+      this.errorMessages = [];
+      const { publicKey } = useWallet();
+      let button = document.getElementById("registerButton");
+      button.disabled = true;
+      button.style.cursor = "wait";
+      try{
+        const {connected} = useWallet();
+        if(connected.value === false) {
+          this.errorMessages.push("Conecta tu wallet para continuar");
+          return;
+        }
+        if (
+          !this.formData.email ||
+          !this.formData.username ||
+          !this.formData.password
+        ) {
+          this.errorMessages.push("Por favor, completa todos los campos del formulario.");
+          return;
+        }
+        if(this.formData.password.length < 8){
+          this.errorMessages.push("La contraseña debe tener al menos 8 caracteres");
+          return;
+        }
+        try {
+          const response = await newAxios.post("/usuarios/", {
+            email: this.formData.email,
+            username: this.formData.username,
+            password: this.formData.password,
+            wallets: [publicKey.value.toBase58()],
+          });
+          if (response.status.value == 201) { // Validating user registration
+              this.userRegistered = true;
+            }
+          } 
+          catch (error) { // Catch the error of user already exists
+            if(error.response.status === 400)
+              this.errorMessages.push("El usuario ya existe");
+        }
+      } catch(error){ // Several error handling for different status codes
+          if(error.response.status === 500)
+            this.errorMessages.push("Internal server error:", error);
+          else if(error.response.status === 400)
+            this.errorMessages.push("Hubo un error en la solicitud:", error);
+          else
+            this.errorMessages.push("Error:", error);
+      }
+      finally{
+        setTimeout(()=>{
+          button.disabled = false;
+          button.style.cursor = "pointer";
+        },1000)
+      }
+      if(this.userRegistered){
+          setTimeout(()=>{
+            this.switchToLogin();
+          },3000)
+      }
+    },
+    switchToLogin(){
+      this.$router.push("/");
+    },
+  }
 };
 </script>
