@@ -44,7 +44,7 @@
                   <span class="text-blue-500 font-bold">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }}</span>
                   <span class="text-gray-400 text-sm">USD</span>
                 </div>
-                <button type="submit" @click="switchToBuy(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
+                <button type="submit" @click="switchToDetails(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
               </div>
             </li>
           </ul>
@@ -107,6 +107,17 @@ export default {
     switchToBuy(gameid) {
       // Redirigir al usuario a la página de registro
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.games.find(game => game._id === gameid).precio);
+    },
+    async switchToDetails(gameid) {
+      try {
+        const juego = this.games.find((game) => game._id === gameid);
+        if (!juego) {
+          throw new Error("Juego no encontrado");
+        }
+        this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
+      } catch (error) {
+        console.error(error);
+      }
     },
     updatePosition(event) {
       const windowCenterX = window.innerWidth / 2;
