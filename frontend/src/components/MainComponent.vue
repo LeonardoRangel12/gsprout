@@ -150,7 +150,6 @@ export default {
   },
 
   beforeUnmount() {
-    this.$root.$off("wishlist");
   },
 };
 </script>
