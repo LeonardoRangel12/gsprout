@@ -153,6 +153,75 @@ async function getJuegoById(juegoId) {
   return result;
 }
 
+async function searchJuegos(searchParams) {
+  juegos = await dbConnectionWrapper(async (dbCon) => {
+    let {queryString, minPrice, maxPrice, categoriesToFilter} = searchParams;
+    minPrice = parseFloat(minPrice)
+    maxPrice = parseFloat(maxPrice)
+    console.log("minPrice: ",minPrice)
+    console.log("query: ",queryString)
+    //filter to onl get games with prices between 0 and 1
+    const query = []
+    if(queryString && queryString.length > 0){
+      query.push(
+        {
+          $search: {
+            index: "juegosSearch",
+            text: {
+              query: queryString,
+              path: ['nombre', 'descripcion', "categoria"],
+              fuzzy: {
+                maxEdits: 2
+              }
+            }
+          }
+        }
+      )
+    }
+
+    if (minPrice && maxPrice && maxPrice > minPrice) {
+        query.push({
+          $match: {
+            precio: {
+              $gte: minPrice,
+              $lte: maxPrice
+            }
+          }
+        })  
+    }else if(minPrice){
+      console.log("Me lleva la vrg ",minPrice)
+      query.push({
+        $match: {
+          precio: {
+            $gte: minPrice
+          }
+        }
+      })
+    }else if(maxPrice){
+      query.push({
+        $match: {
+          precio: {
+            $lte: maxPrice
+          }
+        }
+      })
+    }
+
+    if (categoriesToFilter && categoriesToFilter.length > 0) {
+      const categoryFilters = categoriesToFilter.map(category => ({ "categoria": category }));
+      query.push({
+          $match: {
+              $and: categoryFilters
+          }
+      });
+  }
+    const result = await dbCon.collection("games").aggregate(query).toArray();
+    console.log(result)
+    return result;
+  });
+  return juegos;  
+}
+
 async function updateJuego(juegoId, data) {
   const result = await dbConnectionWrapper(async (dbCon) => {
     const updateFields = { $set: data };
@@ -303,6 +372,7 @@ module.exports = {
   createJuego,
   getJuegos,
   getJuegoById,
+  searchJuegos,
   updateJuego,
   deleteJuego,
   getJuegoByName,
@@ -314,5 +384,5 @@ module.exports = {
   getPublicaciones,
   getPublicacionById,
   deletePublicacion,
-  updatePublicacion,
+  updatePublicacion
 };
