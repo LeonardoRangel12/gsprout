@@ -58,8 +58,9 @@ const mintNFT = async (req, res) => {
   await metaplexUtil.transferNFT(signature, buyerKey);
 
   deleteCache(`${solanaSalt}:${buyerKey}`);
-  return res.sendStatus(201);
-  // return res.send(nft.mint.address.toBase58());
+  res.end()
+  // return res.sendStatus(201);
+  
 };
 
 const fetchNFTs = async (req, res, next) => {

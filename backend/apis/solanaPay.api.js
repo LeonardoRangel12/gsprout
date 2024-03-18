@@ -78,6 +78,7 @@ const verifyPayment = async (req, res, next) => {
     const response = await verifyTransaction(referencePublicKey);
     if (response) {
       res.locals.buyerKey = response.transaction.message.accountKeys[0]
+      res.send("Payment verified").status(200);
       next();
     } else {
       return res.status(400).send("Payment not verified");
