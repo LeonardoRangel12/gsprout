@@ -122,6 +122,13 @@ const searchJuegos = async (req, res) => {
 
 //Actualizar juego
 const updateJuego = async (req, res,next) => {
+  //getting empty fields out from the request
+  for (let key in req.body) {
+    if (req.body[key] === "") {
+      delete req.body[key];
+    }
+  }
+
   let { error, value } = juegoSchema.validate(req.body);
   if (error) {
     //Si hay un error en la validacion
