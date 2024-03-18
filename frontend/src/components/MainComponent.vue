@@ -145,7 +145,7 @@ export default {
       }
     },
     async isFavorite(juegoId) {
-      return this.wishlist.includes(juegoId);
+      return this.wishlist != null ? this.wishlist.includes(juegoId) : false;
     },
 
     async switchToBuy(gameid) {

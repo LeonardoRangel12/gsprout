@@ -39,7 +39,7 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import Hero from "./HeroComponent.vue";
 import NewGames from "./NewGamesComponent.vue";
-import axios from "../main";
+import newAxios from "../main";
 import Swal from "sweetalert2"; // Importa SweetAlert
 
   export default {

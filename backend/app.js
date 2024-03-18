@@ -44,6 +44,7 @@ app.use("/solana", require("./routers/solana.router.js"));
 app.use("/historialcompras", require("./routers/historialcompras.router.js"));
 app.use("/compras", require("./routers/compra.router.js"));
 app.use("/publicaciones", require("./routers/publicaciones.router.js"));
+app.use('/mensajes',require('./routers/message.router.js'));
 // SERVER
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

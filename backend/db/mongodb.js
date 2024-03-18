@@ -387,6 +387,45 @@ async function deletePublicacion(id) {
   });
   return result;
 }
+//Chat Functions
+async function SendMessage(data){
+  return await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon.collection("messages").insertOne(data);
+    return result;
+  });
+}
+async function GetMessages(){
+  return await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon
+      .collection("messages")
+      .find().toArray();
+    return result;
+  });
+}
+async function GetMessageById(id){
+  return await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon
+      .collection("messages")
+      .findOne({ _id: new ObjectId(id) });
+    return result;
+  });
+}
+async function GetMessageBySender(sender){
+  return await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon
+      .collection("messages")
+      .find({ sender }).toArray();
+    return result;
+  });
+}
+async function GetMessageByReceiver(receiver){
+  return await dbConnectionWrapper(async (dbCon) => {
+    const result = await dbCon
+      .collection("messages")
+      .find({ receiver }).toArray();
+    return result;
+  });
+}
 
 module.exports = {
   createUsuario,
@@ -415,5 +454,10 @@ module.exports = {
   getPublicaciones,
   getPublicacionById,
   deletePublicacion,
-  updatePublicacion
+  updatePublicacion,
+  SendMessage,
+  GetMessages,
+  GetMessageById,
+  GetMessageBySender,
+  GetMessageByReceiver,
 };
