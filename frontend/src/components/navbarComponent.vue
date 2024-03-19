@@ -48,7 +48,7 @@
               v-model="usuario"
               type="text"
               placeholder="Usuario"
-              class="rounded-md"
+              class="rounded-md text-black"
             />
             <button @click="sendMessage('Hello', usuario)">Send Message</button>
           </li>
