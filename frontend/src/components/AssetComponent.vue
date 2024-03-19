@@ -1,21 +1,28 @@
 <template>
-  <div class="flex flex-col items-center">
-    <img v-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" @error="handleImageError" /> <!-- SOLO agregue el evento @error para saner si la imagen se cargo-->
-  <div v-else>
-    <p>Image not found</p>
-  </div>
-  <h1>{{ name }}</h1>
-  <a :href=url><button>DETAILS</button></a>
+  <div class="flex flex-col items-center bg-gray-800 rounded-lg overflow-hidden">
+    <div v-if="isImageLoading">
+      <p>Cargando imagen...</p>
+    </div>
+    <div v-else-if="isImageLoadingError">
+      <p>Error al cargar la imagen</p>
+    </div>
+    <img class = "mb-3" v-else-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" />
+    <div v-else>
+      <p>Image not found</p>
+    </div>
+    <h1 class = "mb-3">{{ name }}</h1>
+    <button @click="redirectToUrl" class="mb-5 px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">DETALLES</button>
   </div>
 </template>
 <script>
-import axios from "axios";
-import { encode, decode } from "base64-arraybuffer";
+import axios from 'axios';
+import { encode } from 'base64-arraybuffer';
+
 export default {
-  name: "AssetComponent",
+  name: 'AssetComponent',
   props: {
     asset: {
-      type: JSON,
+      type: Object,
       required: true,
     },
   },
@@ -24,39 +31,38 @@ export default {
       imageDataURL: null,
       name: null,
       url: null,
-      isImageLoading: false // Nueva propiedad para indicar si la imagen se está cargando
+      isImageLoading: false,
+      isImageLoadingError: false,
     };
   },
   mounted() {
-    const bufferUrl = this.asset.content.links.image[0];
-    const jsonUrl = this.asset.content.json_uri;
-    this.getAssetImage(bufferUrl);
-    this.getJsonData(jsonUrl);
-    this.url = "/mygames/" + this.asset.id;
+    this.loadAssetData();
   },
   methods: {
-    getAssetImage(bufferUrl) {
-      /*
-      This method gets an array buffer from the bufferUrl and then encodes it to base64 to be able to display it in the img tag.
-      */
-      axios
-        .get(bufferUrl, { responseType: "arraybuffer", responseEncoding: null })
-        .then((response) => {
-          const blob = encode(response.data);
-          this.imageDataURL = `data:image/png;base64,${blob}`;
-        });
+    async loadAssetData() {
+      try {
+        this.isImageLoading = true;
+        const imageUrl = this.asset.content.links.image[0];
+        const jsonUrl = this.asset.content.json_uri;
+
+        const [imageResponse, jsonResponse] = await Promise.all([
+          axios.get(imageUrl, { responseType: 'arraybuffer' }),
+          axios.get(jsonUrl),
+        ]);
+
+        const blob = encode(imageResponse.data);
+        this.imageDataURL = jsonResponse.data.image;
+        this.name = jsonResponse.data.name;
+        this.url = `/mygames/${this.asset.id}`;
+      } catch (error) {
+        console.error('Error al cargar los datos del activo:', error);
+        this.isImageLoadingError = true;
+      } finally {
+        this.isImageLoading = false;
+      }
     },
-    getJsonData(url) {
-      /*
-      This method gets the name of the asset from the jsonUrl.
-      */
-      axios.get(url).then((response) => {
-        this.name = response.data.name;
-      });
-    },
-    handleImageError() {
-      console.error('Error al cargar la imagen');
-      this.imageDataURL = null; // Establece imageDataURL en null para mostrar el mensaje "Image not found"
+    redirectToUrl() {
+      window.location.href = this.url;
     },
   },
 };
