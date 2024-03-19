@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-  <img v-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" />
+    <img v-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" @error="handleImageError" /> <!-- SOLO agregue el evento @error para saner si la imagen se cargo-->
   <div v-else>
     <p>Image not found</p>
   </div>
@@ -24,6 +24,7 @@ export default {
       imageDataURL: null,
       name: null,
       url: null,
+      isImageLoading: false // Nueva propiedad para indicar si la imagen se está cargando
     };
   },
   mounted() {
@@ -52,6 +53,10 @@ export default {
       axios.get(url).then((response) => {
         this.name = response.data.name;
       });
+    },
+    handleImageError() {
+      console.error('Error al cargar la imagen');
+      this.imageDataURL = null; // Establece imageDataURL en null para mostrar el mensaje "Image not found"
     },
   },
 };
