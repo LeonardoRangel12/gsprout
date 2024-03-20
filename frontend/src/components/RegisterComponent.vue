@@ -99,7 +99,7 @@
                 <P>
                   <a 
                     href="#" 
-                    class="focus: outline-none focus:underline hover:underline" 
+                    class="font-bold focus: outline-none focus:underline hover:underline" 
                     @click="switchToLogin">
                     ¡Acelera el proceso dando clic en este mensaje!
                   </a>
