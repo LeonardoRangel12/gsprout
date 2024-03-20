@@ -103,10 +103,10 @@
                     @click="switchToLogin">
                     ¡Acelera el proceso dando clic en este mensaje!
                   </a>
+                  {{ switchToLoginWithTimer() }}
                 </P>
               </div>
             </form>
-
             <p class="mt-6 text-sm text-center text-gray-400">
               ¿Ya tienes una cuenta?
               <a
@@ -145,7 +145,7 @@ export default {
     return {
       formData,
       errorMessages,
-      userRegistered,
+      userRegistered
     }
   },
   methods:
@@ -174,6 +174,10 @@ export default {
           this.errorMessages.push("La contraseña debe tener al menos 8 caracteres");
           return;
         }
+        if(!RegExp(/\S+@\S+\.\S+/).test(this.formData.email)){
+          this.errorMessages.push("El correo no es válido");
+          return;
+        }
         try {
           const response = await newAxios.post("/usuarios/", {
             email: this.formData.email,
@@ -181,7 +185,7 @@ export default {
             password: this.formData.password,
             wallets: [publicKey.value.toBase58()],
           });
-          if (response.status.value == 201) { // Validating user registration
+          if (response.status == 201) { // Validating user registration
               this.userRegistered = true;
             }
           } 
@@ -201,17 +205,18 @@ export default {
         setTimeout(()=>{
           button.disabled = false;
           button.style.cursor = "pointer";
+          
         },1000)
-      }
-      if(this.userRegistered){
-          setTimeout(()=>{
-            this.switchToLogin();
-          },3000)
       }
     },
     switchToLogin(){
       this.$router.push("/");
     },
+    switchToLoginWithTimer(){
+      setTimeout(()=>{
+        this.switchToLogin();
+      }, 5000)
+    }
   }
 };
 </script>
