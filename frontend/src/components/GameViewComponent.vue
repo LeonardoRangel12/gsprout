@@ -4,7 +4,7 @@
         <div class="container mx-auto py-8">
           <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
             <div class="col-span-1 sm:col-span-9">
-              <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+              <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
                 <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
                   <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                     <div>
