@@ -138,24 +138,43 @@ export default {
       }
     },
     updatePosition(event) {
-      const windowCenterX = window.innerWidth / 2;
+      const containerRect = event.currentTarget.getBoundingClientRect();
+      const containerWidth = containerRect.width;
       const cardWidth = 600; // Ancho de la tarjeta
+      const cardHeight = 400; // Altura de la tarjeta
       const buffer = 20; // Margen para evitar que la tarjeta se salga del borde
 
-      let xPos = event.clientX;
-      if (xPos > windowCenterX) {
-        // Si el mouse está a la derecha del centro de la ventana, mover la tarjeta a la izquierda
-        xPos -= cardWidth + buffer;
+      const columnWidth = containerWidth / 2; // Ancho de cada columna
+      const mouseXRelativeToContainer = event.clientX - containerRect.left;
+
+      let xPos;
+      if (mouseXRelativeToContainer < columnWidth) {
+        // Si el mouse está en la columna izquierda, mover la tarjeta a la derecha
+        xPos = event.clientX + buffer;
       } else {
-        // Si el mouse está a la izquierda del centro de la ventana, mover la tarjeta a la derecha
-        xPos += buffer;
+        // Si el mouse está en la columna derecha, mover la tarjeta 950 píxeles a la izquierda del mouse
+        xPos = event.clientX - 950;
+      }
+
+      let yPos = event.clientY - cardHeight / 2; // Centrar la tarjeta en el eje Y del mouse
+
+      // Verificar si la tarjeta se sale del borde superior de la pantalla
+      const topEdge = buffer;
+      if (yPos < topEdge) {
+        yPos = topEdge;
+      }
+
+      // Verificar si la tarjeta se sale del borde inferior de la pantalla
+      const bottomEdge = window.innerHeight - cardHeight - buffer;
+      if (yPos > bottomEdge) {
+        yPos = bottomEdge;
       }
 
       this.cardPosition = {
         x: xPos,
-        y: event.clientY
+        y: yPos
       };
-    }
+    },
   }
 };
 </script>
