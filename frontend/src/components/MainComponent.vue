@@ -80,7 +80,7 @@ import Hero from "./HeroComponent.vue";
 import NewGames from "./NewGamesComponent.vue";
 import axios from "../main";
 import { inject, ref } from "vue";
-import { getExchange, getWishList, getJuegos } from "../apis";
+import { getExchange, getUsuario, getJuegos } from "../apis";
 export default {
   components: {
     Navbar,
@@ -103,17 +103,18 @@ export default {
     const exchange = ref(50);
     const wishlist = ref([]);
 
-    const requests = [getExchange(), getWishList(), getJuegos()];
+    const requests = [getExchange(), getUsuario(), getJuegos()];
 
     await Promise.all(requests)
       .then((values) => {
         games.value = values[2];
         exchange.value = values[0];
-        wishlist.value = values[1];
+        wishlist.value = values[1].wishList;
       })
       .catch((error) => {
         console.error(error);
       });
+  
       const featuredGames = ref(games.value.slice(0, 12));
       return { games, featuredGames, SOL_TO_USD_RATE:exchange, wishlist };
   },

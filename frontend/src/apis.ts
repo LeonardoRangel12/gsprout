@@ -1,4 +1,12 @@
 import axios from "./main";
+async function getUsuario() {
+  try {
+    const res = await axios.get("/usuarios/me");
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
 async function getExchange() {
     try{
         const res = await axios.get("/exchange");
@@ -9,8 +17,9 @@ async function getExchange() {
     };
   async function getWishList() {
       try {
-        const res = await axios.get("/usuarios/me");
-        return res.data.wishList;
+        const res = await axios.get("/usuarios/wishlist");
+        console.log(res.data);
+        return res.data;
       } catch (error) {
         console.error(error);
       }
@@ -24,5 +33,5 @@ async function getExchange() {
       }
     }
 
-    export { getExchange, getWishList, getJuegos };
+    export { getExchange, getWishList, getJuegos, getUsuario };
 

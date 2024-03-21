@@ -23,10 +23,10 @@ const createUsuario = async (req, res, next) => {
   // Create user
   try {
     const usuario = await usuarioService.createUsuario(value);
-    req.redis  ={
+    req.redis = {
       key: `${usuarioSalt}`,
       data: usuario,
-    }
+    };
     res.status(201).send(usuario);
     next();
   } catch (error) {
@@ -41,7 +41,7 @@ const getUsuarios = async (req, res, next) => {
     req.redis = {
       key: `${usuarioSalt}`,
       data: usuarios,
-    }
+    };
     res.status(200).send(usuarios);
     next();
   } catch (error) {
@@ -57,7 +57,7 @@ const loginUsuario = async (req, res, next) => {
     //   return res.status(400).send(error.details);
     // }
     const { username, publicKey } = req.body;
-    const usuario = await usuarioService.loginUsuario( username, publicKey);
+    const usuario = await usuarioService.loginUsuario(username, publicKey);
     if (!usuario) return res.status(404).send("User not found");
     // Compare password
     const { password } = req.body;
@@ -65,7 +65,7 @@ const loginUsuario = async (req, res, next) => {
       return res.status(401).send("Invalid password");
 
     // Generate token
-    const data = { username: usuario.username, _id : usuario._id};
+    const data = { username: usuario.username, _id: usuario._id };
     const token = jwtUtil.generateToken(data);
     return res.status(200).json({ token, username: usuario.username });
   } catch (error) {
@@ -75,12 +75,14 @@ const loginUsuario = async (req, res, next) => {
 };
 const getUsuarioById = async (req, res, next) => {
   try {
-    const usuario = await usuarioService.getUsuarioByUsername(req.params.username);
+    const usuario = await usuarioService.getUsuarioByUsername(
+      req.params.username
+    );
     if (!usuario) return res.status(404).send("User not found");
     req.redis = {
       key: `${usuarioSalt}:${req.params.username}`,
       data: usuario,
-    }
+    };
     res.status(200).send(usuario);
     next();
   } catch (error) {
@@ -95,13 +97,16 @@ const updateUsuario = async (req, res, next) => {
   }
 
   try {
-    const usuario = await usuarioService.updateUsuario(req.params.username, value);
+    const usuario = await usuarioService.updateUsuario(
+      req.params.username,
+      value
+    );
     if (!usuario) return res.status(404).send("User not found");
 
     req.redis = {
       key: `${usuarioSalt}:${req.params.username}`,
       data: usuario,
-    }
+    };
     res.status(200).send(usuario);
     next();
   } catch (error) {
@@ -115,10 +120,11 @@ const deleteUsuario = async (req, res, next) => {
   }
 
   try {
-    if(!await usuarioService.deleteUsuario(req.params.email)) return res.status(404).send("User not found");
+    if (!(await usuarioService.deleteUsuario(req.params.email)))
+      return res.status(404).send("User not found");
     req.redis = {
       key: `${usuarioSalt}:${req.params.username}`,
-    }
+    };
     res.status(200).send("User deleted");
     next();
   } catch (error) {
@@ -133,44 +139,52 @@ const deleteUsuario = async (req, res, next) => {
 // };
 
 const getUsuario = async (req, res, next) => {
-    const token = jwtUtil.verifyToken(req.headers.authorization);
-    if (!token) return res.status(401).send("Unauthorized");
-    const usuario = await usuarioService.getUsuarioByUsername(token.username);
-    if (!usuario) return res.status(404).send("User not found");
-    return res.status(200).send(usuario);
+  const token = jwtUtil.verifyToken(req.headers.authorization);
+  if (!token) return res.status(401).send("Unauthorized");
+  const usuario = await usuarioService.getUsuarioByUsername(token.username);
+  if (!usuario) return res.status(404).send("User not found");
+  return res.status(200).send(usuario);
 };
 
 const addToWishList = async (req, res, next) => {
-  
-  const {username} = jwtUtil.verifyToken(req.headers.authorization);
+  const { username } = jwtUtil.verifyToken(req.headers.authorization);
   const { id } = req.params;
 
   const usuario = await usuarioService.addToWishList(username, id);
   if (!usuario) return res.status(404).send("User not found");
 
   return res.status(200).send(usuario);
-}
+};
 const removeFromWishList = async (req, res, next) => {
-  
-  const {username} = jwtUtil.verifyToken(req.headers.authorization);
+  const { username } = jwtUtil.verifyToken(req.headers.authorization);
   const { id } = req.params;
 
   const usuario = await usuarioService.removeFromWishList(username, id);
   if (!usuario) return res.status(404).send("User not found");
 
   return res.status(200).send(usuario);
-}
+};
+
+const getJuegosInWishList = async (req, res, next) => {
+  const { getJuegosInArray } = require("../services/juego.service");
+
+  const { username } = jwtUtil.verifyToken(req.headers.authorization);
+  const usuario = await usuarioService.getUsuarioByUsername(username);
+
+  if (!usuario) return res.status(404).send("User not found");
+  const juegos = await getJuegosInArray(usuario.wishList);
+
+  return res.status(200).send(juegos);
+};
 
 const generateCacheKey = (req, res, next) => {
   const { username } = req.params;
   const key = username ? `${usuarioSalt}:${username}` : `${usuarioSalt}`;
   req.redis = {
-    key
+    key,
   };
   next();
 };
-
-
 
 module.exports = {
   createUsuario,
@@ -184,4 +198,5 @@ module.exports = {
   generateCacheKey,
   addToWishList,
   removeFromWishList,
+  getJuegosInWishList,
 };

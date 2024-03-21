@@ -29,7 +29,9 @@ async function deleteJuego(id){
 async function getJuegoByName(nombre){
     return await db.getJuegoByName(nombre);
 }
-
+async function getJuegosInArray(array) {
+    return await db.getJuegosInArray(array);
+}
 module.exports = {
     createJuego,
     getJuegos,
@@ -38,5 +40,6 @@ module.exports = {
     deleteJuego,
     getJuegoByName,
     searchJuegos,
-    autocompleteJuegosSearch
+    autocompleteJuegosSearch,
+     getJuegosInArray
 }

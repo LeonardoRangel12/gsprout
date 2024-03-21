@@ -41,6 +41,7 @@ async function addToWishList(username, id) {
 async function removeFromWishList(username, id) {
     return await db.removeFromWishList(username, id);
 }
+
 module.exports = {
     createUsuario,
     getUsuarios,
