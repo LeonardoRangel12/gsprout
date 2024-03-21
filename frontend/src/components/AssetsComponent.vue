@@ -3,10 +3,6 @@
     <Navbar />
     <div class="container mx-auto p-6">
       <h1 class="text-3xl font-bold mb-6">Biblioteca</h1>
-      <button @click="getAssets"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-        Get Assets
-      </button>
       <div v-if="isLoading" class="text-center text-gray-400 mb-4">Loading...</div>
       <div v-if="error" class="text-center text-red-600 mb-4">{{ error }}</div>
       <div v-else>
@@ -47,7 +43,17 @@ export default {
       assets: [],
       isLoading: false,
       error: null,
+      interval: null,
+      retryCount: 0, // variable para el contador de intentos
     };
+  },
+  mounted() {
+    this.getAssets();
+    if (this.assets.length === 0) {
+      this.interval = setInterval(this.getAssets, 4000); // Establecer el intervalo si no hay datos
+      this.retryCount = 0; // Restablecer si se recuperaron datos
+      
+    }
   },
   methods: {
     async getAssets() {
@@ -62,14 +68,23 @@ export default {
         
         const response = await axios.get("/solana/wallet/" + publicKey.value.toBase58() + "/1");
         this.assets = response.data.items;
+        if (this.assets.length > 0) {
+          clearInterval(this.interval); // Detener si se han recuperado datos
+          this.retryCount = 0; // reiniciar contador de intentos
+        }
       } catch (error) {
-        console.error(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Error fetching assets. Please try again later.'
-        });
-        this.error = "Error fetching assets. Please try again later.";
+          console.error(error);
+          this.retryCount++; // a(CUM)ulador de intentos fallidos
+
+          if (this.retryCount >= 3) { // Mostrar el error después de 3 intentos fallidos
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Error fetching assets. Please try again later.'
+            });
+            this.error = "Error fetching assets. Please try again later.";
+            clearInterval(this.interval); // Detener después de mostrar el error
+          }
       } finally {
         this.isLoading = false;
       }
