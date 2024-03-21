@@ -6,27 +6,40 @@
           <div class="col-span-1 sm:col-span-9">
             <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
               <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
-                <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
-                  <div>
-                    <img class="h-auto w-full rounded-lg" src="https://imgur.com/jFEwdGp.jpg" alt="">
-                  </div>
-                  <div class="grid grid-cols-5 gap-4">
-                    <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/bMDFXHK.jpg" alt="">
-                    </div>
-                    <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/75SiTJW.jpg" alt="">
-                    </div>
-                    <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/APzwUim.jpg" alt="">
-                    </div>
-                    <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/HLyiTZu.jpg" alt="">
-                    </div>
-                    <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/J0kJ5Fh.jpg" alt="">
+              <div>
+              </div>
+                <div class="carousel relative ">
+                  <div class="carousel-inner flex overflow-x-hidden">
+                    <div v-for="(image, index) in images" :key="index">
+                      <img
+                        class="h-64 w-full object-cover rounded-lg transition duration-500 ease-in-out"
+                        :src="image.src"
+                        :alt="image.alt"
+                        :class="{ 'hidden': currentSlideIndex !== index }"
+                      />
                     </div>
                   </div>
+
+                  <button
+                    type="button"
+                    class="carousel-control-prev absolute top-0 left-0 flex items-center justify-center h-full px-4 bg-gray-transparent focus:outline-none hover:bg-gray-200 rounded-lg"
+                    aria-label="Previous"
+                    @click="prevSlide"
+                  >
+                    <svg class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L10.586 3.293H1a1 1 0 01-1-1V1a1 1 0 011-1h9a1 1 0 011 1v2.293l-1.293 1.293z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    class="carousel-control-next absolute top-0 right-0 flex items-center justify-center h-full px-4 bg-gray-transparent focus:outline-none hover:bg-gray-200 rounded-lg"
+                    aria-label="Next"
+                    @click="nextSlide"
+                  >
+                    <svg class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10.586H1a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 011.414-1.414L14 12.707l-6.707 6.707z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
                 </div>
                 <div class="flex flex-col">
                   <div>
@@ -72,6 +85,17 @@ export default {
       reference: "",
       SOL_TO_USD_RATE: 0,
       price: 0,
+      
+
+      images: [
+        { src: 'https://imgur.com/jFEwdGp.jpg', alt: 'Image 1' },
+        { src: 'https://imgur.com/bMDFXHK.jpg', alt: 'Image 2' },
+        { src: 'https://imgur.com/APzwUim.jpg', alt: 'Image 3' },
+        { src: 'https://imgur.com/HLyiTZu.jpg', alt: 'Image 4' },
+        { src: 'https://imgur.com/J0kJ5Fh.jpg', alt: 'Image 5' },
+        // Add more image objects here
+      ],
+      currentSlideIndex: 0,
     };
   },
   async created() {
@@ -79,6 +103,12 @@ export default {
     await this.getJuegos();
   },
   methods: {
+    prevSlide() {
+      this.currentSlideIndex = (this.currentSlideIndex - 1 + this.images.length) % this.images.length; // Handle underflow
+    },
+    nextSlide() {
+      this.currentSlideIndex = (this.currentSlideIndex + 1) % this.images.length;
+    },
     async getJuegos() {
       /*
       try {
