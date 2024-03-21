@@ -1,4 +1,6 @@
 import axios from "./main";
+
+// Obtiene el usuario logueado
 async function getUsuario() {
   try {
     const res = await axios.get("/usuarios/me");
@@ -7,6 +9,7 @@ async function getUsuario() {
     console.error(error);
   }
 }
+// Obtiene el tipo de cambio entre SOL y USD
 async function getExchange() {
     try{
         const res = await axios.get("/exchange");
@@ -15,15 +18,21 @@ async function getExchange() {
         console.error(error);
       }
     };
+    // Obtiene un array con los juegos que el usuario tiene en su wishlist
   async function getWishList() {
       try {
         const res = await axios.get("/usuarios/wishlist");
-        console.log(res.data);
-        return res.data;
+        if(res.status == 404)
+          return [];
+        
+        if(res.status == 200)
+          return res.data;
+        
       } catch (error) {
         console.error(error);
       }
     };
+    // Obtiene un array con todos los juegos
   async function getJuegos() {
       try {
         const res = await axios.get("/juegos");

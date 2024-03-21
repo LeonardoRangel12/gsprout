@@ -69,7 +69,7 @@
           </div>
           <div v-else>
             <h2 class="text-3xl font-semibold">No tienes juegos en tu lista</h2>
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -81,7 +81,8 @@
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import axios from "../main"; // Importa Axios
-
+import { getWishList } from "../apis";
+import { ref } from "vue";
 export default {
   components: {
     Navbar,
@@ -89,37 +90,24 @@ export default {
   },
   data() {
     return {
-      juegos: [], // Inicializa juegos como un array vacío
+      juegos: ref([]), // Inicializa juegos como un array vacío
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
     };
   },
-  async mounted(){
-    await this.getJuegos(); // Llama a la función getJuegos al crear el componente
+  async setup() {
+    const juegos = ref([]); // Inicializa juegos como un array vacío
 
-  },
-  async created() {
+
+    await Promise.all([
+      getWishList(), // Llama a la función getJuegos al crear el componente
+    ]).then((values) => {
+      juegos.value = values[0]; // Asigna el valor de la lista de deseos a la variable juegos
+    }).catch((error) => {
+      console.error(error); // Maneja errores
+    })
+    return { juegos }; // Devuelve juegos
   },
   methods: {
-    async getJuegos() {
-      const wishList = await this.getWishList(); // Obtiene la lista de deseos
-      try {
-        for(let i = 0; i < wishList.length; i++) {
-          // Itera sobre la lista de deseos
-          const response = await axios.get(`/juegos/${wishList[i]}`); // Hace una solicitud GET a '/juegos/:id's
-          this.juegos.push(response.data); // Agrega el juego a la lista de juegos
-        }
-      } catch (error) {
-        console.error("Error al obtener juegos:", error);
-      }
-    },
-    async getWishList() {
-      try {
-        const response = await axios.get("/usuarios/me"); // Hace una solicitud GET a '/wishlist'
-        return response.data.wishList;
-      } catch (error) {
-        console.error("Error al obtener la lista de deseos:", error);
-      }
-    },
   },
 };
 </script>
