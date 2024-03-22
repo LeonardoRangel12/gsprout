@@ -9,11 +9,17 @@
                 <!-- Galeria -->
                 <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                   <div>
-                    <img class="h-auto w-full rounded-lg" style="width: 900px;" :src="selectedImageUrl" alt="" >
+                    <img class="h-auto w-full rounded-lg" style="width: 2800px;" :src="selectedImageUrl" alt="" >
                   </div>
-                  <div class="grid grid-cols-5 gap-4">
-                    <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full cursor-pointer">
-                      <img class="h-full w-full object-cover rounded-lg" style="width: 500px;" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl)">
+                  <div class="overflow-x-auto custom-scrollbar flex items-center" style="height: 115px;">
+                    <div class="flex flex-nowrap mb-1">
+                      <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mr-4">
+                        <img class="h-full w-full object-cover rounded-lg" 
+                        :class="{
+                          'border-4 border-green-500 shadow-lg transform scale-110': index === selectedImageIndex,
+                          'ml-2': index === 0, // Agrega separación del borde izquierdo a la primera imagen
+                        }" style="width: 157.5px":src="imageUrl":alt="`Imagen ${index + 1}`"@click="selectImage(imageUrl, index)"/>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -59,22 +65,25 @@ export default {
   data() {
     return {
       juego: [],
+      selectedImageUrl: [],
       reference: "",
       SOL_TO_USD_RATE: 0,
       price: 0,
-      selectedImageUrl: [],
+      selectedImageIndex: null,
     };
   },
-
+  
   async created() {
     await this.getExchange();
     await this.getJuegos();
   },
+  
   methods: {
 
-    selectImage(imageUrl) {
+    selectImage(imageUrl, index) {
       this.selectedImageUrl = imageUrl;
-    },
+      this.selectedImageIndex = index;
+    },    
     async getJuegos() {
       /*
       try {
@@ -118,5 +127,20 @@ export default {
 .dark {
   background-color: #1a1a1a;
   /* Dark gray background */
+}
+.custom-scrollbar::-webkit-scrollbar {
+  @apply h-2; /* Altura de la barra de scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-200 rounded-full; /* Color de fondo del área de la barra de scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 rounded-full; /* Color de la barra de scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600; /* Color de la barra de scroll al pasar el mouse por encima */
 }
 </style>
