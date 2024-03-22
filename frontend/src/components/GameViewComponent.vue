@@ -29,13 +29,15 @@
                     <img class="w-full h-full object-cover" style="width: 600px;" :src="juego.imagen" :alt="juego.nombre" />
                   </div>
                   <div>
-                    <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
-                    <div div class="flex flex-nowrap mb-1">
-                      <h2 class="text-base font-bold text-white">{{ juego.categoria.join(", ") + "." }}</h2>
+                    <div style="height: 280px;">
+                      <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
+                      <div div class="flex flex-nowrap mb-1">
+                        <h2 class="text-base font-bold text-white">{{ juego.categoria.join(", ") + "." }}</h2>
+                      </div>
+                      <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
+                      <p class="text-gray-400 mb-4">{{ truncar(juego.descripcion) }} 
+                      </p>
                     </div>
-                    <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
-                    <p class="text-gray-400 mb-4">{{ truncar(juego.descripcion) }} 
-                    </p>
                     <div class="flex flex-col  justify-end">
                       <button @click="switchToBuy()" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Comprar
@@ -99,7 +101,7 @@ export default {
       this.selectedImageUrl = imageUrl;
       this.selectedImageIndex = index;
     },    
-    truncar(text, maxLength = 300) {
+    truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
     async getJuegos() {
