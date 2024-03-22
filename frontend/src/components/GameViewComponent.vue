@@ -9,7 +9,7 @@
                 <!-- Galeria -->
                 <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                   <div>
-                    <img class="h-auto w-full rounded-lg" :src="selectedImageUrl" alt="" style="width: 900px;">
+                    <img class="h-auto w-full rounded-lg" style="width: 900px;" :src="selectedImageUrl" alt="" >
                   </div>
                   <div class="grid grid-cols-5 gap-4">
                     <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full cursor-pointer">
