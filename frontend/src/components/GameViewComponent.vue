@@ -16,7 +16,7 @@
                       <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mr-4">
                         <img class="h-full w-full object-cover rounded-lg" 
                         :class="{
-                          'border-4 border-green-500 shadow-lg transform scale-110': index === selectedImageIndex,
+                          'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
                           'ml-2': index === 0, // Agrega separación del borde izquierdo a la primera imagen
                         }" style="width: 157.5px":src="imageUrl":alt="`Imagen ${index + 1}`"@click="selectImage(imageUrl, index)"/>
                       </div>
@@ -69,7 +69,7 @@ export default {
       reference: "",
       SOL_TO_USD_RATE: 0,
       price: 0,
-      selectedImageIndex: null,
+      selectedImageIndex: 0,
     };
   },
   
