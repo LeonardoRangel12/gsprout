@@ -51,7 +51,7 @@
 
             <div class="p-4">
               <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-              <p class="text-gray-300">{{ juego.descripcion }}</p>
+              <p v-for="(cat, index) in juego.categoria" :key="index" class="text-gray-300">{{ cat }}</p>
               <div class="mt-4 flex justify-between items-center">
                 <div>
                   <p class="text-gray-300">{{ juego.precio }} SOL</p>

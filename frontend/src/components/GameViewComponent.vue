@@ -24,7 +24,7 @@
                   </div>
                   <div>
                     <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
-                    <h2 v-for="(cate, index) in juego.categoria" :key="index" class="text-base font-bold mb-4 text-white">{{ cate }}</h2>
+                    <h2 v-for="(cat, index) in juego.categoria" :key="index" class="text-base font-bold mb-4 text-white">{{ cat }}</h2>
                     <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
                     <p class="text-gray-400 mb-4">{{ juego.descripcion }} 
                     </p>
