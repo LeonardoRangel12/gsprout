@@ -70,17 +70,31 @@ export default {
       SOL_TO_USD_RATE: 0,
       price: 0,
       selectedImageIndex: 0,
+      intervalId: null
     };
   },
-  
+  mounted() {
+    
+  },
   async created() {
     await this.getExchange();
     await this.getJuegos();
   },
   
   methods: {
+    startSlideshow() {
+      this.selectedImageUrl = this.juego.gallery[this.selectedImageIndex];
+      this.intervalId = setInterval(this.nextImage, 3000); //cambia cada 3 segundos
+    },
+    stopSlideshow() {
+      clearInterval(this.intervalId);
+    },
+    nextImage() {
+      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.juego.gallery.length;
+      this.selectedImageUrl = this.juego.gallery[this.selectedImageIndex];
+    },
 
-    selectImage(imageUrl, index) {
+    async selectImage(imageUrl, index) {
       this.selectedImageUrl = imageUrl;
       this.selectedImageIndex = index;
     },    
@@ -97,6 +111,7 @@ export default {
       this.selectedImageUrl = this.juego.gallery[0];
       console.log(response);
       console.log(this.$route.query.id);
+      this.startSlideshow(); // Inicia el slideshow
     },
     async getExchange() {
       try {
