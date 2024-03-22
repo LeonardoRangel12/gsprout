@@ -6,30 +6,16 @@
           <div class="col-span-1 sm:col-span-9">
             <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
               <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
-              <div>
-              </div>
-              <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
-                <div>
-                  <img class="h-auto w-full rounded-lg" src="https://imgur.com/jFEwdGp.jpg" alt="">
-                </div>
-                <div class="grid grid-cols-5 gap-4">
+                <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                   <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/bMDFXHK.jpg" alt="">
+                    <img class="h-auto w-full rounded-lg" :src="selectedImageUrl" alt="">
                   </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/75SiTJW.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/APzwUim.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/HLyiTZu.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/J0kJ5Fh.jpg" alt="">
+                  <div class="grid grid-cols-5 gap-4">
+                    <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full rounded-lg">
+                      <img class="h-full w-full object-cover" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl)">
+                    </div>
                   </div>
                 </div>
-              </div>
                 <div class="flex flex-col">
                   <div>
                     <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
@@ -74,29 +60,19 @@ export default {
       reference: "",
       SOL_TO_USD_RATE: 0,
       price: 0,
-      
-
-      images: [
-        { src: 'https://imgur.com/jFEwdGp.jpg', alt: 'Image 1' },
-        { src: 'https://imgur.com/bMDFXHK.jpg', alt: 'Image 2' },
-        { src: 'https://imgur.com/APzwUim.jpg', alt: 'Image 3' },
-        { src: 'https://imgur.com/HLyiTZu.jpg', alt: 'Image 4' },
-        { src: 'https://imgur.com/J0kJ5Fh.jpg', alt: 'Image 5' },
-        // Add more image objects here
-      ],
-      currentSlideIndex: 0,
+      gallery: [],
+      selectedImageUrl: [],
     };
   },
+
   async created() {
     await this.getExchange();
     await this.getJuegos();
   },
   methods: {
-    prevSlide() {
-      this.currentSlideIndex = (this.currentSlideIndex - 1 + this.images.length) % this.images.length; // Handle underflow
-    },
-    nextSlide() {
-      this.currentSlideIndex = (this.currentSlideIndex + 1) % this.images.length;
+
+    selectImage(imageUrl) {
+      this.selectedImageUrl = imageUrl;
     },
     async getJuegos() {
       /*
@@ -108,6 +84,7 @@ export default {
       }*/
       const response = await axios.get("/juegos/" + this.$route.query.id);
       this.juego = response.data;
+      this.selectedImageUrl = this.juego.gallery[0];
       console.log(response);
       console.log(this.$route.query.id);
     },
