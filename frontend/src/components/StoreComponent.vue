@@ -13,7 +13,7 @@
           <img class="w-full h-56 object-cover object-center" :src="juego.imagen" :alt="juego.nombre" />
           <div class="p-4">
             <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-            <p class="text-gray-300 mb-4">{{ juego.descripcion }}</p>
+            <p class="text-gray-300 mb-4">{{ truncar(juego.descripcion) }}</p>
             <div class="flex justify-between items-center">
               <div>
                 <p class="text-gray-300 mb-2">{{ juego.precio }} SOL</p>
@@ -63,6 +63,9 @@ export default {
       // Redirect the user to the registration page
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
+    truncar(text, maxLength = 240) {
+    return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
+  },
   }
 };
 </script>

@@ -52,7 +52,9 @@
             <div class="p-4">
               <div style="height: 100px;"> <!-- le da una altura fija para que el texto este parejo alv -->
                 <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-                <p v-for="(cat, index) in juego.categoria" :key="index" class="text-gray-300">{{ cat }}</p>
+                <div div class="flex flex-nowrap mb-1">
+                  <p class="text-gray-300">{{ juego.categoria.join(", ") + "." }}</p>
+                </div>
               </div>
               <div class="mt-4 flex justify-between items-center">
                 <div>

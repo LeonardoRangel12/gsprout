@@ -5,14 +5,14 @@
         <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
           <div class="col-span-1 sm:col-span-9">
             <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
-              <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
+              <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row" style="height: 625px;">
                 <!-- Galeria -->
                 <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                   <div>
-                    <img class="h-auto w-full rounded-lg" style="width: 2800px;" :src="selectedImageUrl" alt="" >
+                    <img class="h-auto w-full rounded-lg" style="width: 2800px; height: 450px;" :src="selectedImageUrl" alt="" >
                   </div>
                   <div class="overflow-x-auto custom-scrollbar flex items-center" style="height: 115px;">
-                    <div class="flex flex-nowrap mb-1">
+                    <div class="flex flex-nowrap mb-1" >
                       <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mr-4">
                         <img class="h-full w-full object-cover rounded-lg" 
                         :class="{
@@ -30,9 +30,11 @@
                   </div>
                   <div>
                     <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
-                    <h2 v-for="(cat, index) in juego.categoria" :key="index" class="text-base font-bold mb-4 text-white">{{ cat }}</h2>
+                    <div div class="flex flex-nowrap mb-1">
+                      <h2 class="text-base font-bold text-white">{{ juego.categoria.join(", ") + "." }}</h2>
+                    </div>
                     <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
-                    <p class="text-gray-400 mb-4">{{ juego.descripcion }} 
+                    <p class="text-gray-400 mb-4">{{ truncar(juego.descripcion) }} 
                     </p>
                     <div class="flex flex-col  justify-end">
                       <button @click="switchToBuy()" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
@@ -98,6 +100,9 @@ export default {
       this.selectedImageUrl = imageUrl;
       this.selectedImageIndex = index;
     },    
+    truncar(text, maxLength = 300) {
+      return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
+    },
     async getJuegos() {
       /*
       try {
