@@ -12,8 +12,8 @@
                     <img class="h-auto w-full rounded-lg" :src="selectedImageUrl" alt="" style="width: 900px;">
                   </div>
                   <div class="grid grid-cols-5 gap-4">
-                    <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full rounded-lg cursor-pointer">
-                      <img class="h-full w-full object-cover" style="width: 500px;" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl)">
+                    <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full cursor-pointer">
+                      <img class="h-full w-full object-cover rounded-lg" style="width: 500px;" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl)">
                     </div>
                   </div>
                 </div>
