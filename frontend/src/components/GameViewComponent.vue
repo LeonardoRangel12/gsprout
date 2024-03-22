@@ -6,6 +6,7 @@
           <div class="col-span-1 sm:col-span-9">
             <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
               <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
+                <!-- Galeria -->
                 <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                   <div>
                     <img class="h-auto w-full rounded-lg" :src="selectedImageUrl" alt="">
@@ -16,13 +17,14 @@
                     </div>
                   </div>
                 </div>
+                <!-- Datos Juego -->
                 <div class="flex flex-col">
                   <div>
                     <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
                   </div>
                   <div>
                     <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
-                    <h2 class="text-base font-bold mb-4 text-white">{{ juego.categoria }}</h2>
+                    <h2 v-for="(cate, index) in juego.categoria" :key="index" class="text-base font-bold mb-4 text-white">{{ cate }}</h2>
                     <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
                     <p class="text-gray-400 mb-4">{{ juego.descripcion }} 
                     </p>
@@ -60,7 +62,6 @@ export default {
       reference: "",
       SOL_TO_USD_RATE: 0,
       price: 0,
-      gallery: [],
       selectedImageUrl: [],
     };
   },
