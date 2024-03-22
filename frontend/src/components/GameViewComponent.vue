@@ -9,18 +9,18 @@
                 <!-- Galeria -->
                 <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                   <div>
-                    <img class="h-auto w-full rounded-lg" :src="selectedImageUrl" alt="">
+                    <img class="h-auto w-full rounded-lg" :src="selectedImageUrl" alt="" style="width: 900px;">
                   </div>
                   <div class="grid grid-cols-5 gap-4">
-                    <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full rounded-lg">
-                      <img class="h-full w-full object-cover" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl)">
+                    <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full rounded-lg cursor-pointer">
+                      <img class="h-full w-full object-cover" style="width: 500px;" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl)">
                     </div>
                   </div>
                 </div>
                 <!-- Datos Juego -->
                 <div class="flex flex-col">
                   <div>
-                    <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
+                    <img class="w-full h-full object-cover" style="width: 600px;" :src="juego.imagen" :alt="juego.nombre" />
                   </div>
                   <div>
                     <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
