@@ -12,8 +12,10 @@
         <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
           <img class="w-full h-56 object-cover object-center" :src="juego.imagen" :alt="juego.nombre" />
           <div class="p-4">
-            <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-            <p class="text-gray-300 mb-4">{{ truncar(juego.descripcion) }}</p>
+            <div style="height: 180px;">
+              <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
+              <p class="text-gray-300 mb-4">{{ truncar(juego.descripcion) }}</p>
+            </div>
             <div class="flex justify-between items-center">
               <div>
                 <p class="text-gray-300 mb-2">{{ juego.precio }} SOL</p>
