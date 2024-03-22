@@ -72,11 +72,10 @@ export default {
       SOL_TO_USD_RATE: 0,
       price: 0,
       selectedImageIndex: 0,
-      intervalId: null
     };
   },
   mounted() {
-    
+
   },
   async created() {
     await this.getExchange();
