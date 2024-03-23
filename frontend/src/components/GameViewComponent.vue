@@ -24,22 +24,23 @@
                   </div>
                 </div>
                 <!-- Datos Juego -->
-                <div class="flex flex-col">
+                <div class="flex flex-col relative">
                   <div>
                     <img class="w-full h-full object-cover" style="width: 600px;" :src="juego.imagen" :alt="juego.nombre" />
                   </div>
                   <div>
-                    <div style="height: 280px;">
+                    <div>
                       <h2 class="text-2xl font-bold text-white">{{ juego.nombre }}</h2>
                       <div div class="flex flex-nowrap mb-1">
                         <h2 class="text-base font-bold text-white">{{ juego.categoria.join(", ") + "." }}</h2>
                       </div>
                       <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
-                      <p class="text-gray-400 mb-4">{{ truncar(juego.descripcion) }} 
-                      </p>
+                      <div>
+                        <p class="text-gray-400">{{ truncar(juego.descripcion) }}</p>
+                      </div>
                     </div>
-                    <div class="flex flex-col  justify-end">
-                      <button @click="switchToBuy()" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                    <div class="absolute bottom-0 left-0 right-0">
+                      <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Comprar
                       </button>
                     </div>
