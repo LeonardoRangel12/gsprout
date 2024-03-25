@@ -24,11 +24,9 @@ const createJuego = async (req, res, next) => {
   value.regexLicense = await cryptojsUtil.encrypt(value.regexLicense);
   try {
     const juego = await juegoService.createJuego(value);
-    req.redis = {
-      key: `${juegoSalt}`,
-      data: juego,
-    };
-    res.status(201).send(juego);
+    req.toCache = juego;
+
+    // res.status(201).send(juego);
     next();
   } catch (error) {
     return res.status(500).send(error);
@@ -49,11 +47,9 @@ const createSeveralJuegos = async (req, res, next) => {
       return res.status(500).send(error);
     }
   }
-  req.redis = {
-    key: `${juegoSalt}`,
-    data: juegos,
-  };
-  res.status(201).send(juegos);
+  req.toCache = juegos;
+
+  // res.status(201).send(juegos);
   next();
 };
 
@@ -62,11 +58,9 @@ const getJuegos = async (req, res, next) => {
   try {
     const juegos = await juegoService.getJuegos();
 
-    req.redis = {
-      key: `${juegoSalt}`,
-      data: juegos,
-    };
-    res.send(juegos).status(200);
+    req.toCache = juegos;
+
+    // res.send(juegos).status(200);
     next();
   } catch {
     return res.status(500).send("Internal Server Error");
@@ -78,12 +72,9 @@ const getJuegoById = async (req, res, next) => {
   try {
     const juego = await juegoService.getJuegoById(req.params.id);
     if (!juego) return res.status(404).send("Juego no existe");
-    req.redis = {
-      key: `${juegoSalt}:${req.params.id}`,
-      data: juego,
-      status: 200,
-    }
-    res.status(200).send(juego);
+    req.toCache = juego;
+
+    // res.status(200).send(juego);
     next();
   } catch {
     return res.status(500).send("Internal Server Error");
@@ -138,11 +129,9 @@ const updateJuego = async (req, res,next) => {
     const juego = await juegoService.updateJuego(req.params.id, value);
     if (!juego) return res.status(404).send("Juego no existe");
 
-    req.redis = {
-      key: `${juegoSalt}:${req.params.id}`,
-      data: juego,
-    };
-    res.status(200).send(juego);
+    req.toCache = juego;
+
+    // res.status(200).send(juego);
     next();
   } catch {
     return res.status(500).send(error);
@@ -155,25 +144,22 @@ const deleteJuego = async (req, res,next) => {
     const juego = await juegoService.deleteJuego(req.params.id);
     if (!juego) return res.status(404).send("Juego no existe");
 
-    req.redis = {
-      key: `${juegoSalt}:${req.params.id}`,
-      data: juego,
-    };
-    res.status(200).send(juego);
+    req.toCache = juego;
+    // res.status(200).send(juego);
     next();
   } catch {
     return res.status(500).send(error);
   }
 };
 
-const generateCacheKey = (req, res, next) => {
-  const { id } = req.params;
-  const key = id ? `${juegoSalt}:${id}` : `${juegoSalt}`;
-  req.redis = {
-    key
-  };
-  next();
-};
+// const generateCacheKey = (req, res, next) => {
+//   const { id } = req.params;
+//   const key = id ? `${juegoSalt}:${id}` : `${juegoSalt}`;
+//   req.redis = {
+//     key
+//   };
+//   next();
+// };
 module.exports = {
   createJuego,
   getJuegos,
@@ -181,7 +167,7 @@ module.exports = {
   updateJuego,
   deleteJuego,
   createSeveralJuegos,
-  generateCacheKey,
+  // generateCacheKey,
   searchJuegos,
   autocompleteJuegosSearch
 };

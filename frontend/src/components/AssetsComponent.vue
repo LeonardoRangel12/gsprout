@@ -45,15 +45,22 @@ export default {
       error: null,
       interval: null,
       retryCount: 0, // variable para el contador de intentos
+      connected: useWallet().connected,
     };
   },
   mounted() {
-    this.getAssets();
-    if (this.assets.length === 0) {
-      this.interval = setInterval(this.getAssets, 4000); // Establecer el intervalo si no hay datos
-      this.retryCount = 0; // Restablecer si se recuperaron datos
+    // this.getAssets();
+    // if (this.assets.length === 0) {
+    //   this.interval = setInterval(this.getAssets, 4000); // Establecer el intervalo si no hay datos
+    //   this.retryCount = 0; // Restablecer si se recuperaron datos
       
-    }
+    // }
+  },
+  watch: {
+    connected(val) {
+      if (val)
+        this.getAssets();
+    },
   },
   methods: {
     async getAssets() {

@@ -23,11 +23,12 @@ const createUsuario = async (req, res, next) => {
   // Create user
   try {
     const usuario = await usuarioService.createUsuario(value);
-    req.redis = {
-      key: `${usuarioSalt}`,
-      data: usuario,
-    };
-    res.status(201).send(usuario);
+    // req.redis = {
+    //   key: `${usuarioSalt}`,
+    //   data: usuario,
+    // };
+    req.toCache = usuario;
+    // res.status(201).send(usuario);
     next();
   } catch (error) {
     return res.status(500).send(error);
@@ -38,11 +39,12 @@ const getUsuarios = async (req, res, next) => {
   // Get all users
   try {
     const usuarios = await usuarioService.getUsuarios();
-    req.redis = {
-      key: `${usuarioSalt}`,
-      data: usuarios,
-    };
-    res.status(200).send(usuarios);
+    // req.redis = {
+    //   key: `${usuarioSalt}`,
+    //   data: usuarios,
+    // };
+    req.toCache  = usuarios;
+    // res.status(200).send(usuarios);
     next();
   } catch (error) {
     return res.status(500).send(error);
@@ -79,11 +81,12 @@ const getUsuarioById = async (req, res, next) => {
       req.params.username
     );
     if (!usuario) return res.status(404).send("User not found");
-    req.redis = {
-      key: `${usuarioSalt}:${req.params.username}`,
-      data: usuario,
-    };
-    res.status(200).send(usuario);
+    // req.redis = {
+    //   key: `${usuarioSalt}:${req.params.username}`,
+    //   data: usuario,
+    // };
+    req.toCache = usuario;
+    // res.status(200).send(usuario);
     next();
   } catch (error) {
     return res.status(500).send(error);
@@ -103,11 +106,12 @@ const updateUsuario = async (req, res, next) => {
     );
     if (!usuario) return res.status(404).send("User not found");
 
-    req.redis = {
-      key: `${usuarioSalt}:${req.params.username}`,
-      data: usuario,
-    };
-    res.status(200).send(usuario);
+    // req.redis = {
+    //   key: `${usuarioSalt}:${req.params.username}`,
+    //   data: usuario,
+    // };
+    req.toCache = usuario;
+    // res.status(200).send(usuario);
     next();
   } catch (error) {
     return res.status(500).send(error);
@@ -122,9 +126,9 @@ const deleteUsuario = async (req, res, next) => {
   try {
     if (!(await usuarioService.deleteUsuario(req.params.email)))
       return res.status(404).send("User not found");
-    req.redis = {
-      key: `${usuarioSalt}:${req.params.username}`,
-    };
+    // req.redis = {
+    //   key: `${usuarioSalt}:${req.params.username}`,
+    // };
     res.status(200).send("User deleted");
     next();
   } catch (error) {
@@ -139,7 +143,9 @@ const deleteUsuario = async (req, res, next) => {
 // };
 
 const getUsuario = async (req, res, next) => {
-  const token = jwtUtil.verifyToken(req.headers.authorization);
+  // defined in session.middleware.js
+  const token = req.token;
+
   if (!token) return res.status(401).send("Unauthorized");
   const usuario = await usuarioService.getUsuarioByUsername(token.username);
   if (!usuario) return res.status(404).send("User not found");
@@ -147,7 +153,8 @@ const getUsuario = async (req, res, next) => {
 };
 
 const addToWishList = async (req, res, next) => {
-  const { username } = jwtUtil.verifyToken(req.headers.authorization);
+  // defined in session.middleware.js
+  const {username} = req.token;
   const { id } = req.params;
 
   const usuario = await usuarioService.addToWishList(username, id);
@@ -156,7 +163,8 @@ const addToWishList = async (req, res, next) => {
   return res.status(200).send(usuario);
 };
 const removeFromWishList = async (req, res, next) => {
-  const { username } = jwtUtil.verifyToken(req.headers.authorization);
+  // defined in session.middleware.js
+  const {username} = req.token;
   const { id } = req.params;
 
   const usuario = await usuarioService.removeFromWishList(username, id);
@@ -168,23 +176,29 @@ const removeFromWishList = async (req, res, next) => {
 const getJuegosInWishList = async (req, res, next) => {
   const { getJuegosInArray } = require("../services/juego.service");
 
-  const { username } = jwtUtil.verifyToken(req.headers.authorization);
+  // defined in session.middleware.js
+  const { username } = req.token;
   const usuario = await usuarioService.getUsuarioByUsername(username);
 
   if (!usuario) return res.status(404).send("User not found");
   const juegos = await getJuegosInArray(usuario.wishList);
 
-  return res.status(200).send(juegos);
-};
-
-const generateCacheKey = (req, res, next) => {
-  const { username } = req.params;
-  const key = username ? `${usuarioSalt}:${username}` : `${usuarioSalt}`;
-  req.redis = {
-    key,
-  };
+  req.toCache = juegos;
+  // res.status(200).send(juegos);
   next();
 };
+
+// const generateCacheKey = (req, res, next) => {
+  
+//   // const key = username ? `${usuarioSalt}:${username}` : `${usuarioSalt}`;
+//   // req.redis = {
+//   //   key,
+//   // };
+//   const {url, query} = req;
+//   const queryString = Object.keys(query).length > 0 ? `?${Object.keys(query).map(([key,value]) => `${key}=${query[key]}`).join('&')}`: '';
+  
+//   next();
+// };
 
 module.exports = {
   createUsuario,
@@ -195,7 +209,7 @@ module.exports = {
   deleteUsuario,
   // logoutUsuario,
   getUsuario,
-  generateCacheKey,
+  // generateCacheKey,
   addToWishList,
   removeFromWishList,
   getJuegosInWishList,

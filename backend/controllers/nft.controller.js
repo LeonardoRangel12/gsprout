@@ -70,11 +70,12 @@ const fetchNFTs = async (req, res, next) => {
   const nfts = await metaplexUtil.fetchNFTs(publicKey, page);
   if (!nfts) return res.sendStatus(404);
 
-  req.redis = {
-    key: `${solanaSalt}:${publicKey}:${page}`,
-    data: nfts,
-  };
-  res.send(nfts).status(200);
+  // req.redis = {
+  //   key: `${solanaSalt}:${publicKey}:${page}`,
+  //   data: nfts,
+  // };
+  req.toCache = nfts;
+  // res.send(nfts).status(200);
   next();
 };
 
@@ -83,26 +84,27 @@ const fetchNFT = async (req, res, next) => {
   const nft = await metaplexUtil.fetchNFT(publicKey);
   if (!nft) return res.sendStatus(404);
   
-  req.redis = {
-    key: `${solanaSalt}:${publicKey}`,
-    data: nft,
-  }
-  res.send(nft).status(200);
+  // req.redis = {
+  //   key: `${solanaSalt}:${publicKey}`,
+  //   data: nft,
+  // }
+  req.toCache = nft;
+  // res.send(nft).status(200);
   next();
 };
 
-const generateCacheKey = (req, res, next) => {
-  const { publicKey, page } = req.params;
-  const key = page ? `${solanaSalt}:${publicKey}:${page}` : `${solanaSalt}:${publicKey}`;
-  req.redis = {
-    key
-  };
-  next();
-};
+// const generateCacheKey = (req, res, next) => {
+//   const { publicKey, page } = req.params;
+//   const key = page ? `${solanaSalt}:${publicKey}:${page}` : `${solanaSalt}:${publicKey}`;
+//   req.redis = {
+//     key
+//   };
+//   next();
+// };
 
 module.exports = {
   mintNFT,
   fetchNFTs,
   fetchNFT,
-  generateCacheKey,
+  // generateCacheKey,
 };

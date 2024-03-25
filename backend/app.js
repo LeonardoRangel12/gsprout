@@ -35,7 +35,6 @@ app.use(cors(corsOptions));
 // WEBSOCKET
 const chatSocket = require("./sockets/chat.socket")(io);
 
-
 // ROUTES
 app.use("/usuarios", require("./routers/usuario.router.js"));
 app.use("/juegos", require("./routers/juego.router.js"));

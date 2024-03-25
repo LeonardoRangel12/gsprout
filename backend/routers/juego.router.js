@@ -2,12 +2,12 @@ const controller = require('../controllers/juego.controller');
 const multer = require('multer');
 const upload = multer();
 const express = require('express');
-const { getCache, setCache, deleteCache } = require('../middleware/redis.middleware');
+const { handleCache } = require('../middleware/redis.middleware');
 const router = express.Router();
 
 // GET
-router.get('/',upload.none(), controller.generateCacheKey, getCache,controller.getJuegos, setCache);  
-router.get('/:id', upload.none(),controller.generateCacheKey, getCache,controller.getJuegoById, setCache);
+router.get('/',upload.none(), handleCache,controller.getJuegos, handleCache);  
+router.get('/:id', upload.none(),handleCache,controller.getJuegoById, handleCache);
 
 //No cached yet
 router.get('/search/autoComplete/:query', upload.none(), controller.autocompleteJuegosSearch);
@@ -15,11 +15,11 @@ router.get('/search/autoComplete/:query', upload.none(), controller.autocomplete
 //No cached yet
 router.post('/search', upload.none(), controller.searchJuegos);
 // POST
-router.post('/',upload.none(),controller.createJuego, deleteCache);
-router.post('/createSeveral',upload.none(),controller.createSeveralJuegos, deleteCache);
+router.post('/',upload.none(),controller.createJuego, handleCache);
+router.post('/createSeveral',upload.none(),controller.createSeveralJuegos, handleCache);
 // PUT
-router.put('/:id',upload.none(),controller.updateJuego, setCache);
+router.put('/:id',upload.none(),controller.updateJuego, handleCache);
 // DELETE
-router.delete('/:id',upload.none(),controller.deleteJuego, deleteCache);
+router.delete('/:id',upload.none(),controller.deleteJuego, handleCache);
 
 module.exports = router;
