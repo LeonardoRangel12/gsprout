@@ -96,14 +96,14 @@ const deletePublicacion = async (req, res, next) => {
   }
 };
 
-const generateCacheKey = (req, res, next) => {
-  const { id } = req.params;
-  const key = id ? `${publicacionesSalt}:${id}` : `${publicacionesSalt}`;
-  req.redis = {
-    key,
-  };
-  next();
-};
+// const generateCacheKey = (req, res, next) => {
+//   const { id } = req.params;
+//   const key = id ? `${publicacionesSalt}:${id}` : `${publicacionesSalt}`;
+//   req.redis = {
+//     key,
+//   };
+//   next();
+// };
 
 module.exports = {
   getPublicacionById,
@@ -112,5 +112,5 @@ module.exports = {
   updatePublicacion,
   deletePublicacion,
   updatePublicacion,
-  generateCacheKey
+  // generateCacheKey
 };

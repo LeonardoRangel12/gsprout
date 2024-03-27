@@ -33,7 +33,10 @@ app.use(cors(corsOptions));
 // });
 
 // WEBSOCKET
-const chatSocket = require("./sockets/chat.socket")(io);
+require("./sockets/chat.socket")(io);
+
+// Allow the use of the socket in other files
+module.exports.io = io;
 
 // ROUTES
 app.use("/usuarios", require("./routers/usuario.router.js"));
@@ -43,7 +46,7 @@ app.use("/solana", require("./routers/solana.router.js"));
 app.use("/historialcompras", require("./routers/historialcompras.router.js"));
 app.use("/compras", require("./routers/compra.router.js"));
 app.use("/publicaciones", require("./routers/publicaciones.router.js"));
-app.use('/mensajes',require('./routers/message.router.js'));
+app.use('/chat',require('./routers/chat.router.js'));
 // SERVER
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

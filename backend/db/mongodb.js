@@ -7,13 +7,13 @@ const connection = new MongoClient(_url);
 const dbCon = connection.db(_database, { useUnifiedTopology: true });
 
 async function createUsuario(data) {
-    const result = await dbCon.collection("users").insertOne(data);
-    return result;
+  const result = await dbCon.collection("users").insertOne(data);
+  return result;
 }
 
 async function getUsuarios() {
-    const result = await dbCon.collection("users").find().toArray();
-    return result;
+  const result = await dbCon.collection("users").find().toArray();
+  return result;
 }
 
 // async function getUsuarioByEmail(userEmail) {
@@ -27,314 +27,357 @@ async function getUsuarios() {
 //   return result;
 // }
 async function getUsuarioByPublicKey(publicKey) {
-    const userFound = await dbCon.collection("users").findOne({
-      wallets: {
-        $in: [publicKey],
-      },
-    });
+  const userFound = await dbCon.collection("users").findOne({
+    wallets: {
+      $in: [publicKey],
+    },
+  });
 
-    return userFound;
+  return userFound;
 }
 async function getUsuarioByUsername(username) {
-    const userFound = await dbCon.collection("users").findOne({
-      username,
-    });
+  const userFound = await dbCon.collection("users").findOne({
+    username,
+  });
 
-    return userFound;
+  return userFound;
 }
 async function loginUsuario(username, publicKey) {
-    const userFound = await dbCon.collection("users").findOne({
-      username,
-      wallets: {
-        $in: [publicKey],
-      },
-    });
+  const userFound = await dbCon.collection("users").findOne({
+    username,
+    wallets: {
+      $in: [publicKey],
+    },
+  });
 
-    return userFound;
+  return userFound;
 }
 
 async function getUsuarioById(email) {
-    const userFound = await dbCon.collection("users").findOne({ email });
+  const userFound = await dbCon.collection("users").findOne({ email });
 
-    return userFound;
+  return userFound;
 }
 
 async function updateUsuario(username, data) {
-    const updateFields = { $set: data };
-    const result = await dbCon
-      .collection("users")
-      .updateOne({ username }, updateFields);
+  const updateFields = { $set: data };
+  const result = await dbCon
+    .collection("users")
+    .updateOne({ username }, updateFields);
 
-    return result;
+  return result;
 }
 
 async function deleteUsuario(username) {
-    const result = await dbCon.collection("users").deleteOne({ username });
+  const result = await dbCon.collection("users").deleteOne({ username });
 
-    return result;
+  return result;
 }
 
 async function addToWishList(username, id) {
-    const result = await dbCon
-      .collection("users")
-      .updateOne({ username }, { $addToSet: { wishList: id } });
+  const result = await dbCon
+    .collection("users")
+    .updateOne({ username }, { $addToSet: { wishList: id } });
 
-    return result;
+  return result;
 }
 async function removeFromWishList(username, id) {
-    const result = await dbCon
-      .collection("users")
-      .updateOne({ username }, { $pull: { wishList: id } });
+  const result = await dbCon
+    .collection("users")
+    .updateOne({ username }, { $pull: { wishList: id } });
 
-    return result;
+  return result;
 }
 
 async function createJuego(data) {
-    const result = await dbCon.collection("games").insertOne(data);
-    return result;
+  const result = await dbCon.collection("games").insertOne(data);
+  return result;
 }
 
 async function getJuegos() {
-    const result = await dbCon.collection("games").find().toArray();
-    return result;
+  const result = await dbCon.collection("games").find().toArray();
+  return result;
 }
 
 async function getJuegoById(juegoId) {
-    const juegoFound = await dbCon
-      .collection("games")
-      .findOne({ _id: new ObjectId(juegoId) });
-    return juegoFound;
+  const juegoFound = await dbCon
+    .collection("games")
+    .findOne({ _id: new ObjectId(juegoId) });
+  return juegoFound;
 }
 
 async function autocompleteJuegosSearch(queryString) {
-    const query = [
-      {
-        $search: {
-          index: "juegosSearch",
-          text: {
-            query: queryString,
-            path: ["nombre"],
-            fuzzy: {
-              maxEdits: 2,
-            },
+  const query = [
+    {
+      $search: {
+        index: "juegosSearch",
+        text: {
+          query: queryString,
+          path: ["nombre"],
+          fuzzy: {
+            maxEdits: 2,
           },
         },
       },
-      {
-        $project: {
-          nombre: 1,
-          _id: 1,
-          imagen: 1,
-        },
+    },
+    {
+      $project: {
+        nombre: 1,
+        _id: 1,
+        imagen: 1,
       },
-      {
-        $limit: 5,
-      },
-    ];
-    const result = await dbCon.collection("games").aggregate(query).toArray();
-    return result;
+    },
+    {
+      $limit: 5,
+    },
+  ];
+  const result = await dbCon.collection("games").aggregate(query).toArray();
+  return result;
 }
 async function getJuegosInArray(array) {
-    const result = await dbCon
-      .collection("games")
-      .find({ _id: { $in: array.map((item) => new ObjectId(item)) } })
-      .toArray();
+  const result = await dbCon
+    .collection("games")
+    .find({ _id: { $in: array.map((item) => new ObjectId(item)) } })
+    .toArray();
 
-    return result;
+  return result;
 }
 
 async function searchJuegos(searchParams) {
-    let { queryString, minPrice, maxPrice, categoriesToFilter } = searchParams;
-    const query = [];
-    if (queryString && queryString.length > 0) {
-      query.push({
-        $search: {
-          index: "juegosSearch",
-          text: {
-            query: queryString,
-            path: ["nombre", "descripcion", "categoria"],
-            fuzzy: {
-              maxEdits: 2,
-            },
-          },
-        },
-      });
-    }
-
-    if (minPrice && maxPrice && maxPrice > minPrice) {
-      query.push({
-        $match: {
-          precio: {
-            $gte: minPrice,
-            $lte: maxPrice,
-          },
-        },
-      });
-    } else if (minPrice) {
-      console.log("Me lleva la vrg ", minPrice);
-      query.push({
-        $match: {
-          precio: {
-            $gte: minPrice,
-          },
-        },
-      });
-    } else if (maxPrice) {
-      query.push({
-        $match: {
-          precio: {
-            $lte: maxPrice,
-          },
-        },
-      });
-    }
-
-    if (categoriesToFilter && categoriesToFilter.length > 0) {
-      const categoryFilters = categoriesToFilter.map((category) => ({
-        categoria: category,
-      }));
-      query.push({
-        $match: {
-          $and: categoryFilters,
-        },
-      });
-    }
-    //limit to 20 results
+  let { queryString, minPrice, maxPrice, categoriesToFilter } = searchParams;
+  const query = [];
+  if (queryString && queryString.length > 0) {
     query.push({
-      $limit: 20,
+      $search: {
+        index: "juegosSearch",
+        text: {
+          query: queryString,
+          path: ["nombre", "descripcion", "categoria"],
+          fuzzy: {
+            maxEdits: 2,
+          },
+        },
+      },
     });
-    const result = await dbCon.collection("games").aggregate(query).toArray();
-    return result;
+  }
+
+  if (minPrice && maxPrice && maxPrice > minPrice) {
+    query.push({
+      $match: {
+        precio: {
+          $gte: minPrice,
+          $lte: maxPrice,
+        },
+      },
+    });
+  } else if (minPrice) {
+    console.log("Me lleva la vrg ", minPrice);
+    query.push({
+      $match: {
+        precio: {
+          $gte: minPrice,
+        },
+      },
+    });
+  } else if (maxPrice) {
+    query.push({
+      $match: {
+        precio: {
+          $lte: maxPrice,
+        },
+      },
+    });
+  }
+
+  if (categoriesToFilter && categoriesToFilter.length > 0) {
+    const categoryFilters = categoriesToFilter.map((category) => ({
+      categoria: category,
+    }));
+    query.push({
+      $match: {
+        $and: categoryFilters,
+      },
+    });
+  }
+  //limit to 20 results
+  query.push({
+    $limit: 20,
+  });
+  const result = await dbCon.collection("games").aggregate(query).toArray();
+  return result;
 }
 
 async function updateJuego(juegoId, data) {
-    const updateFields = { $set: data };
-    const result = await dbCon
-      .collection("games")
-      .updateOne({ id: juegoId }, updateFields);
-    return result;
+  const updateFields = { $set: data };
+  const result = await dbCon
+    .collection("games")
+    .updateOne({ id: juegoId }, updateFields);
+  return result;
 }
 
 async function deleteJuego(juegoId) {
-    const result = await dbCon
-      .collection("games")
-      .deleteOne({ _id: new ObjectId(juegoId) });
-    return result;
+  const result = await dbCon
+    .collection("games")
+    .deleteOne({ _id: new ObjectId(juegoId) });
+  return result;
 }
 
 async function getJuegoByName(juegoName) {
-    const juegoFound = await dbCon
-      .collection("games")
-      .findOne({ name: juegoName });
-    return juegoFound;
+  const juegoFound = await dbCon
+    .collection("games")
+    .findOne({ name: juegoName });
+  return juegoFound;
 }
 
 async function getDeseadosByUsuario(userId) {
-    const deseadosFound = await dbCon
-      .collection("deseados")
-      .findOne({ id_usuario: userId }, { projection: { _id: 0, deseados: 1 } });
-    return deseadosFound.deseados;
+  const deseadosFound = await dbCon
+    .collection("deseados")
+    .findOne({ id_usuario: userId }, { projection: { _id: 0, deseados: 1 } });
+  return deseadosFound.deseados;
 }
 
 async function createNewDeseados(idusuario, idjuego) {
-    const result = await dbCon
-      .collection("deseados")
-      .insertOne({ id_usuario: idusuario, deseados: [idjuego] });
-    return result;
+  const result = await dbCon
+    .collection("deseados")
+    .insertOne({ id_usuario: idusuario, deseados: [idjuego] });
+  return result;
 }
 
 async function addToDeseados(idusuario, idjuego) {
-    let result;
-    if (!(await getDeseadosByUsuario(idusuario))) {
-      result = await createNewDeseados(idusuario, idjuego);
-    }
-    const deseados = await getDeseadosByUsuario(idusuario);
-    if (deseados.includes(idjuego)) {
-      return new Error("Juego ya en deseados");
-    }
+  let result;
+  if (!(await getDeseadosByUsuario(idusuario))) {
+    result = await createNewDeseados(idusuario, idjuego);
+  }
+  const deseados = await getDeseadosByUsuario(idusuario);
+  if (deseados.includes(idjuego)) {
+    return new Error("Juego ya en deseados");
+  }
 
-    result = await dbCon
-      .collection("deseados")
-      .updateOne({ id_usuario: idusuario }, { $push: { deseados: idjuego } });
+  result = await dbCon
+    .collection("deseados")
+    .updateOne({ id_usuario: idusuario }, { $push: { deseados: idjuego } });
 
-    return result;
+  return result;
 }
 
 async function deleteJuegoOfDeseados(userId, juegoId) {
-    const result = await dbCon.collection("deseados").updateOne(
-      {
-        id_usuario: userId,
+  const result = await dbCon.collection("deseados").updateOne(
+    {
+      id_usuario: userId,
+    },
+    {
+      $pull: {
+        deseados: juegoId,
       },
-      {
-        $pull: {
-          deseados: juegoId,
-        },
-      }
-    );
-    return result;
+    }
+  );
+  return result;
 }
 
 async function createPublicacion(data) {
-    const result = await dbCon.collection("publicaciones").insertOne(data);
-    return result;
+  const result = await dbCon.collection("publicaciones").insertOne(data);
+  return result;
 }
 
 async function getPublicaciones() {
-    const result = await dbCon.collection("publicaciones").find().toArray();
-    return result;
+  const result = await dbCon.collection("publicaciones").find().toArray();
+  return result;
 }
 
 async function getPublicacionById(id) {
-    const publicacionFound = await dbCon
-      .collection("publicaciones")
-      .findOne({ _id: new ObjectId(id) });
-    console.log(publicacionFound);
-    return publicacionFound;
+  const publicacionFound = await dbCon
+    .collection("publicaciones")
+    .findOne({ _id: new ObjectId(id) });
+  console.log(publicacionFound);
+  return publicacionFound;
 }
 
 async function updatePublicacion(id, data) {
-    const updateFields = { $set: data };
-    const result = await dbCon
-      .collection("publicaciones")
-      .updateOne({ _id: new ObjectId(id) }, updateFields);
-    return result;
+  const updateFields = { $set: data };
+  const result = await dbCon
+    .collection("publicaciones")
+    .updateOne({ _id: new ObjectId(id) }, updateFields);
+  return result;
 }
 
 async function deletePublicacion(id) {
-    const result = await dbCon
-      .collection("publicaciones")
-      .deleteOne({ _id: new ObjectId(id) });
-    return result;
+  const result = await dbCon
+    .collection("publicaciones")
+    .deleteOne({ _id: new ObjectId(id) });
+  return result;
 }
 //Chat Functions
 async function SendMessage(data) {
-    const result = await dbCon.collection("messages").insertOne(data);
-    return result;
+  const result = await dbCon.collection("messages").insertOne(data);
+  return result;
 }
 async function GetMessages() {
-    const result = await dbCon.collection("messages").find().toArray();
+  const result = await dbCon.collection("messages").find().toArray();
 }
 async function GetMessageById(id) {
-    const result = await dbCon
-      .collection("messages")
-      .findOne({ _id: new ObjectId(id) });
-    return result;
+  const result = await dbCon
+    .collection("messages")
+    .findOne({ _id: new ObjectId(id) });
+  return result;
 }
 async function GetMessageBySender(sender) {
-    const result = await dbCon
-      .collection("messages")
-      .find({ sender })
-      .toArray();
-    return result;
+  const result = await dbCon.collection("messages").find({ sender }).toArray();
+  return result;
 }
 async function GetMessageByReceiver(receiver) {
-    const result = await dbCon
-      .collection("messages")
-      .find({ receiver })
-      .toArray();
-    return result;
+  const result = await dbCon
+    .collection("messages")
+    .find({ receiver })
+    .toArray();
+  return result;
 }
-
+async function GetChat(user1, user2) {
+  const result = await dbCon
+    .collection("messages")
+    .find({
+      $or: [
+        { from: user1, to: user2 },
+        { from: user2, to: user1 },
+      ],
+    })
+    .sort({ timestamp: -1 })
+    .toArray();
+  return result;
+}
+async function GetChats(username) {
+  const pipeline = [
+    {
+      $match: {
+        $or: [{ from: username }, { to: username }],
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        usuarios: {
+          $addToSet: {
+            $cond: {
+              if: { $eq: ["$from", username] },
+              then: "$to",
+              else: "$from",
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        usuarios: 1,
+      },
+    },
+  ];
+  const result = await dbCon
+    .collection("messages")
+    .aggregate(pipeline)
+    .toArray();
+  return result[0].usuarios;
+}
 module.exports = {
   createUsuario,
   getUsuarios,
@@ -369,4 +412,6 @@ module.exports = {
   GetMessageById,
   GetMessageBySender,
   GetMessageByReceiver,
+  GetChat,
+  GetChats,
 };

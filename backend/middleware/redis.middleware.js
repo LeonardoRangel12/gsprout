@@ -68,11 +68,11 @@ const handleCache = async (req, res, next) => {
     // console.log(key, cache);
     const cache = await redisUtil.getCache(key);
     if (cache && !res.headersSent) {
-      console.log("CACHE");
+      // console.log("CACHE");
       return res.json(cache).status(200);
     }
     else 
-      console.log("NO CACHE");
+      // console.log("NO CACHE");
     // If there is no cache, continue with the request
     next();
   } 
@@ -101,8 +101,10 @@ const generateCacheKey = (req) => {
           .join("&")}`
       : "";
   const resourceType = url.split("/")[1];
-  const resourceId = params.id || null;
+  // Obtiene todos los parametros
+  const resourceId = Object.entries(params).map(([key, value]) => `${key}=${value}`).join("&");
   req.key = `${token}:${resourceType}:${resourceId}:${url}${queryString}`;
+  console.log(req.key);
   return req.key;
 };
 // module.exports = { getCache, setCache, deleteCache };

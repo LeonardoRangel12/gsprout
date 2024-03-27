@@ -34,12 +34,12 @@
   <script>
   
 import Discord from './DiscordComponent.vue';
-
+import { ref } from "vue";
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import Hero from "./HeroComponent.vue";
 import NewGames from "./NewGamesComponent.vue";
-import newAxios from "../main";
+import axios from "../main";
 import Swal from "sweetalert2"; // Importa SweetAlert
 
   export default {
@@ -52,34 +52,69 @@ import Swal from "sweetalert2"; // Importa SweetAlert
   },
     data() {
       return {
-        users: ["Usuario1", "Usuario2", "Usuario3"], // Lista de usuarios
+        users: [], // Lista de usuarios
         searchQuery: "", // Query de búsqueda
         selectedUser: null, // Usuario seleccionado
         messages: [], // Lista de mensajes
         newMessage: "", // Nuevo mensaje a enviar
       };
     },
+    async setup(){
+      const users = ref([]);
+      const res = await axios.get("/chat");
+      if(res.status === 200) {
+        users.value = res.data;
+      } else {
+        // Error al cargar los usuarios
+        console.error("Error al cargar los usuarios");
+      }
+      console.log(users.value);
+      return { users };
+    },
     computed: {
       filteredUsers() {
-        return this.users.filter(user =>
+        const search =  this.users.filter(user =>
           user.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
+        return search;
       }
     },
     methods: {
-      selectUser(user) {
+      async selectUser(user) {
         this.selectedUser = user;
         // Simular carga de mensajes (esto podría venir de una API)
-        this.messages = [
-          { from: "Usuario1", content: "Hola, ¿cómo estás?" },
-          { from: "Tú", content: "¡Hola! Estoy bien, ¿y tú?" },
-          { from: "Usuario1", content: "Bien también, gracias." }
-        ];
+        const res = await axios.get(`/chat/${this.selectedUser}`);
+        if(res.status === 200) {
+          for(let message in res.data){
+            if(message.from === localStorage.getItem("username")){
+              message.from = "Tú";
+            }
+          }
+          this.messages = res.data;
+        } else {
+          // Error al cargar los mensajes
+          console.error("Error al cargar los mensajes");
+        }
       },
-      sendMessage() {
+      async sendMessage() {
         // Aquí puedes implementar la lógica para enviar mensajes
         if (this.newMessage.trim() !== "") {
-          this.messages.push({ from: "Tú", content: this.newMessage });
+          const res = await axios.post("/chat", {
+            from: localStorage.getItem("username"),
+            to: this.selectedUser,
+            content: this.newMessage
+          });
+          if(res.status === 200 || res.status === 201) {
+            // Mensaje enviado correctamente
+            this.messages.push({ from: "Tú", content: this.newMessage });
+            console.log("Mensaje enviado");
+          } 
+        
+
+          else {
+            // Error al enviar el mensaje
+            console.error("Error al enviar el mensaje");
+          }
           this.newMessage = ""; // Limpiar el campo de texto después de enviar el mensaje
         }
       }

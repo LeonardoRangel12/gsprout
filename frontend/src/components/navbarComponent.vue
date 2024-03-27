@@ -40,17 +40,8 @@
           </li>
           <li>
             <router-link class="hover:text-gray-200" to="/messenger"
-              >mensajes</router-link
+              >Mensajes</router-link
             >
-          </li>
-          <li>
-            <input
-              v-model="usuario"
-              type="text"
-              placeholder="Usuario"
-              class="rounded-md text-black"
-            />
-            <button @click="sendMessage('Hello', usuario)">Send Message</button>
           </li>
         </ul>
         <!-- Header Icons -->
@@ -220,9 +211,8 @@ export default {
 
     // Escucha los mensajes que recibe el usuario
     this.socket.on("message", (data) => {
-      console.log(data);
       alert(
-        "From: " + data.from + " Message: " + data.message + " To: " + data.to
+        "From: " + data.from + " Message: " + data.content + " To: " + data.to
       );
       // this.messages[]
     });
@@ -237,16 +227,6 @@ export default {
       localStorage.removeItem("token");
       // Si la solicitud de logout fue exitosa, redirige al usuario a '/'
       this.$router.push("/");
-    },
-
-    sendMessage(message) {
-      const token = localStorage.getItem("token");
-      const data = {
-        message: message,
-        from: token,
-        to: this.usuario,
-      };
-      this.socket.emit("message", data);
     },
   },
   beforeUnmount() {
