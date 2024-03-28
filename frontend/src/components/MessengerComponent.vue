@@ -6,8 +6,12 @@
         <h2 class="text-lg font-bold mb-4">Usuarios</h2>
         <input v-model="searchQuery" type="text" placeholder="Buscar usuario..." class="w-full p-2 mb-4 rounded-md bg-gray-800 text-white">
         <ul>
-          <li v-for="(user, index) in filteredUsers" :key="index" class="cursor-pointer mb-2" @click="selectUser(user)">
+          <li v-for="(user, index) in filteredUsers" v-if="filteredUsers.length > 0" :key="index" class="cursor-pointer mb-2" @click="selectUser(user)">
             {{ user }}
+          </li>
+          <li v-else>
+          <button class = "bg-blue-500 text-white py-2 px-4 mt-2 mb-2 rounded-md" @click="selectUser(searchQuery) ">Nuevo chat</button>
+            
           </li>
         </ul>
       </div>
@@ -68,7 +72,6 @@ import Swal from "sweetalert2"; // Importa SweetAlert
         // Error al cargar los usuarios
         console.error("Error al cargar los usuarios");
       }
-      console.log(users.value);
       return { users };
     },
     computed: {
@@ -82,6 +85,9 @@ import Swal from "sweetalert2"; // Importa SweetAlert
     methods: {
       async selectUser(user) {
         this.selectedUser = user;
+        if(this.users.indexOf(user) === -1){
+          this.users.unshift(user);
+        }
         // Simular carga de mensajes (esto podría venir de una API)
         const res = await axios.get(`/chat/${this.selectedUser}`);
         if(res.status === 200) {
@@ -99,22 +105,36 @@ import Swal from "sweetalert2"; // Importa SweetAlert
       async sendMessage() {
         // Aquí puedes implementar la lógica para enviar mensajes
         if (this.newMessage.trim() !== "") {
-          const res = await axios.post("/chat", {
-            from: localStorage.getItem("username"),
-            to: this.selectedUser,
-            content: this.newMessage
-          });
-          if(res.status === 200 || res.status === 201) {
-            // Mensaje enviado correctamente
-            this.messages.push({ from: "Tú", content: this.newMessage });
-            console.log("Mensaje enviado");
-          } 
-        
+          try{
+            const res = await axios.post("/chat", {
+              from: localStorage.getItem("username"),
+              to: this.selectedUser,
+              content: this.newMessage
+            });
+            if(res.status === 200 || res.status === 201) {
+              // Mensaje enviado correctamente
+              this.messages.push({ from: "Tú", content: this.newMessage });
+              console.log("Mensaje enviado");
 
-          else {
-            // Error al enviar el mensaje
-            console.error("Error al enviar el mensaje");
+              // Mover el chat al principio de la lista
+              const index = this.users.indexOf(this.selectedUser);
+              this.users.splice(index, 1);
+              this.users.unshift(this.selectedUser);
+            } 
+            else {
+              // Error al enviar el mensaje
+              console.error("Error al enviar el mensaje");
+            }
+
           }
+          // Error 404 si el usuario no existe
+          catch(err){
+            alert("El usuario no existe");
+            const index = this.users.indexOf(this.selectedUser);
+
+            this.users.splice(index, 1);
+          }
+
           this.newMessage = ""; // Limpiar el campo de texto después de enviar el mensaje
         }
       }

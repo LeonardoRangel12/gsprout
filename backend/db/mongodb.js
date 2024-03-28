@@ -96,22 +96,20 @@ async function createJuego(data) {
 
 async function getJuegos(pageNumber) {
   const PAGE_SIZE = 20;
-  const GAMES_COLLECTION = dbCon.collection("games")
+  const GAMES_COLLECTION = dbCon.collection("games");
   const total_games = await GAMES_COLLECTION.countDocuments();
   const total_pages = Math.ceil(total_games / PAGE_SIZE);
 
   if (pageNumber > total_pages || pageNumber < 1) {
-    return []
+    return [];
   }
 
   const SKIP_AMOUNT = (pageNumber - 1) * PAGE_SIZE;
 
-  return await GAMES_COLLECTION
-    .find()
+  return await GAMES_COLLECTION.find()
     .skip(SKIP_AMOUNT)
     .limit(PAGE_SIZE)
     .toArray();
-
 }
 
 async function getJuegoById(juegoId) {
@@ -366,9 +364,10 @@ async function GetChats(username) {
         $or: [{ from: username }, { to: username }],
       },
     },
+    // { $sort: { timestamp: -1 } },
     {
       $group: {
-        _id: null,
+        _id: "$timestamp",
         usuarios: {
           $addToSet: {
             $cond: {
@@ -381,6 +380,9 @@ async function GetChats(username) {
       },
     },
     {
+      $sort: { _id: -1 },
+    },
+    {
       $project: {
         _id: 0,
         usuarios: 1,
@@ -391,7 +393,14 @@ async function GetChats(username) {
     .collection("messages")
     .aggregate(pipeline)
     .toArray();
-  return result[0].usuarios;
+
+  if (result.length == 0) return [];
+  
+  // Flatten the array of arrays and remove duplicates
+  const users = result.flatMap(obj => obj.usuarios);
+
+  const uniqueUsers = [...new Set(users)];
+  return uniqueUsers;
 }
 module.exports = {
   createUsuario,
