@@ -65,6 +65,7 @@ import Swal from "sweetalert2"; // Importa SweetAlert
         selectedUser: null, // Usuario seleccionado
         messages: [], // Lista de mensajes
         newMessage: "", // Nuevo mensaje a enviar
+        selectedChat: null,
       };
     },
     async setup(){
@@ -89,6 +90,7 @@ import Swal from "sweetalert2"; // Importa SweetAlert
     methods: {
       async selectUser(user) {
         this.selectedUser = user;
+        this.messages = []; // Limpiar mensajes al cambiar de chat
         if(this.users.indexOf(user) === -1){
           this.users.unshift(user);
         }
