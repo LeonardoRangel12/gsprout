@@ -158,7 +158,7 @@ async function getJuegosInArray(array) {
   return result;
 }
 
-async function searchJuegos(searchParams) {
+async function searchJuegos(searchParams, page_number) {
   let { queryString, minPrice, maxPrice, categoriesToFilter } = searchParams;
   const query = [];
   if (queryString && queryString.length > 0) {
@@ -186,7 +186,6 @@ async function searchJuegos(searchParams) {
       },
     });
   } else if (minPrice) {
-    console.log("Me lleva la vrg ", minPrice);
     query.push({
       $match: {
         precio: {
@@ -214,12 +213,20 @@ async function searchJuegos(searchParams) {
       },
     });
   }
-  //limit to 20 results
+
+  query.push({
+    $skip: (page_number-1)*20
+  });
   query.push({
     $limit: 20,
   });
-  const result = await dbCon.collection("games").aggregate(query).toArray();
-  return result;
+
+  try{
+    return await dbCon.collection("games").aggregate(query).toArray();
+  }
+  catch{
+    return [];
+  }
 }
 
 async function updateJuego(juegoId, data) {
