@@ -4,8 +4,9 @@ async function createJuego(data) {
     return await db.createJuego(data);
 }
 
-async function getJuegos(){
-    return await db.getJuegos();
+async function getJuegos(page_number){
+    console.log("page_number", page_number);
+    return await db.getJuegos(page_number);
 }
 async function getJuegoById(id){
     return await db.getJuegoById(id);
@@ -31,7 +32,7 @@ async function getJuegoByName(nombre){
 }
 async function getJuegosInArray(array) {
     return await db.getJuegosInArray(array);
-}
+} 
 module.exports = {
     createJuego,
     getJuegos,

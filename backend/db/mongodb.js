@@ -94,8 +94,33 @@ async function createJuego(data) {
   return result;
 }
 
-async function getJuegos() {
-  const result = await dbCon.collection("games").find().toArray();
+async function getJuegos(pageNumber) {
+  const PAGE_SIZE = 20;
+  const GAMES_COLLECTION = dbCon.collection("games")
+  const total_games = await GAMES_COLLECTION.countDocuments();
+  const total_pages = Math.ceil(total_games / PAGE_SIZE);
+
+  if (pageNumber > total_pages) {
+    return {
+      games: [],
+      total_pages
+    };
+  }
+
+  const SKIP_AMOUNT = (pageNumber - 1) * PAGE_SIZE;
+
+  const games = await GAMES_COLLECTION
+    .find()
+    .skip(SKIP_AMOUNT)
+    .limit(PAGE_SIZE)
+    .toArray();
+
+  console.log(games.length)  
+  const result = {
+    games,
+    total_pages
+  }
+
   return result;
 }
 

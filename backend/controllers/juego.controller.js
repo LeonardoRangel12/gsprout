@@ -53,16 +53,21 @@ const createSeveralJuegos = async (req, res, next) => {
   next();
 };
 
-//Obtencion de juegos
 const getJuegos = async (req, res, next) => {
   try {
-    const juegos = await juegoService.getJuegos();
+    let page_number = req.query.page_number;
+    if (!page_number) {
+      page_number = 1;
+    }
 
+    const juegos = await juegoService.getJuegos(page_number);
+
+    //Probably going to be changed....
     req.toCache = juegos;
 
-    // res.send(juegos).status(200);
     next();
-  } catch {
+  } catch (error){
+    console.log(error)
     return res.status(500).send("Internal Server Error");
   }
 };
