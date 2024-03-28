@@ -1,6 +1,6 @@
 <template>
     <Navbar/>
-    <section class="flex h-screen">
+    <section class="flex h-[calc(100vh-96px)]">
       <!-- Lista de usuarios -->
       <div class="w-1/4 p-4 bg-gray-900 text-white">
         <h2 class="text-lg font-bold mb-4">Usuarios</h2>
@@ -17,23 +17,25 @@
       </div>
   
       <!-- Lista de mensajes -->
-      <div class="w-3/4 p-4 bg-gray-800 text-white">
-        <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
-        <div v-if="selectedUser">
-          <div v-for="(message, index) in messages" :key="index" class="mb-2">
-            <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
-              <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container">{{ message.content }}</span>
-            </div>
-          </div>
-          <div class="flex">
-            <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white">
-            <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
-          </div>
-        </div>
-        <div v-else>
-          <p>Selecciona un usuario para empezar a chatear.</p>
+      <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full">
+  <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
+  <div class="flex-grow overflow-auto">
+    <div v-if="selectedUser">
+      <div v-for="(message, index) in messages" :key="index" class="mb-2">
+        <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
+          <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container">{{ message.content }}</span>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <p>Selecciona un usuario para empezar a chatear.</p>
+    </div>
+  </div>
+  <div class="flex mt-4">
+    <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white">
+    <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
+  </div>
+</div>
     </section>
   </template>
   
