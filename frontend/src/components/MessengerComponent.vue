@@ -21,12 +21,14 @@
         <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
         <div v-if="selectedUser">
           <div v-for="(message, index) in messages" :key="index" class="mb-2">
-            <div :class="message.from === selectedUser ? 'text-right' : 'text-left'">
+            <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
               <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg">{{ message.content }}</span>
             </div>
           </div>
-          <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 mt-4 rounded-md bg-gray-700 text-white">
-          <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 mt-2 rounded-md">Enviar</button>
+          <div class="flex">
+            <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white">
+            <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
+          </div>
         </div>
         <div v-else>
           <p>Selecciona un usuario para empezar a chatear.</p>
