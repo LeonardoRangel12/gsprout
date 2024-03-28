@@ -79,7 +79,7 @@ const handleCache = async (req, res, next) => {
 //   When the request is a POST or PUT, the cache is updated
   else if (method === "POST" || method === "PUT") {
     const { data } = req;
-
+    if(!data) next();
     redisUtil.setCache(key, data);
     res.end();
   }
