@@ -360,7 +360,7 @@ async function GetChat(user1, user2) {
         { from: user2, to: user1 },
       ],
     })
-    .sort({ timestamp: -1 })
+    .sort({ timestamp: 1 })
     .toArray();
   return result;
 }
