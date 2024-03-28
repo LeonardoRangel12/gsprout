@@ -55,8 +55,8 @@ const createSeveralJuegos = async (req, res, next) => {
 
 const getJuegos = async (req, res, next) => {
   try {
-    let page_number = 1;
-    if (req.query.page_number && req.query.page_number > 0 && !isNaN(req.query.page_number)) {
+    let page_number = 1;     
+    if (req.query.page_number && parseInt(req.query.page_number) > 0 && !isNaN(parseInt(req.query.page_number))) {
       page_number = req.query.page_number;
     }
 
@@ -109,8 +109,8 @@ const searchJuegos = async (req, res) => {
       return res.status(400).send("Invalid price range");
     }
     //check for query param page_number
-    let page_number = 1;
-    if (req.query.page_number && req.query.page_number > 0 && !isNaN(req.query.page_number)) {
+    let page_number = 1;     
+    if (req.query.page_number && parseInt(req.query.page_number) > 0 && !isNaN(parseInt(req.query.page_number))) {
       page_number = req.query.page_number;
     }
     const juegos = await juegoService.searchJuegos(searchParams, page_number);

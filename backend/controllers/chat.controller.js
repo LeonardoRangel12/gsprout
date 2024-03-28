@@ -56,7 +56,11 @@ const GetChat = async (req, res) => {
     try {
     const {user1} = req.params;
     const {username:user2} = req.token; //From token
-    const message = await messageService.GetChat(user1, user2);
+    let page_number = 1;     
+    if (req.query.page_number && parseInt(req.query.page_number) > 0 && !isNaN(parseInt(req.query.page_number))) {
+      page_number = req.query.page_number;
+    }
+    const message = await messageService.GetChat(user1, user2, page_number);
     return res.status(200).send(message);
   } catch (error) {
     console.log(error);
@@ -66,7 +70,11 @@ const GetChat = async (req, res) => {
 const GetChats = async (req, res) => {
   try {
     const {username} = req.token;
-    const message = await messageService.GetChats(username);
+    let page_number = 1;     
+    if (req.query.page_number && parseInt(req.query.page_number) > 0 && !isNaN(parseInt(req.query.page_number))) {
+      page_number = req.query.page_number;
+    }
+    const message = await messageService.GetChats(username, page_number);
     return res.status(200).send(message);
   } catch (error) {
     console.log(error);

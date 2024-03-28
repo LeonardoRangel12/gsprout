@@ -351,7 +351,8 @@ async function GetMessageByReceiver(receiver) {
     .toArray();
   return result;
 }
-async function GetChat(user1, user2) {
+async function GetChat(user1, user2, page_number) {
+  console.log("page_number", page_number)
   const result = await dbCon
     .collection("messages")
     .find({
@@ -360,11 +361,15 @@ async function GetChat(user1, user2) {
         { from: user2, to: user1 },
       ],
     })
+    .skip((page_number-1)*2)
+    .limit(2)
     .sort({ timestamp: 1 })
     .toArray();
   return result;
 }
-async function GetChats(username) {
+
+async function GetChats(username, page_number) {
+  console.log("page_number", page_number)
   const pipeline = [
     {
       $match: {
@@ -395,11 +400,20 @@ async function GetChats(username) {
         usuarios: 1,
       },
     },
+    {
+      $skip: (page_number-1)*3
+    },
+    {
+      $limit: 3,
+    }
   ];
-  const result = await dbCon
+  let result;
+  try{
+    result = await dbCon
     .collection("messages")
     .aggregate(pipeline)
     .toArray();
+  }catch{ return []}
 
   if (result.length == 0) return [];
   

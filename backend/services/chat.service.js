@@ -20,11 +20,11 @@ async function GetMessageBySender(sender){
 async function GetMessageByReceiver(receiver){
     return await db.GetMessageByReceiver(receiver);
 }
-async function GetChat(user1, user2){
-    return await db.GetChat(user1, user2);
+async function GetChat(user1, user2,page_number){
+    return await db.GetChat(user1, user2, page_number);
 }
-async function GetChats(username){
-    return await db.GetChats(username);
+async function GetChats(username, page_number){
+    return await db.GetChats(username, page_number);
 }
 module.exports = {
     SendMessage,
