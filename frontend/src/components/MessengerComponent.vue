@@ -17,13 +17,13 @@
       </div>
   
       <!-- Lista de mensajes -->
-      <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full">
+      <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full ">
         <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
         <div class="flex-grow overflow-auto custom-scrollbar">
           <div v-if="selectedUser">
             <div v-for="(message, index) in messages" :key="index" class="mb-2">
               <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
-                <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container">{{ message.content }}</span>
+                <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container mr-4">{{ message.content }}</span>
               </div>
             </div>
           </div>
@@ -164,7 +164,7 @@ import Swal from "sweetalert2"; // Importa SweetAlert
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  @apply w-2; /* Altura de la barra de scroll */
+  @apply w-2; /* Ancho de la barra de scroll */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
