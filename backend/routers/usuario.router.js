@@ -21,7 +21,7 @@ router.delete('/:username',upload.none(),verifySession,controller.deleteUsuario,
 router.delete('/wishlist/:id',upload.none(),verifySession,controller.removeFromWishList);
 
 // PUT
-router.put('/:username',upload.none(), verifySession, handleCache,controller.updateUsuario, handleCache);
+router.put('/',upload.none(), verifySession, handleCache, controller.updateUsuario, handleCache);
 // SAME ROUTE
 // router.put('/',upload.none(),verifySession,controller.updateUsuario);
 

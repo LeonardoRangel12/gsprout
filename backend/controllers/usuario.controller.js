@@ -94,14 +94,10 @@ const getUsuarioById = async (req, res, next) => {
 };
 
 const updateUsuario = async (req, res, next) => {
-  const { error, value } = usuarioSchema.validate(req.body);
-  if (error) {
-    return res.status(400).send(error.details);
-  }
-
+  const value = req.body;
   try {
     const usuario = await usuarioService.updateUsuario(
-      req.params.username,
+      req.token.username,
       value
     );
     if (!usuario) return res.status(404).send("User not found");

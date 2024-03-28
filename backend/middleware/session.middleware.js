@@ -9,9 +9,9 @@ const usuarioService = require("../services/usuario.service");
 
 const verifySession = async (req, res, next) => {
   // Verify if the user is logged in
-  
   const token = req.headers.authorization;
   try{
+    console.log(token);
     if(!token) return res.status(401).send("Unauthorized");
   
     const  data  = jwtUtil.verifyToken(token);
@@ -26,5 +26,4 @@ const verifySession = async (req, res, next) => {
     return res.status(401).send("Unauthorized");
   }
 };
-
 module.exports = { verifySession };

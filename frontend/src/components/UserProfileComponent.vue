@@ -123,8 +123,6 @@ export default {
     async getUser() {
       try {
         const response = await axios.get('/usuarios/me');
-        console.log(response);
-        console.log(response.data);
         this.user.username = response.data.username;
         this.user.nombre = response.data.nombre;
         this.user.descripcion = response.data.descripcion;
@@ -155,6 +153,12 @@ export default {
     async updateDescription() {
       try {
         this.user.descripcion = this.newDescription;
+        const request = await axios.put('usuarios/',{
+            descripcion: this.newDescription
+        });
+        if(request.status == 200){
+          console.log("Usuario actualizado");
+        }
         this.closeModal();
       } catch (error) {
         console.error(error);
