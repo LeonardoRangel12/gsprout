@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="flex mt-4">
-          <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white">
+          <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white" @keyup.enter="sendMessage">
           <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
         </div>
       </div>
@@ -165,6 +165,7 @@ import Swal from "sweetalert2"; // Importa SweetAlert
 
 .custom-scrollbar::-webkit-scrollbar {
   @apply w-2; /* Ancho de la barra de scroll */
+  @apply h-2; /* Ancho de la barra de scroll */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
