@@ -22,7 +22,7 @@
         <div v-if="selectedUser">
           <div v-for="(message, index) in messages" :key="index" class="mb-2">
             <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
-              <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg">{{ message.content }}</span>
+              <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container">{{ message.content }}</span>
             </div>
           </div>
           <div class="flex">
@@ -154,6 +154,11 @@ import Swal from "sweetalert2"; // Importa SweetAlert
   body {
     background-color: #1a1a1a;
   }
-  
+  .message-container {
+  max-width: 600px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
   </style>
   
