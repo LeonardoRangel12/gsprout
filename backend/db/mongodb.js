@@ -100,28 +100,18 @@ async function getJuegos(pageNumber) {
   const total_games = await GAMES_COLLECTION.countDocuments();
   const total_pages = Math.ceil(total_games / PAGE_SIZE);
 
-  if (pageNumber > total_pages) {
-    return {
-      games: [],
-      total_pages
-    };
+  if (pageNumber > total_pages || pageNumber < 1) {
+    return []
   }
 
   const SKIP_AMOUNT = (pageNumber - 1) * PAGE_SIZE;
 
-  const games = await GAMES_COLLECTION
+  return await GAMES_COLLECTION
     .find()
     .skip(SKIP_AMOUNT)
     .limit(PAGE_SIZE)
     .toArray();
 
-  console.log(games.length)  
-  const result = {
-    games,
-    total_pages
-  }
-
-  return result;
 }
 
 async function getJuegoById(juegoId) {
