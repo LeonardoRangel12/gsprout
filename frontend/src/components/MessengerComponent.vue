@@ -143,6 +143,10 @@ import Swal from "sweetalert2"; // Importa SweetAlert
 
           this.newMessage = ""; // Limpiar el campo de texto después de enviar el mensaje
         }
+        this.$nextTick(() => {
+          const element = this.$refs.messages;
+          element.scrollTop = element.scrollHeight;
+        });
       },
     },
     watch: {
