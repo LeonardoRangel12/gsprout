@@ -363,7 +363,7 @@ async function GetChat(user1, user2, page_number) {
     })
     .skip((page_number-1)*20)
     .limit(20)
-    .sort({ timestamp: 1 })
+    .sort({ timestamp: -11 })
     .toArray();
   return result;
 }
