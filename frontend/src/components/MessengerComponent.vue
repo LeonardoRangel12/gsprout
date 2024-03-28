@@ -18,24 +18,24 @@
   
       <!-- Lista de mensajes -->
       <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full">
-  <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
-  <div class="flex-grow overflow-auto">
-    <div v-if="selectedUser">
-      <div v-for="(message, index) in messages" :key="index" class="mb-2">
-        <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
-          <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container">{{ message.content }}</span>
+        <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
+        <div class="flex-grow overflow-auto custom-scrollbar">
+          <div v-if="selectedUser">
+            <div v-for="(message, index) in messages" :key="index" class="mb-2">
+              <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
+                <span class="inline-block bg-gray-700 px-3 py-1 rounded-lg message-container">{{ message.content }}</span>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <p>Selecciona un usuario para empezar a chatear.</p>
+          </div>
+        </div>
+        <div class="flex mt-4">
+          <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white">
+          <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <p>Selecciona un usuario para empezar a chatear.</p>
-    </div>
-  </div>
-  <div class="flex mt-4">
-    <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white">
-    <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
-  </div>
-</div>
     </section>
   </template>
   
@@ -161,6 +161,22 @@ import Swal from "sweetalert2"; // Importa SweetAlert
   word-wrap: break-word;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-2; /* Altura de la barra de scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-200 rounded-full; /* Color de fondo del área de la barra de scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 rounded-full; /* Color de la barra de scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600; /* Color de la barra de scroll al pasar el mouse por encima */
 }
   </style>
   
