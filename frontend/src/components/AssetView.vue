@@ -2,14 +2,16 @@
   <Navbar></Navbar>
   <div class="dark:bg-gray-900">
     <div class="container mx-auto py-8">
-      <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
-        <div class="col-span-1 sm:col-span-9">
-          <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
-            <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row">
+        <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
+          <div class="col-span-1 sm:col-span-9">
+            <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
+              <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row" style="height: 625px;">
+              <!-- Galeria -->
               <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
                 <div>
-                  <img class="h-auto w-full rounded-lg" src="https://imgur.com/jFEwdGp.jpg" alt="">
+                  <img class="h-auto w-full rounded-lg" style="width: 2800px; height: 450px;" src="https://imgur.com/jFEwdGp.jpg" alt="">
                 </div>
+                
                 <div class="grid grid-cols-5 gap-4">
                   <div>
                     <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/bMDFXHK.jpg" alt="">
@@ -28,17 +30,26 @@
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col">
-                <div>
-                  <img class="w-full h-full object-cover mb-6" v-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" />
-                </div>
-                <div>
-                  <h2 class="text-2xl font-bold text-white mb-8">{{ name }}</h2>
-                    <div class="flex flex-col  justify-end">
-                      <button @click="switchToBuy()" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
-                        SELL
+              <!-- Datos Juego -->
+              <div class="flex flex-col relative">
+                  <div>
+                    <img class="w-full h-full object-cover" style="width: 600px;" v-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" />
+                  </div>
+                  <div>
+                    <div>
+                      <h2 class="text-2xl font-bold text-white">{{ name }}</h2>
+                      <div div class="flex flex-nowrap mb-1">
+                        <h2 class="text-base font-bold text-white">{{ categoria }}</h2>
+                      </div>
+                      <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
+                      <div>
+                        <p class="text-gray-400">{{ description }}</p>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0">
+                      <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                        Comprar
                       </button>
-                      <!--<a :href=url><button>SELL</button></a>-->
                     </div>
                   </div>
                 </div>
@@ -86,6 +97,9 @@ export default {
     });
   },
   methods: {
+    truncar(text, maxLength = 280) {
+      return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
+    },
     getAssetData(bufferUrl) {
       /*
       This method gets an array buffer from the bufferUrl and then encodes it to base64 to be able to display it in the img tag.
@@ -103,6 +117,9 @@ export default {
         this.name = response.data.name;
         //carga la imagen
         this.imageDataURL = response.data.image;
+        this.imageDataGallery = response.data.gallery;
+        this.category = response.data.categoria;
+        this.description = response.data.description;
       });
     },
   },
