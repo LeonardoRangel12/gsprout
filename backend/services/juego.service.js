@@ -16,8 +16,8 @@ async function autocompleteJuegosSearch(query){
     return await db.autocompleteJuegosSearch(query);
 }
 
-async function searchJuegos(queryParams){
-    return await db.searchJuegos(queryParams);
+async function searchJuegos(queryParams, page_number){
+    return await db.searchJuegos(queryParams, page_number);
 }
 
 async function updateJuego(id, data){
