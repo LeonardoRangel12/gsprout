@@ -19,7 +19,7 @@
       <!-- Lista de mensajes -->
       <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full ">
         <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
-        <div class="flex-grow overflow-auto custom-scrollbar">
+        <div class="flex-grow overflow-auto custom-scrollbar" ref="messages">
           <div v-if="selectedUser">
             <div v-for="(message, index) in messages" :key="index" class="mb-2">
               <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
@@ -143,8 +143,22 @@ import Swal from "sweetalert2"; // Importa SweetAlert
 
           this.newMessage = ""; // Limpiar el campo de texto después de enviar el mensaje
         }
-      }
-    }
+      },
+    },
+    watch: {
+      selectedUser() {
+        this.$nextTick(() => {
+          const element = this.$refs.messages;
+          element.scrollTop = element.scrollHeight;
+        });
+      },
+      messages() {
+        this.$nextTick(() => {
+          const element = this.$refs.messages;
+          element.scrollTop = element.scrollHeight;
+        });
+      },
+    },
   };
   </script>
   
