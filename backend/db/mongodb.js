@@ -361,8 +361,8 @@ async function GetChat(user1, user2, page_number) {
         { from: user2, to: user1 },
       ],
     })
-    .skip((page_number-1)*2)
-    .limit(2)
+    .skip((page_number-1)*20)
+    .limit(20)
     .sort({ timestamp: 1 })
     .toArray();
   return result;
@@ -401,10 +401,10 @@ async function GetChats(username, page_number) {
       },
     },
     {
-      $skip: (page_number-1)*3
+      $skip: (page_number-1)*20
     },
     {
-      $limit: 3,
+      $limit: 20,
     }
   ];
   let result;
