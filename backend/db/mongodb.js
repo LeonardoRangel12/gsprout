@@ -165,10 +165,10 @@ async function searchJuegos(searchParams, page_number) {
         index: "juegosSearch",
         text: {
           query: queryString,
-          path: ["nombre", "descripcion", "categoria"],
-          fuzzy: {
-            maxEdits: 2,
-          },
+          path: ["nombre", "descripcion", "categoria"]
+          // fuzzy: {
+          //   maxEdits: 2,
+          // },
         },
       },
     });
