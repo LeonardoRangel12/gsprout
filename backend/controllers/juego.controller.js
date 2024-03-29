@@ -55,12 +55,8 @@ const createSeveralJuegos = async (req, res, next) => {
 
 const getJuegos = async (req, res, next) => {
   try {
-    let page_number = 1;     
-    if (req.query.page_number && parseInt(req.query.page_number) > 0 && !isNaN(parseInt(req.query.page_number))) {
-      page_number = req.query.page_number;
-    }
-
-    const juegos = await juegoService.getJuegos(page_number);
+    let {page} = req.query || 1;     
+    const juegos = await juegoService.getJuegos(page);
 
     //Probably going to be changed....
     req.toCache = juegos;
