@@ -1,0 +1,452 @@
+[
+    {
+        "nombre": "Cyberpunk 2077",
+        "descripcion": "Cyberpunk 2077 es un juego de rol de acci\u00f3n ambientado en Night City, una megal\u00f3polis obsesionada con el poder, la glamour y la modificaci\u00f3n corporal. Controlas a V, un mercenario fuera de la ley en busca de un implante \u00fanico que permite la inmortalidad.",
+        "categoria": [
+            "Role-Playing"
+        ],
+        "precio": 0.5,
+        "imagen": "https://4kwallpapers.com/images/wallpapers/cyberpunk-2077-1920x1080-13543.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_7924f64b6e5d586a80418c9896a1c92881a7905b.600x338.jpg?t=1706698946",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_4eb068b1cf52c91b57157b84bed18a186ed7714b.600x338.jpg?t=1706698946",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_b529b0abc43f55fc23fe8058eddb6e37c9629a6a.600x338.jpg?t=1706698946",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_8640d9db74f7cad714f6ecfb0e1aceaa3f887e58.600x338.jpg?t=1706698946",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_9284d1c5b248726760233a933dbb83757d7d5d95.600x338.jpg?t=1706698946",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_4bda6f67580d94832ed2d5814e41ebe018ba1d9e.600x338.jpg?t=1706698946"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Breath of the Wild",
+        "descripcion": "Breath of the Wild es un juego de aventuras en un vasto mundo abierto. Los jugadores controlan a Link, quien despierta de un largo sue\u00f1o para descubrir un reino de Hyrule devastado. Deben explorar, resolver puzles y enfrentarse a enemigos en su viaje para derrotar a Ganon.",
+        "categoria": [
+            "Action",
+            "Adventure"
+        ],
+        "precio": 0.6,
+        "imagen": "https://zelda.nintendo.com/breath-of-the-wild/assets/media/wallpapers/desktop-1.jpg",
+        "gallery": [
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000000025/37559b8fa80cf0708c8dcef23ef4fea9af26d997a7c6f981565bc50eeaa3cc0f",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000000025/b478fce889ed0237b252978f046884121f6be959f5b4b62e4fc03970bd617647",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000000025/68f832d604ad2a85fa3dda00ae5345232fe271e01df40a48bb1fb2ed291f92f4",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000000025/0375d13a121f32ff06ef96aac1919b138f3ebe13e40cc0b2de7d39237b87fb86",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000000025/16304df4fdabb5674cc31edcc80ff1260ffe0f98156c300f31ecb490f18b632c",
+            "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2017/01/legend-zelda-breath-wild-nuevas-imagenes_0.jpg"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "FIFA 22",
+        "descripcion": "FIFA 22 es la \u00faltima entrega de la popular serie de videojuegos de f\u00fatbol. Ofrece una experiencia realista de f\u00fatbol con gr\u00e1ficos mejorados, modos de juego emocionantes y una jugabilidad mejorada.",
+        "categoria": [
+            "Sports"
+        ],
+        "precio": 0.4,
+        "imagen": "https://w0.peakpx.com/wallpaper/785/93/HD-wallpaper-fifa-23-gaming.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1506830/ss_487947e6eb5e8ca8f71e8bfea77753c95eca1b25.600x338.jpg?t=1695934909",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1506830/ss_f526296665433ef5475972b690d51f9b6eebf991.600x338.jpg?t=1695934909",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1506830/ss_2cdf78a2091db6adb7ec405f4c5438fd621266a9.600x338.jpg?t=1695934909",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1506830/ss_ab3f290ac0667490be79a1f3231cb563b1effeb4.600x338.jpg?t=1695934909",
+            "https://cdn.gameplanet.com/wp-content/uploads/2022/09/04102506/fifa22_gen4_screen_b_2.jpg",
+            "https://m.media-amazon.com/images/I/71pc34BYQwL.jpg"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Among Us",
+        "descripcion": "Among Us es un juego multijugador en l\u00ednea donde los jugadores trabajan juntos en una nave espacial, pero algunos son impostores con la misi\u00f3n de sabotear la nave y matar a la tripulaci\u00f3n. Los jugadores deben descubrir qui\u00e9nes son los impostores antes de que sea demasiado tarde.",
+        "categoria": [
+            "Party"
+        ],
+        "precio": 0.01,
+        "imagen": "https://wallpapers.com/images/featured/among-us-game-pictures-alkp2f3ayrtxfvfd.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/ss_b7374128e5b786a302a716bca038d604b00ffe46.600x338.jpg?t=1698177355",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/ss_719484b5e0314cc2ae43793786448e032056a31d.600x338.jpg?t=1698177355",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/ss_ffd9c8926cbd7fce3ca5e5efb4399c47bb196bc8.600x338.jpg?t=1698177355",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/ss_1fbd9dc9fd6a2710d233a088ef426a6d78fcf884.600x338.jpg?t=1698177355",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/ss_13ec9b7b0ad4d154a99a8cbbc4a0c12c02d0421f.600x338.jpg?t=1698177355",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/ss_41c3f20fa1faf5c9c7548b38a22c449bcfa9bc5e.600x338.jpg?t=1698177355"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Minecraft",
+        "descripcion": "Minecraft es un juego de construcci\u00f3n y aventuras en un mundo generado procedimentalmente. Los jugadores pueden explorar, recolectar recursos, construir estructuras y enfrentarse a peligros en un mundo donde las posibilidades son pr\u00e1cticamente infinitas.",
+        "categoria": [
+            "Indie"
+        ],
+        "precio": 0.25,
+        "imagen": "https://preview.redd.it/i-built-the-minecraft-launcher-wallpaper-v0-xcfhxl90hpf91.jpg?width=1115&format=pjpg&auto=webp&s=f231dcb7c4d8c6baed65c8be2885c065bd8061ef",
+        "gallery": [
+            "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2022/07/minecraft-2768571.jpg?tf=3840x",
+            "https://www.minecraft.net/content/dam/games/minecraft/key-art/Vanilla-PMP_Collection-Carousel-0_Buzzy-Bees_1280x768.jpg",
+            "https://wallpapers.com/images/hd/minecraft-great-cave-walls-forest-hd-mm9b3bqe6qc6s96f.jpg",
+            "https://img.freepik.com/premium-photo/screenshot-minecraft-game-with-bridge-background_878402-3852.jpg",
+            "https://wallpapers.com/images/hd/hermososcerezos-en-minecraft-8zlaxmeiqm93j24f.jpg",
+            "https://beebom.com/wp-content/uploads/2022/02/new-cow-texture-in-Minecraft-java.jpg?w=640"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Red Dead Redemption 2",
+        "descripcion": "Red Dead Redemption 2 es un \u00e9pico juego de mundo abierto ambientado en el salvaje oeste americano. Los jugadores asumen el papel de Arthur Morgan, un forajido y miembro de la banda de Van der Linde, mientras exploran el vasto y peligroso mundo, toman decisiones y luchan por la supervivencia.",
+        "categoria": [
+            "Action"
+        ],
+        "precio": 0.45,
+        "imagen": "https://wallpapercosmos.com/w/full/2/6/4/656-3840x2160-desktop-4k-red-dead-redemption-background.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/ss_66b553f4c209476d3e4ce25fa4714002cc914c4f.600x338.jpg?t=1695140956",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/ss_bac60bacbf5da8945103648c08d27d5e202444ca.600x338.jpg?t=1695140956",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/ss_668dafe477743f8b50b818d5bbfcec669e9ba93e.600x338.jpg?t=1695140956",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/ss_4ce07ae360b166f0f650e9a895a3b4b7bf15e34f.600x338.jpg?t=1695140956",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/ss_d1a8f5a69155c3186c65d1da90491fcfd43663d9.600x338.jpg?t=1695140956",
+            "https://www.mundodeportivo.com/alfabeta/hero/2024/03/captura.1709887882.4222.jpg?width=768&aspect_ratio=16:9&format=nowebp"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Overwatch",
+        "descripcion": "Overwatch es un shooter de equipo en primera persona que ofrece una amplia variedad de h\u00e9roes, cada uno con habilidades \u00fanicas y estilos de juego. Los jugadores se unen en equipos para completar objetivos y luchar en emocionantes partidas competitivas.",
+        "categoria": [
+            "FPS"
+        ],
+        "precio": 0.15,
+        "imagen": "https://images5.alphacoders.com/132/1327221.png",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/ss_4d403b52b200d215b33cafd60a532d874942521b.600x338.jpg?t=1710363488",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/ss_6a84ab8e2cf763d7168c26da42708206704a2df7.600x338.jpg?t=1710363488",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/ss_bf76751f54570bb93e910f46d67f7ec83c48ef32.600x338.jpg?t=1710363488",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/ss_37ec34347af03163fb9b8ac0ff3ce945a1730e68.600x338.jpg?t=1710363488",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/ss_91bc7d6f04328211cc794ed19c0f3d64763373b7.600x338.jpg?t=1710363488",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/2357570/ss_6ffc6beee17fdcc3fffcc04e778726676a916f84.600x338.jpg?t=1710363488"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "The Witcher 3: Wild Hunt",
+        "descripcion": "The Witcher 3: Wild Hunt is an action role-playing game with a third-person perspective. Players control Geralt of Rivia, a monster slayer known as a Witcher. Geralt walks, runs, rolls and dodges, and (for the first time in the series) jumps, climbs and swims.",
+        "categoria": [
+            "Role-Playing"
+        ],
+        "precio": 0.1,
+        "imagen": "https://wallpapercosmos.com/w/full/f/3/f/5549-3840x2160-desktop-4k-the-witcher-game-wallpaper-photo.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/ss_5710298af2318afd9aa72449ef29ac4a2ef64d8e.600x338.jpg?t=1710411171",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/ss_0901e64e9d4b8ebaea8348c194e7a3644d2d832d.600x338.jpg?t=1710411171",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/ss_112b1e176c1bd271d8a565eacb6feaf90f240bb2.600x338.jpg?t=1710411171",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/ss_d1b73b18cbcd5e9e412c7a1dead3c5cd7303d2ad.600x338.jpg?t=1710411171",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/ss_107600c1337accc09104f7a8aa7f275f23cad096.600x338.jpg?t=1710411171",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/ss_64eb760f9a2b67f6731a71cce3a8fb684b9af267.600x338.jpg?t=1710411171"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Super Mario Odyssey",
+        "descripcion": "Super Mario Odyssey es un juego de plataformas en 3D donde los jugadores controlan a Mario mientras viaja a trav\u00e9s de varios reinos para rescatar a la Princesa Peach de Bowser. Presenta mec\u00e1nicas \u00fanicas de captura de enemigos y una gran cantidad de desaf\u00edos y secretos por descubrir.",
+        "categoria": [
+            "Platformer"
+        ],
+        "precio": 0.7,
+        "imagen": "https://images2.alphacoders.com/854/854342.png",
+        "gallery": [
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000001130/7db70ecd883f94d935f65b9f4454b8151b6f8be7c4be95543e87488e48e5a6b9",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000001130/1839d571921e3fb19ef48da64c145cb8ce573b07d7390c6350f15291b3905048",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000001130/d0510e4804381287c64dc3ab374ae9273419e263e9a732e72af3b39cd70f2b5f",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000001130/ab713d841b0f0d9bbce38b589d75dd3bba2aef005418e59d3f0fd95389ae7016",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000001130/abcf9708cc28ef5b7ab412aa17fafe4ad181f0b957456ffd9b83de2561d9f62a",
+            "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_700/ncom/software/switch/70010000001130/7db70ecd883f94d935f65b9f4454b8151b6f8be7c4be95543e87488e48e5a6b9"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Call of Duty: Warzone",
+        "descripcion": "Call of Duty: Warzone es un juego de disparos en l\u00ednea gratuito que presenta un modo battle royale donde los jugadores compiten para ser el \u00faltimo sobreviviente en un mapa masivo. Tambi\u00e9n incluye modos de juego adicionales como Plunder, donde los jugadores buscan dinero en efectivo.",
+        "categoria": [
+            "Shooter",
+            "Battle Royale"
+        ],
+        "precio": 0.99,
+        "imagen": "https://preview.redd.it/modern-warfare-3-2023-4k-wallpapers-v0-z29gb3up0q1c1.png?width=2560&format=png&auto=webp&s=1a3d06295559bd189bd623d5a6dc08ca082a5961",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1962663/ss_9b39a9b9065dece04940325e3abe3d95b76f480b.600x338.jpg?t=1707420578",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1962663/ss_8c0fb47bbf67fd3854eb41f6b0e0c649a92b4014.600x338.jpg?t=1707420578",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1962663/ss_456c5a06c87be0b04d4679035ae467126847245f.600x338.jpg?t=1707420578",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1962663/ss_9b135b4f988858b78c96c7aa3f08be2adb7f83a3.600x338.jpg?t=1707420578",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1962663/ss_cd93711dd6a6e22f464631c862c06e93a03e5be0.600x338.jpg?t=1707420578",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1962663/ss_3f13e8fc675067ef32063d3a13316d33e2a19ee4.600x338.jpg?t=1707420578"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Doom Eternal",
+        "descripcion": "Doom Eternal es la secuela del aclamado reboot de Doom, que ofrece una experiencia de disparos brutalmente r\u00e1pida y sangrienta. Los jugadores asumen el papel del Doom Slayer mientras luchan contra hordas de demonios en una batalla desesperada por salvar la Tierra.",
+        "categoria": [
+            "Shooter"
+        ],
+        "precio": 0.21,
+        "imagen": "https://c4.wallpaperflare.com/wallpaper/238/51/616/doom-doom-eternal-hd-wallpaper-preview.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/ss_4f93a7c5003d49cb32f6c0c6e547452b284580a0.600x338.jpg?t=1702308063",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/ss_7e6a2148321c8024285e3924903d8897cac95358.600x338.jpg?t=1702308063",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/ss_af3b43c4be0029b52ceefaf55ebe1918e2cb3471.600x338.jpg?t=1702308063",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/ss_ebd31ded4723e991446ededa9e65c980f988567d.600x338.jpg?t=1702308063",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/ss_c836f889d696fa2b81d5fe9f20f75dd925c1b499.600x338.jpg?t=1702308063",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/ss_1fcebe3689c6a941257509a2ac4b2fdfb1344730.600x338.jpg?t=1702308063"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Fortnite",
+        "descripcion": "Fortnite es un juego de batalla en l\u00ednea gratuito donde los jugadores luchan para ser el \u00faltimo en pie en un mapa en constante cambio. Presenta mec\u00e1nicas de construcci\u00f3n \u00fanicas que permiten a los jugadores crear estructuras defensivas y ofensivas para ganar ventaja sobre sus oponentes.",
+        "categoria": [
+            "Shooter",
+            "Battle Royale"
+        ],
+        "precio": 0.19,
+        "imagen": "https://c4.wallpaperflare.com/wallpaper/332/936/882/fortnite-season-5-fortnite-games-2018-games-wallpaper-preview.jpg",
+        "gallery": [
+            "https://cdn2.unrealengine.com/01-fnbr-29-00-c5s2-social-trailerenvironmentstills-olympus1-3480x2160-3840x2160-9e9cbe2007b1.jpg",
+            "https://cdn2.unrealengine.com/02-fnbr-29-00-c5s2-social-trailerenvironmentstills-hades2-3480x2160-3840x2160-f70dd701a6c3.jpg",
+            "https://cdn2.unrealengine.com/03-fnbr-29-00-c5s2-social-trailerenvironmentstills-hades1-3480x2160-3840x2160-da7f646b0906.jpg",
+            "https://cdn2.unrealengine.com/04-fnbr-29-00-c5s2-social-trailerenvironmentstills-videostill3-3480x2160-3840x2160-9db37083d1a3.jpg",
+            "https://cdn2.unrealengine.com/05-fnjn-01-egs-launcher-pdp-3840x2160-screenshots-07-3840x2160-4e9d8257de8d.jpg",
+            "https://cdn2.unrealengine.com/06-fnjn-01-egs-launcher-pdp-3840x2160-screenshots-03-3840x2160-d2c85d691646.jpg"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "World of Warcraft",
+        "descripcion": "World of Warcraft es un juego de rol multijugador en l\u00ednea masivo donde los jugadores exploran un vasto mundo de fantas\u00eda, completan misiones, luchan contra monstruos y otros jugadores, y participan en actividades sociales como la formaci\u00f3n de guilds y la econom\u00eda del juego.",
+        "categoria": [
+            "MMORPG"
+        ],
+        "precio": 0.12,
+        "imagen": "https://external-preview.redd.it/KuFlan1EiSzWIb_X_GvL23PK9zBZK7GGJV6XDRCEQlQ.jpg?auto=webp&s=d9399f3fffa4a4c8707371b9f84d3f085a013c98",
+        "gallery": [
+            "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2017/04/world-warcraft.jpg?tf=3840x",
+            "https://blz-contentstack-images.akamaized.net/v3/assets/bltf408a0557f4e4998/blt49ecf5a649fbaf0c/6526c909c9cf4e07ce162d24/10.0_Dragonflight_BrowsingCard_960x540_enUS.jpg",
+            "https://www.mundodeportivo.com/alfabeta/hero/2023/06/world-of-warcraft-dragonflight-pc-mac-juego-battle-net-europe-cover.jpg?width=768&aspect_ratio=16:9&format=nowebp",
+            "https://bnetcmsus-a.akamaihd.net/cms/blog_header/ew/EWSQ439VOP5M1689095669969.jpg",
+            "https://www.pantallasamigas.net/wp-content/uploads/2019/09/World-of-Warcraft-Classic.jpg",
+            "https://media.cnn.com/api/v1/images/stellar/prod/200511150250-leroy-jenkins-screengrab.jpg?q=w_3000,h_1687,x_0,y_0,c_fill"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Rocket League",
+        "descripcion": "Rocket League es un juego que combina el f\u00fatbol con la conducci\u00f3n de autos. Los jugadores controlan autos impulsados por cohetes y compiten en partidos de f\u00fatbol en una variedad de modos de juego, incluyendo partidas est\u00e1ndar, partidas competitivas y modos de juego personalizados.",
+        "categoria": [
+            "Sports",
+            "Racing"
+        ],
+        "precio": 0.19,
+        "imagen": "https://images8.alphacoders.com/130/1300706.jpg",
+        "gallery": [
+            "https://cdn1.epicgames.com/offer/9773aa1aa54f4f7b80e44bef04986cea/EGS_RocketLeague_PsyonixLLC_S1_2560x1440-bb7699fad7b5101432236737c8809214",
+            "https://www.rocketleague.com/images/keyart/rl_evergreen_16x9.jpg",
+            "https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/nintendo_switch_download_software_1/H2x1_NSwitchDS_RocketLeague.jpg",
+            "https://media.graphassets.com/MSNQUiCtTW7nCe4DcvCQ",
+            "https://media.graphassets.com/Z2HEYKFSzyE7CvslTbOP",
+            "https://cdn2.unrealengine.com/fortnite-high-octane-1900x600-52a96f0681b4.jpg"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Hollow Knight",
+        "descripcion": "Hollow Knight es un juego de acci\u00f3n y aventuras en el estilo de Metroidvania que presenta un vasto mundo subterr\u00e1neo lleno de misterios, peligros y secretos por descubrir. Los jugadores asumen el papel de un peque\u00f1o insecto armado con una espada mientras exploran y luchan contra criaturas extra\u00f1as.",
+        "categoria": [
+            "Indie",
+            "Platformer"
+        ],
+        "precio": 0.65,
+        "stock": 0.65,
+        "imagen": "https://pbs.twimg.com/media/B3sWdc-CYAEU8-P.jpg:large",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_5384f9f8b96a0b9934b2bc35a4058376211636d2.600x338.jpg?t=1695270428",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_d5b6edd94e77ba6db31c44d8a3c09d807ab27751.600x338.jpg?t=1695270428",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_a81e4231cc8d55f58b51a4a938898af46503cae5.600x338.jpg?t=1695270428",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_62e10cf506d461e11e050457b08aa0e2a1c078d0.600x338.jpg?t=1695270428",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_bd76bd88bc5334ee56ae3d5f0d8dec4455e8e3b8.600x338.jpg?t=1695270428",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_33a645903d6dd9beec39f272a3daf57174a6cc26.600x338.jpg?t=1695270428"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Cities: Skylines",
+        "descripcion": "Cities: Skylines es un juego de simulaci\u00f3n que permite a los jugadores dise\u00f1ar, construir y gestionar su propia ciudad. Los jugadores deben equilibrar las necesidades de la poblaci\u00f3n, la econom\u00eda y el medio ambiente mientras construyen una metr\u00f3polis pr\u00f3spera.",
+        "categoria": [
+            "Simulation",
+            "Strategy"
+        ],
+        "precio": 0.89,
+        "stock": 70,
+        "imagen": "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/header.jpg?t=1710168064",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/ss_0754001c88ad4dbfff92faf9a97e8d87cf3f8840.600x338.jpg?t=1710168064",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/ss_e0f842c9327df9defabf120b6c59e1ba42f54a75.600x338.jpg?t=1710168064",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/ss_b5a4b72062b8c4ad677b242963e88c2e624cb1f9.600x338.jpg?t=1710168064",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/ss_39f74526167020dfae4156945f24e7e49d5eedf8.600x338.jpg?t=1710168064",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/ss_a4ebf2b3ad46e620d99fa471708d68b28ea4d7d1.600x338.jpg?t=1710168064",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/255710/ss_013b26f27484941d4edbd406f8df5b5238f120df.600x338.jpg?t=1710168064"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Dark Souls III",
+        "descripcion": "Dark Souls III es un juego de rol de acci\u00f3n conocido por su dificultad desafiante y su atm\u00f3sfera oscura y atmosf\u00e9rica. Los jugadores exploran un mundo interconectado lleno de enemigos letales, trampas mortales y jefes intimidantes mientras luchan por sobrevivir y descubrir la verdad detr\u00e1s del reino en ruinas.",
+        "categoria": [
+            "Action",
+            "Role-Playing"
+        ],
+        "precio": 0.43,
+        "stock": 50,
+        "imagen": "https://wallpaperset.com/w/full/0/9/1/209465.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/ss_5efd318b85a3917d1c6e717f4cb813b47547cd6f.600x338.jpg?t=1700587390",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/ss_1318a04ef11d87f38aebe6d47a96124f8f888ca8.600x338.jpg?t=1700587390",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/ss_1318a04ef11d87f38aebe6d47a96124f8f888ca8.600x338.jpg?t=1700587390",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/ss_61524dee9ebf72d462638f21adbbbea4c93d791d.600x338.jpg?t=1700587390",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/ss_fe1dc6761a9004aa39c2e6e62181593b7263edf9.600x338.jpg?t=1700587390",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/ss_27397db724cfd5648655c1056ff5d184147a4c50.600x338.jpg?t=1700587390"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Civilization VI",
+        "descripcion": "Civilization VI es un juego de estrategia por turnos donde los jugadores asumen el papel de l\u00edderes hist\u00f3ricos y gu\u00edan a su civilizaci\u00f3n desde la antig\u00fcedad hasta la era moderna. Los jugadores deben gestionar recursos, investigar tecnolog\u00edas, construir ciudades y enfrentarse a otras civilizaciones en su b\u00fasqueda por la supremac\u00eda global.",
+        "categoria": [
+            "Strategy"
+        ],
+        "precio": 0.12,
+        "stock": 80,
+        "imagen": "https://cdn.2kgames.com/civilization.com/1920x1200.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/289070/ss_12cc6e1f4084de5bc0f66bfdbe3aaf3e59388b53.600x338.jpg?t=1708651986",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/289070/ss_6c4a3cfb61f1a9677cf2ac549c2816a4e651f741.600x338.jpg?t=1708651986",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/289070/ss_b2bf12299c38214fe520af0f724a6349d17ed330.600x338.jpg?t=1708651986",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/289070/ss_7f598198526afc260d939a98af4d76d95f5349e4.600x338.jpg?t=1708651986",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/289070/ss_7ca34ff8ae81fb10ddc540187e2e21d1b8e1dfe9.600x338.jpg?t=1708651986",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/289070/ss_36c63ebeb006b246cb740fdafeb41bb20e3b330d.600x338.jpg?t=1708651986"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Grand Theft Auto V",
+        "descripcion": "Grand Theft Auto V es un juego de mundo abierto que sigue las historias entrelazadas de tres criminales mientras planean y ejecutan una serie de atracos en la ficticia ciudad de Los Santos. Los jugadores pueden explorar el mundo, completar misiones, participar en actividades y causar caos en la ciudad.",
+        "categoria": [
+            "Action",
+            "Adventure"
+        ],
+        "precio": 0.75,
+        "stock": 80,
+        "imagen": "https://wallpapers.com/images/featured/1080p-gta-5-f500vqmcsqkt7hzh.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/ss_32aa18ab3175e3002217862dd5917646d298ab6b.600x338.jpg?t=1706131787",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/ss_2744f112fa060320d191a50e8b3a92441a648a56.600x338.jpg?t=1706131787",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/ss_da39c16db175f6973770bae6b91d411251763152.600x338.jpg?t=1706131787",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/ss_d2eb9d3e50f9e4cb8db37d2976990b3795da8187.600x338.jpg?t=1706131787",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/ss_bd944debbec9936769f6dfb39ee456ca605615e3.600x338.jpg?t=1706131787",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/ss_5eafc9316db476e74c1b38b25f15c1326f4d574a.600x338.jpg?t=1706131787"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Counter-Strike: Global Offensive",
+        "descripcion": "Counter-Strike: Global Offensive es un popular shooter en primera persona que se centra en el juego t\u00e1ctico y la habilidad individual. Los jugadores pueden elegir unirse a los terroristas o a los contra-terroristas y participar en rondas de combate r\u00e1pidas y estrat\u00e9gicas. El juego presenta una variedad de modos de juego, incluyendo el cl\u00e1sico modo competitivo, as\u00ed como modos casuales y modos de juego comunitarios creados por la comunidad.",
+        "categoria": [
+            "Shooter"
+        ],
+        "precio": 0.15,
+        "stock": 100,
+        "imagen": "https://i.imgur.com/hjpEYZz.png",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_796601d9d67faf53486eeb26d0724347cea67ddc.600x338.jpg?t=1698860631",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_d830cfd0550fbb64d80e803e93c929c3abb02056.600x338.jpg?t=1698860631",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_13bb35638c0267759276f511ee97064773b37a51.600x338.jpg?t=1698860631",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_0f8cf82d019c614760fd20801f2bb4001da7ea77.600x338.jpg?t=1698860631",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_ef82850f036dac5772cb07dbc2d1116ea13eb163.600x338.jpg?t=1698860631",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_76f6730dbb911650ba1f41c8e5b4bac638b5beea.600x338.jpg?t=1698860631"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "The Sims 4",
+        "descripcion": "Life Simulation",
+        "categoria": [
+            "Simulation"
+        ],
+        "precio": 1.99,
+        "stock": 60,
+        "imagen": "https://images5.alphacoders.com/132/1325222.png",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/ss_537683e5e29c2d6d02c64aa7321dcb26166f7d82.600x338.jpg?t=1710328511",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/ss_2fc938d99a1e87893852cb2d2113478190607941.600x338.jpg?t=1710328511",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/ss_b447d6436d2d00cd5e7c170e509b2246dfc879e8.600x338.jpg?t=1710328511",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/ss_e1f0ce3ca2c9a538e382cc8b040944fe05af4bb2.600x338.jpg?t=1710328511",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/ss_7d9baea1aedeeb41cb197a9e45a30f0b91b4baf9.600x338.jpg?t=1710328511",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/ss_537683e5e29c2d6d02c64aa7321dcb26166f7d82.600x338.jpg?t=1710328511"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Mortal Kombat 11",
+        "descripcion": "Fighting Game",
+        "categoria": [
+            "Fighting"
+        ],
+        "precio": 0.23,
+        "stock": 90,
+        "imagen": "https://images3.alphacoders.com/100/1006970.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/ss_e5cd8debd74027dbfafd9729fc32986a63393333.600x338.jpg?t=1699983920",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/ss_4fa4fd2ea1b7ff6c6b699dc9eb717986f80845a4.600x338.jpg?t=1699983920",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/ss_aa70f659fe14e3c07033474249096b60c17021b3.600x338.jpg?t=1699983920",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/ss_b0e8bcfcebf910a6606a7903d2e23ec589c0c45b.600x338.jpg?t=1699983920",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/ss_ecddafdaee86bfb66b0a7290dda445f43195b48d.600x338.jpg?t=1699983920",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/ss_4a9c1909083a75dcf684d79806afd9d9b46e432a.600x338.jpg?t=1699983920"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Rainbow Six Siege",
+        "descripcion": "Tactical Shooter",
+        "categoria": [
+            "Shooter"
+        ],
+        "precio": 0.55,
+        "stock": 70,
+        "imagen": "https://images5.alphacoders.com/132/1322943.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/ss_7347e30053d05958ff1d76da9d5be6b112af8e16.600x338.jpg?t=1710500518",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/ss_273f6a2d85443dd0a0d34ce43de4934f012d8905.600x338.jpg?t=1710500518",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/ss_7086825658bb256d2b8394f849ebf2abbee27f27.600x338.jpg?t=1710500518",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/ss_cf69958ed0aa46ae6c9a15979c8d4f62f7fb694a.600x338.jpg?t=1710500518",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/ss_e3611e379f1b6778330c26fe98bc18e119ff2af9.600x338.jpg?t=1710500518",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/ss_acb266bd8b4deedbc72bf8fa506138700e408155.600x338.jpg?t=1710500518"
+        ],
+        "regexLicense": {}
+    },
+    {
+        "nombre": "Fallout 4",
+        "descripcion": "Open-World RPG",
+        "categoria": [
+            "Role-Playing"
+        ],
+        "precio": 0.7,
+        "stock": 50,
+        "imagen": "https://w0.peakpx.com/wallpaper/534/580/HD-wallpaper-fallout-4-fallout-game.jpg",
+        "gallery": [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/ss_f7861bd71e6c0c218d8ff69fb1c626aec0d187cf.600x338.jpg?t=1650909928",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/ss_f649b8e57749f380cca225db5074edbb1e06d7f5.600x338.jpg?t=1650909928",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/ss_f649b8e57749f380cca225db5074edbb1e06d7f5.600x338.jpg?t=1650909928",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/ss_c310f858e6a7b02ffa21db984afb0dd1b24c1423.600x338.jpg?t=1650909928",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/ss_5e2d136759e0ff4e0d74940fffc9c64e8cdcd833.600x338.jpg?t=1650909928",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/377160/ss_c6b798424a93617b4b825aea3bcd9547c0b0a5ce.600x338.jpg?t=1650909928"
+        ],
+        "regexLicense": {}
+    }
+]
