@@ -26,11 +26,6 @@
           </div>
         </div>
       </div>
-      <!-- Paginación -->
-      <div class="flex justify-center mt-6">
-        <button @click="previousPage" :disabled="currentPage === 1" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded mr-2">Anterior</button>
-        <button @click="nextPage" :disabled="currentPage === totalPages" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded">Siguiente</button>
-      </div>
     </div>
     <Footer />
   </div>
@@ -41,7 +36,6 @@ import { ref } from 'vue';
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import { getExchange, getWishList, getJuegos } from "../apis";
-
 export default {
   components: {
     Navbar,
@@ -50,15 +44,13 @@ export default {
   data() {
     return {
       juegos: [],
-      SOL_TO_USD_RATE: 50,
-      currentPage: 1,
-      pageSize: 20
+      SOL_TO_USD_RATE: 50 // Ajusta este valor según el tipo de cambio actual
     };
   },
   async setup(){
     const exchange = ref(50);
     const juegos = ref([]);
-    await Promise.all([getExchange(), getWishList(), getJuegos(this.currentPage)]).then((values) => {
+    await Promise.all([getExchange(), getWishList(), getJuegos()]).then((values) => {
       juegos.value = values[2];
       exchange.value = values[0];
     }).catch((error) => {
@@ -66,42 +58,20 @@ export default {
     });
     return { juegos, SOL_TO_USD_RATE: exchange };
   },
+  async created() {
+  },
   methods: {
     switchToBuy(gameid) {
+      // Redirect the user to the registration page
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
     truncar(text, maxLength = 240) {
-      return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
-    },
-    async nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-        await this.loadJuegos();
-      }
-    },
-    async previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        await this.loadJuegos();
-      }
-    },
-    async loadJuegos() {
-      try {
-        const response = await getJuegos(this.currentPage);
-        this.juegos = response;
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
   },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.juegos.length / this.pageSize);
-    }
   }
 };
 </script>
 
 <style scoped>
-
+/* Estilos específicos para este componente van aquí */
 </style>
