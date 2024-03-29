@@ -58,9 +58,9 @@
               </div>
               <div class="mt-4 flex justify-between items-center">
                 <div>
-                  <p class="text-gray-300">{{ juego.precio }} SOL</p>
+                  <p class="text-gray-300">{{ juego.precio }} USD</p>
                   <p class="text-gray-300">
-                    {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD
+                    {{ (juego.precio / SOL_TO_USD_RATE).toFixed(9) }} SOL
                   </p>
                 </div>
               </div>
@@ -118,7 +118,7 @@ export default {
       .catch((error) => {
         console.error(error);
       });
-  
+      console.log(games.value);
       const featuredGames = ref(games.value.slice(0, 12));
       return { games, featuredGames, SOL_TO_USD_RATE:exchange, wishlist };
   },

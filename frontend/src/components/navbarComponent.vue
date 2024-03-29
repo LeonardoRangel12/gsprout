@@ -172,8 +172,6 @@
 <script>
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import io from "socket.io-client";
-import axios from "../main";
-import { computed, provide } from "vue";
 export default {
   components: {
     WalletMultiButton,
@@ -184,9 +182,6 @@ export default {
       showProfileMenu: false,
       connected: useWallet().connected,
       socket: null,
-      messages: {
-        nanimon383: [],
-      },
       usuario: "",
     };
   },
