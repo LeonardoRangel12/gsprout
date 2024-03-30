@@ -11,7 +11,7 @@
         <div class="relative z-0 text-center text-white">
           <!-- Título -->
           <div class="max-w-3xl mx-auto">
-            <h1 class="block font-extrabold text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight">
+            <h1 class="block font-extrabold text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight mb-5">
                 Welcome to G'Sprout <span v-if="username" class="text-blue-500">{{ username }}</span>
             </h1>
           </div>

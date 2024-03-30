@@ -28,11 +28,13 @@
               >Store</router-link
             >
           </li>
+          <!--
           <li>
             <router-link class="hover:text-gray-200" to="/auctions"
               >Auctions</router-link
             >
           </li>
+          -->
           <li>
             <router-link class="hover:text-gray-200" to="/mygames"
               >My games</router-link

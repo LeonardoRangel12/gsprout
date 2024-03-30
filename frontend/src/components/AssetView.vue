@@ -2,36 +2,15 @@
   <Navbar></Navbar>
   <div class="dark:bg-gray-900">
     <div class="container mx-auto py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
-          <div class="col-span-1 sm:col-span-9">
-            <div class="bg-gray-800 rounded-lg p-6 shadow-lg" >
+      <div class="grid grid-cols-1 sm:grid-cols-20 gap-6 px-4">
+        <div class="col-span-1 sm:col-span-9">
+          <div class="bg-gray-800 rounded-lg p-6 shadow-lg relative">
+            <div class="absolute inset-0 bg-cover bg-center" :style="{ 'background-image': 'url(' + imageDataURL + ')', 'opacity': '0.4' }"></div>
               <div class="flex flex-col bg-gray-700 rounded-lg p-4 shadow-lg md:flex-row" style="height: 625px;">
               <!-- Galeria -->
-              <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
-                <div>
-                  <img class="h-auto w-full rounded-lg" style="width: 2800px; height: 450px;" src="https://imgur.com/jFEwdGp.jpg" alt="">
-                </div>
-                
-                <div class="grid grid-cols-5 gap-4">
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/bMDFXHK.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/75SiTJW.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/APzwUim.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/HLyiTZu.jpg" alt="">
-                  </div>
-                  <div>
-                    <img class="h-auto max-w-full rounded-lg" src="https://imgur.com/J0kJ5Fh.jpg" alt="">
-                  </div>
-                </div>
-              </div>
+              
               <!-- Datos Juego -->
-              <div class="flex flex-col relative">
+                <div class="flex flex-col relative">
                   <div>
                     <img class="w-full h-full object-cover" style="width: 600px;" v-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" />
                   </div>
@@ -43,10 +22,10 @@
                       </div>
                       <h2 class="text-2xl font-bold mb-4 text-white text-justify">Description</h2>
                       <div>
-                        <p class="text-gray-400 text-justify">{{ description }}</p>
+                        <p class="text-gray-400 text-justify" v-if="description">{{ truncar(description) }}</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-0 left-0 right-0">
+                    <div class="absolute bottom-0 left-0 right-0 flex gap-4">
                       <button @click="transferNFT()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Prestar
                       </button>
@@ -61,8 +40,8 @@
           </div>
         </div>
       </div>
-    <Footer></Footer>
-  </div>
+    </div>
+  <Footer></Footer>
 </template>
 <script>
 import Navbar from "./navbarComponent.vue";
@@ -103,9 +82,10 @@ export default {
     });
   },
   methods: {
-    truncar(text, maxLength = 280) {
+    truncar(text, maxLength = 1200) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
+
     getAssetData(bufferUrl) {
       /*
       This method gets an array buffer from the bufferUrl and then encodes it to base64 to be able to display it in the img tag.
@@ -121,11 +101,10 @@ export default {
       */
       axios.get(url).then((response) => {
         this.name = response.data.name;
-        //carga la imagen
         this.imageDataURL = response.data.image;
         this.imageDataGallery = response.data.gallery;
         this.category = response.data.categoria;
-        this.description = response.data.description;
+        this.description = response.data.description; // Aquí se asigna el valor a description
       });
     },
     async transferNFT() {
