@@ -16,10 +16,10 @@
             <h2
               class="text-4xl font-bold text-center text-gray-700 dark:text-white"
             >
-              Bienvenido
+              Welcome
             </h2>
             <p class="mt-3 text-gray-500 dark:text-gray-300">
-              Conecta tu wallet para continuar
+              Connect your wallet to continue
             </p>
           </div>
 
@@ -37,7 +37,7 @@
                 <label
                   for="username"
                   class="block mb-2 text-sm text-gray-600 dark:text-gray-200"
-                  >Usuario</label
+                  >Username</label
                 >
                 <input
                   type="text"
@@ -68,7 +68,7 @@
                 <label
                   for="password"
                   class="block mb-2 text-sm text-gray-600 dark:text-gray-200"
-                  >Contraseña</label
+                  >Password</label
                 >
                 <input
                   type="password"
@@ -91,18 +91,18 @@
                   type="submit"
                   class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                 >
-                  Iniciar sesión
+                  Log in
                 </button>
               </div>
             </form>
           </div>
           <p class="mt-6 text-sm text-center text-gray-400">
-            ¿No tienes una cuenta?
+            Don't have an account?
             <a
               href="#"
               class="text-blue-500 focus:outline-none focus:underline hover:underline"
               @click="switchToRegister"
-              >Registrate</a
+              >Register</a
             >.
           </p>
         </div>

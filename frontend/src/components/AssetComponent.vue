@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col items-center bg-gray-800 rounded-lg overflow-hidden">
     <div v-if="isImageLoading">
-      <p>Cargando imagen...</p>
+      <p>Loading Image...</p>
     </div>
     <div v-else-if="isImageLoadingError">
-      <p>Error al cargar la imagen</p>
+      <p>Error Loading Image</p>
     </div>
     <img class = "mb-3" v-else-if="imageDataURL" :src="imageDataURL" alt="IMAGEN" />
     <div v-else>

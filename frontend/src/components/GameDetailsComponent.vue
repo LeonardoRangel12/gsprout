@@ -14,7 +14,7 @@
         <!-- Add your game details here -->
         <div class="modal-content py-4 text-left px-6">
           <div class="flex justify-between items-center pb-3">
-            <p class="text-2xl font-bold">Ficha Técnica del Juego</p>
+            <p class="text-2xl font-bold">Game Technical Sheet</p>
             <div class="modal-close cursor-pointer z-50">
               <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                 viewBox="0 0 18 18">
@@ -26,7 +26,7 @@
           <div>
             <h3 class="text-lg font-semibold mb-2">{{ selectedGame.nombre }}</h3>
             <p class="text-gray-700">{{ selectedGame.descripcion }}</p>
-            <p class="mt-4 text-gray-700">Precio: {{ selectedGame.precio }} SOL</p>
+            <p class="mt-4 text-gray-700">Price: {{ selectedGame.price }} SOL</p>
           </div>
         </div>
       </div>

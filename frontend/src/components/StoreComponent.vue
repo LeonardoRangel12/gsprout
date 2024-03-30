@@ -4,8 +4,8 @@
     <div class="p-8 rounded-md w-full">
       <div class="flex items-center justify-between pb-6">
         <div>
-          <h2 class="font-semibold">Tienda</h2>
-          <span class="text-xs">Todos los juegos disponibles</span>
+            <h2 class="font-semibold">Store</h2>
+            <span class="text-xs">All available games</span>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -21,13 +21,13 @@
                 <p class="text-gray-300 mb-2">{{ juego.precio }} SOL</p>
                 <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
               </div>
-              <button @click="switchToBuy(juego._id)" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Comprar</button>
+                <button @click="switchToBuy(juego._id)" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Buy</button>
             </div>
           </div>
         </div>
       </div>
       <div class="flex justify-center mt-6">
-        <button @click="cargarMas" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Cargar más</button>
+        <button @click="loadMore" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
       </div>
     </div>
     <Footer />

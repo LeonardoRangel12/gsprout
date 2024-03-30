@@ -4,7 +4,7 @@
     <Hero />
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
-        <h2 class="text-3xl font-bold mb-6 text-center">Juegos Destacados</h2>
+        <h2 class="text-3xl font-bold mb-6 text-center">Featured Games</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative cursor-pointer" @click="switchToDetails(juego._id)">
             <div class="w-full h-64 bg-gray-600">

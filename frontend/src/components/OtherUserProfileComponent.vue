@@ -9,26 +9,26 @@
               <img :src="user.avatar" class="w-32 h-32 bg-gray-300 rounded-full mb-4 shadow-md" />
               <h1 class="text-2xl font-bold text-white">{{ user.username }}</h1>
               <h2 class="text-sm text-gray-400">{{ user.nombre }}</h2>
-              <div class="mt-2 text-sm text-gray-400">Nivel {{ user.nivel }}</div>
+              <div class="mt-2 text-sm text-gray-400">Level {{ user.nivel }}</div>
               <div class="mt-4 flex justify-center">
-                <button @click="addFriend" class="bg-indigo-600 hover:bg-blue-600 text-white py-2 px-6 rounded">Agregar Amigo</button>
+                <button @click="addFriend" class="bg-indigo-600 hover:bg-blue-600 text-white py-2 px-6 rounded">Add Friend</button>
               </div>
             </div>
             <hr class="my-6 border-t border-gray-600">
             <div class="text-white">
               <div class="flex justify-between mb-2">
-                <div class="text-gray-400">Juego Favorito:</div>
+                <div class="text-gray-400">Favorite Game:</div>
                 <div class="font-semibold">{{ user.juegoFavorito }}</div>
               </div>
               <div class="flex justify-between mb-2">
-                <div class="text-gray-400">Horas de Juego:</div>
+                <div class="text-gray-400">Game Hours:</div>
                 <div class="font-semibold">{{ user.horas_juego }}</div>
               </div>
               <div class="flex justify-between mb-2">
-                <div class="text-gray-400">Logros Desbloqueados:</div>
+                <div class="text-gray-400">Unlocked Achievements:</div>
                 <div class="font-semibold">{{ user.logros }}</div>
               </div>
-              <button @click="openModal" class="text-indigo-500 hover:underline cursor-pointer">Editar Descripción</button>
+                <button @click="openModal" class="text-indigo-500 hover:underline cursor-pointer">Edit Description</button>
             </div>
           </div>
         </div>
@@ -36,12 +36,12 @@
         <div class="col-span-12 sm:col-span-9">
           <!-- Sobre mí -->
           <div class="bg-gray-800 rounded-lg p-6 shadow-lg mb-6">
-            <h2 class="text-2xl font-bold mb-4 text-white">Sobre mí</h2>
+            <h2 class="text-2xl font-bold mb-4 text-white">About Me</h2>
             <p class="text-gray-400">{{ user.descripcion }}</p>
           </div>
           <!-- Juegos Recientes -->
           <div class="mt-6">
-            <h2 class="text-xl font-bold mb-4 text-white">Juegos Recientes</h2>
+            <h2 class="text-xl font-bold mb-4 text-white">Recent Games</h2>
             <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
               <div class="flex overflow-x-auto">
                 <div v-for="game in recentGames" :key="game.id" class="flex-shrink-0 w-24">
@@ -56,7 +56,7 @@
           </div>
           <!-- Amigos -->
           <div class="mt-6">
-            <h2 class="text-xl font-bold mb-4 text-white">Amigos</h2>
+            <h2 class="text-xl font-bold mb-4 text-white">Friends</h2>
             <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
               <div class="flex overflow-x-auto">
                 <div v-for="friend in friendsWithUsernameAndName" :key="friend.id" class="flex-shrink-0 w-24">
@@ -75,11 +75,11 @@
       <!-- Modal de Edición de Descripción -->
       <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white p-6 rounded-lg">
-          <h2 class="text-xl font-bold mb-4">Editar Descripción</h2>
+            <h2 class="text-xl font-bold mb-4">Edit Description</h2>
           <textarea v-model="newDescription" class="w-full h-24 bg-gray-100 text-gray-700 p-2 mb-4"></textarea>
           <div class="flex justify-end">
-            <button @click="closeModal" class="text-gray-600 hover:text-gray-800 mr-4">Cancelar</button>
-            <button @click="updateDescription" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Guardar Cambios</button>
+            <button @click="closeModal" class="text-gray-600 hover:text-gray-800 mr-4">Cancel</button>
+            <button @click="updateDescription" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Save Changes</button>
           </div>
         </div>
       </div>

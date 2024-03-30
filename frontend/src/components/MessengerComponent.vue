@@ -3,14 +3,14 @@
     <section class="flex h-[calc(100vh-96px)]">
       <!-- Lista de usuarios -->
       <div class="w-1/4 p-4 bg-gray-900 text-white">
-        <h2 class="text-lg font-bold mb-4">Usuarios</h2>
+        <h2 class="text-lg font-bold mb-4">Username</h2>
         <input v-model="searchQuery" type="text" placeholder="Buscar usuario..." class="w-full p-2 mb-4 rounded-md bg-gray-800 text-white">
         <ul>
           <li v-for="(user, index) in filteredUsers" v-if="filteredUsers.length > 0" :key="index" class="cursor-pointer mb-2" @click="selectUser(user)">
             {{ user }}
           </li>
           <li v-else>
-          <button class = "bg-blue-500 text-white py-2 px-4 mt-2 mb-2 rounded-md" @click="selectUser(searchQuery) ">Nuevo chat</button>
+          <button class = "bg-blue-500 text-white py-2 px-4 mt-2 mb-2 rounded-md" @click="selectUser(searchQuery) ">New chat</button>
             
           </li>
         </ul>
@@ -18,7 +18,7 @@
   
       <!-- Lista de mensajes -->
       <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full ">
-        <h2 class="text-lg font-bold mb-4">Chat con {{ selectedUser }}</h2>
+        <h2 class="text-lg font-bold mb-4">Chat with {{ selectedUser }}</h2>
         <div class="flex-grow overflow-auto custom-scrollbar" ref="messages">
           <div v-if="selectedUser">
             <div v-for="(message, index) in messages" :key="index" class="mb-2">
@@ -28,12 +28,12 @@
             </div>
           </div>
           <div v-else>
-            <p>Selecciona un usuario para empezar a chatear.</p>
+            <p>Select a user to start chatting.</p>
           </div>
         </div>
         <div class="flex mt-4">
           <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white" @keyup.enter="sendMessage">
-          <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Enviar</button>
+          <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Send</button>
         </div>
       </div>
     </section>

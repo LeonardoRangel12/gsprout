@@ -34,7 +34,7 @@
                       <div div class="flex flex-nowrap mb-1">
                         <h2 class="text-base font-bold text-white">{{ juego.categoria.join(", ") + "." }}</h2>
                       </div>
-                      <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
+                      <h2 class="text-2xl font-bold mb-4 text-white">Description</h2>
                       <div>
                         <p class="text-gray-400">{{ truncar(juego.descripcion) }}</p>
                       </div>

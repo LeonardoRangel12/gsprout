@@ -6,7 +6,7 @@
         <div class="flex items-center justify-between pb-6">
           <div>
             <h2 class="text-3xl font-semibold">WishList</h2>
-            <p class="text-gray-400">Explora tus juegos favoritos</p>
+            <p class="text-gray-400">Explore your favorite games</p>
           </div>
           <div class="flex items-center space-x-4">
             <div class="relative">
@@ -62,13 +62,13 @@
                   @click="switchToBuy(juego._id)"
                   class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out"
                 >
-                  Comprar
+                 Buy
                 </button>
               </div>
             </div>
           </div>
           <div v-else>
-            <h2 class="text-3xl font-semibold">No tienes juegos en tu lista</h2>
+            <h2 class="text-3xl font-semibold">You have no games in your list</h2>
           </div>
         </div>
       </div>
