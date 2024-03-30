@@ -1,7 +1,8 @@
 <template>
     <div class="bg-gradient-to-b from-gray-900 to-indigo-900 min-h-screen">
         <Navbar />
-        <div class="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="container mx-auto py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Primera columna -->
             <div class="max-w-lg space-y-8">
                 <!-- Section 1: About the Project -->
                 <div class="rounded-lg shadow-lg bg-gray-800 p-6 text-white">
@@ -24,12 +25,30 @@
 
                 <!-- Section 2: What Inspired Us -->
                 <div class="rounded-lg shadow-lg bg-gray-800 p-6 text-white">
+                    <img src="https://mastersofmedia.hum.uva.nl/wp-content/uploads/2019/09/1234-1024x576.png"
+                        alt="Project Image" class="w-full h-60 object-cover rounded-t-lg">
+                    <div class="p-4">
+                        <h2 class="text-2xl font-semibold mb-2">What Inspired Us</h2>
+                        <p class="leading-relaxed text-justify">Our inspiration stemmed from a deep passion for gaming
+                            and blockchain technology. We saw an opportunity to merge these passions to create something
+                            innovative and disruptive in the gaming industry. The rising popularity of NFTs and the
+                            growth of decentralized finance further fueled our enthusiasm to explore the potential of
+                            this emerging technology in gaming.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segunda columna -->
+            <div class="max-w-lg space-y-8">
+                <!-- Section 3: Milestones -->
+                <div class="rounded-lg shadow-lg bg-gray-800 p-6 text-white">
                     <img src="https://i.imgur.com/qqeTACn.png" alt="Roadmap"
                         class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h2 class="text-2xl font-semibold mb-2">Milestones</h2>
                         <ul class="list-disc pl-4">
-                            <li class="mb-4">
+                            <!-- Milestones aquí -->
+                            <li class="mb-4 ">
                                 <h3 class="text-xl font-semibold mb-2">Milestone 1: Research and Planning</h3>
                                 <ul class="text-justify">
                                     <li>Market research on digital gaming and NFTs.</li>
@@ -59,43 +78,7 @@
                                     <li>Monitoring of performance and issue resolution.</li>
                                 </ul>
                             </li>
-                            <li class="mb-4">
-                                <h3 class="text-xl font-semibold mb-2">Milestone 4: Expansion and Improvement of the
-                                    Store</h3>
-                                <ul class="text-justify">
-                                    <li>Official launch of the store to the general public.</li>
-                                    <li>Continuous improvement based on feedback and market trends.</li>
-                                    <li>Exploration of partnerships and collaborations with game developers.</li>
-                                    <li>Maintenance of open communication with the user community.</li>
-                                </ul>
-                            </li>
-                            <li class="mb-4">
-                                <h3 class="text-xl font-semibold mb-2">Milestone 5: Implementation of Detection System
-                                    on Other Platforms</h3>
-                                <ul class="text-justify">
-                                    <li>Research on implementation opportunities on existing platforms.</li>
-                                    <li>Development of strategic collaborations and integration agreements.</li>
-                                    <li>Pilot testing and adjustments to ensure seamless integration.</li>
-                                    <li>Official launch of the detection system on associated platforms.</li>
-                                </ul>
-                            </li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 3: Long-Term Sustainability Plan -->
-            <div class="max-w-lg space-y-8">
-                <div class="rounded-lg shadow-lg bg-gray-800 p-6 text-white">
-                    <img src="https://mastersofmedia.hum.uva.nl/wp-content/uploads/2019/09/1234-1024x576.png"
-                        alt="Project Image" class="w-full h-60 object-cover rounded-t-lg">
-                    <div class="p-4">
-                        <h2 class="text-2xl font-semibold mb-2">What Inspired Us</h2>
-                        <p class="leading-relaxed text-justify">Our inspiration stemmed from a deep passion for gaming
-                            and blockchain technology. We saw an opportunity to merge these passions to create something
-                            innovative and disruptive in the gaming industry. The rising popularity of NFTs and the
-                            growth of decentralized finance further fueled our enthusiasm to explore the potential of
-                            this emerging technology in gaming.</p>
                     </div>
                 </div>
 
@@ -113,7 +96,10 @@
                             security in decentralized platforms.</p>
                     </div>
                 </div>
+            </div>
 
+            <!-- Tercera columna -->
+            <div class="max-w-lg space-y-8">
                 <!-- Section 5: How We Built Our Project -->
                 <div class="rounded-lg shadow-lg bg-gray-800 p-6 text-white">
                     <img src="https://www.cgspectrum.com/hs-fs/hubfs/CGSpectrum_November2019%20Theme/images/game-design-course-level-design-theory1-1.jpg?width=590&height=284&name=game-design-course-level-design-theory1-1.jpg"
