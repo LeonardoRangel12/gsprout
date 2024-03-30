@@ -72,7 +72,6 @@ export default {
   data() {
     return {
       juegos: [],
-      filteredGames: [],
       SOL_TO_USD_RATE: 50,
       currentPage: 1,
 
@@ -96,24 +95,15 @@ export default {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
     filterGamesByOption(option){
-      console.log(this.juegos[0].nombre);
-      const length = this.juegos.length;
-      let aux = "";
       switch(option){
         case 'Alphabetical':
-          console.log(this.juegos);
           this.juegos.sort((a,b)=>a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
-          console.log(this.juegos);
           break;
         case 'UpToDownPrize':
-            console.log(this.juegos);
             this.juegos.sort((a,b)=> b.precio - a.precio);
-            console.log(this.juegos);
           break;
         case 'DownToUpPrize':
-            console.log(this.juegos);
             this.juegos.sort((a,b)=> a.precio - b.precio);
-            console.log(this.juegos);
           break;
       }
     },
