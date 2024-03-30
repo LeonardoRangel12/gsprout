@@ -43,7 +43,7 @@
                       </div>
                       <h2 class="text-2xl font-bold mb-4 text-white text-justify">Description</h2>
                       <div>
-                        <p class="text-gray-400 text-justify">{{ description }}</p>
+                        <p class="text-gray-400 text-justify" v-if="description">{{ truncar(description) }}</p>
                       </div>
                     </div>
                     <div class="absolute bottom-0 left-0 right-0">
@@ -106,6 +106,7 @@ export default {
     truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
+
     getAssetData(bufferUrl) {
       /*
       This method gets an array buffer from the bufferUrl and then encodes it to base64 to be able to display it in the img tag.
@@ -121,11 +122,10 @@ export default {
       */
       axios.get(url).then((response) => {
         this.name = response.data.name;
-        //carga la imagen
         this.imageDataURL = response.data.image;
         this.imageDataGallery = response.data.gallery;
         this.category = response.data.categoria;
-        this.description = response.data.description;
+        this.description = response.data.description; // Aquí se asigna el valor a description
       });
     },
     async transferNFT() {
