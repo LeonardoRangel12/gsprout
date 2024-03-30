@@ -27,7 +27,7 @@
             </li>
           </ul>
           <ul>
-            <li v-for="(game, index) in newGames.slice(10, 20)" :key="'second_' + game._id" class="flex items-center justify-between py-4" @mouseenter="hoveredGame = game" @mouseleave="hoveredGame = null">
+            <li v-for="(game, index) in newGames.slice(10,20)" :key="game._id" class="flex items-center justify-between py-4" @mouseenter="hoveredGame = game" @mouseleave="hoveredGame = null">
               <div class="flex items-center">
                 <img :src="game.imagen" :alt="game.nombre + ' Image'" class="h-16 w-16 object-cover rounded" />
                 <div class="ml-4">
@@ -44,7 +44,7 @@
                   <span class="text-blue-500 font-bold">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }}</span>
                   <span class="text-gray-400 text-sm">USD</span>
                 </div>
-                <button type="submit" @click="switchToDetails(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
+                <button type="submit" @click="switchToBuy(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
               </div>
             </li>
           </ul>
@@ -53,7 +53,7 @@
         <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="bg-gray-800 absolute p-4 rounded-lg shadow-lg" style="width: 600px;">
           <h3 class="text-xl font-bold">{{ hoveredGame.nombre }}</h3>
           <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2" style="max-height: 300px;">
-          <p class="text-gray-300">{{ hoveredGame.descripcion }}</p>
+          <p class="text-gray-300">{{ truncar(hoveredGame.descripcion) }}</p>
           <span v-if="hoveredGame.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Offert</span>
           <div class="text-right mt-2 ">
             <span class="text-gray-300 font-bold">{{ hoveredGame.precio }}</span>
@@ -105,23 +105,11 @@ export default {
     // await this.getExchange();
   },
   methods: {
-    // async getJuegos() {
-    //   try {
-    //     const res = await axios.get('/juegos');
-    //     this.games = res.data;
-    //     this.newGames = this.games;
-    //   } catch (error) {
-    //     console.error('Error al obtener los juegos:', error);
-    //   }
-    // },
-    // async getExchange() {
-    //   try {
-    //     const res = await axios.get('/exchange');
-    //     this.SOL_TO_USD_RATE = res.data.sell;
-    //   } catch (error) {
-    //     console.error('Error al obtener el tipo de cambio:', error);
-    //   }
-    // },
+    // Otros métodos omitidos por brevedad
+    
+    truncar(text, maxLength = 240) {
+      return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
+    },
     switchToBuy(gameid) {
       // Redirigir al usuario a la página de registro
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.games.find(game => game._id === gameid).precio);
