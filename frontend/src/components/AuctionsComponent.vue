@@ -15,7 +15,7 @@
           </div>
           <div class="p-4">
             <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-            <p class="text-gray-300">{{ juego.descripcion }}</p>
+            <p class="text-gray-300">{{ truncar(juego.descripcion) }}</p>
             <div class="mt-4 flex justify-between items-center">
               <div>
                 <p class="text-gray-300">{{ juego.precio }} SOL</p>
@@ -77,6 +77,9 @@ export default {
         const seconds = totalSeconds % 60;
         juego.remainingTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       });
+    },
+    truncar(text, maxLength = 240) {
+      return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     }
   }
 };

@@ -11,7 +11,7 @@
       <p>Image not found</p>
     </div>
     <h1 class = "mb-3">{{ name }}</h1>
-    <button @click="redirectToUrl" class="mb-5 px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">DETALLES</button>
+    <button @click="redirectToUrl" class="mb-5 px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Details</button>
   </div>
 </template>
 <script>
