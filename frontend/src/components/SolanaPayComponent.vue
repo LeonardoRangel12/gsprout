@@ -25,7 +25,7 @@
               <!-- Contenedor de los botones con posición absoluta en el borde inferior -->
               <div class="absolute bottom-0 left-0 right-0 p-6 flex justify-center">
                 <button @click="handleGenerateClick" :disabled="qrLoading" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mr-4">
-                  {{ qrLoading ? "Generando..." : "Generar Orden de Pago Solana" }}
+                    {{ qrLoading ? "Generating..." : "Generate Solana Payment Order" }}
                 </button>
                 <button @click="handleVerifyClick" :disabled="qrLoading" class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
                     Verify Transaction
