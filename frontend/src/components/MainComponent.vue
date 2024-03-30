@@ -5,9 +5,9 @@
     <div class="container mx-auto py-12">
       <section class="game-list-section mb-8">
         <h2 class="text-3xl font-bold mb-6 text-center">Featured Games</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative cursor-pointer" @click="switchToDetails(juego._id)">
-            <div class="w-full h-64 bg-gray-600">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" >
+          <div v-for="juego in featuredGames" :key="juego._id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative cursor-pointer"  @click="switchToDetails(juego._id)">
+            <div class="w-full aspect-w-16 aspect-h-9">
               <img
                 class="w-full h-full object-cover"
                 :src="juego.imagen"
@@ -50,18 +50,15 @@
             </button>
 
             <div class="p-4">
-              <div style="height: 100px;"> <!-- le da una altura fija para que el texto este parejo alv -->
+              <div style="height: 140px;"> <!-- le da una altura fija para que el texto este parejo alv -->
                 <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
                 <div div class="flex flex-nowrap mb-1">
                   <p class="text-gray-300">{{ juego.categoria.join(", ") + "." }}</p>
                 </div>
               </div>
               <div class="mt-4 flex justify-between items-center">
-                <div>
-                  <p class="text-gray-300">{{ juego.precio }} USD</p>
-                  <p class="text-gray-300">
-                    {{ (juego.precio / SOL_TO_USD_RATE).toFixed(9) }} SOL
-                  </p>
+                <div >
+                  <p class="text-gray-300">{{ juego.precio }} SOL / {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
                 </div>
               </div>
             </div>

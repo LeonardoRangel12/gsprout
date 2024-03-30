@@ -19,20 +19,24 @@
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+        <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" @click="switchToDetails(juego._id)">
           <img class="w-full h-56 object-cover object-center" :src="juego.imagen" :alt="juego.nombre" />
           <div class="p-4">
-            <div style="height: 180px;">
+            <div style="height: 250px;">
               <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-              <p class="text-gray-300 mb-4">{{ truncar(juego.descripcion) }}</p>
+              <div div class="flex flex-nowrap mb-3">
+                  <p class="text-gray-300 font-semibold">{{ juego.categoria.join(", ") + "." }}</p>
+                </div>
+              <p class="text-gray-300 mb-4 text-justify">{{ truncar(juego.descripcion) }}</p>
             </div>
             <div class="flex justify-between items-center">
-              <div>
-                <p class="text-gray-300 mb-2">{{ juego.precio }} SOL</p>
-                <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+              <div >
+                  <p class="text-gray-300">{{ juego.precio }} SOL / {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+                </div>
+              <!--  
+                <button @click="switchToDetails(juego._id)" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Buy</button>
+                -->
               </div>
-                <button @click="switchToBuy(juego._id)" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Buy</button>
-            </div>
           </div>
         </div>
       </div>
@@ -93,6 +97,17 @@ export default {
     },
     switchToBuy(gameid) {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
+    },
+    async switchToDetails(gameid) {
+      try {
+        const juego = this.juegos.find((game) => game._id === gameid);
+        if (!juego) {
+          throw new Error("Juego no encontrado");
+        }
+        this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
+      } catch (error) {
+        console.error(error);
+      }
     },
     filterGamesByOption(option){
       switch(option){

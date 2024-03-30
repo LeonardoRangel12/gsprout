@@ -15,7 +15,7 @@
           </div>
           <div class="p-4">
             <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-            <p class="text-gray-300">{{ truncar(juego.descripcion) }}</p>
+            <p class="text-gray-300 text-justify">{{ truncar(juego.descripcion) }}</p>
             <div class="mt-4 flex justify-between items-center">
               <div>
                 <p class="text-gray-300">{{ juego.precio }} SOL</p>

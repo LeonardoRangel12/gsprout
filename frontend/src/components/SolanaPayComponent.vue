@@ -17,7 +17,7 @@
               </div>
               <div class="mt-6">
                 <h2 class="text-2xl font-bold mb-4 text-white" v-if="!showQR">Descriptión</h2>
-                <p class="text-white" v-if="!showQR">{{ truncar(juego.descripcion) }}</p>
+                <p class="text-white text-justify" v-if="!showQR">{{ truncar(juego.descripcion) }}</p>
               </div>
                 <div class="flex flex-col items-center justify-between h-full" v-if="showQR">
                 <div ref="qrCode"></div>

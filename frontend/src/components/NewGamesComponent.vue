@@ -53,7 +53,7 @@
         <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="bg-gray-800 absolute p-4 rounded-lg shadow-lg" style="width: 600px;">
           <h3 class="text-xl font-bold">{{ hoveredGame.nombre }}</h3>
           <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2" style="max-height: 300px;">
-          <p class="text-gray-300">{{ truncar(hoveredGame.descripcion) }}</p>
+          <p class="text-gray-300 text-justify">{{ truncar(hoveredGame.descripcion) }}</p>
           <span v-if="hoveredGame.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Offert</span>
           <div class="text-right mt-2 ">
             <span class="text-gray-300 font-bold">{{ hoveredGame.precio }}</span>

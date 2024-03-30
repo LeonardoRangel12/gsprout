@@ -41,9 +41,9 @@
                       <div div class="flex flex-nowrap mb-1">
                         <h2 class="text-base font-bold text-white">{{ categoria }}</h2>
                       </div>
-                      <h2 class="text-2xl font-bold mb-4 text-white">Description</h2>
+                      <h2 class="text-2xl font-bold mb-4 text-white text-justify">Description</h2>
                       <div>
-                        <p class="text-gray-400">{{ description }}</p>
+                        <p class="text-gray-400 text-justify">{{ description }}</p>
                       </div>
                     </div>
                     <div class="absolute bottom-0 left-0 right-0">
