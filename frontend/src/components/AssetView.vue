@@ -47,6 +47,9 @@
                       </div>
                     </div>
                     <div class="absolute bottom-0 left-0 right-0">
+                      <button @click="transferNFT()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                        Prestar
+                      </button>
                       <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Comprar
                       </button>
@@ -69,6 +72,9 @@ import backendAxios from "../main";
 // For internet connections
 import axios from "axios";
 import { encode, decode } from "base64-arraybuffer";
+import { useWallet } from "solana-wallets-vue";
+import { Transaction } from "@solana/web3.js";
+import { connection } from "../main";
 export default {
   components: {
     Navbar,
@@ -121,6 +127,23 @@ export default {
         this.category = response.data.categoria;
         this.description = response.data.description;
       });
+    },
+    async transferNFT() {
+      const {publicKey, sendTransaction} = useWallet();
+      const res = await backendAxios.post("/solana/transfer", {
+        splToken : this.publicKey,
+        publicKey: publicKey.value,
+      });
+      if(res.status === 200){
+        const transaction = res.data;
+        console.log(transaction);
+        const signature=  await sendTransaction(transaction, connection);
+
+        await connection.confirmTransaction(signature);
+      }
+      else if (res.status === 500){
+        console.error("Error al transferir el NFT");
+      }
     },
   },
 };
