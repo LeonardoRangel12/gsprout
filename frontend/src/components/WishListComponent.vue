@@ -35,35 +35,27 @@
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
-          <div
-            v-for="juego in juegos"
-            v-if="juegos"
-            :key="juego.id"
-            class="bg-gray-800 rounded-lg overflow-hidden shadow-lg"
-          >
-            <div class="w-full h-64 bg-gray-600">
-              <img
-                class="w-full h-full object-cover"
-                :src="juego.imagen"
-                :alt="juego.nombre"
-              />
+          <div v-for="juego in juegos" v-if="juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" @click="switchToDetails(juego._id)">
+            <div class="w-full aspect-w-16 aspect-h-9">
+              <img class="w-full h-full object-cover" :src="juego.imagen" :alt="juego.nombre" />
             </div>
             <div class="p-4">
-              <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-              <p class="text-gray-300">{{ juego.descripcion }}</p>
-              <div class="mt-4 flex justify-between items-center">
-                <div>
-                  <p class="text-gray-300">{{ juego.precio }} SOL</p>
-                  <p class="text-gray-300">
-                    {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD
-                  </p>
+              <div style="height: 120px;">
+                <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
+              <div div class="flex flex-nowrap mb-1">
+                  <p class="text-gray-300">{{ juego.categoria.join(", ") + "." }}</p>
                 </div>
-                <button
-                  @click="switchToBuy(juego._id)"
-                  class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out"
-                >
-                 Buy
-                </button>
+              </div>
+              <div class="mt-4 flex justify-between items-center">
+                <div >
+                  <p class="text-gray-300">{{ juego.precio }} SOL / {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+                </div>
+                <!--  
+                  <button @click="switchToBuy(juego._id)" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                  Buy
+                  </button>
+                  -->
+
               </div>
             </div>
           </div>
@@ -108,6 +100,17 @@ export default {
     return { juegos }; // Devuelve juegos
   },
   methods: {
+    async switchToDetails(gameid) {
+      try {
+        const juego = this.juegos.find((game) => game._id === gameid);
+        if (!juego) {
+          throw new Error("Juego no encontrado");
+        }
+        this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
