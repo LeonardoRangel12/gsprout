@@ -24,7 +24,7 @@
           <div class="p-4">
             <div style="height: 180px;">
               <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
-              <p class="text-gray-300 mb-4">{{ truncar(juego.descripcion) }}</p>
+              <p class="text-gray-300 mb-4 text-justify">{{ truncar(juego.descripcion) }}</p>
             </div>
             <div class="flex justify-between items-center">
               <div>
