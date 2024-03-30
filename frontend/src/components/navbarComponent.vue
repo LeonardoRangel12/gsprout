@@ -20,27 +20,32 @@
         >
           <li>
             <router-link class="hover:text-gray-200" to="/main"
-              >Inicio</router-link
+              >Main</router-link
             >
           </li>
           <li>
             <router-link class="hover:text-gray-200" to="/Store"
-              >Tienda</router-link
+              >Store</router-link
             >
           </li>
           <li>
             <router-link class="hover:text-gray-200" to="/auctions"
-              >Subastas</router-link
+              >Auctions</router-link
             >
           </li>
           <li>
             <router-link class="hover:text-gray-200" to="/mygames"
-              >Mis Juegos</router-link
+              >My games</router-link
             >
           </li>
           <li>
             <router-link class="hover:text-gray-200" to="/messenger"
-              >Mensajes</router-link
+                >Messages</router-link
+            >
+          </li>
+          <li>
+            <router-link class="hover:text-gray-200" to="/about"
+              >About</router-link
             >
           </li>
         </ul>
@@ -49,7 +54,7 @@
         <div class="hidden xl:flex items-center space-x-5 items-center">
           <wallet-multi-button></wallet-multi-button>
           <router-link to="/mygames">
-            <a class="hover:text-gray-200" href="#"> Publicar </a>
+            <a class="hover:text-gray-200" href="#"> Publish </a>
           </router-link>
           <router-link to="/WishList">
             <a class="hover:text-gray-200" href="#">
@@ -144,7 +149,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          Perfil
+          Profile
         </router-link>
         <button
           @click="logout"
@@ -162,7 +167,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          Cerrar Sesión
+          Log Out
         </button>
       </div>
     </div>

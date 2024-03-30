@@ -2,7 +2,7 @@
   <div class="bg-gray-900 text-white">
     <div class="container mx-auto py-12 relative" @mousemove="updatePosition">
       <section class="game-list-section">
-        <h2 class="text-3xl font-bold mb-6 text-center">Nuevos Juegos</h2>
+        <h2 class="text-3xl font-bold mb-6 text-center">New Games</h2>
         <div class="grid grid-cols-2 gap-6">
           <ul>
             <li v-for="(game, index) in newGames.slice(0,10)" :key="game._id" class="flex items-center justify-between py-4" @mouseenter="hoveredGame = game" @mouseleave="hoveredGame = null">
@@ -11,7 +11,7 @@
                 <div class="ml-4">
                   <h3 class="text-xl font-bold">{{ game.nombre }}</h3>
                   
-                  <span v-if="game.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Oferta</span>
+                  <span v-if="game.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Offert</span>
                 </div>
               </div>
               <div class="flex items-center">
@@ -33,7 +33,7 @@
                 <div class="ml-4">
                   <h3 class="text-xl font-bold">{{ game.nombre }}</h3>
                   
-                  <span v-if="game.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Oferta</span>
+                  <span v-if="game.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Offert</span>
                 </div>
               </div>
               <div class="flex items-center">
@@ -54,7 +54,7 @@
           <h3 class="text-xl font-bold">{{ hoveredGame.nombre }}</h3>
           <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2" style="max-height: 300px;">
           <p class="text-gray-300">{{ hoveredGame.descripcion }}</p>
-          <span v-if="hoveredGame.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Oferta</span>
+          <span v-if="hoveredGame.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Offert</span>
           <div class="text-right mt-2 ">
             <span class="text-gray-300 font-bold">{{ hoveredGame.precio }}</span>
             <span class="ml-1 text-gray-400 text-sm">SOL</span>

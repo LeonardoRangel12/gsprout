@@ -16,7 +16,7 @@
                 </span>
               </div>
               <div class="mt-6">
-                <h2 class="text-2xl font-bold mb-4 text-white" v-if="!showQR">Descripción</h2>
+                <h2 class="text-2xl font-bold mb-4 text-white" v-if="!showQR">Descriptión</h2>
                 <p class="text-white" v-if="!showQR">{{ juego.descripcion }}</p>
               </div>
                 <div class="flex flex-col items-center justify-between h-full" v-if="showQR">
@@ -28,7 +28,7 @@
                   {{ qrLoading ? "Generando..." : "Generar Orden de Pago Solana" }}
                 </button>
                 <button @click="handleVerifyClick" :disabled="qrLoading" class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
-                  Verificar Transacción
+                    Verify Transaction
                 </button>
               </div>
             </div>

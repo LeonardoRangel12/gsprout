@@ -16,10 +16,10 @@
             <h2
               class="text-4xl font-bold text-center text-gray-700 dark:text-white"
             >
-              Registro
+              Register
             </h2>
             <p class="mt-3 text-gray-500 dark:text-gray-300">
-              Ingresa tus datos para crear una cuenta
+              Enter your information to create an account
             </p>
           </div>
 
@@ -37,7 +37,7 @@
                 <label
                   for="username"
                   class="block mb-2 text-sm text-gray-600 dark:text-gray-200"
-                  >Usuario</label
+                  >Username</label
                 >
                 <input
                   type="text"
@@ -52,7 +52,7 @@
                 <label
                   for="email"
                   class="block mb-2 text-sm text-gray-600 dark:text-gray-200"
-                  >Correo</label
+                  >Email</label
                 >
                 <input
                   type="email"
@@ -68,7 +68,7 @@
                 <label
                   for="password"
                   class="block mb-2 text-sm text-gray-600 dark:text-gray-200"
-                  >Contraseña</label
+                  >Password</label
                 >
                 <input
                   type="password"
@@ -87,33 +87,33 @@
                   id="registerButton"
                   class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                 >
-                  Regístrate
+                  Regíster
                 </button>
               </div>
               <div v-if="errorMessages.length > 0 " class="block w-full px-4 py-2 mt-2 text-center text-red-600 bg-red-100">
                 <p v-for="error in errorMessages" :key="error">{{ error }}</p>
               </div>
               <div v-if="userRegistered" class="block w-full px-4 py-2 mt-2 text-green-600 bg-green-300 text-center">
-                <p>Usuario registrado con éxito</p>
-                <p>En unos momentos seras redireccionado al login</p>
+                <p>Successfully registered user</p>
+                <p>You will be redirected to the login page shortly</p>
                 <P>
                   <a 
                     href="#" 
                     class="font-bold focus: outline-none focus:underline hover:underline" 
                     @click="switchToLogin">
-                    ¡Acelera el proceso dando clic en este mensaje!
+                    Speed up the process by clicking on this message!
                   </a>
                   {{ switchToLoginWithTimer() }}
                 </P>
               </div>
             </form>
             <p class="mt-6 text-sm text-center text-gray-400">
-              ¿Ya tienes una cuenta?
+                Already have an account?
               <a
                 href="#"
                 class="text-blue-500 focus:outline-none focus:underline hover:underline"
                 @click="switchToLogin"
-                >Inicia sesión</a
+                >Log in</a
               >.
             </p>
           </div>

@@ -4,8 +4,18 @@
     <div class="p-8 rounded-md w-full">
       <div class="flex items-center justify-between pb-6">
         <div>
-          <h2 class="font-semibold">Tienda</h2>
-          <span class="text-xs">Todos los juegos disponibles</span>
+            <h2 class="font-semibold">Store</h2>
+            <span class="text-xs">All available games</span>
+        </div>
+        <div>
+          Filtrar juegos
+          <div>
+            <select class ="text-gray-300 bg-gray-800" v-model = "selected" @change="filterGamesByOption(selected)">
+              <option v-for="option in options" :value = "option.value">
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -21,13 +31,13 @@
                 <p class="text-gray-300 mb-2">{{ juego.precio }} SOL</p>
                 <p class="text-gray-300">{{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
               </div>
-              <button @click="switchToBuy(juego._id)" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Comprar</button>
+                <button @click="switchToBuy(juego._id)" class="px-3 py-1 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Buy</button>
             </div>
           </div>
         </div>
       </div>
       <div class="flex justify-center mt-6">
-        <button @click="cargarMas" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Cargar más</button>
+        <button @click="loadMore" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
       </div>
     </div>
     <Footer />
@@ -46,15 +56,30 @@ export default {
     Navbar,
     Footer
   },
+  setup(){
+    const selected = ref('Alphabetical');
+    const options = ref([
+      {text: "A-Z", value:"Alphabetical"},
+      //{text: "Juegos Destacados", value:"RelevantGames"},
+      {text: "De Mayor a menor precio", value:"UpToDownPrize"},
+      {text: "De Menor a mayor precio", value:"DownToUpPrize"}
+    ])
+    return{
+      selected,
+      options
+    }
+  },
   data() {
     return {
       juegos: [],
       SOL_TO_USD_RATE: 50,
-      currentPage: 1
+      currentPage: 1,
+
     };
   },
   async created() {
     await this.loadJuegos();
+    this.filterGamesByOption(this.selected);
   },
   methods: {
     async loadJuegos() {
@@ -69,11 +94,25 @@ export default {
     switchToBuy(gameid) {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
+    filterGamesByOption(option){
+      switch(option){
+        case 'Alphabetical':
+          this.juegos.sort((a,b)=>a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
+          break;
+        case 'UpToDownPrize':
+            this.juegos.sort((a,b)=> b.precio - a.precio);
+          break;
+        case 'DownToUpPrize':
+            this.juegos.sort((a,b)=> a.precio - b.precio);
+          break;
+      }
+    },
     truncar(text, maxLength = 240) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
     async cargarMas() {
       await this.loadJuegos();
+      this.filterGamesByOption(this.selected);
     }
   }
 };

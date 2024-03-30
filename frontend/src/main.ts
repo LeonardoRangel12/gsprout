@@ -17,6 +17,7 @@ import AssetsComponentVue from "./components/AssetsComponent.vue";
 import GameDetailsComponentVue from "./components/GameDetailsComponent.vue";
 import DiscordComponentVue from "./components/DiscordComponent.vue";
 import Messenger from "./components/MessengerComponent.vue";
+import About from "./components/AboutComponent.vue";
 
 import "vue-connect-wallet/dist/style.css"
 let baseURL: string = "";
@@ -51,6 +52,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/game/:gameId", component: GameDetailsComponentVue },
   { path: "/discord", component: DiscordComponentVue },
   { path: "/messenger", component: Messenger },
+  { path: "/about", component: About },
 
   
 ];

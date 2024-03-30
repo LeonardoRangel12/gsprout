@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-900 text-white">
     <Navbar />
     <div class="container mx-auto p-6">
-      <h1 class="text-3xl font-bold mb-6">Biblioteca</h1>
+      <h1 class="text-3xl font-bold mb-6">Library</h1>
       <div v-if="isLoading" class="text-center text-gray-400 mb-4">Loading...</div>
       <div v-if="error" class="text-center text-red-600 mb-4">{{ error }}</div>
       <div v-else>

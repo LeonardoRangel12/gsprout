@@ -41,7 +41,7 @@
                       <div div class="flex flex-nowrap mb-1">
                         <h2 class="text-base font-bold text-white">{{ categoria }}</h2>
                       </div>
-                      <h2 class="text-2xl font-bold mb-4 text-white">Descripcion</h2>
+                      <h2 class="text-2xl font-bold mb-4 text-white">Description</h2>
                       <div>
                         <p class="text-gray-400">{{ description }}</p>
                       </div>
@@ -51,7 +51,7 @@
                         Prestar
                       </button>
                       <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
-                        Comprar
+                        Buy
                       </button>
                     </div>
                   </div>

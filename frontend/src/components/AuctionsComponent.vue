@@ -4,8 +4,8 @@
     <div class="p-8 rounded-md w-full">
       <div class="flex items-center justify-between pb-6">
         <div>
-          <h2 class="font-semibold">Juegos en Subasta</h2>
-          <span class="text-xs">Todos los juegos disponibles</span>
+          <h2 class="font-semibold">Auctions</h2>
+          <span class="text-xs">All the games available</span>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -26,8 +26,8 @@
                 <p class="text-gray-300">{{ juego.remainingTime }}</p>
               </div>
               <div>
-                <span v-if="juego.activo" class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Activo</span>
-                <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactivo</span>
+                <span v-if="juego.activo" class="px-3 py-1 font-semibold text-green-900 bg-green-200 rounded-full">Active</span>
+                <span v-else class="px-3 py-1 font-semibold text-red-900 bg-red-200 rounded-full">Inactive</span>
               </div>
             </div>
           </div>
