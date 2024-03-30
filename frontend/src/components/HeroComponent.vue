@@ -32,14 +32,14 @@
 import { ref, onMounted } from 'vue';
 
 const username = ref(''); // Inicializamos el nombre de usuario como una referencia reactiva
-const actions = ["Compra", "Subasta", "Vende", "Presta", "Renta", "Cambia"];
+const actions = ["Buy", "Sell", "Trade", "Bid", "Rent"];
 const dynamicPhrase = ref('');
 
 onMounted(() => {
   // Cambiar la frase cada segundo
   setInterval(() => {
     const action = actions[Math.floor(Math.random() * actions.length)];
-    dynamicPhrase.value = `${action} juegos`;
+    dynamicPhrase.value = `${action} games`;
   }, 1000);
 });
 </script>
