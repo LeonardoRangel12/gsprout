@@ -22,7 +22,7 @@
         <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" @click="switchToDetails(juego._id)">
           <img class="w-full h-56 object-cover object-center" :src="juego.imagen" :alt="juego.nombre" />
           <div class="p-4">
-            <div style="height: 230px;">
+            <div style="height: 250px;">
               <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
               <div div class="flex flex-nowrap mb-3">
                   <p class="text-gray-300 font-semibold">{{ juego.categoria.join(", ") + "." }}</p>
