@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="flex justify-center mt-6">
-        <button @click="cargarMas" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
+        <button @click="loadJuegos" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
       </div>
     </div>
     <Footer />
