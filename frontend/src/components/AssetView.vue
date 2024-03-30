@@ -73,7 +73,7 @@ import backendAxios from "../main";
 import axios from "axios";
 import { encode, decode } from "base64-arraybuffer";
 import { useWallet } from "solana-wallets-vue";
-import { Transaction } from "@solana/web3.js";
+import { VersionedTransaction } from "@solana/web3.js";
 import { connection } from "../main";
 export default {
   components: {
@@ -135,9 +135,11 @@ export default {
         publicKey: publicKey.value,
       });
       if(res.status === 200){
-        const transaction = res.data;
-        console.log(transaction);
-        const signature=  await sendTransaction(transaction, connection);
+        console.log(res);
+        const serializedTransaction = res.data;
+        const transaction = VersionedTransaction.deserialize(Buffer.from(serializedTransaction, "base64"));
+        
+        const signature =  await sendTransaction(transaction, connection);
 
         await connection.confirmTransaction(signature);
       }
