@@ -7,6 +7,16 @@
           <h2 class="font-semibold">Tienda</h2>
           <span class="text-xs">Todos los juegos disponibles</span>
         </div>
+        <div>
+          Filtrar juegos
+          <div>
+            <select class ="text-gray-300 bg-gray-800" v-model = "selected" @change="filterGamesByOption(selected)">
+              <option v-for="option in options" :value = "option.value">
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
@@ -46,15 +56,31 @@ export default {
     Navbar,
     Footer
   },
+  setup(){
+    const selected = ref('Alphabetical');
+    const options = ref([
+      {text: "A-Z", value:"Alphabetical"},
+      //{text: "Juegos Destacados", value:"RelevantGames"},
+      {text: "De Mayor a menor precio", value:"UpToDownPrize"},
+      {text: "De Menor a mayor precio", value:"DownToUpPrize"}
+    ])
+    return{
+      selected,
+      options
+    }
+  },
   data() {
     return {
       juegos: [],
+      filteredGames: [],
       SOL_TO_USD_RATE: 50,
-      currentPage: 1
+      currentPage: 1,
+
     };
   },
   async created() {
     await this.loadJuegos();
+    this.filterGamesByOption(this.selected);
   },
   methods: {
     async loadJuegos() {
@@ -69,11 +95,34 @@ export default {
     switchToBuy(gameid) {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
+    filterGamesByOption(option){
+      console.log(this.juegos[0].nombre);
+      const length = this.juegos.length;
+      let aux = "";
+      switch(option){
+        case 'Alphabetical':
+          console.log(this.juegos);
+          this.juegos.sort((a,b)=>a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
+          console.log(this.juegos);
+          break;
+        case 'UpToDownPrize':
+            console.log(this.juegos);
+            this.juegos.sort((a,b)=> b.precio - a.precio);
+            console.log(this.juegos);
+          break;
+        case 'DownToUpPrize':
+            console.log(this.juegos);
+            this.juegos.sort((a,b)=> a.precio - b.precio);
+            console.log(this.juegos);
+          break;
+      }
+    },
     truncar(text, maxLength = 240) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
     async cargarMas() {
       await this.loadJuegos();
+      this.filterGamesByOption(this.selected);
     }
   }
 };
