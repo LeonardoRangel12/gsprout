@@ -13,7 +13,7 @@ async function getUsuario() {
 async function getExchange() {
     try{
         const res = await axios.get("/exchange");
-        return res.data.sell;
+        return res.data.buy;
       } catch (error) {
         console.error(error);
       }
@@ -33,9 +33,9 @@ async function getExchange() {
       }
     };
     // Obtiene un array con todos los juegos
-  async function getJuegos() {
+  async function getJuegos(page = 1) {
       try {
-        const res = await axios.get("/juegos");
+        const res = await axios.get("/juegos", { params: { page } });
         return res.data;
       } catch (error) {
         console.error(error);
