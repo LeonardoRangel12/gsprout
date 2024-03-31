@@ -9,7 +9,7 @@
         <div v-if="assets && assets.length === 0" class="text-center text-gray-400 mb-4">No assets available.</div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <div v-for="asset in assets" :key="asset.grouping.id">
-            <div class="bg-gray-800 rounded shadow">
+            <div class="bg-gray-900 rounded shadow">
               <div class="aspect-w-16 aspect-h-9">
                 <AssetComponent :asset="asset" class="object-cover" />
               </div>
