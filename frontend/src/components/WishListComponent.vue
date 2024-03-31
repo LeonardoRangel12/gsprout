@@ -48,7 +48,7 @@
               </div>
               <div class="mt-4 flex justify-between items-center">
                 <div >
-                  <p class="text-gray-300">{{ juego.precio }} SOL / {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+                  <p class="text-gray-300">{{ juego.precio }} USD / {{ (juego.precio / SOL_TO_USD_RATE).toFixed(2) }} SOL</p>
                 </div>
                 <!--  
                   <button @click="switchToBuy(juego._id)" class="px-4 py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">

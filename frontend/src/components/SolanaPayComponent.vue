@@ -52,6 +52,9 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import { WalletNotInitializedError, useWallet } from "solana-wallets-vue";
 import { createTransfer, parseURL } from "@solana/pay";
+import { getJuego, getExchange } from "../apis";
+import {ref} from 'vue';
+import { useRoute } from "vue-router";
 export default {
   components: {
     Navbar,
@@ -68,9 +71,19 @@ export default {
       showQR: false,
     };
   },
-  async created() {
-    await this.getExchange();
-    await this.getJuegos();
+  async setup(){
+    const juego = ref({});
+    const SOL_TO_USD_RATE = ref(50);
+    const route = useRoute();
+    await Promise.all([getJuego(route.query.id), getExchange()])
+      .then((values) => {
+        juego.value = values[0];
+        SOL_TO_USD_RATE.value = values[1];
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return { juego, SOL_TO_USD_RATE, price: juego.value.precio};
   },
   methods: {
     async getJuegos() {

@@ -15,8 +15,8 @@ router.get(
   mintNFT
 );
 
-router.get("/wallet/:publicKey/:page([1-9]+)", upload.none(), fetchNFTs);
-router.get("/wallet/:publicKey", upload.none(), fetchNFT);
+router.get("/wallet/:publicKey/:page([1-9]+)", upload.none(), fetchNFTs, handleCache);
+router.get("/wallet/:publicKey", upload.none(), fetchNFT, handleCache);
 
 // POST
 router.post("/pay/:id", upload.none(), solanaPay.generatePayment);
