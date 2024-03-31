@@ -128,6 +128,26 @@ const formData = ref({
   publicKey: "",
 });
 
+const validateForm = () => {
+  if (!formData.value.username) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Por favor, introduce tu nombre de usuario.',
+    });
+    return false;
+  }
+  if (!formData.value.password) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Por favor, introduce tu contraseña.',
+    });
+    return false;
+  }
+  return true;
+};
+
 const getUser = async () => {
   try {
     const res = await axios.post("/usuarios/login", {
@@ -142,12 +162,22 @@ const getUser = async () => {
 };
 
 const login = async () => {
+  if (!validateForm()) return;
+
   const res = await getUser();
-  if (res.status === 401 || res.status === 404){
+  if (res.status === 401) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: 'Usuario y/o contraseña incorrectos. Por favor, inténtalo de nuevo.',
+      text: 'Nombre de usuario incorrecto. Por favor, inténtalo de nuevo.',
+    });
+    return;
+  }
+  if (res.status === 404) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Contraseña incorrecta. Por favor, inténtalo de nuevo.',
     });
     return;
   }
@@ -161,6 +191,7 @@ const switchToRegister = () => {
   router.push("/register");
 };
 </script>
+
 
 <style>
 .border-blue-400 {
