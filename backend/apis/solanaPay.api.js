@@ -3,6 +3,7 @@ const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
 const { encodeURL, validateTransfer, findReference } = require("@solana/pay");
 const BigNumber = require("bignumber.js");
 const { CONNECTION } = require("./umi.api.js");
+const { getExchange } = require("../utils/exchange.util.js");
 // CONSTANTS
 const destinyWallet = process.env.WALLET;
 const recipient = new PublicKey(destinyWallet);
@@ -18,9 +19,9 @@ const connection = CONNECTION;
 // const privateKeyBytes = base58.decode(privateKey);
 // const keypair = Keypair.fromSecretKey(privateKeyBytes);
 // const publicKey = "9m5TqpsHkPmTYz5aRraLd1ntTtAaLuWuXcMCsRpuvjg8"
+// const metaplexUtil = require("../utils/metaplex.util.js");
 
 const generatePayment = async (req, res) => {
-
   /*
   This function will generate a payment request for the user
   Will use the juego id to get the juego and the price
@@ -31,18 +32,19 @@ const generatePayment = async (req, res) => {
   if (!juego) {
     return res.status(404).send("Juego not found");
   }
-  const amount = new BigNumber(juego.precio);
+  const exchange = await getExchange();
+  const amount = new BigNumber((juego.precio / exchange.buy).toFixed(9));
   const message = juego.nombre;
   const reference = new Keypair().publicKey;
   const memo = reference.toBase58();
   try {
     const urlData = await generateUrl(
       recipient,
-      amount,
       reference,
       label,
       message,
-      memo
+      memo,
+      amount
     );
     const ref = reference.toBase58();
     paymentRequests.set(ref, {
@@ -77,7 +79,7 @@ const verifyPayment = async (req, res, next) => {
     res.locals.juego = paymentRequests.get(reference).juego;
     const response = await verifyTransaction(referencePublicKey);
     if (response) {
-      res.locals.buyerKey = response.transaction.message.accountKeys[0]
+      res.locals.buyerKey = response.transaction.message.accountKeys[0];
       res.send("Payment verified").status(200);
       next();
     } else {
@@ -89,8 +91,9 @@ const verifyPayment = async (req, res, next) => {
   }
 };
 
-async function generateUrl(recipient, amount, reference, label, message, memo) {
-  const url = encodeURL({
+async function generateUrl(recipient, reference, label, message, memo, amount) {
+  let url;
+  url = encodeURL({
     recipient,
     amount,
     reference,
@@ -98,9 +101,9 @@ async function generateUrl(recipient, amount, reference, label, message, memo) {
     message,
     memo,
   });
+
   return { url };
 }
-
 const verifyTransaction = async (reference) => {
   /*
   This function will verify the transaction

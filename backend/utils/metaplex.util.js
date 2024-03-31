@@ -3,6 +3,7 @@ const {
   createSignerFromKeypair,
   createGenericFile,
   publicKey,
+  transactionBuilder,
 } = require("@metaplex-foundation/umi");
 const {
   createTree,
@@ -14,10 +15,15 @@ const {
   parseLeafFromMintV1Transaction,
   delegate,
   verifyCreator,
+  redeem,
+  decompressV1,
+  findVoucherPda,
 } = require("@metaplex-foundation/mpl-bubblegum");
 // Setting up the merkle tree
 const { umi, WALLET, MERKLETREE_SIGNER } = require("../apis/umi.api");
-
+const {
+  toWeb3JsTransaction,
+} = require("@metaplex-foundation/umi-web3js-adapters");
 const uploadMetadata = async (data) => {
   /*
     This function will receive the metadata of the game and will upload it to the blockchain
@@ -41,7 +47,7 @@ const uploadImage = async (imageBuffer) => {
   return imageUri[0];
 };
 
-const mintNFT = async (data) => {
+const mintNFT = async (data, owner = WALLET.publicKey) => {
   /*
     This function will mint an NFT
     The function will receive the json object with the metadata of the game and the image
@@ -54,11 +60,12 @@ const mintNFT = async (data) => {
     { address: umi.identity.publicKey, verified: false, share: 100 },
   ];
   const nft = await mintV1(umi, {
-    leafOwner: WALLET.publicKey,
-    leafDelegate: WALLET.publicKey,
+    leafOwner: publicKey(owner),
+    leafDelegate: publicKey(owner),
     merkleTree: MERKLETREE_SIGNER,
     metadata,
   }).sendAndConfirm(umi, { confirm: { commitment: "finalized" } });
+
   return nft;
 };
 
@@ -74,7 +81,7 @@ const mintNFT = async (data) => {
 //   });
 // };
 
-const transferNFT = async (
+const transferNFTWithSignature = async (
   signature,
   toOwner,
   fromOwner = publicKey(WALLET.publicKey)
@@ -97,7 +104,6 @@ const transferNFT = async (
         merkleTree: MERKLETREE_SIGNER,
         leafIndex: leaf.nonce,
       });
-
       return pda;
     } catch (e) {
       console.log(e);
@@ -105,14 +111,16 @@ const transferNFT = async (
   };
 
   const [assetId, bump] = await getNFTPublicKey(signature);
+  if (!assetId) {
+    return;
+  }
   const assetWithProof = await getAssetWithProof(umi, assetId);
-
   await transfer(umi, {
     ...assetWithProof,
     leafOwner: fromOwner,
     newLeafOwner: toOwner,
   }).sendAndConfirm(umi, { confirm: { commitment: "finalized" } });
-
+  console.log("TRANSFERRED");
   // await delegateNFT(assetId, toOwner);
 };
 
@@ -141,8 +149,12 @@ const fetchNFT = async (publicKey) => {
     This function will receive the public key of the wallet and will return the NFTs of the wallet
     publicKey: public key of the wallet
   */
-  const nft = await umi.rpc.getAsset(publicKey);
-  return nft;
+  try {
+    const nft = await umi.rpc.getAsset(publicKey);
+    return nft;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const fetchNFTs = async (pk, page = 1) => {
@@ -161,6 +173,82 @@ const fetchNFTs = async (pk, page = 1) => {
   return nfts;
 };
 
+const redeemNFT = async (assetId) => {
+  /*
+    This function will redeem the NFT
+    assetId: id of the NFT
+    */
+  const assetWithProof = await getAssetWithProof(umi, assetId);
+
+  const transactionBuilder = redeem(umi, assetWithProof);
+
+  return transactionBuilder;
+};
+
+const decompressNFT = async (owner, assetId) => {
+  /*
+    This function will decompress the NFT
+    assetId: id of the NFT
+    */
+  const assetWithProof = await getAssetWithProof(umi, assetId);
+  const transactionBuilder = decompressV1(umi, {
+    ...assetWithProof,
+    leafOwner: publicKey(owner),
+    mint: assetId,
+    voucher: findVoucherPda(umi, assetWithProof),
+  });
+  return transactionBuilder;
+};
+
+const transferNFTWithPublicKey = async (
+  owner,
+  assetPK,
+  toOwner = WALLET.publicKey
+) => {
+  /*
+    This function will transfer the NFT to the new owner
+    owner: public key of the current owner
+    assetPK: public key of the NFT
+    toOwner: public key of the new owner
+    */
+  const assetWithProof = await getAssetWithProof(umi, assetPK);
+  const transactionBuilder = transfer(umi, {
+    ...assetWithProof,
+    leafOwner: publicKey(owner),
+    newLeafOwner: publicKey(toOwner),
+  });
+  return transactionBuilder;
+};
+
+const createTransaction = async (...transactions) => {
+  /*
+    This function will create a transaction and transform it to web3 transaction
+    instructions: array of instructions
+    */
+   let transactionBui = transactionBuilder();
+  for (let transaction of transactions) {
+    transactionBui = transactionBui.add(transaction);
+  }
+
+  const transaction = await transactionBui.buildAndSign(umi);
+  const web3Transaction = toWeb3JsTransaction(transaction);
+  return web3Transaction;
+};
+const serializeTransaction = async (transaction) => {
+  /*
+    This function will serialize the transaction
+    transaction: transaction to serialize
+    */
+   try{
+    const base = await transaction.serialize();
+    const buffer = Buffer.from(base).toString("base64");
+    return buffer;
+
+   }
+    catch(e){
+      console.log(e);
+    }
+};
 ///////////////////////////////////////////////////////////////////
 // ONE USE ONLY
 // WHEN CREATING THE MERKLE TREE
@@ -196,8 +284,12 @@ module.exports = {
   delegateNFT,
   // createCollection,
   mintNFT,
-  transferNFT,
+  transferNFTWithSignature,
   fetchNFT,
-
   fetchNFTs,
+  transferNFTWithPublicKey,
+  serializeTransaction,
+  redeemNFT,
+  decompressNFT,
+  createTransaction,
 };

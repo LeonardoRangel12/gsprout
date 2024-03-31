@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const solanaPay = require("../apis/solanaPay.api.js");
-const { mintNFT, fetchNFTs, fetchNFT } = require("../controllers/nft.controller.js");
+const { mintNFT, fetchNFTs, fetchNFT, generateTransferTransaction } = require("../controllers/nft.controller.js");
 const { generateLicense } = require("../middleware/license.middleware.js");
 const multer = require("multer");
 const { handleCache } = require("../middleware/redis.middleware.js");
@@ -20,4 +20,5 @@ router.get("/wallet/:publicKey", upload.none(), handleCache, fetchNFT, handleCac
 
 // POST
 router.post("/pay/:id", upload.none(), solanaPay.generatePayment);
+router.post("/transfer", upload.none(), generateTransferTransaction);
 module.exports = router;

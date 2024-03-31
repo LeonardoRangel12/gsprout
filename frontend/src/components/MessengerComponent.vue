@@ -102,6 +102,7 @@ import Swal from "sweetalert2"; // Importa SweetAlert
               message.from = "Tú";
             }
           }
+          // Los mensajes se muestran en orden inverso
           this.messages = res.data.reverse();
         } else {
           // Error al cargar los mensajes

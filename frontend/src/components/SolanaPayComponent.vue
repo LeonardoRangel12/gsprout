@@ -12,7 +12,7 @@
               <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-white">{{ juego.nombre }}</h2>
               <div class="flex justify-between items-center mt-4">
                 <span class="text-lg sm:text-xl font-bold text-white">
-                  {{ price }} SOL&#8779;${{(SOL_TO_USD_RATE * price).toFixed(2)}}USDT
+                  {{ price }} USDT&#8779;${{(price / SOL_TO_USD_RATE).toFixed(9)}} SOL
                 </span>
               </div>
               <div class="mt-6">
@@ -52,13 +52,6 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import { WalletNotInitializedError, useWallet } from "solana-wallets-vue";
 import { createTransfer, parseURL } from "@solana/pay";
-import {
-  SystemProgram,
-  Transaction,
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  TransactionInstruction,
-} from "@solana/web3.js";
 export default {
   components: {
     Navbar,
@@ -100,7 +93,7 @@ export default {
         const res = await axios.post(
           "/solana/pay/" + this.$router.currentRoute.value.query.id,
           {
-            amount: this.price,
+            amount: this.price / this.SOL_TO_USD_RATE,
             currency: "SOL",
             description: "Test Payment",
           }

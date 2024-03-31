@@ -29,9 +29,9 @@
                       <button @click="transferNFT()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Prestar
                       </button>
-                      <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
+                      <!-- <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Buy
-                      </button>
+                      </button> -->
                     </div>
                   </div>
                 </div>
@@ -74,7 +74,6 @@ export default {
   mounted() {
     backendAxios.get("/solana/wallet/" + this.publicKey).then((response) => {
       this.data = response.data;
-      console.log(this.data);
       const bufferUrl = this.data.content.links.image[0];
       const jsonUrl = this.data.content.json_uri;
       this.getAssetData(bufferUrl);
@@ -114,7 +113,6 @@ export default {
         publicKey: publicKey.value,
       });
       if(res.status === 200){
-        console.log(res);
         const serializedTransaction = res.data;
         const transaction = VersionedTransaction.deserialize(Buffer.from(serializedTransaction, "base64"));
         

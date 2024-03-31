@@ -136,7 +136,7 @@ export default {
         if (!juego) {
           throw new Error("Juego no encontrado");
         }
-        this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
+        this.$router.push(`/solanaPay?id=${juego._id}&price=${(juego.precio / this.SOL_TO_USD_RATE).toFixed(2)}`);
       } catch (error) {
         console.error(error);
       }

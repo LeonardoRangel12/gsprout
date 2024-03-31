@@ -1,8 +1,8 @@
 const randexpUtil = require("../utils/randexp.util");
 
-const generateLicense = async function (juego) {
+const generateLicense = async function (regex) {
     // Generate the license
-  const license = await randexpUtil.generateLicense(juego.regexLicense);
+  const license = await randexpUtil.generateLicense(regex);
   return license;
 };
 
