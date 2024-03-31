@@ -22,7 +22,7 @@
                   <span class="text-blue-500 font-bold">{{ (game.precio / SOL_TO_USD_RATE).toFixed(9) }}</span>
                   <span class="text-gray-400 text-sm">SOL</span>
                 </div>
-                <button type="submit" @click="switchToBuy(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
+                <button type="submit" @click="switchToDetails(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
               </div>
             </li>
           </ul>
@@ -44,7 +44,7 @@
                   <span class="text-blue-500 font-bold">{{ (game.precio / SOL_TO_USD_RATE).toFixed(9) }}</span>
                   <span class="text-gray-400 text-sm">SOL</span>
                 </div>
-                <button type="submit" @click="switchToBuy(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
+                <button type="submit" @click="switchToDetails(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
               </div>
             </li>
           </ul>
