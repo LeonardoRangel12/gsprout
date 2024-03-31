@@ -3,6 +3,7 @@ const juegoSchema = require("../models/juego.model");
 const searchJuegosSchema = require("../models/searchJuegos.model");
 const juegoService = require("../services/juego.service");
 const cryptojsUtil = require("../utils/cryptojs.util");
+const { func } = require("joi");
 
 // Para redis
 const juegoSalt = "juego";
@@ -53,10 +54,22 @@ const createSeveralJuegos = async (req, res, next) => {
   next();
 };
 
+function convertPageNumber(page_number) {
+  if (page_number && parseInt(page_number) > 0 && !isNaN(parseInt(page_number))) {
+    return page_number;
+  }
+  else {
+    return 1;
+  }
+}
+
 const getJuegos = async (req, res, next) => {
   try {
-    let {page} = req.query || 1;     
-    const juegos = await juegoService.getJuegos(page);
+    const page_number = convertPageNumber(req.query.page);     
+
+    const sorting_type = req.query.sorting_type || "peak_ccu";
+
+    const juegos = await juegoService.getJuegos(page_number, sorting_type);
 
     //Probably going to be changed....
     req.toCache = juegos;
@@ -105,11 +118,11 @@ const searchJuegos = async (req, res) => {
       return res.status(400).send("Invalid price range");
     }
     //check for query param page_number
-    let page_number = 1;     
-    if (req.query.page_number && parseInt(req.query.page_number) > 0 && !isNaN(parseInt(req.query.page_number))) {
-      page_number = req.query.page_number;
-    }
-    const juegos = await juegoService.searchJuegos(searchParams, page_number);
+    const page_number = convertPageNumber(req.query.page);     
+
+    const sorting_type = req.query.sorting_type || "peak_ccu";
+
+    const juegos = await juegoService.searchJuegos(searchParams, page_number, sorting_type);
     return res.status(200).send(juegos);
   }catch(error){
     console.log(error);

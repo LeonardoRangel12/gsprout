@@ -94,7 +94,32 @@ async function createJuego(data) {
   return result;
 }
 
-async function getJuegos(pageNumber) {
+function defineSortingObject(sortingType) {
+  let sortingObject =  {};
+
+  switch (sortingType) {
+    case "alphabetic":
+      sortingObject = { nombre: 1, peak_ccu: -1 }
+      break
+    case "priceAsc": 
+      sortingObject = { precio: 1, peak_ccu: -1 }
+      break;
+    case "priceDesc": 
+      sortingObject = { precio: -1, peak_ccu: -1 }
+      break;
+    case "default": 
+      sortingObject = {default: true}
+      break;  
+    default:
+      console.log("Sorting by peak_ccu")
+      sortingObject = { peak_ccu: -1 }
+      break;
+  }
+
+  return sortingObject;
+}
+
+async function getJuegos(pageNumber, sortingType) {
   const PAGE_SIZE = 20;
   const GAMES_COLLECTION = dbCon.collection("games");
   const total_games = await GAMES_COLLECTION.countDocuments();
@@ -104,9 +129,12 @@ async function getJuegos(pageNumber) {
     return [];
   }
 
+  const sortingObject = defineSortingObject(sortingType);
+
   const SKIP_AMOUNT = (pageNumber - 1) * PAGE_SIZE;
 
   return await GAMES_COLLECTION.find()
+    .sort(sortingObject)
     .skip(SKIP_AMOUNT)
     .limit(PAGE_SIZE)
     .toArray();
@@ -147,6 +175,7 @@ async function autocompleteJuegosSearch(queryString) {
   const result = await dbCon.collection("games").aggregate(query).toArray();
   return result;
 }
+
 async function getJuegosInArray(array) {
   const result = await dbCon
     .collection("games")
@@ -156,16 +185,22 @@ async function getJuegosInArray(array) {
   return result;
 }
 
-async function searchJuegos(searchParams, page_number) {
+async function searchJuegos(searchParams, page_number, sortingType) {
   let { queryString, minPrice, maxPrice, categoriesToFilter } = searchParams;
+  console.log("page_number", page_number, "sortingType", sortingType)
+  console.log("queryStr", queryString, "minPrice", minPrice, "maxPrice", maxPrice, "categoriesToFilter", categoriesToFilter)
   const query = [];
+
+  const sortingObject = defineSortingObject(sortingType);
+
   if (queryString && queryString.length > 0) {
+    console.log("Searching by query string")
     query.push({
       $search: {
         index: "juegosSearch",
         text: {
           query: queryString,
-          path: ["nombre", "descripcion", "categoria"]
+          path: ["nombre", "descripcion", "descripcion_corta", "categoria"]
           // fuzzy: {
           //   maxEdits: 2,
           // },
@@ -212,6 +247,10 @@ async function searchJuegos(searchParams, page_number) {
     });
   }
 
+  if (!sortingObject.default === true) {
+    query.push({$sort: sortingObject});
+  }
+
   query.push({
     $skip: (page_number-1)*20
   });
@@ -222,7 +261,8 @@ async function searchJuegos(searchParams, page_number) {
   try{
     return await dbCon.collection("games").aggregate(query).toArray();
   }
-  catch{
+  catch (err){
+    console.log("Error in searchJuegos:", err)
     return [];
   }
 }
