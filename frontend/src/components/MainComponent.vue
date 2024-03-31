@@ -58,7 +58,7 @@
               </div>
               <div class="mt-4 flex justify-between items-center">
                 <div >
-                  <p class="text-gray-300">{{ juego.precio }} SOL / {{ (juego.precio * SOL_TO_USD_RATE).toFixed(2) }} USD</p>
+                  <p class="text-gray-300">{{ (juego.precio).toFixed(2) }} USD / {{ (juego.precio / SOL_TO_USD_RATE).toFixed(9) }} USD</p>
                 </div>
               </div>
             </div>
