@@ -5,6 +5,7 @@ async function createJuego(data) {
 }
 
 async function getJuegos(page_number){
+    console.log("page_number", page_number);
     return await db.getJuegos(page_number);
 }
 async function getJuegoById(id){
