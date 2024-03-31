@@ -55,9 +55,6 @@
 
         <div class="hidden xl:flex items-center space-x-5 items-center">
           <wallet-multi-button></wallet-multi-button>
-          <router-link to="/mygames">
-            <a class="hover:text-gray-200" href="#"> Publish </a>
-          </router-link>
           <router-link to="/WishList">
             <a class="hover:text-gray-200" href="#">
               <svg
