@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="flex justify-center mt-6">
-        <button @click="loadJuegos" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
+        <button @click="loadJuegos()" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
       </div>
     </div>
     <Footer />
@@ -52,26 +52,12 @@
 import { ref } from 'vue';
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
-import { getExchange, getWishList, getJuegos } from "../apis";
-import axios from "../main";
+import { getExchange, getJuegos } from "../apis";
 
 export default {
   components: {
     Navbar,
     Footer
-  },
-  setup(){
-    const selected = ref('Alphabetical');
-    const options = ref([
-      {text: "A-Z", value:"Alphabetical"},
-      //{text: "Juegos Destacados", value:"RelevantGames"},
-      {text: "De Mayor a menor precio", value:"UpToDownPrize"},
-      {text: "De Menor a mayor precio", value:"DownToUpPrize"}
-    ])
-    return{
-      selected,
-      options
-    }
   },
   data() {
     return {
@@ -81,19 +67,42 @@ export default {
 
     };
   },
+  async setup(){
+    const juegos = ref([]);
+    const SOL_TO_USD_RATE = ref(50);
+
+    await Promise.all([getJuegos(), getExchange()])
+      .then((values) => {
+        juegos.value = values[0];
+        SOL_TO_USD_RATE.value = values[1];
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    const selected = ref('Alphabetical');
+    const options = ref([
+      {text: "A-Z", value:"Alphabetical"},
+      //{text: "Juegos Destacados", value:"RelevantGames"},
+      {text: "De Mayor a menor precio", value:"UpToDownPrize"},
+      {text: "De Menor a mayor precio", value:"DownToUpPrize"}
+    ])
+    return{
+      selected,
+      options,
+      juegos,
+      SOL_TO_USD_RATE
+    }
+  },
+
   async created() {
-    await this.loadJuegos();
+    // await this.loadJuegos();
     this.filterGamesByOption(this.selected);
   },
   methods: {
     async loadJuegos() {
-      const res = await axios.get("/juegos", { params: { page: this.currentPage } });
-      if (res.status === 200) {
-        this.juegos = this.juegos.concat(res.data);
-        this.currentPage++;
-      } else {
-        console.error("Error al cargar los juegos");
-      }
+      const res = await getJuegos(this.currentPage++);
+      this.juegos = this.juegos.concat(res);
     },
     switchToBuy(gameid) {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
@@ -125,10 +134,6 @@ export default {
     truncar(text, maxLength = 240) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
-    async cargarMas() {
-      await this.loadJuegos();
-      this.filterGamesByOption(this.selected);
-    }
   }
 };
 </script>
