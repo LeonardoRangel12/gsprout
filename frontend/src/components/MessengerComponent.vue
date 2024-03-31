@@ -95,6 +95,7 @@ export default {
     async selectUser(user) {
       this.selectedUser = user;
       this.messages = []; // Limpiar mensajes al cambiar de chat
+      this.currentPage = 0;
       if(this.users.indexOf(user) === -1){
         this.users.unshift(user);
       }
