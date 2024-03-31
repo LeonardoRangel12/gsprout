@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-900 text-white">
+  <div class="bg-gray-950 text-white">
     <div class="container mx-auto py-12 relative" @mousemove="updatePosition">
       <section class="game-list-section">
         <h2 class="text-3xl font-bold mb-6 text-center">New Games</h2>
@@ -50,7 +50,7 @@
           </ul>
         </div>
         <!-- Tarjeta de información del juego -->
-        <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="bg-gray-800 absolute p-4 rounded-lg shadow-lg" style="width: 600px;">
+        <div v-if="hoveredGame" :style="{ top: cardPosition.y + 'px', left: cardPosition.x + 'px' }" class="bg-gray-900 absolute p-4 rounded-lg shadow-lg" style="width: 600px;">
           <h3 class="text-xl font-bold">{{ hoveredGame.nombre }}</h3>
           <img :src="hoveredGame.imagen" :alt="hoveredGame.nombre" class="w-full h-auto rounded-lg mt-2" style="max-height: 300px;">
           <p class="text-gray-300 text-justify">{{ truncar(hoveredGame.descripcion) }}</p>

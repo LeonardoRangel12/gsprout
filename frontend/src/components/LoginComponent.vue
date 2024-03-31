@@ -116,28 +116,17 @@ import axios from "../main";
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const { connected, disconnect, publicKey } = useWallet();
 disconnect();
 
 const router = useRouter(); // Obtener el enrutador de Vue
-// console.log(router);
-
 const formData = ref({
   username: "",
   password: "",
   publicKey: "",
 });
-
-// const loading = ref(false);
-// if (router.currentRoute.value.query.registered) {
-//   alert("Usuario registrado correctamente");
-// }
-// watch(connected, async (value) => {
-//   if (value) {
-//     await axios.get("")
-//   }
-// });
 
 const getUser = async () => {
   try {
@@ -154,49 +143,25 @@ const getUser = async () => {
 
 const login = async () => {
   const res = await getUser();
-    if (res.status === 401 || res.status === 404){
-      alert("Usuario y/o contraseña incorrectos. Por favor, inténtalo de nuevo.");
-      return;
-    }
+  if (res.status === 401 || res.status === 404){
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Usuario y/o contraseña incorrectos. Por favor, inténtalo de nuevo.',
+    });
+    return;
+  }
   localStorage.setItem("username", res.data.username);
   localStorage.setItem("token", "Bearer " + res.data.token);
   router.push("/main");
 };
-// const login = async () => {
-//   if (
-//     !formData.value.email ||
-//     !formData.value.username ||
-//     !formData.value.password
-//   ) {
-//     console.warn("Por favor, completa todos los campos del formulario.");
-//     return;
-//   }
-//   try {
-//     loading.value = true; // Mostrar el círculo de carga
-//     const response = await axios.post("/usuarios/login", {
-//       email: formData.value.email,
-//       username: formData.value.username,
-//       password: formData.value.password,
-//     });
-//     // Si la respuesta es exitosa (código 200), redirige al usuario
-//     if (response.status === 200) {
-//       // JWT
-//       localStorage.setItem("token", response.data.token); // Guardar el token en el almacenamiento local
-//       // Redireccionar al usuario a la página deseada después del inicio de sesión
-//       router.push("/main"); // Cambia '/dashboard' a la ruta que desees
-//     }
-//     loading.value = false; // Ocultar el círculo de carga después de recibir una respuesta
-//   } catch (error) {
-//     console.error("Hubo un error en la solicitud:", error);
-//     loading.value = false; // Ocultar el círculo de carga en caso de error
-//   }
-// };
 
 const switchToRegister = () => {
   // Redirige al usuario a la página de registro
   router.push("/register");
 };
 </script>
+
 <style>
 .border-blue-400 {
   border-color: transparent;
