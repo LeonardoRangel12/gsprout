@@ -35,8 +35,8 @@
         <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Send</button>
         
       </div>
-      <button @click="loadMoreMessages" v-if="hasMoreMessages">Cargar más</button>
-    </div>
+      <button @click="loadMoreMessages" v-if="hasMoreMessages">Cargar más</button> <!-- Botón de prueba para cargar más mensajes -->
+      </div>
   </section>
 </template>
 
