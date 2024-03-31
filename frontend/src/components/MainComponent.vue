@@ -80,8 +80,10 @@ import Footer from "./FooterComponent.vue";
 import Hero from "./HeroComponent.vue";
 import NewGames from "./NewGamesComponent.vue";
 import axios from "../main";
+import Swal from "sweetalert2";
 import { inject, ref } from "vue";
 import { getExchange, getUsuario, getJuegos } from "../apis";
+
 export default {
   components: {
     Navbar,
@@ -94,7 +96,6 @@ export default {
     return {
       games: [],
       featuredGames: [],
-      // newGames: [],
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
       wishlist: [],
     };
@@ -115,9 +116,9 @@ export default {
       .catch((error) => {
         console.error(error);
       });
-      console.log(games.value);
-      const featuredGames = ref(games.value.slice(0, 12));
-      return { games, featuredGames, SOL_TO_USD_RATE:exchange, wishlist };
+    console.log(games.value);
+    const featuredGames = ref(games.value.slice(0, 12));
+    return { games, featuredGames, SOL_TO_USD_RATE: exchange, wishlist };
   },
   async mounted() {
     const games = inject("games");
@@ -129,7 +130,11 @@ export default {
         const res = await axios.post("/usuarios/wishlist/" + juegoId);
         if (res.status == 200) {
           this.wishlist.push(juegoId);
-          alert("Juego añadido a favoritos");
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Juego añadido a favoritos",
+          });
         }
       } catch (error) {
         console.error(error);
@@ -139,7 +144,11 @@ export default {
       try {
         const res = await axios.delete("/usuarios/wishlist/" + juegoId);
         if (res.status == 200) {
-          alert("Juego removido de favoritos");
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Juego removido de favoritos",
+          });
           this.wishlist = this.wishlist.filter((id) => id !== juegoId);
         }
       } catch (error) {
@@ -182,6 +191,7 @@ export default {
   },
 };
 </script>
+
 
 <style>
 .text-gradient {
