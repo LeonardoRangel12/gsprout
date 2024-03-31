@@ -73,7 +73,7 @@
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import axios from "../main"; // Importa Axios
-import { getWishList } from "../apis";
+import { getWishList, getExchange} from "../apis";
 import { ref } from "vue";
 export default {
   components: {
@@ -88,16 +88,18 @@ export default {
   },
   async setup() {
     const juegos = ref([]); // Inicializa juegos como un array vacío
-
+    const exchange = ref(50); // Inicializa exchange como 50
 
     await Promise.all([
       getWishList(), // Llama a la función getJuegos al crear el componente
+      getExchange(),
     ]).then((values) => {
       juegos.value = values[0]; // Asigna el valor de la lista de deseos a la variable juegos
+      exchange.value = values[1];
     }).catch((error) => {
       console.error(error); // Maneja errores
     })
-    return { juegos }; // Devuelve juegos
+    return { juegos, SOL_TO_USD_RATE: exchange }; // Devuelve juegos
   },
   methods: {
     async switchToDetails(gameid) {
