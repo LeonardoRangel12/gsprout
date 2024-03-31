@@ -200,8 +200,11 @@ export default {
     },
   },
   mounted() {
-    this.socket = io("http://localhost:3000");
-
+    if(process.env.NODE_ENV == "production"){
+      this.socket = io("/backend");
+    } else if(process.env.NODE_ENV == "development") {
+      this.socket = io("http://localhost:3000");
+    }
     this.socket.emit("login", localStorage.getItem("token"));
 
     this.socket.on("login", (message) => {

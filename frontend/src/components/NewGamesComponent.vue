@@ -16,11 +16,11 @@
               </div>
               <div class="flex items-center">
                 <div class="text-right">
-                  <span class="text-white font-bold text-lg">{{ game.precio }}</span>
-                  <span class="ml-1 text-gray-400 text-sm">SOL</span>
+                  <span class="text-white font-bold text-lg">{{ (game.precio).toFixed(2) }}</span>
+                  <span class="ml-1 text-gray-400 text-sm">USD</span>
                   <br>
-                  <span class="text-blue-500 font-bold">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }}</span>
-                  <span class="text-gray-400 text-sm">USD</span>
+                  <span class="text-blue-500 font-bold">{{ (game.precio / SOL_TO_USD_RATE).toFixed(9) }}</span>
+                  <span class="text-gray-400 text-sm">SOL</span>
                 </div>
                 <button type="submit" @click="switchToBuy(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
               </div>
@@ -38,11 +38,11 @@
               </div>
               <div class="flex items-center">
                 <div class="text-right">
-                  <span class="text-white font-bold text-lg">{{ game.precio }}</span>
-                  <span class="ml-1 text-gray-400 text-sm">SOL</span>
+                  <span class="text-white font-bold text-lg">{{ (game.precio).toFixed(2) }}</span>
+                  <span class="ml-1 text-gray-400 text-sm">USD</span>
                   <br>
-                  <span class="text-blue-500 font-bold">{{ (game.precio * SOL_TO_USD_RATE).toFixed(2) }}</span>
-                  <span class="text-gray-400 text-sm">USD</span>
+                  <span class="text-blue-500 font-bold">{{ (game.precio / SOL_TO_USD_RATE).toFixed(9) }}</span>
+                  <span class="text-gray-400 text-sm">SOL</span>
                 </div>
                 <button type="submit" @click="switchToBuy(game._id)" class="ml-4 bg-indigo-700 text-white font-bold py-2 px-4 rounded hover:bg-indigo-500">Comprar</button>
               </div>
@@ -56,11 +56,11 @@
           <p class="text-gray-300 text-justify">{{ truncar(hoveredGame.descripcion) }}</p>
           <span v-if="hoveredGame.oferta" class="bg-green-500 text-white text-xs px-2 py-1 rounded mt-2 inline-block">Offert</span>
           <div class="text-right mt-2 ">
-            <span class="text-gray-300 font-bold">{{ hoveredGame.precio }}</span>
-            <span class="ml-1 text-gray-400 text-sm">SOL</span>
+            <span class="text-gray-300 font-bold">{{ (hoveredGame.precio).toFixed(2) }}</span>
+            <span class="ml-1 text-gray-400 text-sm">USD</span>
             <br>
-            <span class="text-blue-500 font-bold">{{ (hoveredGame.precio * SOL_TO_USD_RATE).toFixed(2) }}</span>
-            <span class="text-gray-400 text-sm">USD</span>
+            <span class="text-blue-500 font-bold">{{ (hoveredGame.precio / SOL_TO_USD_RATE).toFixed(9) }}</span>
+            <span class="text-gray-400 text-sm">SOL</span>
           </div>
         </div>
       </section>
