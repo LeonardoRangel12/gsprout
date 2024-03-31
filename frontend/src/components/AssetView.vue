@@ -22,7 +22,7 @@
                       </div>
                       <h2 class="text-2xl font-bold mb-4 text-white text-justify">Description</h2>
                       <div>
-                        <p class="text-gray-400 text-justify" v-if="description">{{ truncar(description) }}</p>
+                        <p class="text-white text-justify" v-if="description">{{ truncar(description) }}</p>
                       </div>
                     </div>
                     <div class="absolute bottom-0 left-0 right-0 flex gap-4">
