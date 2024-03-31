@@ -94,8 +94,8 @@ const walletOptions = {
   autoConnect: true,
 };
 initWallet(walletOptions);
-const rpc = import.meta.env.VITE_RPC;
-const connection = new Connection(rpc);
+// const rpc = import.meta.env.VITE_RPC;
+const connection = new Connection(clusterApiUrl("devnet"));
 
 
 // Websocket
