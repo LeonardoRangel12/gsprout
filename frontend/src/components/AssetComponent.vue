@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center bg-gray-900 rounded-lg overflow-hidden">
+  <div class="flex flex-col items-center bg-gradient-to-b from-gray-950 to-gray-900 rounded-lg overflow-hidden">
     <div v-if="isImageLoading">
       <p>Loading Image...</p>
     </div>
