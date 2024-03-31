@@ -42,5 +42,14 @@ async function getExchange() {
       }
     }
 
-    export { getExchange, getWishList, getJuegos, getUsuario };
+  async function getJuego(id) {
+    try {
+      const res = await axios.get(`/juegos/${id}`);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+    export { getExchange, getWishList, getJuegos, getUsuario, getJuego };
 
