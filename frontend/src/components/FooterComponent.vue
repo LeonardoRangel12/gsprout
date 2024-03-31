@@ -1,5 +1,5 @@
 <template>
-  <footer class="hero bg-gray-900 text-gray-300 py-20 px-4 text-center">
+  <footer class="hero bg-gray-950 text-gray-300 py-20 px-4 text-center">
     <div class="container mx-auto px-4">
       <div class="flex flex-wrap text-center lg:text-left">
         <div class="w-full lg:w-6/12 px-4">
@@ -32,11 +32,15 @@
                   <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/Store">Store</router-link>
                 </li>
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/auctions">Auctions</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/mygames">My games</router-link>
                 </li>
                 <li>
-                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/intercambios">Trades</router-link>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/messenger">Messages</router-link>
                 </li>
+                <li>
+                  <router-link class="text-blueGray-200 hover:text-gray-300 font-semibold block pb-2 text-sm" to="/About">About</router-link>
+                </li>
+
               </ul>
             </div>
           </div>

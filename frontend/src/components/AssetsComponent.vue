@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900 text-white">
+  <div class="min-h-screen bg-gradient-to-b from-gray-950 to-gray-900 text-white">
     <Navbar />
     <div class="container mx-auto p-6">
       <h1 class="text-3xl font-bold mb-6">Library</h1>

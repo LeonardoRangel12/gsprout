@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center h-full">
+  <div class="flex justify-center items-center h-full bg-gray-950 ">
     <img :src="imagenUrl" alt="Steam Logo" class="max-w-full max-h-full">
   </div>
 </template>

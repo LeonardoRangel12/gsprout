@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-gray-900">
+  <div class="bg-white dark:bg-gray-950">
     <div class="flex justify-center h-screen">
       <div
         class="hidden bg-cover lg:block lg:w-2/3"
@@ -85,7 +85,7 @@
                 <button
                   type="submit"
                   id="registerButton"
-                  class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                  class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-800 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                 >
                   Regíster
                 </button>
@@ -124,10 +124,12 @@
 </template>
 
 <script>
-import { reactive , ref } from "vue";
-import newAxios from "../main" ;
+import { reactive, ref } from "vue";
+import newAxios from "../main";
 import { useRouter } from "vue-router";
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
+import Swal from "sweetalert2";
+
 export default {
   components: {
     WalletMultiButton,
@@ -135,9 +137,9 @@ export default {
   setup() {
     useRouter();
     const formData = reactive({
-      email: '',
-      username: '',
-      password: '',
+      email: "",
+      username: "",
+      password: "",
       wallets: null,
     });
     const errorMessages = ref([]);
@@ -145,20 +147,19 @@ export default {
     return {
       formData,
       errorMessages,
-      userRegistered
-    }
+      userRegistered,
+    };
   },
-  methods:
-  {
-    async register(){
+  methods: {
+    async register() {
       this.errorMessages = [];
       const { publicKey } = useWallet();
       let button = document.getElementById("registerButton");
       button.disabled = true;
       button.style.cursor = "wait";
-      try{
-        const {connected} = useWallet();
-        if(connected.value === false) {
+      try {
+        const { connected } = useWallet();
+        if (connected.value === false) {
           this.errorMessages.push("Conecta tu wallet para continuar");
           return;
         }
@@ -167,14 +168,18 @@ export default {
           !this.formData.username ||
           !this.formData.password
         ) {
-          this.errorMessages.push("Por favor, completa todos los campos del formulario.");
+          this.errorMessages.push(
+            "Por favor, completa todos los campos del formulario."
+          );
           return;
         }
-        if(this.formData.password.length < 8){
-          this.errorMessages.push("La contraseña debe tener al menos 8 caracteres");
+        if (this.formData.password.length < 8) {
+          this.errorMessages.push(
+            "La contraseña debe tener al menos 8 caracteres"
+          );
           return;
         }
-        if(!RegExp(/\S+@\S+\.\S+/).test(this.formData.email)){
+        if (!RegExp(/\S+@\S+\.\S+/).test(this.formData.email)) {
           this.errorMessages.push("El correo no es válido");
           return;
         }
@@ -185,38 +190,55 @@ export default {
             password: this.formData.password,
             wallets: [publicKey.value.toBase58()],
           });
-          if (response.status == 201) { // Validating user registration
-              this.userRegistered = true;
-            }
-          } 
-          catch (error) { // Catch the error of user already exists
-            if(error.response.status === 400)
-              this.errorMessages.push("El usuario ya existe");
+          if (response.status == 201) {
+            // Validating user registration
+            this.userRegistered = true;
+            Swal.fire({
+              icon: "success",
+              title: "Registro exitoso",
+              text: "¡Usuario registrado correctamente!",
+            });
+          }
+        } catch (error) {
+          // Catch the error of user already exists
+          if (error.response.status === 400) {
+            this.errorMessages.push("El usuario ya existe");
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "El usuario ya existe",
+            });
+          }
         }
-      } catch(error){ // Several error handling for different status codes
-          if(error.response.status === 500)
-            this.errorMessages.push("Internal server error:", error);
-          else if(error.response.status === 400)
-            this.errorMessages.push("Hubo un error en la solicitud:", error);
-          else
-            this.errorMessages.push("Error:", error);
-      }
-      finally{
-        setTimeout(()=>{
+      } catch (error) {
+        // Several error handling for different status codes
+        if (error.response.status === 500) {
+          this.errorMessages.push("Internal server error:", error);
+        } else if (error.response.status === 400) {
+          this.errorMessages.push("Hubo un error en la solicitud:", error);
+        } else {
+          this.errorMessages.push("Error:", error);
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un error en la solicitud",
+        });
+      } finally {
+        setTimeout(() => {
           button.disabled = false;
           button.style.cursor = "pointer";
-          
-        },1000)
+        }, 1000);
       }
     },
-    switchToLogin(){
+    switchToLogin() {
       this.$router.push("/");
     },
-    switchToLoginWithTimer(){
-      setTimeout(()=>{
+    switchToLoginWithTimer() {
+      setTimeout(() => {
         this.switchToLogin();
-      }, 5000)
-    }
-  }
+      }, 5000);
+    },
+  },
 };
 </script>

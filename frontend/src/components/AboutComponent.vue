@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gradient-to-b from-gray-900 to-indigo-900 min-h-screen">
+    <div class="bg-gradient-to-b from-gray-950 to-gray-800 min-h-screen">
         <Navbar />
         <div class="container mx-auto py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Primera columna -->

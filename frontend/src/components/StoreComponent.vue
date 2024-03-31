@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-900 text-white">
+  <div class="bg-gradient-to-b from-gray-950 to-gray-700 text-white">
     <Navbar />
     <div class="p-8 rounded-md w-full">
       <div class="flex items-center justify-between pb-6">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div v-for="juego in juegos" :key="juego.id" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" @click="switchToDetails(juego._id)">
+        <div v-for="juego in juegos" :key="juego.id" class="bg-gradient-to-b from-gray-950 to-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" @click="switchToDetails(juego._id)">
           <img class="w-full h-56 object-cover object-center" :src="juego.imagen" :alt="juego.nombre" />
           <div class="p-4">
             <div style="height: 250px;">
