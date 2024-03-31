@@ -31,7 +31,7 @@ const mintNFT = async (req, res) => {
       _id: juego._id,
       name: juego.nombre,
       
-      description: juego.descripcion,
+      // description: juego.descripcion,
       image: imageUri,
       background_color: "#111827",
       attributtes: [
