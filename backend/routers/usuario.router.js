@@ -7,7 +7,7 @@ const { handleCache } = require('../middleware/redis.middleware.js');
 const router = express.Router();
 
 // GET
-router.get('/',upload.none(), handleCache,controller.getUsuarios, handleCache);
+router.get('/',upload.none(), verifySession, handleCache,controller.getUsuarios, handleCache);
 router.get('/me',upload.none(), verifySession, handleCache,controller.getUsuario, handleCache);
 router.get('/wishlist', upload.none(), verifySession, controller.getJuegosInWishList);
 router.get('/:username',upload.none(), verifySession, handleCache,controller.getUsuarioById, handleCache);
