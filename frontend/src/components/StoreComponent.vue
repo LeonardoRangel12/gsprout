@@ -151,7 +151,7 @@ export default {
     this.filterGamesByOption(this.selected);
   },
   mounted() {
-    // Escuchar el evento 'scroll' en la ventana
+    // Mirar el evento 'scroll' en la ventana
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {

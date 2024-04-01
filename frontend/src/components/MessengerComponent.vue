@@ -70,6 +70,7 @@ export default {
       currentPage: 0,
       loadingMessages: false,
       hasMoreMessages: true,
+      lastScrollTop: 0, // Variable para almacenar la posición del scroll
     };
   },
   async setup(){
@@ -116,6 +117,11 @@ export default {
         // Error al cargar los mensajes
         console.error("Error al cargar los mensajes");
       }
+      // Scroll to bottom only after selecting a new user
+      this.$nextTick(() => {
+        const element = this.$refs.messages;
+        element.scrollTop = element.scrollHeight;
+      });
     },
     handleScroll() {
       const messagesElement = this.$refs.messages;
@@ -133,15 +139,25 @@ export default {
         const res = await axios.get(`/chat/${this.selectedUser}?page_number=${this.currentPage + 1}`);
         console.log(res.data);
         if (res.data.length > 0) {
+          // Almacenar la posición del scroll antes de cargar nuevos mensajes**
+          const scrollTopBeforeLoad = this.$refs.messages.scrollTop;
+
           // Agregar los nuevos mensajes al principio del array
           const newMessages = res.data.reverse();
           this.messages = [...newMessages, ...this.messages];
           this.currentPage++;
 
-          // Desplazar el scroll hacia abajo después de cargar los nuevos mensajes
+          // Restablecer la posición del scroll después de cargar nuevos mensajes**
           this.$nextTick(() => {
             const element = this.$refs.messages;
-            element.scrollTop = element.scrollHeight;
+            const scrollHeightAfterLoad = element.scrollHeight;
+
+            // Calcular la nueva posición del scroll para mantener la vista en la misma posición
+            const newScrollTop = scrollTopBeforeLoad + (scrollHeightAfterLoad - this.lastScrollTop);
+            element.scrollTop = newScrollTop;
+
+            // Actualizar la variable `lastScrollTop` para la próxima carga de mensajes
+            this.lastScrollTop = scrollHeightAfterLoad;
           });
         } else {
           this.hasMoreMessages = false;
@@ -187,25 +203,15 @@ export default {
 
         this.newMessage = ""; // Limpiar el campo de texto después de enviar el mensaje
       }
-      this.$nextTick(() => {
+      // Scroll to bottom only after selecting a new user
+       this.$nextTick(() => {
         const element = this.$refs.messages;
         element.scrollTop = element.scrollHeight;
       });
     },
   },
   watch: {
-    selectedUser() {
-      this.$nextTick(() => {
-        const element = this.$refs.messages;
-        element.scrollTop = element.scrollHeight;
-      });
-    },
-    messages() {
-      this.$nextTick(() => {
-        const element = this.$refs.messages;
-        element.scrollTop = element.scrollHeight;
-      });
-    },
+
   },
   };
 </script>
