@@ -22,7 +22,7 @@ import About from "./components/AboutComponent.vue";
 import "vue-connect-wallet/dist/style.css"
 let baseURL: string = "";
 if (import.meta.env.DEV) baseURL = "http://localhost:3000/";
-if (import.meta.env.PROD === "production") baseURL = "/backend/";
+if (import.meta.env.PROD) baseURL = "/backend/";
 
 const token: string | null = localStorage.getItem("token");
 
