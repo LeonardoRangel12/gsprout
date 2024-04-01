@@ -202,7 +202,7 @@ export default {
   mounted() {
     if(import.meta.env.PROD){
       console.log("PROD");
-      this.socket = io("/");
+      this.socket = io("http://localhost");
     } else if (import.meta.env.DEV){
       console.log("DEV");
       this.socket = io("http://localhost:3000");
