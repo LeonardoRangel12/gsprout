@@ -212,6 +212,7 @@ export default {
 
     if(!localStorage.getItem("token")){
       this.logout();
+      return;
     }
     this.socket.emit("login", localStorage.getItem("token"));
 
