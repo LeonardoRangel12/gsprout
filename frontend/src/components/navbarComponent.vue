@@ -201,7 +201,7 @@ export default {
   },
   mounted() {
     if(process.env.NODE_ENV === 'production'){
-      this.socket = io("http://localhost/backend");
+      this.socket = io("http://localhost");
     } else {
       this.socket = io("http://localhost:3000");
     }
