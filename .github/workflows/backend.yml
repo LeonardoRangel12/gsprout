@@ -8,12 +8,12 @@ env:
     AWS_REGION: us-west-1
     ECR_REPOSITORY: hackathon_back
     ECS_CLUSTER: hackathon
-    ECS_SERVICE: backend_hackathon
+    ECS_SERVICE: hackathon-backend
     ECS_TD: hackathon_back_td
 
     MONGODB_DATABASE_NAME: ${{ secrets.MONGODB_DATABASE_NAME }}
     MONGODB_URI: ${{ secrets.MONGODB_URI }}
-    QUICKNODE_URL: ${{ secrets.QUICKNODE_URL }}
+    RPC_URL: ${{ secrets.RPC_URL }}
     SECRET: ${{ secrets.SECRET }}
     WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
     WALLET: ${{ vars.WALLET }}
@@ -30,10 +30,10 @@ jobs:
       - name: Install dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18.0'
+          node-version: '18.x'
       - working-directory: ./backend
         run: |
-          npm ci
+          npm i parcel
           npm run build
           
       

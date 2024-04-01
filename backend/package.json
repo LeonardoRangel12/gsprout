@@ -25,7 +25,9 @@
       "MONGODB_DATABASE_NAME": "process.env.MONGODB_DATABASE_NAME",
       "WALLET_PRIVATE_KEY": "process.env.WALLET_PRIVATE_KEY",
       "WALLET": "process.env.WALLET",
-      "QUICKNODE_URL": "process.env.QUICKNODE_URL"
+      "RPC_URL" : "process.env.RPC_URL",
+      "MERKLE_TREE" : "process.env.MERKLE_TREE"
+
     }
   },
   "author": "",
