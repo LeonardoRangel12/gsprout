@@ -6,7 +6,7 @@ require("dotenv").config();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: "*",
+    origin: true,
   },
 });
 // const session = require("express-session");
