@@ -30,8 +30,8 @@ const mintNFT = async (req, res) => {
     const metadataUri = await metaplexUtil.uploadMetadata({
       _id: juego._id,
       name: juego.nombre,
+      description: juego.descripcion,
       
-      // description: juego.descripcion,
       image: imageUri,
       background_color: "#111827",
       attributtes: [
@@ -61,9 +61,9 @@ const mintNFT = async (req, res) => {
       // 500 = 5%
       sellerFeeBasisPoints: 500,
       collection: none(),
-    }, buyerKey);
+    });
     // // SENDS THE NFT TO THE BUYER
-    // await metaplexUtil.transferNFTWithSignature(signature, buyerKey);
+    await metaplexUtil.transferNFTWithSignature(signature, buyerKey);
     console.log("NFT MINTED to " , buyerKey);
     // deleteCache(`${solanaSalt}:${buyerKey}`);
     res.end();
