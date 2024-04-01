@@ -9,7 +9,7 @@ const router = express.Router();
 // GET
 router.get('/',upload.none(), handleCache,controller.getUsuarios, handleCache);
 router.get('/me',upload.none(), verifySession, handleCache,controller.getUsuario, handleCache);
-router.get('/wishlist', upload.none(), verifySession, handleCache, controller.getJuegosInWishList, handleCache);
+router.get('/wishlist', upload.none(), verifySession, controller.getJuegosInWishList);
 router.get('/:username',upload.none(), verifySession, handleCache,controller.getUsuarioById, handleCache);
 // POST
 // router.post('/logout', controller.logoutUsuario);
