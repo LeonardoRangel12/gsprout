@@ -5,6 +5,10 @@ if (process.env.NODE_ENV === "production") {
     origin: true,
     credentials: true,
   };
+  // corsOptions= {
+  //   origin: "https://frontend",
+  //   credentials: true,
+  // };
 }
 if (process.env.NODE_ENV === "development") {
   corsOptions = {
