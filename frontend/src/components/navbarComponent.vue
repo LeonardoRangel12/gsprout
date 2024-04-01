@@ -207,7 +207,12 @@ export default {
       console.log("DEV");
       this.socket = io("http://localhost:3000");
     }
+    
     console.log("Socket", this.socket);
+
+    if(!localStorage.getItem("token")){
+      this.logout();
+    }
     this.socket.emit("login", localStorage.getItem("token"));
 
     this.socket.on("login", (message) => {
