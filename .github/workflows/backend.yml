@@ -11,14 +11,15 @@ env:
     ECS_SERVICE: hackathon-backend
     ECS_TD: hackathon_back_td
 
-    MONGODB_DATABASE_NAME: ${{ secrets.MONGODB_DATABASE_NAME }}
-    MONGODB_URI: ${{ secrets.MONGODB_URI }}
-    RPC_URL: ${{ secrets.RPC_URL }}
     SECRET: ${{ secrets.SECRET }}
+    PORT: ${{ vars.PORT }}
+    MONGODB_URI: ${{ secrets.MONGODB_URI }}
+    MONGODB_DATABASE_NAME: ${{ secrets.MONGODB_DATABASE_NAME }}
     WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
     WALLET: ${{ vars.WALLET }}
+    RPC_URL: ${{ secrets.RPC_URL }}
+    MERKLE_TREE: ${{ secrets.MERKLE_TREE }}
     NODE_ENV: production
-    PORT: ${{ vars.PORT }}
 
 jobs:
     Testing:
