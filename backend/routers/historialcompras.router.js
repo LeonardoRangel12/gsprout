@@ -6,7 +6,7 @@ const upload = multer();
 
 router.post('/', upload.none(), historialcomprascontroller.createHistorialCompra);
 router.put('/:id', upload.none(), historialcomprascontroller.updateHistorialCompra);
-router.get('/:id', upload.none(), handleCache, historialcomprascontroller.getHistorialCompraById, handleCache);
+router.get('/:id', upload.none(), /*handleCache,*/ historialcomprascontroller.getHistorialCompraById, /*handleCache*/);
 router.get('/', upload.none(), historialcomprascontroller.getHistorialCompras);
 
 module.exports = router;
