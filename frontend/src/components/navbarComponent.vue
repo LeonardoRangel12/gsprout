@@ -225,6 +225,8 @@ export default {
       alert(
         "From: " + data.from + " Message: " + data.content + " To: " + data.to
       );
+      // Evento personalizado para notificar a otro componente del mensaje recibido
+      this.$emit("message", data);
       // this.messages[]
     });
   },
