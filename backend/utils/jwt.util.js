@@ -7,8 +7,9 @@ const generateToken = (payload) => {
 };
 
 const verifyToken = (token) => {
-    const jwtToken = token.split(' ')[1];
     try{
+        console.log(token);
+        const jwtToken = token.split(' ')[1];
         return jwt.verify(jwtToken, secret);
 
     }
