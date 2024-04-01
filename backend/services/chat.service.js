@@ -5,7 +5,7 @@ async function SendMessage(data){
     data.timestamp = Date.now();
     const res = await db.SendMessage(data);
     await io.to(to).emit("message", data);
-    console.log("ENVIADO");
+    console.log("ENVIADO " , to);
     return res;
 }
 async function GetMessages(){
