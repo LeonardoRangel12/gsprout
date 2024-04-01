@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV === "production") {
   const { createClient } = require("redis");
-  const client = await createClient({
-    url: 'redis://localhost:6379'
+  const client = createClient({
+    url: 'redis://127.0.0.1:6379'
   })
     .on("error", (err) => {
       console.log("Redis Error: " + err);
