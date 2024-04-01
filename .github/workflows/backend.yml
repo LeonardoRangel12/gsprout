@@ -33,7 +33,7 @@ jobs:
           node-version: '18.x'
       - working-directory: ./backend
         run: |
-          npm i parcel
+          npm ci
           npm run build
           
       
