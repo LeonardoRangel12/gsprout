@@ -81,16 +81,18 @@
             </div>
           </div>
         </div>
-      <div class="flex justify-center mt-6">
-        <button @click="loadJuegos()" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
-      </div>
+        <!--
+            <div class="flex justify-center mt-6">
+              <button @click="loadJuegos()" class="px-4 py-2 bg-indigo-700 text-white font-semibold rounded hover:bg-indigo-500">Load more</button>
+            </div>
+        -->
     </div>
     <Footer />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import axios from "../main";
@@ -108,6 +110,7 @@ export default {
       SOL_TO_USD_RATE: 50,
       currentPage: 1,
       wishlist: [],
+      hasMoreGames: true,
     };
   },
   async setup(){
@@ -147,6 +150,10 @@ export default {
     // await this.loadJuegos();
     this.filterGamesByOption(this.selected);
   },
+  mounted() {
+    // Escuchar el evento 'scroll' en la ventana
+    window.addEventListener('scroll', this.handleScroll);
+  },
   methods: {
     async addToWishList(juegoId) {
       try {
@@ -181,10 +188,11 @@ export default {
     async isFavorite(juegoId) {
       return this.wishlist != null ? this.wishlist.includes(juegoId) : false;
     },
+    /*
     async loadJuegos() {
       const res = await getJuegos(this.currentPage++);
       this.juegos = this.juegos.concat(res);
-    },
+    },*/
     switchToBuy(gameid) {
       this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
@@ -214,6 +222,22 @@ export default {
     },
     truncar(text, maxLength = 240) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
+    },
+    // Función para manejar el evento 'scroll'
+    handleScroll() {
+      // Calcular la distancia desde la parte superior del documento hasta el final
+      const scrollBottom = document.documentElement.scrollHeight - window.innerHeight;
+
+      // Si el usuario está cerca del final, cargar más juegos
+      if (window.scrollY >= scrollBottom - 50 && this.hasMoreGames) {
+        this.loadMoreGames();
+      }
+    },
+    async loadMoreGames() {
+      this.currentPage++;
+      const res = await getJuegos(this.currentPage);
+      this.juegos = this.juegos.concat(res);
+      this.hasMoreGames = res.length > 0;
     },
   }
 };
