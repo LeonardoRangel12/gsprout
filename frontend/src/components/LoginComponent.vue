@@ -155,22 +155,15 @@ const getUser = async () => {
       password: formData.value.password,
       publicKey: publicKey.value.toBase58(),
     });
+    console.log(res.status, res.status===200);
     if(res.status === 200) {
-      localStorage.setItem("username", res.data.username);
-      localStorage.setItem("token", "Bearer " + res.data.token);
+      return res.data;
     }
     else if(res.status === 401) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Password incorrect. Please try again.',
-      });
-    }
-    else if(res.status === 404) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Username not found. Please try again.',
       });
     }
     else if(res.status === 500) {
@@ -187,15 +180,35 @@ const getUser = async () => {
         text: 'An error occurred. Please try again later.',
       });
     }
+    return;
   } catch (error) {
-    return error.response;
+    if(error.response.status === 404) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username not found. Please try again.',
+      });
+    }
+    else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred. Please try again later.',
+      });
+    }
+      return;
   }
 };
 
 const login = async () => {
   if (!validateForm()) return;
 
-  await getUser();
+  const userData = await getUser();
+  console.log(userData);
+  if(!userData) return;
+
+  localStorage.setItem("username", userData.username);
+  localStorage.setItem("token", "Bearer " + userData.token);
 
   router.push("/main");
 };
