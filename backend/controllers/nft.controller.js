@@ -64,7 +64,7 @@ const mintNFT = async (req, res) => {
     }, buyerKey);
     // // SENDS THE NFT TO THE BUYER
     // await metaplexUtil.transferNFTWithSignature(signature, buyerKey);
-
+    console.log("NFT MINTED to " , buyerKey);
     // deleteCache(`${solanaSalt}:${buyerKey}`);
     res.end();
     // return res.sendStatus(201);

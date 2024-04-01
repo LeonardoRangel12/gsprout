@@ -13,7 +13,7 @@ const verifySession = async (req, res, next) => {
     const token = req.headers.authorization;
     if(!token) return res.status(401).send("Unauthorized");
     const  data  = jwtUtil.verifyToken(token);
-    if (!data.username) return res.status(401).send("Unauthorized");
+    if (!data) return res.status(401).send("Unauthorized");
     if (!(await usuarioService.getUsuarioByUsername(data.username)))
       return res.status(403).send("User not found");
     req.token = data;
