@@ -200,9 +200,11 @@ export default {
     },
   },
   mounted() {
-    if(process.env.NODE_ENV === 'production'){
+    if(import.meta.env.PROD){
+      console.log("PROD");
       this.socket = io("/backend");
-    } else if (process.env.NODE_ENV === 'development'){
+    } else if (import.meta.env.DEV){
+      console.log("DEV");
       this.socket = io("http://localhost:3000");
     }
     console.log("Socket", this.socket);
