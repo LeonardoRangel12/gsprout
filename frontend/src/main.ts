@@ -92,7 +92,9 @@ const walletOptions = {
 
   ],
   autoConnect: true,
+  cluster: "devnet",
 };
+// @ts-ignore
 initWallet(walletOptions);
 // const rpc = import.meta.env.VITE_RPC;
 const connection = new Connection(clusterApiUrl("devnet"));
