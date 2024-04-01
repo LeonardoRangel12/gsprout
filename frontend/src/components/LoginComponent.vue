@@ -155,7 +155,38 @@ const getUser = async () => {
       password: formData.value.password,
       publicKey: publicKey.value.toBase58(),
     });
-    return res;
+    if(res.status === 200) {
+      localStorage.setItem("username", res.data.username);
+      localStorage.setItem("token", "Bearer " + res.data.token);
+    }
+    else if(res.status === 401) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Password incorrect. Please try again.',
+      });
+    }
+    else if(res.status === 404) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username not found. Please try again.',
+      });
+    }
+    else if(res.status === 500) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Internal server error. Please try again later.',
+      });
+    }
+    else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred. Please try again later.',
+      });
+    }
   } catch (error) {
     return error.response;
   }
@@ -164,25 +195,8 @@ const getUser = async () => {
 const login = async () => {
   if (!validateForm()) return;
 
-  const res = await getUser();
-  if (res.status === 401) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Nombre de usuario incorrecto. Por favor, inténtalo de nuevo.',
-    });
-    return;
-  }
-  if (res.status === 404) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Contraseña incorrecta. Por favor, inténtalo de nuevo.',
-    });
-    return;
-  }
-  localStorage.setItem("username", res.data.username);
-  localStorage.setItem("token", "Bearer " + res.data.token);
+  await getUser();
+
   router.push("/main");
 };
 
