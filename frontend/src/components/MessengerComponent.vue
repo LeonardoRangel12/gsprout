@@ -18,7 +18,7 @@
     <!-- Lista de mensajes -->
     <div class="w-3/4 p-4 bg-gray-800 text-white flex flex-col h-full ">
       <h2 class="text-lg font-bold mb-4">Chat with {{ selectedUser }}</h2>
-      <div class="flex-grow overflow-auto custom-scrollbar" ref="messages">
+      <div class="flex-grow overflow-auto custom-scrollbar" ref="messages" @scroll="handleScroll">
         <div v-if="selectedUser">
           <div v-for="(message, index) in messages" :key="index" class="mb-2">
             <div :class="message.from === selectedUser ? 'text-left' : 'text-right'">
@@ -33,9 +33,9 @@
       <div class="flex mt-4">
         <input v-model="newMessage" type="text" placeholder="Escribe un mensaje..." class="w-full p-2 rounded-l-md bg-gray-700 text-white" @keyup.enter="sendMessage">
         <button @click="sendMessage" class="bg-blue-500 text-white py-2 px-4 rounded-r-md">Send</button>
-        
       </div>
-      <button @click="loadMoreMessages" v-if="hasMoreMessages">Cargar más</button> <!-- Botón de prueba para cargar más mensajes -->
+
+      <!-- <button @click="loadMoreMessages" v-if="hasMoreMessages">Cargar más</button>  -->
       </div>
   </section>
 </template>
@@ -117,23 +117,41 @@ export default {
         console.error("Error al cargar los mensajes");
       }
     },
-    async loadMoreMessages() {
-    this.loadingMessages = true;
-    try {
-      const res = await axios.get(`/chat/${this.selectedUser}?page_number=${this.currentPage + 1}`);
-      console.log(res.data);
-      if (res.data.length > 0) {
-        this.messages = [...this.messages, ...res.data.reverse()];
-        this.currentPage++;
-      } else {
-        this.hasMoreMessages = false;
+    handleScroll() {
+      const messagesElement = this.$refs.messages;
+      const scrollPosition = messagesElement.scrollTop;
+      const scrollHeight = messagesElement.scrollHeight;
+      const clientHeight = messagesElement.clientHeight;
+
+      if (scrollPosition === 0 && this.hasMoreMessages) {
+        this.loadMoreMessages();
       }
-    } catch (error) {
-      console.error("Error al cargar más mensajes:", error);
-    } finally {
-      this.loadingMessages = false;
-    }
-  },
+    },
+    async loadMoreMessages() {
+      this.loadingMessages = true;
+      try {
+        const res = await axios.get(`/chat/${this.selectedUser}?page_number=${this.currentPage + 1}`);
+        console.log(res.data);
+        if (res.data.length > 0) {
+          // Agregar los nuevos mensajes al principio del array
+          const newMessages = res.data.reverse();
+          this.messages = [...newMessages, ...this.messages];
+          this.currentPage++;
+
+          // Desplazar el scroll hacia abajo después de cargar los nuevos mensajes
+          this.$nextTick(() => {
+            const element = this.$refs.messages;
+            element.scrollTop = element.scrollHeight;
+          });
+        } else {
+          this.hasMoreMessages = false;
+        }
+      } catch (error) {
+        console.error("Error al cargar más mensajes:", error);
+      } finally {
+        this.loadingMessages = false;
+      }
+    },
     async sendMessage() {
       // Aquí puedes implementar la lógica para enviar mensajes
       if (this.newMessage.trim() !== "") {
@@ -189,7 +207,7 @@ export default {
       });
     },
   },
-};
+  };
 </script>
 
 <style scoped>
