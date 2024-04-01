@@ -75,33 +75,47 @@ const mintNFT = async (req, res) => {
 };
 
 const fetchNFTs = async (req, res, next) => {
-  const publicKey = req.params.publicKey;
-  const page = parseInt(req.params.page) || 1;
+  try{
 
-  const nfts = await metaplexUtil.fetchNFTs(publicKey, page);
-  if (!nfts) return res.sendStatus(404);
-
-  // req.redis = {
-  //   key: `${solanaSalt}:${publicKey}:${page}`,
-  //   data: nfts,
-  // };
-  req.toCache = nfts;
-  // res.send(nfts).status(200);
-  next();
+    const publicKey = req.params.publicKey;
+    const page = parseInt(req.params.page) || 1;
+  
+    const nfts = await metaplexUtil.fetchNFTs(publicKey, page);
+    if (!nfts) return res.sendStatus(404);
+  
+    // req.redis = {
+    //   key: `${solanaSalt}:${publicKey}:${page}`,
+    //   data: nfts,
+    // };
+    req.toCache = nfts;
+    // res.send(nfts).status(200);
+    next();
+  }
+  catch(e){
+    console.log(e);
+    return res.status(500).send(e);
+  }
 };
 
 const fetchNFT = async (req, res, next) => {
-  const publicKey = req.params.publicKey;
-  const nft = await metaplexUtil.fetchNFT(publicKey);
-  if (!nft) return res.sendStatus(404);
+  try{
+    const publicKey = req.params.publicKey;
+    const nft = await metaplexUtil.fetchNFT(publicKey);
+    if (!nft) return res.sendStatus(404);
+  
+    // req.redis = {
+    //   key: `${solanaSalt}:${publicKey}`,
+    //   data: nft,
+    // }
+    req.toCache = nft;
+    // res.send(nft).status(200);
+    next();
 
-  // req.redis = {
-  //   key: `${solanaSalt}:${publicKey}`,
-  //   data: nft,
-  // }
-  req.toCache = nft;
-  // res.send(nft).status(200);
-  next();
+  }
+  catch(e){
+    console.log(e);
+    return res.status(500).send(e);
+  }
 };
 
 // WIP
@@ -129,7 +143,7 @@ const generateTransferTransaction = async (req, res) => {
     );
     return res.json(serializedTransaction).status(200);
   } catch (e) {
-    return res.status(500);
+    return res.status(500).send(e);
   }
 };
 
