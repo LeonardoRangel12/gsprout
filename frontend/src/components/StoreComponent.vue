@@ -8,7 +8,7 @@
           <span class="text-xs text-gray-300">All available games</span>
         </div>
         <div class="flex items-center">
-          <span class="text-gray-300 mr-2">Filter games:</span>
+          <span class="text-gray-300 mr-2">Games order:</span>
           <select class="text-gray-300 bg-gray-800 rounded-md p-2" v-model="selected" @change="filterGamesByOption(selected)">
             <option v-for="option in options" :value="option.value" :key="option.value">{{ option.text }}</option>
           </select>
@@ -72,40 +72,42 @@ export default {
     };
   },
   async setup(){
-    const juegos = ref([]);
     const SOL_TO_USD_RATE = ref(50);
     const wishlist = ref([]);
+    const isScrollBlocked = ref(true);
 
-    const requests = [getExchange(), getUsuario(), getJuegos()];
+    const requests = [getExchange(), getUsuario()];
 
     await Promise.all(requests)
       .then((values) => {
-        juegos.value = values[2];
         SOL_TO_USD_RATE.value = values[0];
         wishlist.value = values[1].wishList;
       })
       .catch((error) => {
         console.error(error);
       });
-
-    const selected = ref('Alphabetical');
+    const selected = ref('peak_ccu');
     const options = ref([
-      {text: "A-Z", value:"Alphabetical"},
-      //{text: "Juegos Destacados", value:"RelevantGames"},
-      {text: "From highest to lowest price", value:"UpToDownPrize"},
-      {text: "From lowest to highest price", value:"DownToUpPrize"}
+      {text: "Relevance", value:"peak_ccu"},
+      {text: "A-Z", value:"alphabetic"},
+      {text: "From highest to lowest price", value:"priceDesc"},
+      {text: "From lowest to highest price", value:"priceAsc"}
     ])
+
+    const juegos = ref(await getJuegos(1, selected.value));
+    // const juegos = ref([]);  
     return{
       selected,
       options,
       juegos,
       SOL_TO_USD_RATE, 
-      wishlist
+      wishlist,
+      isScrollBlocked
     }
   },
 
   async created() {
-    this.filterGamesByOption(this.selected);
+    await this.filterGamesByOption(this.selected);
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
@@ -160,18 +162,10 @@ export default {
         console.error(error);
       }
     },
-    filterGamesByOption(option){
-      switch(option){
-        case 'Alphabetical':
-          this.juegos.sort((a,b)=>a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
-          break;
-        case 'UpToDownPrize':
-          this.juegos.sort((a,b)=> b.precio - a.precio);
-          break;
-        case 'DownToUpPrize':
-          this.juegos.sort((a,b)=> a.precio - b.precio);
-          break;
-      }
+    async filterGamesByOption(option){
+      this.juegos = await getJuegos(1, option);
+      this.currentPage = 1;
+      this.isScrollBlocked = false;
     },
     truncar(text, maxLength = 240) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
@@ -186,10 +180,17 @@ export default {
       }
     },
     async loadMoreGames() {
-      this.currentPage++;
-      const res = await getJuegos(this.currentPage);
-      this.juegos = this.juegos.concat(res);
-      this.hasMoreGames = res.length > 0;
+      if (this.isScrollBlocked) {
+        return;
+      }else{
+        this.isScrollBlocked = true;
+        this.currentPage++;
+        const res = await getJuegos(this.currentPage, this.selected);
+        this.juegos = this.juegos.concat(res);
+        this.hasMoreGames = res.length > 0;
+        this.isScrollBlocked = false
+      }
+
     },
   }
 };
