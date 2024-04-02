@@ -63,13 +63,15 @@ export default {
     return {
       juego: {},
       selectedImageIndex: 0,
+      isMobile: false,
     };
   },
   created() {
     this.getJuego();
   },
   mounted() {
-    $(this.$refs.carousel).find('.slick-carousel').slick();
+    this.checkScreenSize();
+    this.initCarousel();
   },
   methods: {
     async getJuego() {
@@ -83,11 +85,32 @@ export default {
     truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
-    switchToBuy() {
-      // Implementa la redirección a la página de compra del juego
+    async switchToBuy() {
+      try {
+        const response = await axios.get("/juegos/" + this.$route.query.id);
+        const juego = response.data;
+        if (!juego) {
+          throw new Error("Juego no encontrado");
+        }
+        const priceInUsd = (juego.precio / this.SOL_TO_USD_RATE).toFixed(2);
+        this.$router.push(`/solanaPay?id=${juego._id}&price=${priceInUsd}`);
+      } catch (error) {
+        console.error(error);
+      }
     },
     selectImage(imageUrl, index) {
       this.selectedImageIndex = index;
+    },
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
+    },
+    initCarousel() {
+      $(this.$refs.carousel).find('.slick-carousel').slick({
+        slidesToShow: this.isMobile ? 1 : 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+      });
     },
   },
 };
