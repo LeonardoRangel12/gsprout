@@ -17,7 +17,7 @@
 <script>
 import axios from 'axios';
 import { encode } from 'base64-arraybuffer';
-
+import Swal from 'sweetalert2';
 export default {
   name: 'AssetComponent',
   props: {
@@ -55,7 +55,11 @@ export default {
         this.name = jsonResponse.data.name;
         this.url = `/mygames/${this.asset.id}`;
       } catch (error) {
-        console.error('Error al cargar los datos del activo:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error loading asset data',
+          text: error.message,
+        });
         this.isImageLoadingError = true;
       } finally {
         this.isImageLoading = false;

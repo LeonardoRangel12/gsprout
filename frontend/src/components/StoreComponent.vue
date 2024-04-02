@@ -92,8 +92,8 @@ export default {
     const options = ref([
       {text: "A-Z", value:"Alphabetical"},
       //{text: "Juegos Destacados", value:"RelevantGames"},
-      {text: "De Mayor a menor precio", value:"UpToDownPrize"},
-      {text: "De Menor a mayor precio", value:"DownToUpPrize"}
+      {text: "From highest to lowest price", value:"UpToDownPrize"},
+      {text: "From lowest to highest price", value:"DownToUpPrize"}
     ])
     return{
       selected,
@@ -120,8 +120,8 @@ export default {
           this.wishlist.push(juegoId);
           Swal.fire({
             icon: "success",
-            title: "¡Éxito!",
-            text: "Juego añadido a favoritos",
+            title: "Success!",
+            text: "Game added to favorites", 
           });
         }
       } catch (error) {
@@ -134,8 +134,8 @@ export default {
         if (res.status == 200) {
           Swal.fire({
             icon: "success",
-            title: "¡Éxito!",
-            text: "Juego removido de favoritos",
+            title: "Success!",
+            text: "Game removed from favorites",
           });
           this.wishlist = this.wishlist.filter((id) => id !== juegoId);
         }
@@ -153,7 +153,7 @@ export default {
       try {
         const juego = this.juegos.find((game) => game._id === gameid);
         if (!juego) {
-          throw new Error("Juego no encontrado");
+          throw new Error("Game not found");
         }
         this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
       } catch (error) {

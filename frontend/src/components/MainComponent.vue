@@ -113,7 +113,11 @@ export default {
         wishlist.value = values[1] == null ? [] : values[1].wishlist;
       })
       .catch((error) => {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while loading the page. Please try again.",
+        });
       });
     const featuredGames = ref(games.value.slice(0, 12));
     return { games, featuredGames, hasSession, SOL_TO_USD_RATE: exchange, wishlist};
@@ -130,8 +134,8 @@ export default {
             this.wishlist.push(juegoId);
             Swal.fire({
               icon: "success",
-              title: "¡Éxito!",
-              text: "Juego añadido a favoritos",
+              title: "Success!",
+              text: "Game added to favorites",
             });
           }
         }
@@ -148,18 +152,18 @@ export default {
     },
     async removeFromWishList(juegoId) {
       try {
-        if(this.hasSession){
-          const res = await axios.delete("/usuarios/wishlist/" + juegoId);
-          if (res.status == 200) {
-            Swal.fire({
-              icon: "success",
-              title: "¡Éxito!",
-              text: "Juego removido de favoritos",
-            });
-            this.wishlist = this.wishlist.filter((id) => id !== juegoId);
-          }
+      if(this.hasSession){
+        const res = await axios.delete("/usuarios/wishlist/" + juegoId);
+        if (res.status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Game removed from favorites",
+          });
+          this.wishlist = this.wishlist.filter((id) => id !== juegoId);
         }
-      } catch (error) {
+      }
+    } catch (error) {
         console.error(error);
       }
     },
@@ -171,12 +175,12 @@ export default {
         if(this.hasSession){
           const juego = this.games.find((game) => game._id === gameid);
           if (!juego) {
-            throw new Error("Juego no encontrado");
+            throw new Error("Game not found");
           }
           this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
         }
         else{
-          this.$router.push("/");
+          this.$router.push("/?needinfo='login'");
         }
       } catch (error) {
         console.error(error);
@@ -186,7 +190,7 @@ export default {
       try {
         const juego = this.games.find((game) => game._id === gameid);
         if (!juego) {
-          throw new Error("Juego no encontrado");
+          throw new Error("Game not found");
         }
         this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
       } catch (error) {

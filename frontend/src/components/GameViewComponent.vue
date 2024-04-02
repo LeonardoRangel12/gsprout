@@ -54,6 +54,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import $ from 'jquery';
 import 'slick-carousel';
 
+import Swal from "sweetalert2";
 export default {
   components: {
     Navbar,
@@ -75,11 +76,24 @@ export default {
   },
   methods: {
     async getJuego() {
+      const response = await axios.get("/juegos/" + this.$route.query.id);
+      this.juego = response.data;
+      this.selectedImageUrl = this.juego.gallery[0];
+      console.log(response);
+      console.log(this.$route.query.id);
+      this.startSlideshow(); // Inicia el slideshow
+    },
+    async getExchange() {
       try {
-        const response = await axios.get("/juegos/" + this.$route.query.id);
-        this.juego = response.data;
+        const res = await axios.get("/exchange");
+        this.SOL_TO_USD_RATE = res.data.sell;
+        this.price = this.$router.currentRoute.value.query.price;
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while loading the page. Please try again.",
+        });
       }
     },
     truncar(text, maxLength = 280) {
@@ -90,12 +104,16 @@ export default {
         const response = await axios.get("/juegos/" + this.$route.query.id);
         const juego = response.data;
         if (!juego) {
-          throw new Error("Juego no encontrado");
+          throw new Error("Game not found");
         }
         const priceInUsd = (juego.precio / this.SOL_TO_USD_RATE).toFixed(2);
         this.$router.push(`/solanaPay?id=${juego._id}&price=${priceInUsd}`);
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Game not found",
+        });
       }
     },
     selectImage(imageUrl, index) {
