@@ -16,6 +16,7 @@
         </a>
         <!-- Nav Links -->
         <ul
+          v-if="!mobileMenuOpen"
           class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12"
         >
           <li>
@@ -47,6 +48,44 @@
           </li>
           <li>
             <router-link class="hover:text-gray-200" to="/about"
+              >About</router-link
+            >
+          </li>
+        </ul>
+        <!-- Mobile Nav Links -->
+        <ul
+          v-if="mobileMenuOpen"
+          class="block md:hidden px-4 mx-auto font-semibold font-heading space-y-4 text-center"
+        >
+          <li>
+            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/main"
+              >Main</router-link
+            >
+          </li>
+          <li>
+            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/Store"
+              >Store</router-link
+            >
+          </li>
+          <!--
+          <li>
+            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/auctions"
+              >Auctions</router-link
+            >
+          </li>
+          -->
+          <li>
+            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/mygames"
+              >My games</router-link
+            >
+          </li>
+          <li>
+            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/messenger"
+                >Messages</router-link
+            >
+          </li>
+          <li>
+            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/about"
               >About</router-link
             >
           </li>
@@ -108,7 +147,11 @@
         </div>
       </div>
       <!-- Responsive navbar -->
-      <a class="navbar-burger self-center mr-12 xl:hidden" href="#">
+      <a
+        @click="mobileMenuOpen = !mobileMenuOpen"
+        class="navbar-burger self-center mr-12 xl:hidden"
+        href="#"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 hover:text-gray-200"
@@ -217,6 +260,7 @@
         </div>
       </div>
     </div>
+    <!-- Código del perfil del menú -->
   </section>
 </template>
 
@@ -237,6 +281,7 @@ export default {
       connected: useWallet().connected,
       socket: null,
       usuario: "",
+      mobileMenuOpen: false,
     };
   },
 
@@ -275,6 +320,8 @@ export default {
       alert(
         "From: " + data.from + " Message: " + data.content + " To: " + data.to
       );
+      // Evento personalizado para notificar a otro componente del mensaje recibido
+      this.$emit("message", data);
       // this.messages[]
     });
   },
