@@ -16,6 +16,7 @@
     "@solana/web3.js": "^1.91.0",
     "axios": "^1.6.5",
     "base64-arraybuffer": "^1.0.2",
+    "jquery": "^3.7.1",
     "qr-code-styling": "^1.6.0-rc.1",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.5",
