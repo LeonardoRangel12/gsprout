@@ -36,9 +36,10 @@ async function getExchange() {
       }
     };
     // Obtiene un array con todos los juegos
-  async function getJuegos(page = 1) {
+  async function getJuegos(page = 1, sorting_type = "peak_ccu") {
       try {
-        const res = await axios.get("/juegos", { params: { page } });
+        const endpoint = "/juegos" + "?page=" + page + "&sorting_type=" + sorting_type;
+        const res = await axios.get(endpoint);
         return res.data;
       } catch (error) {
         console.error(error);
