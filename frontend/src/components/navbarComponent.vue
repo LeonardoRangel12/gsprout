@@ -36,12 +36,12 @@
             >
           </li>
           -->
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/mygames"
               >My games</router-link
             >
           </li>
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/messenger"
                 >Messages</router-link
             >
@@ -74,12 +74,12 @@
             >
           </li>
           -->
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/mygames"
               >My games</router-link
             >
           </li>
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/messenger"
                 >Messages</router-link
             >

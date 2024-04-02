@@ -78,7 +78,7 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import axios from "../main"; // Importa Axios
 import Swal from "sweetalert2"; // Importa SweetAlert2
-import { getWishList, getExchange, getUsuario} from "../apis";
+import { getWishList, getExchange, getUsuario, getUserSession} from "../apis";
 import { ref } from "vue";
 export default {
   components: {
@@ -86,7 +86,9 @@ export default {
     Footer,
   },
   data() {
+    const hasSession = getUserSession();
     return {
+      hasSession,
       juegos: ref([]), // Inicializa juegos como un array vacío
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
       wishlist: [],
@@ -96,7 +98,6 @@ export default {
     const juegos = ref([]); // Inicializa juegos como un array vacío
     const exchange = ref(50); // Inicializa exchange como 50
     const wishlist = ref([]);
-
     await Promise.all([
       getWishList(), // Llama a la función getJuegos al crear el componente
       getExchange(),
@@ -104,14 +105,17 @@ export default {
     ]).then((values) => {
       juegos.value = values[0]; // Asigna el valor de la lista de deseos a la variable juegos
       exchange.value = values[1];
-      wishlist.value = values[2].wishList;
+      wishlist.value = values[2] == null ? [] : values[2].wishlist;
     }).catch((error) => {
       console.error(error); // Maneja errores
     })
     return { juegos, SOL_TO_USD_RATE: exchange, wishlist }; // Devuelve juegos
   },
-  
-  
+  mounted(){
+    if(this.hasSession == false){
+      this.$router.push('/main');
+    }
+  },
   methods: {
     async addToWishList(juegoId) {
       try {
