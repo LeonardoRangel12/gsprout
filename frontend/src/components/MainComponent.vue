@@ -73,6 +73,7 @@
   </div>
 </template>
 
+
 <script>
 import Discord from "./DiscordComponent.vue";
 import Navbar from "./navbarComponent.vue";
@@ -82,7 +83,7 @@ import NewGames from "./NewGamesComponent.vue";
 import axios from "../main";
 import Swal from "sweetalert2";
 import { inject, ref } from "vue";
-import { getExchange, getUsuario, getJuegos } from "../apis";
+import { getExchange, getUsuario, getJuegos, getUserSession } from "../apis";
 
 export default {
   components: {
@@ -104,9 +105,8 @@ export default {
     const games = ref([]);
     const exchange = ref(50);
     const wishlist = ref([]);
-
     const requests = [getExchange(), getUsuario(), getJuegos()];
-
+    const hasSession = getUserSession();
     await Promise.all(requests)
       .then((values) => {
         games.value = values[2];
@@ -116,24 +116,31 @@ export default {
       .catch((error) => {
         console.error(error);
       });
-    console.log(games.value);
     const featuredGames = ref(games.value.slice(0, 12));
-    return { games, featuredGames, SOL_TO_USD_RATE: exchange, wishlist };
+    return { games, featuredGames, SOL_TO_USD_RATE: exchange, wishlist, hasSession };
   },
   async mounted() {
     const games = inject("games");
-    console.log(games);
   },
   methods: {
     async addToWishList(juegoId) {
       try {
-        const res = await axios.post("/usuarios/wishlist/" + juegoId);
-        if (res.status == 200) {
-          this.wishlist.push(juegoId);
+        if(this.hasSession){
+          const res = await axios.post("/usuarios/wishlist/" + juegoId);
+          if (res.status == 200) {
+            this.wishlist.push(juegoId);
+            Swal.fire({
+              icon: "success",
+              title: "¡Éxito!",
+              text: "Juego añadido a favoritos",
+            });
+          }
+        }
+        else{
           Swal.fire({
-            icon: "success",
-            title: "¡Éxito!",
-            text: "Juego añadido a favoritos",
+            icon: "error",
+            title: "¡Error!",
+            text: "Necesitas iniciar sesión para añadir juegos a favoritos",
           });
         }
       } catch (error) {
@@ -142,14 +149,16 @@ export default {
     },
     async removeFromWishList(juegoId) {
       try {
-        const res = await axios.delete("/usuarios/wishlist/" + juegoId);
-        if (res.status == 200) {
-          Swal.fire({
-            icon: "success",
-            title: "¡Éxito!",
-            text: "Juego removido de favoritos",
-          });
-          this.wishlist = this.wishlist.filter((id) => id !== juegoId);
+        if(this.hasSession){
+          const res = await axios.delete("/usuarios/wishlist/" + juegoId);
+          if (res.status == 200) {
+            Swal.fire({
+              icon: "success",
+              title: "¡Éxito!",
+              text: "Juego removido de favoritos",
+            });
+            this.wishlist = this.wishlist.filter((id) => id !== juegoId);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -158,14 +167,18 @@ export default {
     async isFavorite(juegoId) {
       return this.wishlist != null ? this.wishlist.includes(juegoId) : false;
     },
-
     async switchToBuy(gameid) {
       try {
-        const juego = this.games.find((game) => game._id === gameid);
-        if (!juego) {
-          throw new Error("Juego no encontrado");
+        if(this.hasSession){
+          const juego = this.games.find((game) => game._id === gameid);
+          if (!juego) {
+            throw new Error("Juego no encontrado");
+          }
+          this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
         }
-        this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
+        else{
+          this.$router.push("/");
+        }
       } catch (error) {
         console.error(error);
       }

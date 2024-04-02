@@ -53,6 +53,19 @@ async function getExchange() {
       console.error(error);
     }
   }
+   function getUserSession(){
+    try{
+      const session = localStorage.getItem("token");
+      if(session){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }catch(error){
+      console.error(error);
+    }
+  }
 
-    export { getExchange, getWishList, getJuegos, getUsuario, getJuego };
+    export { getUserSession, getExchange, getWishList, getJuegos, getUsuario, getJuego };
 
