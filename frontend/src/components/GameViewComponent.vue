@@ -130,8 +130,7 @@ export default {
     this.checkScreenSize();
     this.initCarousel();
     this.startSlideshow();
-    this.checkScreen();
-    window.addEventListener('resize', this.checkScreenSize);
+    window.addEventListener('resize', this.checkScreen);
   },
 
   computed: {
