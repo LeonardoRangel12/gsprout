@@ -1,69 +1,70 @@
 <template>
   <Navbar />
-  <section class="flex flex-row items-center bg-gray-950">
-    <div class="container mx-auto px-4">
-      <div class="relative flex flex-col min-w-0 break-words bg-gray-900 w-full mb-6 shadow-xl rounded-lg mt-20">
-        <div class="px-6">
-          <div class="flex flex-wrap justify-center">
-            <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-              <div class="py-6 px-3 mt-32 sm:mt-0">
-                <input type="text" v-model="searchUser" class="m-1"/><button @click="SearchUser(searchUser)" class="bg-indigo-800 active:bg-indigo-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button">
-                  Search
-                </button>
-                <div v-if ="userFound">
-                  <button id="AddUser" @click="AddFriend(userSearched)">{{ userSearched}}</button>
-                </div>
-              </div>
+  <section class="bg-gray-950 text-white px-4 py-8 md:px-8">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- User Profile Card -->
+        <div class="bg-gray-900 rounded-lg shadow-xl p-6 mb-8">
+          <div class="flex flex-col items-center justify-center">
+            <img :src="user.avatar" class="rounded-full h-32 w-32 mb-4" alt="User Avatar" />
+            <h3 class="text-xl font-semibold mb-2">{{ user.username }}</h3>
+            <p>{{ user.descripcion }}</p>
+            <button @click="openModal" class="text-sm text-indigo-500 hover:underline cursor-pointer mt-2">Edit Description</button>
+          </div>
+          <div class="mt-6 flex justify-between">
+            <div>
+              <p>Level</p>
+              <p class="font-semibold">{{ user.nivel }}</p>
             </div>
-            <div class="w-full lg:w-4/12 px-4 lg:order-1">
-              <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                <div class="mr-4 p-3 text-center">
-                  <span class="text-xl font-bold block uppercase tracking-wide text-gray-300">{{ user.countFriend }}</span><span class="text-sm text-gray-400">Friends</span>
-                </div>
-              </div>
+            <div>
+              <p>Friends</p>
+              <p class="font-semibold">{{ user.countFriend }}</p>
             </div>
-            <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-              <div class="flex justify-self-end m-auto">
-                <img :src="user.avatar" class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16" style = "max-width:150px;"/>
-              </div>
+            <div>
+              <p>Game Time</p>
+              <p class="font-semibold">{{ user.horas_juego }} hrs</p>
             </div>
           </div>
-          <div class="text-center mt-12">
-            <h3 class="text-4xl font-semibold leading-normal text-gray-200 mb-2">
-              {{user.username}}
-            </h3>
-            <div class="text-sm leading-normal mt-0 mb-2 text-gray-300 font-bold uppercase">
-              <i class="fas fa-map-marker-alt mr-2 text-lg text-gray-300"></i>
-              Level: {{user.nivel}}
-            </div>
-            <!-- Modal de Edición de Descripción -->
-            <div v-if="showModal" class="flex inset-0 items-center justify-center bg-gray-950 bg-opacity-10">
-              <div class="bg-white p-6 rounded-lg">
-                <h2 class="text-xl font-bold mb-4">Edit Description</h2>
-                <textarea v-model="newDescription" class="w-full h-24 bg-gray-100 text-gray-700 p-2 mb-4"></textarea>
-                <div class="flex justify-end">
-                    <button @click="closeModal" class="text-gray-600 hover:text-gray-800 mr-4">Cancel</button>
-                    <button @click="updateDescription" id="updateDescription" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Save Changes</button>
-                </div>
-              </div>
-            </div>
-            <button @click="openModal" class="text-xl text-indigo-500 hover:underline cursor-pointer">Edit Description</button>
+        </div>
+
+        <!-- Search and Add Friend -->
+        <div class="bg-gray-900 rounded-lg shadow-xl p-6 mb-8">
+          <h3 class="text-lg font-semibold mb-4">Find Friends</h3>
+          <input v-model="searchUser" type="text" class="w-full px-4 py-2 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4" placeholder="Search User" />
+          <button @click="SearchUser(searchUser)" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded hover:bg-indigo-700">Search</button>
+          <div v-if="userFound" class="mt-4">
+            <p class="mb-2">Add {{ userSearched }} as Friend?</p>
+            <button @click="AddFriend(userSearched)" class="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700">Add Friend</button>
           </div>
-          <div class="mt-10 py-10 border-t border-gray-200 text-center">
-            <div class="flex flex-wrap justify-center">
-              <div class="w-full lg:w-9/12 px-4">
-                <p class = "mb-4 text-lg font-bold leading-relaxed text-gray-300">
-                  Description
-                </p>
-                <p class="mb-4 text-lg leading-relaxed text-gray-300">
-                  {{user.descripcion}}
-                </p>
-              </div>
+        </div>
+
+        <!-- Friends List -->
+        <div class="bg-gray-900 rounded-lg shadow-xl p-6 mb-8">
+          <h3 class="text-lg font-semibold mb-4">Friends List</h3>
+          <div v-if="friends.length === 0" class="text-gray-400 text-center">You have no friends yet.</div>
+          <div v-else>
+            <div v-for="friend in friends" :key="friend" class="flex items-center justify-between py-2 border-b border-gray-700">
+              <p>{{ friend }}</p>
+              <button @click="removeFriend(friend)" class="text-red-500 hover:text-red-700"><i class="fas fa-trash-alt"></i></button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Edit Description Modal -->
+    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+      <div class="bg-gray-800 w-full md:w-1/2 p-6 rounded-lg">
+        <h3 class="text-xl font-semibold mb-4">Edit Description</h3>
+        <textarea v-model="newDescription" class="w-full h-32 px-4 py-2 rounded-md bg-gray-700 text-white mb-4" placeholder="Enter your new description..."></textarea>
+        <div class="flex justify-end">
+          <button @click="closeModal" class="text-gray-300 hover:text-gray-400 mr-4">Cancel</button>
+          <button @click="updateDescription" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Save Changes</button>
+        </div>
+      </div>
+    </div>
+    <!-- /Edit Description Modal -->
+
   </section>
   <Footer />
 </template>
@@ -93,11 +94,10 @@ export default {
         countFriend: 0,
       },
       userSearched: "",
-      recentGames: [],
-      friends:[],
+      friends: [],
       showModal: false,
       newDescription: '',
-      searchUser:'',
+      searchUser: '',
       userFound: false,
     }
   },
@@ -122,51 +122,37 @@ export default {
             icon: 'error',
             title: 'Oops...',
             text: 'Error loading user data',
-          }); 
+          });
         }
       }
     },
-    async getUsers() {
-      try {
-        const response = await axios.get('/usuarios');
-        this.users = response.data.filter(user => user.nombre && user.username).slice(0, 8);
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Error loading users',
-        });
-      }
-    },
-    openModal() {
+    async openModal() {
       this.showModal = true;
       this.newDescription = this.user.descripcion;
     },
-    closeModal() {
+    async closeModal() {
       this.showModal = false;
     },
     async updateDescription() {
       try {
-        let button = document.getElementById("updateDescription");
-        button.disabled = true;
-        button.style.cursor = "wait";
-        this.user.descripcion = this.newDescription;
-        const request = await axios.put('usuarios/',{
-            descripcion: this.newDescription
+        const response = await axios.put('usuarios/', {
+          descripcion: this.newDescription
         });
-        if(request.status == 200){
+        if (response.status === 200) {
+          this.user.descripcion = this.newDescription;
           Swal.fire({
             icon: 'success',
             title: 'Success!',
             text: 'Description updated successfully',
           });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error updating description',
+          });
         }
-        setTimeout(()=>{
-          console.log("Descripcion editada con exito");
-          button.disabled = false;
-          button.style.cursor = "pointer";
-          this.closeModal();
-        },100)
+        this.closeModal();
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -175,12 +161,12 @@ export default {
         });
       }
     },
-    async SearchUser(name){
-      try{
+    async SearchUser(name) {
+      try {
         const request = await axios.get('/usuarios/' + name);
         this.userSearched = request.data.username;
         this.userFound = true;
-      }catch(error){
+      } catch (error) {
         this.userFound = false;
         Swal.fire({
           icon: 'error',
@@ -189,65 +175,61 @@ export default {
         });
       }
     },
-    async AddFriend(name){
-      try{
+    async AddFriend(name) {
+      try {
         let button = document.getElementById("AddUser");
-        button.style.cursor = "await";
-        button.disabled = true;
-        if(this.friends !=null){
-          if((this.friends.includes(name)) != true){
-              await this.processUser(name);
-          }
-          else{
-            button.style.cursor = "pointer";
-            button.disabled = false;
-            Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: "User already in your friends list.",
-            });
-            return;
-          }
-        }
-        else{
-          await this.processUser(name);
-        }
-      }catch(error){
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: "Error adding friend. Please try again.",
-        });
-      }
-    },
-    async processUser(name){
-      try{
-        let button = document.getElementById("AddUser");
-        var countfriend = parseInt(this.user.countFriend) + 1;
-        let list = [];
-        list.push(name);
-        this.friends = list;
-        let friend = this.friends;
-        const request = await axios.put("usuarios/",{
-            countFriends: countfriend,
-            friends: friend
-        })
-        setTimeout(()=>{
-          Swal.fire({
-            icon: 'success',
-            title: 'Exitoso',
-            text: 'User added to friends list.',
+        let friend = name;
+        if (!this.friends.includes(friend)) {
+          this.friends.push(friend);
+          const request = await axios.put("usuarios/", {
+            countFriends: this.friends.length,
+            friends: this.friends
           });
-          button.disabled = false;
-          button.style.cursor = "pointer";
-          this.userFound = false;
-          this.user.countFriend = countfriend;
-        },100)
-      }catch(error){
+          setTimeout(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Exitoso',
+              text: 'User added to friends list.',
+            });
+            button.disabled = false;
+            button.style.cursor = "pointer";
+            this.userFound = false;
+          }, 100)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'This user is already in your friends list.',
+          });
+        }
+      } catch (error) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: "Error adding friend. Please try again.",
+        });
+      }
+    },
+    async removeFriend(friend) {
+      try {
+        const index = this.friends.indexOf(friend);
+        if (index > -1) {
+          this.friends.splice(index, 1);
+          const request = await axios.put("usuarios/", {
+            countFriends: this.friends.length,
+            friends: this.friends
+          });
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Friend removed successfully.',
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Error removing friend. Please try again.",
         });
       }
     }

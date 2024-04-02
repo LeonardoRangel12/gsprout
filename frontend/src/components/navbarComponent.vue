@@ -55,37 +55,37 @@
         <!-- Mobile Nav Links -->
         <ul
           v-if="mobileMenuOpen"
-          class="block md:hidden px-4 mx-auto font-semibold font-heading space-y-4 text-center"
+          class="block md:hidden px-4 mx-auto font-semibold font-heading space-y-4"
         >
           <li>
-            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/main"
+            <router-link class="hover:text-gray-200" to="/main"
               >Main</router-link
             >
           </li>
           <li>
-            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/Store"
+            <router-link class="hover:text-gray-200" to="/Store"
               >Store</router-link
             >
           </li>
           <!--
           <li>
-            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/auctions"
+            <router-link class="hover:text-gray-200" to="/auctions"
               >Auctions</router-link
             >
           </li>
           -->
           <li>
-            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/mygames"
+            <router-link class="hover:text-gray-200" to="/mygames"
               >My games</router-link
             >
           </li>
           <li>
-            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/messenger"
+            <router-link class="hover:text-gray-200" to="/messenger"
                 >Messages</router-link
             >
           </li>
           <li>
-            <router-link class="block py-2 border-b border-gray-700 hover:text-gray-200" to="/about"
+            <router-link class="hover:text-gray-200" to="/about"
               >About</router-link
             >
           </li>
@@ -218,7 +218,7 @@
       </div>
       <div
       v-else>
-      <div class="px-1 py-1">
+        <div class="px-1 py-1">
           <router-link
             to="/"
             class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-200"
