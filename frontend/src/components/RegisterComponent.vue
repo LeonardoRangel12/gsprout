@@ -160,7 +160,7 @@ export default {
       try {
         const { connected } = useWallet();
         if (connected.value === false) {
-          this.errorMessages.push("Conecta tu wallet para continuar");
+          this.errorMessages.push("Connect your wallet to register");
           return;
         }
         if (
@@ -169,18 +169,18 @@ export default {
           !this.formData.password
         ) {
           this.errorMessages.push(
-            "Por favor, completa todos los campos del formulario."
+            "Please fill in all the fields to register"
           );
           return;
         }
         if (this.formData.password.length < 8) {
           this.errorMessages.push(
-            "La contraseña debe tener al menos 8 caracteres"
+            "The password must be at least 8 characters long"
           );
           return;
         }
         if (!RegExp(/\S+@\S+\.\S+/).test(this.formData.email)) {
-          this.errorMessages.push("El correo no es válido");
+          this.errorMessages.push("Invalid email format");
           return;
         }
         try {
@@ -195,18 +195,18 @@ export default {
             this.userRegistered = true;
             Swal.fire({
               icon: "success",
-              title: "Registro exitoso",
-              text: "¡Usuario registrado correctamente!",
+              title: "Success!",
+              text: "User registered successfully",
             });
           }
         } catch (error) {
           // Catch the error of user already exists
           if (error.response.status === 400) {
-            this.errorMessages.push("El usuario ya existe");
+            this.errorMessages.push("User already exists");
             Swal.fire({
               icon: "error",
               title: "Error",
-              text: "El usuario ya existe",
+              text: "User already exists",
             });
           }
         }
@@ -215,14 +215,14 @@ export default {
         if (error.response.status === 500) {
           this.errorMessages.push("Internal server error:", error);
         } else if (error.response.status === 400) {
-          this.errorMessages.push("Hubo un error en la solicitud:", error);
+          this.errorMessages.push("Error in request:", error);
         } else {
           this.errorMessages.push("Error:", error);
         }
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Hubo un error en la solicitud",
+          text: "Error in the request",
         });
       } finally {
         setTimeout(() => {

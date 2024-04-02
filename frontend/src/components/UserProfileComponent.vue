@@ -118,7 +118,11 @@ export default {
         if (error.response && error.response.status === 401) {
           this.$router.push('/');
         } else {
-          console.error(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error loading user data',
+          }); 
         }
       }
     },
@@ -127,7 +131,11 @@ export default {
         const response = await axios.get('/usuarios');
         this.users = response.data.filter(user => user.nombre && user.username).slice(0, 8);
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error loading users',
+        });
       }
     },
     openModal() {
@@ -147,7 +155,11 @@ export default {
             descripcion: this.newDescription
         });
         if(request.status == 200){
-          console.log("Usuario actualizado");
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Description updated successfully',
+          });
         }
         setTimeout(()=>{
           console.log("Descripcion editada con exito");
@@ -156,7 +168,11 @@ export default {
           this.closeModal();
         },100)
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error updating description',
+        });
       }
     },
     async SearchUser(name){
@@ -166,7 +182,11 @@ export default {
         this.userFound = true;
       }catch(error){
         this.userFound = false;
-        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'User not found',
+        });
       }
     },
     async AddFriend(name){
@@ -184,7 +204,7 @@ export default {
             Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: "Amigo ya agregado",
+            text: "User already in your friends list.",
             });
             return;
           }
@@ -196,7 +216,7 @@ export default {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: "Error al procesar la solicitud",
+            text: "Error adding friend. Please try again.",
         });
       }
     },
@@ -216,7 +236,7 @@ export default {
           Swal.fire({
             icon: 'success',
             title: 'Exitoso',
-            text: 'Amigo añadido con exito.',
+            text: 'User added to friends list.',
           });
           button.disabled = false;
           button.style.cursor = "pointer";
@@ -224,7 +244,11 @@ export default {
           this.user.countFriend = countfriend;
         },100)
       }catch(error){
-        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Error adding friend. Please try again.",
+        });
       }
     }
   },

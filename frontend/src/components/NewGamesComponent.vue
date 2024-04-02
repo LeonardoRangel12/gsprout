@@ -72,7 +72,7 @@
 
 <script>
 import { ref } from 'vue';
-
+import Swal from 'sweetalert2';
 export default {
   props: {
     games: {
@@ -103,7 +103,11 @@ export default {
         // Assuming you have access to router instance
         router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Game not found"
+        });
       }
     };
 

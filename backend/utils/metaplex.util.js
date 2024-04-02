@@ -166,8 +166,6 @@ const fetchNFTs = async (pk, page = 1) => {
   const nfts = await umi.rpc.searchAssets({
     owner: publicKey(pk),
     creator: WALLET.publicKey,
-    limit: 10,
-    page: 1,
     compressed: true,
   });
   return nfts;
