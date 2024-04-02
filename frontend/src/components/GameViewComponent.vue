@@ -81,17 +81,17 @@
           </div>
           <!-- Galería de imágenes -->
           <div class="bg-gray-900 rounded-lg shadow-lg mt-6" ref="carousel">
-            <div class="p-4">
-              <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Gallery</h2>
-              <div class="slick-carousel">
-                <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mb-2">
-                  <img class="h-auto w-full object-cover rounded-lg" :class="{
-                    'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
-                  }" :src="imageUrl" :alt="`Image ${index + 1}`" @click="selectImage(imageUrl, index)" />
-                </div>
+          <div class="p-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Gallery</h2>
+            <div class="slick-carousel">
+              <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mb-2">
+                <img class="h-auto w-full object-cover rounded-lg" :class="{
+                  'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
+                }" :src="imageUrl" :alt="`Image ${index + 1}`" @click="selectImage(imageUrl, index)" />
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -130,7 +130,7 @@ export default {
     this.checkScreenSize();
     this.initCarousel();
     this.startSlideshow();
-    this.checkScreenSize();
+    this.checkScreen();
     window.addEventListener('resize', this.checkScreenSize);
   },
 
@@ -149,8 +149,9 @@ export default {
         console.error(error);
       }
     },
-    checkScreenSize() {
-      this.isMobile = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
+    
+    checkScreen() {
+      this.isSmallScreen = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
     },
     truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
@@ -185,6 +186,9 @@ export default {
       this.selectedImageIndex = index;
     },    
 
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
+    },
     initCarousel() {
       $(this.$refs.carousel).find('.slick-carousel').slick({
         slidesToShow: this.isMobile ? 1 : 1,
