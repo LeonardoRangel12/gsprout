@@ -34,6 +34,7 @@
           <div class="p-4">
             <h3 class="text-lg font-semibold">{{ juego.nombre }}</h3>
             <p class="text-gray-300">{{ juego.categoria.join(", ") }}</p>
+            <!-- Mostrar la descripción solo si no estás en un dispositivo móvil -->
             <p v-if="!isMobile" class="text-gray-300 mb-4 text-justify">{{ truncar(juego.descripcion) }}</p>
             <div class="flex justify-between items-center">
               <p class="text-gray-300 font-semibold">{{ juego.precio }} USD / {{ (juego.precio / SOL_TO_USD_RATE).toFixed(9) }} SOL</p>
@@ -48,7 +49,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import axios from "../main";
@@ -60,35 +61,24 @@ export default {
     Navbar,
     Footer
   },
-  setup() {
-    const selected = ref('Alphabetical');
-    const options = ref([
-      {text: "A-Z", value: "Alphabetical"},
-      {text: "Price: High to Low", value: "UpToDownPrize"},
-      {text: "Price: Low to High", value: "DownToUpPrize"}
-    ]);
+  data() {
+    return {
+      juegos: [],
+      SOL_TO_USD_RATE: 50,
+      currentPage: 1,
+      wishlist: [],
+      hasMoreGames: true,
+      isMobile: false // Agregar una variable para controlar si estás en un dispositivo móvil
+    };
+  },
+  async setup(){
     const juegos = ref([]);
     const SOL_TO_USD_RATE = ref(50);
     const wishlist = ref([]);
 
-    const isMobile = ref(false);
-
-    const handleResize = () => {
-      isMobile.value = window.innerWidth <= 768; // Establecer el umbral de ancho para dispositivos móviles
-    };
-
-    onMounted(() => {
-      handleResize(); // Llamar a la función de manejo de tamaño inicialmente
-      window.addEventListener('resize', handleResize); // Escuchar eventos de cambio de tamaño de ventana
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('resize', handleResize); // Limpiar el event listener en la eliminación del componente
-    });
-
     const requests = [getExchange(), getUsuario(), getJuegos()];
 
-    Promise.all(requests)
+    await Promise.all(requests)
       .then((values) => {
         juegos.value = values[2];
         SOL_TO_USD_RATE.value = values[0];
@@ -98,17 +88,29 @@ export default {
         console.error(error);
       });
 
-    return {
+    const selected = ref('Alphabetical');
+    const options = ref([
+      {text: "A-Z", value:"Alphabetical"},
+      //{text: "Juegos Destacados", value:"RelevantGames"},
+      {text: "De Mayor a menor precio", value:"UpToDownPrize"},
+      {text: "De Menor a mayor precio", value:"DownToUpPrize"}
+    ])
+    return{
       selected,
       options,
       juegos,
       SOL_TO_USD_RATE, 
-      wishlist,
-      isMobile
-    };
+      wishlist
+    }
   },
-  created() {
+
+  async created() {
     this.filterGamesByOption(this.selected);
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+    this.handleResize(); // Llamar a la función de manejo de cambio de tamaño para determinar si estás en un dispositivo móvil
+    window.addEventListener('resize', this.handleResize); // Escuchar eventos de cambio de tamaño de ventana
   },
   methods: {
     async addToWishList(juegoId) {
@@ -118,8 +120,8 @@ export default {
           this.wishlist.push(juegoId);
           Swal.fire({
             icon: "success",
-            title: "Success!",
-            text: "Game added to wishlist",
+            title: "¡Éxito!",
+            text: "Juego añadido a favoritos",
           });
         }
       } catch (error) {
@@ -132,8 +134,8 @@ export default {
         if (res.status == 200) {
           Swal.fire({
             icon: "success",
-            title: "Success!",
-            text: "Game removed from wishlist",
+            title: "¡Éxito!",
+            text: "Juego removido de favoritos",
           });
           this.wishlist = this.wishlist.filter((id) => id !== juegoId);
         }
@@ -144,25 +146,51 @@ export default {
     async isFavorite(juegoId) {
       return this.wishlist != null ? this.wishlist.includes(juegoId) : false;
     },
-    switchToDetails(gameid) {
-      this.$router.push(`/gameView?id=${gameid}&price=${this.juegos.find(juego => juego._id === gameid).precio}`);
+    switchToBuy(gameid) {
+      this.$router.push('/solanaPay?id=' + gameid + '&&price=' + this.juegos.find(juego => juego._id === gameid).precio);
     },
-    filterGamesByOption(option) {
-      switch(option) {
+    async switchToDetails(gameid) {
+      try {
+        const juego = this.juegos.find((game) => game._id === gameid);
+        if (!juego) {
+          throw new Error("Juego no encontrado");
+        }
+        this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    filterGamesByOption(option){
+      switch(option){
         case 'Alphabetical':
-          this.juegos.sort((a,b) => a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
+          this.juegos.sort((a,b)=>a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase()));
           break;
         case 'UpToDownPrize':
-          this.juegos.sort((a,b) => b.precio - a.precio);
+          this.juegos.sort((a,b)=> b.precio - a.precio);
           break;
         case 'DownToUpPrize':
-          this.juegos.sort((a,b) => a.precio - b.precio);
+          this.juegos.sort((a,b)=> a.precio - b.precio);
           break;
       }
     },
     truncar(text, maxLength = 240) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
-    }
+    },
+    handleResize() {
+      this.isMobile = window.innerWidth <= 768; // Establecer el umbral de ancho para dispositivos móviles
+    },
+    handleScroll() {
+      const scrollBottom = document.documentElement.scrollHeight - window.innerHeight;
+      if (window.scrollY >= scrollBottom - 50 && this.hasMoreGames) {
+        this.loadMoreGames();
+      }
+    },
+    async loadMoreGames() {
+      this.currentPage++;
+      const res = await getJuegos(this.currentPage);
+      this.juegos = this.juegos.concat(res);
+      this.hasMoreGames = res.length > 0;
+    },
   }
 };
 </script>
