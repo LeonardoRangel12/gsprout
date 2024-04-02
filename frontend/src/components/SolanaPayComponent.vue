@@ -93,7 +93,7 @@ export default {
   mounted(){
     const hasSession = getUserSession();
     if(!hasSession){
-      this.$router.push("/?id="+this.$route.query.id+"&price="+this.price+"&dir=solanaPay");
+      this.$router.push("/login?id="+this.$route.query.id+"&price="+this.price+"&dir=solanaPay");
     }
   },
   methods: {

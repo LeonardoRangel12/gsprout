@@ -37,9 +37,9 @@ const newAxios: AxiosInstance = axios.create({
 });
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", component: LoginComponentVue },
+  { path: "/login", component: LoginComponentVue },
   { path: "/register", component: RegisterComponentVue },
-  { path: "/main", component: MainComponentVue },
+  { path: "/", component: MainComponentVue },
   { path: "/solanaPay", component: SolanaPayComponentVue },
   { path: "/profile", component: UserProfileComponentVue },
   { path: "/auctions", component: Auctions },

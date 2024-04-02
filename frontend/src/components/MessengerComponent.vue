@@ -173,7 +173,7 @@ export default {
     },
     checkSession(session){
       if(!session){
-        this.$router.push('/main')
+        this.$router.push('/login')
       }
     },
     handleScroll() {

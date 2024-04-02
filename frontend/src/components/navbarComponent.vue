@@ -6,7 +6,7 @@
     >
       <div class="px-5 xl:px-12 py-6 flex w-full items-center">
         <a class="text-3xl font-bold font-heading" href="#">
-          <router-link to="/main">
+          <router-link to="/">
             <img
               class="h-12"
               src="https://i.imgur.com/QDzM74E.png"
@@ -20,7 +20,7 @@
           class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12"
         >
           <li>
-            <router-link class="hover:text-gray-200" to="/main"
+            <router-link class="hover:text-gray-200" to="/"
               >Main</router-link
             >
           </li>
@@ -58,7 +58,7 @@
           class="block md:hidden px-4 mx-auto font-semibold font-heading space-y-4"
         >
           <li>
-            <router-link class="hover:text-gray-200" to="/main"
+            <router-link class="hover:text-gray-200" to="//"
               >Main</router-link
             >
           </li>
@@ -220,7 +220,7 @@
       v-else>
         <div class="px-1 py-1">
           <router-link
-            to="/"
+            to="/login"
             class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-200"
           >
             <svg
@@ -338,7 +338,7 @@ export default {
       // JWT
       localStorage.removeItem("token");
       // Si la solicitud de logout fue exitosa, redirige al usuario a '/'
-      this.$router.push("/");
+      this.$router.push("/login");
     },
   },
   beforeUnmount() {

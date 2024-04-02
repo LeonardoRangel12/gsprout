@@ -87,7 +87,7 @@
                   id="registerButton"
                   class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-800 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                 >
-                  Regíster
+                  Register
                 </button>
               </div>
               <div v-if="errorMessages.length > 0 " class="block w-full px-4 py-2 mt-2 text-center text-red-600 bg-red-100">
@@ -183,15 +183,16 @@ export default {
           return;
         }
         try {
-          const response = {
-            status: 201
-          };/*await newAxios.post("/usuarios/", {
+          // const response = {
+          //   status: 201
+          // };
+          const response = await newAxios.post("/usuarios/", {
             email: this.formData.email,
             username: this.formData.username,
             password: this.formData.password,
             wallets: [publicKey.value.toBase58()],
-          });*/
-          if (response.status == 201) {
+          });
+          if (response.status == 201 || response.status == 200) {
             // Validating user registration
             this.userRegistered = true;
             Swal.fire({
@@ -240,10 +241,10 @@ export default {
         if(params != null){
           switch(params.query.dir){
             case 'solanaPay':
-              this.$router.push('/?dir='+params.query.dir+"&id="+params.query.id+"&success=true");
+              this.$router.push('/login?dir='+params.query.dir+"&id="+params.query.id+"&success=true");
             break;
             default:
-              this.$router.push("/");
+              this.$router.push("/login");
               break;
           }
         }

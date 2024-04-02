@@ -97,7 +97,7 @@ export default {
       games: [],
       featuredGames: [],
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
-      wishlist: [],
+      wishlist: ref([]),
     };
   },
   async setup() {
@@ -110,7 +110,7 @@ export default {
       .then((values) => {
         games.value = values[2];
         exchange.value = values[0];
-        wishlist.value = values[1] == null ? [] : values[1].wishlist;
+        wishlist.value = values[1].wishList ? values[1].wishList : [];
       })
       .catch((error) => {
         Swal.fire({

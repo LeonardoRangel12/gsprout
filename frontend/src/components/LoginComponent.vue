@@ -166,7 +166,6 @@ const getUser = async () => {
       password: formData.value.password,
       publicKey: publicKey.value.toBase58(),
     });
-    console.log(res.status, res.status===200);
     if(res.status === 200) {
       return res.data;
     }
@@ -223,7 +222,7 @@ const login = async () => {
         router.push('/'+params.query.dir+"?id="+params.query.id);
       break;
       default:
-        router.push("/main");
+        router.push("/");
       break;
     }
   }

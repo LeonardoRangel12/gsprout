@@ -52,7 +52,7 @@ export default {
   },
   mounted() {
     if(this.hasSession == false){
-      this.$router.push('/main');
+      this.$router.push('/');
     }
     this.getAssets();
     if (this.assets.length === 0) {

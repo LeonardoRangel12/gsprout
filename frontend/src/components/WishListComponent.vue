@@ -113,7 +113,7 @@ export default {
   },
   mounted(){
     if(this.hasSession == false){
-      this.$router.push('/main');
+      this.$router.push('/');
     }
   },
   methods: {
