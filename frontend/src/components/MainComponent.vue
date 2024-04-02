@@ -15,7 +15,7 @@
               />
             </div>
             <button
-              v-if="!wishlist.includes(juego._id)"
+              v-if="wishlist == null || !wishlist.includes(juego._id)"
               @click="addToWishList(juego._id)"
               class="absolute top-2 right-2 text-gray-500 focus:outline-none"
             >
@@ -67,7 +67,6 @@
       </section>
     </div>
     <NewGames :games="games" :SOL_TO_USD_RATE="SOL_TO_USD_RATE" />
-
     <Discord />
     <Footer />
   </div>
@@ -111,13 +110,13 @@ export default {
       .then((values) => {
         games.value = values[2];
         exchange.value = values[0];
-        wishlist.value = values[1].wishList;
+        wishlist.value = values[1] == null ? [] : values[1].wishlist;
       })
       .catch((error) => {
         console.error(error);
       });
     const featuredGames = ref(games.value.slice(0, 12));
-    return { games, featuredGames, SOL_TO_USD_RATE: exchange, wishlist, hasSession };
+    return { games, featuredGames, hasSession, SOL_TO_USD_RATE: exchange, wishlist};
   },
   async mounted() {
     const games = inject("games");
