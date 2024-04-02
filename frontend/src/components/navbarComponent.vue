@@ -217,6 +217,7 @@
 <script>
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import io from "socket.io-client";
+import Swal from "sweetalert2";
 export default {
   components: {
     WalletMultiButton,
@@ -264,9 +265,12 @@ export default {
 
     // Escucha los mensajes que recibe el usuario
     this.socket.on("message", (data) => {
-      alert(
-        "From: " + data.from + " Message: " + data.content + " To: " + data.to
-      );
+      Swal.fire({
+        title: "New message",
+        text: "You have a new message from " + data.from + ": " + data.message,
+        icon: "info",
+        confirmButtonText: "OK",
+      });
       // Evento personalizado para notificar a otro componente del mensaje recibido
       this.$emit("message", data);
       // this.messages[]

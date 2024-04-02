@@ -67,7 +67,9 @@
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import axios from '../main';
-
+// ############################################################
+// UNUSED CODE
+// ############################################################
 export default {
   components: {
     Navbar,

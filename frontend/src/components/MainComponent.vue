@@ -114,7 +114,11 @@ export default {
         wishlist.value = values[1].wishList;
       })
       .catch((error) => {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while loading the page. Please try again.",
+        });
       });
     console.log(games.value);
     const featuredGames = ref(games.value.slice(0, 12));
@@ -132,8 +136,8 @@ export default {
           this.wishlist.push(juegoId);
           Swal.fire({
             icon: "success",
-            title: "¡Éxito!",
-            text: "Juego añadido a favoritos",
+            title: "Success!",
+            text: "Game added to favorites",
           });
         }
       } catch (error) {
@@ -146,8 +150,8 @@ export default {
         if (res.status == 200) {
           Swal.fire({
             icon: "success",
-            title: "¡Éxito!",
-            text: "Juego removido de favoritos",
+            title: "Success!",
+            text: "Game removed from favorites",
           });
           this.wishlist = this.wishlist.filter((id) => id !== juegoId);
         }
@@ -163,7 +167,7 @@ export default {
       try {
         const juego = this.games.find((game) => game._id === gameid);
         if (!juego) {
-          throw new Error("Juego no encontrado");
+          throw new Error("Game not found");
         }
         this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
       } catch (error) {
@@ -174,7 +178,7 @@ export default {
       try {
         const juego = this.games.find((game) => game._id === gameid);
         if (!juego) {
-          throw new Error("Juego no encontrado");
+          throw new Error("Game not found");
         }
         this.$router.push(`/gameView?id=${juego._id}&price=${juego.precio}`);
       } catch (error) {
