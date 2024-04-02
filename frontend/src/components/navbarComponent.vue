@@ -253,10 +253,10 @@ export default {
     
     console.log("Socket", this.socket);
 
-    if(!localStorage.getItem("token")){
-      this.logout();
-      return;
-    }
+    // if(!localStorage.getItem("token")){
+    //   this.logout();
+    //   return;
+    // }
     this.socket.emit("login", localStorage.getItem("token"));
 
     this.socket.on("login", (message) => {
