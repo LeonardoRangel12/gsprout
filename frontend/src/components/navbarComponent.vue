@@ -93,7 +93,7 @@
         <!-- Header Icons -->
 
         <div class="hidden xl:flex items-center space-x-5">
-          <wallet-multi-button></wallet-multi-button>
+          <div v-if="hasSession" ><wallet-multi-button></wallet-multi-button></div>
           <div v-if="hasSession">
             <router-link to="/WishList">
               <a class="hover:text-gray-200" href="#">
