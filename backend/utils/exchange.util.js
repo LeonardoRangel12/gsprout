@@ -15,7 +15,7 @@ const getExchange = async (from = "USDT", to = "SOL") => {
     } catch (error) {
         console.error(error);
         // return null;
-        return 200;
+        return {buy: 200};
     }
 }
 module.exports = {getExchange};
