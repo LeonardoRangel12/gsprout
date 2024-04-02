@@ -42,7 +42,7 @@
 import Navbar from './navbarComponent.vue';
 import Footer from './FooterComponent.vue';
 import axios from '../main';
-
+import Swal from 'sweetalert2';
 export default {
   components: {
     Navbar,
@@ -67,7 +67,11 @@ export default {
           vendedor: juego.vendedor || 'gsprout'
         }));
       } catch (error) {
-        console.error('Error al obtener juegos:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred while fetching the games'
+        });
       }
     },
     setRandomRemainingTime() {

@@ -116,7 +116,11 @@ export default {
       users.value = res.data;
     } else {
       // Error al cargar los usuarios
-      console.error("Error al cargar los usuarios");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error loading users! Please try again.",
+      });
     }
     return { users };
   },
@@ -153,7 +157,11 @@ export default {
         this.messages = res.data.reverse();
       } else {
         // Error al cargar los mensajes
-        console.error("Error al cargar los mensajes");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error loading messages! Please try again.",
+        });
       }
       // Scroll to bottom only after selecting a new user
       this.$nextTick(() => {
@@ -205,7 +213,11 @@ export default {
           this.hasMoreMessages = false;
         }
       } catch (error) {
-        console.error("Error al cargar más mensajes:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error loading messages! Please try again.",
+        });
       } finally {
         this.loadingMessages = false;
       }
@@ -221,7 +233,7 @@ export default {
           });
           if (res.status === 200 || res.status === 201) {
             // Mensaje enviado correctamente
-            // this.messages.push({ from: "Tú", content: this.newMessage });
+            this.messages.push({ from: "Tú", content: this.newMessage });
             console.log("Mensaje enviado");
 
             // Mover el chat al principio de la lista
@@ -230,11 +242,19 @@ export default {
             this.users.unshift(this.selectedUser);
           } else {
             // Error al enviar el mensaje
-            console.error("Error al enviar el mensaje");
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Error sending message! Please try again.",
+            });
           }
         } catch (err) {
           // Error 404 si el usuario no existe
-          alert("El usuario no existe");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "User not found! Please try again.",
+          });
           const index = this.users.indexOf(this.selectedUser);
 
           this.users.splice(index, 1);
@@ -249,7 +269,8 @@ export default {
       });
     },
     pushMessage(message) {
-      if (message.to === localStorage.getItem("username"))
+      // If the message is for the current user, add it to the messages array
+      if (message.to === localStorage.getItem("username") && this.messages[this.messages.length - 1].content !== message.content)
         this.messages.push({ from: "Tú", content: message.content });
       else this.messages.push({ from: message.from, content: message.content });
     },

@@ -55,6 +55,7 @@ import { createTransfer, parseURL } from "@solana/pay";
 import { getJuego, getExchange } from "../apis";
 import {ref} from 'vue';
 import { useRoute } from "vue-router";
+import Swal from "sweetalert2";
 export default {
   components: {
     Navbar,
@@ -81,7 +82,11 @@ export default {
         SOL_TO_USD_RATE.value = values[1];
       })
       .catch((error) => {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error loading game. Please try again later.",
+        });
       });
     return { juego, SOL_TO_USD_RATE, price: juego.value.precio};
   },
@@ -108,7 +113,7 @@ export default {
           {
             amount: this.price / this.SOL_TO_USD_RATE,
             currency: "SOL",
-            description: "Test Payment",
+            description: "Solana Pay",
           }
         );
         const { url, ref } = res.data;

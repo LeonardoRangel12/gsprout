@@ -61,6 +61,7 @@ import { connection } from "../main";
 import SolanaPayComponent from './SolanaPayComponent.vue';
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
+import Swal from "sweetalert2";
 export default {
   components: {
     Navbar,
@@ -126,7 +127,11 @@ export default {
         this.SOL_TO_USD_RATE = res.data.sell;
         this.price = this.$router.currentRoute.value.query.price;
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while loading the page. Please try again.",
+        });
       }
     },
     async switchToBuy() {
@@ -134,11 +139,15 @@ export default {
         const response = await axios.get("/juegos/" + this.$route.query.id);
         const juego = response.data;
         if (!juego) {
-          throw new Error("Juego no encontrado");
+          throw new Error("Game not found");
         }
         this.$router.push(`/solanaPay?id=${juego._id}&price=${(juego.precio / this.SOL_TO_USD_RATE).toFixed(2)}`);
       } catch (error) {
-        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Game not found",
+        });
       }
     },
   },

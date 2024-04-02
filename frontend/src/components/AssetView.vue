@@ -121,7 +121,18 @@ export default {
         await connection.confirmTransaction(signature);
       }
       else if (res.status === 500){
-        console.error("Error al transferir el NFT");
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Internal server error. Please try again later.',
+        });
+      }
+      else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred. Please try again later.',
+        });
       }
     },
   },
