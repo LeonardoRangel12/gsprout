@@ -155,34 +155,61 @@ const getUser = async () => {
       password: formData.value.password,
       publicKey: publicKey.value.toBase58(),
     });
-    return res;
+    console.log(res.status, res.status===200);
+    if(res.status === 200) {
+      return res.data;
+    }
+    else if(res.status === 401) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Password incorrect. Please try again.',
+      });
+    }
+    else if(res.status === 500) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Internal server error. Please try again later.',
+      });
+    }
+    else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred. Please try again later.',
+      });
+    }
+    return;
   } catch (error) {
-    return error.response;
+    if(error.response.status === 404) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username not found. Please try again.',
+      });
+    }
+    else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred. Please try again later.',
+      });
+    }
+      return;
   }
 };
 
 const login = async () => {
   if (!validateForm()) return;
 
-  const res = await getUser();
-  if (res.status === 401) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Nombre de usuario incorrecto. Por favor, inténtalo de nuevo.',
-    });
-    return;
-  }
-  if (res.status === 404) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Contraseña incorrecta. Por favor, inténtalo de nuevo.',
-    });
-    return;
-  }
-  localStorage.setItem("username", res.data.username);
-  localStorage.setItem("token", "Bearer " + res.data.token);
+  const userData = await getUser();
+  console.log(userData);
+  if(!userData) return;
+
+  localStorage.setItem("username", userData.username);
+  localStorage.setItem("token", "Bearer " + userData.token);
+
   router.push("/main");
 };
 

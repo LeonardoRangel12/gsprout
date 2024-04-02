@@ -3,6 +3,9 @@ import axios from "./main";
 // Obtiene el usuario logueado
 async function getUsuario() {
   try {
+    if (!localStorage.getItem("token")) {
+      return null;
+    }
     const res = await axios.get("/usuarios/me");
     return res.data;
   } catch (error) {

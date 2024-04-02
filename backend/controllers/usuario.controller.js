@@ -7,21 +7,21 @@ const jwtUtil = require("../utils/jwt.util");
 const usuarioSalt = "usuario";
 
 const createUsuario = async (req, res, next) => {
-  // Validate request with JOI
-  let { error, value } = usuarioSchema.validate(req.body);
-  if (error) {
-    return res.status(400).send(error.details);
-  }
-
-  if (await usuarioService.getUsuarioByUsername(value.username)) {
-    return res.status(400).send("User exists with that username");
-  }
-
-  // // Hashes password
-  value.password = await bcryptUtil.hashPassword(value.password);
-
-  // Create user
   try {
+    // Validate request with JOI
+    let { error, value } = usuarioSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send(error.details);
+    }
+  
+    if (await usuarioService.getUsuarioByUsername(value.username)) {
+      return res.status(400).send("User exists with that username");
+    }
+  
+    // // Hashes password
+    value.password = await bcryptUtil.hashPassword(value.password);
+  
+    // Create user
     const usuario = await usuarioService.createUsuario(value);
     // req.redis = {
     //   key: `${usuarioSalt}`,
@@ -94,8 +94,8 @@ const getUsuarioById = async (req, res, next) => {
 };
 
 const updateUsuario = async (req, res, next) => {
-  const value = req.body;
   try {
+    const value = req.body;
     const usuario = await usuarioService.updateUsuario(
       req.token.username,
       value
@@ -149,39 +149,57 @@ const getUsuario = async (req, res, next) => {
 };
 
 const addToWishList = async (req, res, next) => {
-  // defined in session.middleware.js
-  const {username} = req.token;
-  const { id } = req.params;
+  try{
+    // defined in session.middleware.js
+    const {username} = req.token;
+    const { id } = req.params;
+  
+    const usuario = await usuarioService.addToWishList(username, id);
+    if (!usuario) return res.status(404).send("User not found");
+  
+    return res.status(200).send(usuario);
 
-  const usuario = await usuarioService.addToWishList(username, id);
-  if (!usuario) return res.status(404).send("User not found");
-
-  return res.status(200).send(usuario);
+  }
+  catch(err){
+    return res.status(500).send(err);
+  }
 };
 const removeFromWishList = async (req, res, next) => {
-  // defined in session.middleware.js
-  const {username} = req.token;
-  const { id } = req.params;
+  try{
+    // defined in session.middleware.js
+    const {username} = req.token;
+    const { id } = req.params;
+  
+    const usuario = await usuarioService.removeFromWishList(username, id);
+    if (!usuario) return res.status(404).send("User not found");
+  
+    return res.status(200).send(usuario);
 
-  const usuario = await usuarioService.removeFromWishList(username, id);
-  if (!usuario) return res.status(404).send("User not found");
-
-  return res.status(200).send(usuario);
+  }
+  catch(err){
+    return res.status(500).send(err);
+  }
 };
 
 const getJuegosInWishList = async (req, res, next) => {
-  const { getJuegosInArray } = require("../services/juego.service");
+  try{
+    const { getJuegosInArray } = require("../services/juego.service");
+  
+    // defined in session.middleware.js
+    const { username } = req.token;
+    const usuario = await usuarioService.getUsuarioByUsername(username);
+  
+    if (!usuario) return res.status(404).send("User not found");
+    const juegos = await getJuegosInArray(usuario.wishList);
+  
+    req.toCache = juegos;
+    // res.status(200).send(juegos);
 
-  // defined in session.middleware.js
-  const { username } = req.token;
-  const usuario = await usuarioService.getUsuarioByUsername(username);
-
-  if (!usuario) return res.status(404).send("User not found");
-  const juegos = await getJuegosInArray(usuario.wishList);
-
-  req.toCache = juegos;
-  // res.status(200).send(juegos);
-  next();
+    next();
+  }
+  catch(err){
+    return res.status(500).send(err);
+  }
 };
 
 // const generateCacheKey = (req, res, next) => {

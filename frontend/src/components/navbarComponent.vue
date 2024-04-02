@@ -200,10 +200,19 @@ export default {
     },
   },
   mounted() {
-    if(process.env.NODE_ENV == "production"){
-      this.socket = io("/backend");
-    } else if(process.env.NODE_ENV == "development") {
+    if(import.meta.env.PROD){
+      console.log("PROD");
+      this.socket = io("/");
+    } else if (import.meta.env.DEV){
+      console.log("DEV");
       this.socket = io("http://localhost:3000");
+    }
+    
+    console.log("Socket", this.socket);
+
+    if(!localStorage.getItem("token")){
+      this.logout();
+      return;
     }
     this.socket.emit("login", localStorage.getItem("token"));
 
@@ -216,6 +225,8 @@ export default {
       alert(
         "From: " + data.from + " Message: " + data.content + " To: " + data.to
       );
+      // Evento personalizado para notificar a otro componente del mensaje recibido
+      this.$emit("message", data);
       // this.messages[]
     });
   },

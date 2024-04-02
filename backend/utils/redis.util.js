@@ -1,5 +1,4 @@
 const redisConnection = require("../configurations/redis.configuration");
-const cryptojsUtil = require("../utils/cryptojs.util");
 const getCache = async (key) => {
   // const redisKey = await cryptojsUtil.hashText(key);
   const redisKey = key;
