@@ -150,7 +150,7 @@ export default {
       }
     },
     checkScreenSize() {
-      this.isSmallScreen = window.innerWidth <= 678;
+      this.isMobile = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
     },
     truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
@@ -185,9 +185,6 @@ export default {
       this.selectedImageIndex = index;
     },    
 
-    checkScreenSize() {
-      this.isMobile = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
-    },
     initCarousel() {
       $(this.$refs.carousel).find('.slick-carousel').slick({
         slidesToShow: this.isMobile ? 1 : 1,
