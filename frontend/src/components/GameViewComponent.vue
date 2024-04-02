@@ -148,10 +148,10 @@ export default {
         console.error(error);
       }
     },
-    
+    /* El coco
     checkScreen() {
       this.isSmallScreen = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
-    },
+    },*/
     truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
