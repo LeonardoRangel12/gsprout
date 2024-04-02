@@ -103,7 +103,6 @@
                     @click="switchToLogin">
                     Speed up the process by clicking on this message!
                   </a>
-                  {{ switchToLoginWithTimer() }}
                 </P>
               </div>
             </form>
@@ -184,12 +183,14 @@ export default {
           return;
         }
         try {
-          const response = await newAxios.post("/usuarios/", {
+          const response = {
+            status: 201
+          };/*await newAxios.post("/usuarios/", {
             email: this.formData.email,
             username: this.formData.username,
             password: this.formData.password,
             wallets: [publicKey.value.toBase58()],
-          });
+          });*/
           if (response.status == 201) {
             // Validating user registration
             this.userRegistered = true;
@@ -198,10 +199,12 @@ export default {
               title: "Success!",
               text: "User registered successfully",
             });
+            this.switchToLoginWithTimer();
           }
         } catch (error) {
           // Catch the error of user already exists
           if (error.response.status === 400) {
+            console.log(error);
             this.errorMessages.push("User already exists");
             Swal.fire({
               icon: "error",
@@ -232,12 +235,34 @@ export default {
       }
     },
     switchToLogin() {
-      this.$router.push("/");
+      try{
+        let params = this.$router.currentRoute.value;
+        if(params != null){
+          switch(params.query.dir){
+            case 'solanaPay':
+              this.$router.push('/?dir='+params.query.dir+"&id="+params.query.id+"&success=true");
+            break;
+            default:
+              this.$router.push("/");
+              break;
+          }
+        }
+      }catch(error){
+        console.error(error);
+      }
     },
     switchToLoginWithTimer() {
-      setTimeout(() => {
-        this.switchToLogin();
-      }, 5000);
+      try{
+        let timeout = setTimeout(() => {
+          this.switchToLogin();
+        }, 5000);
+        if(this.$router.currentRoute.value.query.dir != null){
+          clearTimeout(timeout);
+          this.switchToLogin();
+        }
+      }catch(error){
+        console.error(error);
+      }
     },
   },
 };

@@ -78,22 +78,16 @@
 </template>
 
 <script>
-import Discord from "./DiscordComponent.vue";
 import { ref } from "vue";
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
-import Hero from "./HeroComponent.vue";
-import NewGames from "./NewGamesComponent.vue";
 import axios from "../main";
 import Swal from "sweetalert2"; // Importa SweetAlert
-
+import { getUserSession } from "../apis";
 export default {
   components: {
     Navbar,
     Footer,
-    Hero,
-    NewGames,
-    Discord,
   },
   data() {
     return {
@@ -110,6 +104,7 @@ export default {
     };
   },
   async setup() {
+    try{
     const users = ref([]);
     const res = await axios.get("/chat");
     if (res.status === 200) {
@@ -123,6 +118,13 @@ export default {
       });
     }
     return { users };
+    }catch(error){
+
+    }
+  },
+  async mounted(){
+    const hasSession = getUserSession();
+    this.checkSession(hasSession);
   },
   computed: {
     filteredUsers() {
@@ -168,6 +170,11 @@ export default {
         const element = this.$refs.messages;
         element.scrollTop = element.scrollHeight;
       });
+    },
+    checkSession(session){
+      if(!session){
+        this.$router.push('/main')
+      }
     },
     handleScroll() {
       const messagesElement = this.$refs.messages;

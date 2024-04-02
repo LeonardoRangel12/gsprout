@@ -36,12 +36,12 @@
             >
           </li>
           -->
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/mygames"
               >My games</router-link
             >
           </li>
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/messenger"
                 >Messages</router-link
             >
@@ -74,12 +74,12 @@
             >
           </li>
           -->
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/mygames"
               >My games</router-link
             >
           </li>
-          <li>
+          <li v-if="hasSession">
             <router-link class="hover:text-gray-200" to="/messenger"
                 >Messages</router-link
             >
@@ -91,26 +91,29 @@
           </li>
         </ul>
         <!-- Header Icons -->
-        <div class="hidden xl:flex items-center space-x-5 items-center">
+
+        <div class="hidden xl:flex items-center space-x-5">
           <wallet-multi-button></wallet-multi-button>
-          <router-link to="/WishList">
-            <a class="hover:text-gray-200" href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-            </a>
-          </router-link>
+          <div v-if="hasSession">
+            <router-link to="/WishList">
+              <a class="hover:text-gray-200" href="#">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+              </a>
+            </router-link>
+          </div>
           <a class="flex items-center hover:text-gray-200" href="#">
             <span class="flex absolute -mt-5 ml-4">
               <span
@@ -171,52 +174,100 @@
       @click.away="showProfileMenu = false"
       class="absolute right-0 mt-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-gray-900 shadow-lg ring-1 ring-black/5 focus:outline-none"
     >
-      <div class="px-1 py-1">
-        <router-link
-          to="/profile"
-          class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-200"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="mr-2 h-5 w-5 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      <div
+      v-if="hasSession">
+        <div class="px-1 py-1">
+          <router-link
+            to="/profile"
+            class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-200"
           >
-            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-            <path
-              fill-rule="evenodd"
-              d="M20 10a10 10 0 11-20 0 10 10 0 0120 0zm-2 0a8 8 0 11-16 0 8 8 0 0116 0zM8 8a1 1 0 00-1-1H5a3 3 0 00-3 3v6a3 3 0 003 3h2a1 1 0 100-2H5a1 1 0 01-1-1v-6a1 1 0 011-1h2a1 1 0 100-2H8zm4-1h-2a1 1 0 000 2h2a1 1 0 100-2zm4 1a1 1 0 011-1h2a3 3 0 013 3v6a1 1 0 01-1 1h-2a1 1 0 100 2h2a3 3 0 003-3v-6a3 3 0 00-3-3h-2a1 1 0 01-1-1zm-4 11a1 1 0 100 2 1 1 0 000-2z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          Profile
-        </router-link>
-        <button
-          @click="logout"
-          class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-600"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="mr-2 h-5 w-5 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="mr-2 h-5 w-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path
+                fill-rule="evenodd"
+                d="M20 10a10 10 0 11-20 0 10 10 0 0120 0zm-2 0a8 8 0 11-16 0 8 8 0 0116 0zM8 8a1 1 0 00-1-1H5a3 3 0 00-3 3v6a3 3 0 003 3h2a1 1 0 100-2H5a1 1 0 01-1-1v-6a1 1 0 011-1h2a1 1 0 100-2H8zm4-1h-2a1 1 0 000 2h2a1 1 0 100-2zm4 1a1 1 0 011-1h2a3 3 0 013 3v6a1 1 0 01-1 1h-2a1 1 0 100 2h2a3 3 0 003-3v-6a3 3 0 00-3-3h-2a1 1 0 01-1-1zm-4 11a1 1 0 100 2 1 1 0 000-2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Profile
+          </router-link>
+          <button
+            @click="logout"
+            class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-600"
           >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          Log Out
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="mr-2 h-5 w-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Log Out
+          </button>
+        </div>
+      </div>
+      <div
+      v-else>
+        <div class="px-1 py-1">
+          <router-link
+            to="/"
+            class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="mr-2 h-5 w-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path
+                fill-rule="evenodd"
+                d="M20 10a10 10 0 11-20 0 10 10 0 0120 0zm-2 0a8 8 0 11-16 0 8 8 0 0116 0zM8 8a1 1 0 00-1-1H5a3 3 0 00-3 3v6a3 3 0 003 3h2a1 1 0 100-2H5a1 1 0 01-1-1v-6a1 1 0 011-1h2a1 1 0 100-2H8zm4-1h-2a1 1 0 000 2h2a1 1 0 100-2zm4 1a1 1 0 011-1h2a3 3 0 013 3v6a1 1 0 01-1 1h-2a1 1 0 100 2h2a3 3 0 003-3v-6a3 3 0 00-3-3h-2a1 1 0 01-1-1zm-4 11a1 1 0 100 2 1 1 0 000-2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Login
+          </router-link>
+          <router-link
+            to="/register"
+            class="group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="mr-2 h-5 w-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path
+                fill-rule="evenodd"
+                d="M20 10a10 10 0 11-20 0 10 10 0 0120 0zm-2 0a8 8 0 11-16 0 8 8 0 0116 0zM8 8a1 1 0 00-1-1H5a3 3 0 00-3 3v6a3 3 0 003 3h2a1 1 0 100-2H5a1 1 0 01-1-1v-6a1 1 0 011-1h2a1 1 0 100-2H8zm4-1h-2a1 1 0 000 2h2a1 1 0 100-2zm4 1a1 1 0 011-1h2a3 3 0 013 3v6a1 1 0 01-1 1h-2a1 1 0 100 2h2a3 3 0 003-3v-6a3 3 0 00-3-3h-2a1 1 0 01-1-1zm-4 11a1 1 0 100 2 1 1 0 000-2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Register
+          </router-link>
+        </div>
       </div>
     </div>
+    <!-- Código del perfil del menú -->
   </section>
 </template>
 
 <script>
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import io from "socket.io-client";
+import { getUserSession } from "../apis";
 import Swal from "sweetalert2";
 export default {
   components: {
@@ -224,7 +275,9 @@ export default {
   },
   name: "NavbarComponent",
   data() {
+    const hasSession = getUserSession();
     return {
+      hasSession,
       showProfileMenu: false,
       connected: useWallet().connected,
       socket: null,
@@ -245,18 +298,18 @@ export default {
   mounted() {
     if(import.meta.env.PROD){
       console.log("PROD");
-      this.socket = io("/");
+      if(this.hasSession){
+        this.socket = io("/");
+      }
     } else if (import.meta.env.DEV){
       console.log("DEV");
-      this.socket = io("http://localhost:3000");
+      if(this.hasSession){
+        this.socket = io("http://localhost:3000");
+      }
     }
-    
-    console.log("Socket", this.socket);
-
-    // if(!localStorage.getItem("token")){
-    //   this.logout();
-    //   return;
-    // }
+    if(!this.hasSession){
+      return;
+    }
     this.socket.emit("login", localStorage.getItem("token"));
 
     this.socket.on("login", (message) => {
@@ -289,8 +342,10 @@ export default {
     },
   },
   beforeUnmount() {
-    this.socket.off("message");
-    this.socket.off("login");
+    if(this.hasSession){
+      this.socket.off("message");
+      this.socket.off("login");
+    }
   },
 };
 </script>
