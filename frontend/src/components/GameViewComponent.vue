@@ -128,8 +128,10 @@ export default {
   },
   mounted() {
     this.checkScreenSize();
-    this.initCarousel();
-    this.startSlideshow();
+    this.$nextTick(() => {
+      this.initCarousel();
+      this.startSlideshow();
+    });
     window.addEventListener('resize', this.checkScreen);
   },
 
