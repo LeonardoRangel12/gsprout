@@ -4,6 +4,8 @@ on:
 
       paths:
       - 'frontend/**'
+      branches:
+        - main
 env:
     AWS_REGION: us-west-1
     ECR_REPOSITORY: hackathon_front
