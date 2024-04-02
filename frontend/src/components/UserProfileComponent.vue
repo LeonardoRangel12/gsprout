@@ -1,14 +1,15 @@
 <template>
   <Navbar />
-  <section class="bg-gray-900 text-white px-4 py-8 md:px-8">
+  <section class="bg-gray-950 text-white px-4 py-8 md:px-8">
     <div class="max-w-screen-xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- User Profile Card -->
-        <div class="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-6 mb-8">
           <div class="flex flex-col items-center justify-center">
             <img :src="user.avatar" class="rounded-full h-32 w-32 mb-4" alt="User Avatar" />
             <h3 class="text-xl font-semibold mb-2">{{ user.username }}</h3>
             <p>{{ user.descripcion }}</p>
+            <button @click="openModal" class="text-sm text-indigo-500 hover:underline cursor-pointer mt-2">Edit Description</button>
           </div>
           <div class="mt-6 flex justify-between">
             <div>
@@ -27,9 +28,9 @@
         </div>
 
         <!-- Search and Add Friend -->
-        <div class="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-6 mb-8">
           <h3 class="text-lg font-semibold mb-4">Find Friends</h3>
-          <input v-model="searchUser" type="text" class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4" placeholder="Search User" />
+          <input v-model="searchUser" type="text" class="w-full px-4 py-2 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4" placeholder="Search User" />
           <button @click="SearchUser(searchUser)" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded hover:bg-indigo-700">Search</button>
           <div v-if="userFound" class="mt-4">
             <p class="mb-2">Add {{ userSearched }} as Friend?</p>
@@ -38,7 +39,7 @@
         </div>
 
         <!-- Friends List -->
-        <div class="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-6 mb-8">
           <h3 class="text-lg font-semibold mb-4">Friends List</h3>
           <div v-if="friends.length === 0" class="text-gray-400 text-center">You have no friends yet.</div>
           <div v-else>
