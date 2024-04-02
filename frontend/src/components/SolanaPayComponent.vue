@@ -52,7 +52,7 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import { WalletNotInitializedError, useWallet } from "solana-wallets-vue";
 import { createTransfer, parseURL } from "@solana/pay";
-import { getJuego, getExchange } from "../apis";
+import { getJuego, getExchange, getUserSession} from "../apis";
 import {ref} from 'vue';
 import { useRoute } from "vue-router";
 import Swal from "sweetalert2";
@@ -89,6 +89,12 @@ export default {
         });
       });
     return { juego, SOL_TO_USD_RATE, price: juego.value.precio};
+  },
+  mounted(){
+    const hasSession = getUserSession();
+    if(!hasSession){
+      this.$router.push("/?id="+this.$route.query.id+"&price="+this.price+"&dir=solanaPay");
+    }
   },
   methods: {
     async getJuegos() {

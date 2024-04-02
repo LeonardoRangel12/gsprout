@@ -143,7 +143,7 @@ export default {
           Swal.fire({
             icon: "error",
             title: "¡Error!",
-            text: "Necesitas iniciar sesión para añadir juegos a favoritos",
+            text: "You need to log in to add games to favorites",
           });
         }
       } catch (error) {
@@ -170,7 +170,7 @@ export default {
     async isFavorite(juegoId) {
       return this.wishlist != null ? this.wishlist.includes(juegoId) : false;
     },
-    async switchToBuy(gameid) {
+    /*async switchToBuy(gameid) {
       try {
         if(this.hasSession){
           const juego = this.games.find((game) => game._id === gameid);
@@ -185,7 +185,7 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    },
+    },*/
     async switchToDetails(gameid) {
       try {
         const juego = this.games.find((game) => game._id === gameid);

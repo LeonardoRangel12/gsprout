@@ -28,7 +28,7 @@ const createUsuario = async (req, res, next) => {
     //   data: usuario,
     // };
     req.toCache = usuario;
-    // res.status(201).send(usuario);
+    res.status(201).send(usuario);
     next();
   } catch (error) {
     return res.status(500).send(error);
