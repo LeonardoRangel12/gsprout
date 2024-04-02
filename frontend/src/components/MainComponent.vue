@@ -110,7 +110,7 @@ export default {
       .then((values) => {
         games.value = values[2];
         exchange.value = values[0];
-        wishlist.value = values[1].wishList ? values[1].wishList : [];
+        wishlist.value = values[1] ? values[1].wishList : [];
       })
       .catch((error) => {
         Swal.fire({
