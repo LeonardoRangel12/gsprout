@@ -19,7 +19,8 @@
               Welcome
             </h2>
             <p class="mt-3 text-gray-500 dark:text-gray-300">
-              Connect your wallet to continue
+              Connect your wallet to continue<br>
+              Make sure you are connected to the DEVNET cluster
             </p>
           </div>
 

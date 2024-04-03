@@ -71,12 +71,8 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 
 import {
   PhantomWalletAdapter,
-  CoinbaseWalletAdapter,
   SolflareWalletAdapter,
   LedgerWalletAdapter,
-  MathWalletAdapter,
-  TrustWalletAdapter,
-
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import AssetViewVue from "./components/AssetView.vue";
@@ -84,12 +80,8 @@ import AssetViewVue from "./components/AssetView.vue";
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
-    new CoinbaseWalletAdapter(),
     new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
-    new MathWalletAdapter(),
-    new TrustWalletAdapter(),
     new LedgerWalletAdapter(),
-
   ],
   autoConnect: true,
   cluster: "devnet",
