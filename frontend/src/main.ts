@@ -37,9 +37,9 @@ const newAxios: AxiosInstance = axios.create({
 });
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", component: LoginComponentVue },
+  { path: "/login", component: LoginComponentVue },
   { path: "/register", component: RegisterComponentVue },
-  { path: "/main", component: MainComponentVue },
+  { path: "/", component: MainComponentVue },
   { path: "/solanaPay", component: SolanaPayComponentVue },
   { path: "/profile", component: UserProfileComponentVue },
   { path: "/auctions", component: Auctions },
@@ -69,12 +69,8 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 
 import {
   PhantomWalletAdapter,
-  CoinbaseWalletAdapter,
   SolflareWalletAdapter,
   LedgerWalletAdapter,
-  MathWalletAdapter,
-  TrustWalletAdapter,
-
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import AssetViewVue from "./components/AssetView.vue";
@@ -82,12 +78,8 @@ import AssetViewVue from "./components/AssetView.vue";
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
-    new CoinbaseWalletAdapter(),
     new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
-    new MathWalletAdapter(),
-    new TrustWalletAdapter(),
     new LedgerWalletAdapter(),
-
   ],
   autoConnect: true,
   cluster: "devnet",

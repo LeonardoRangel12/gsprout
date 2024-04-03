@@ -87,7 +87,7 @@
                   id="registerButton"
                   class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-800 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                 >
-                  Regíster
+                  Register
                 </button>
               </div>
               <div v-if="errorMessages.length > 0 " class="block w-full px-4 py-2 mt-2 text-center text-red-600 bg-red-100">
@@ -103,7 +103,6 @@
                     @click="switchToLogin">
                     Speed up the process by clicking on this message!
                   </a>
-                  {{ switchToLoginWithTimer() }}
                 </P>
               </div>
             </form>
@@ -184,13 +183,16 @@ export default {
           return;
         }
         try {
+          // const response = {
+          //   status: 201
+          // };
           const response = await newAxios.post("/usuarios/", {
             email: this.formData.email,
             username: this.formData.username,
             password: this.formData.password,
             wallets: [publicKey.value.toBase58()],
           });
-          if (response.status == 201) {
+          if (response.status == 201 || response.status == 200) {
             // Validating user registration
             this.userRegistered = true;
             Swal.fire({
@@ -198,10 +200,12 @@ export default {
               title: "Success!",
               text: "User registered successfully",
             });
+            this.switchToLoginWithTimer();
           }
         } catch (error) {
           // Catch the error of user already exists
           if (error.response.status === 400) {
+            console.log(error);
             this.errorMessages.push("User already exists");
             Swal.fire({
               icon: "error",
@@ -232,12 +236,34 @@ export default {
       }
     },
     switchToLogin() {
-      this.$router.push("/");
+      try{
+        let params = this.$router.currentRoute.value;
+        if(params != null){
+          switch(params.query.dir){
+            case 'solanaPay':
+              this.$router.push('/login?dir='+params.query.dir+"&id="+params.query.id+"&success=true");
+            break;
+            default:
+              this.$router.push("/login");
+              break;
+          }
+        }
+      }catch(error){
+        console.error(error);
+      }
     },
     switchToLoginWithTimer() {
-      setTimeout(() => {
-        this.switchToLogin();
-      }, 5000);
+      try{
+        let timeout = setTimeout(() => {
+          this.switchToLogin();
+        }, 5000);
+        if(this.$router.currentRoute.value.query.dir != null){
+          clearTimeout(timeout);
+          this.switchToLogin();
+        }
+      }catch(error){
+        console.error(error);
+      }
     },
   },
 };

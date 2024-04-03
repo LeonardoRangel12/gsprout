@@ -15,7 +15,7 @@
               />
             </div>
             <button
-              v-if="!wishlist.includes(juego._id)"
+              v-if="wishlist == null || !wishlist.includes(juego._id)"
               @click="addToWishList(juego._id)"
               class="absolute top-2 right-2 text-gray-500 focus:outline-none"
             >
@@ -67,11 +67,11 @@
       </section>
     </div>
     <NewGames :games="games" :SOL_TO_USD_RATE="SOL_TO_USD_RATE" />
-
     <Discord />
     <Footer />
   </div>
 </template>
+
 
 <script>
 import Discord from "./DiscordComponent.vue";
@@ -82,7 +82,7 @@ import NewGames from "./NewGamesComponent.vue";
 import axios from "../main";
 import Swal from "sweetalert2";
 import { inject, ref } from "vue";
-import { getExchange, getUsuario, getJuegos } from "../apis";
+import { getExchange, getUsuario, getJuegos, getUserSession } from "../apis";
 
 export default {
   components: {
@@ -97,21 +97,20 @@ export default {
       games: [],
       featuredGames: [],
       SOL_TO_USD_RATE: 50, // Adjust this value based on the current exchange rate
-      wishlist: [],
+      wishlist: ref([]),
     };
   },
   async setup() {
     const games = ref([]);
     const exchange = ref(50);
     const wishlist = ref([]);
-
     const requests = [getExchange(), getUsuario(), getJuegos()];
-
+    const hasSession = getUserSession();
     await Promise.all(requests)
       .then((values) => {
         games.value = values[2];
         exchange.value = values[0];
-        wishlist.value = values[1].wishList;
+        wishlist.value = values[1] ? values[1].wishList : [];
       })
       .catch((error) => {
         Swal.fire({
@@ -120,24 +119,31 @@ export default {
           text: "An error occurred while loading the page. Please try again.",
         });
       });
-    console.log(games.value);
     const featuredGames = ref(games.value.slice(0, 12));
-    return { games, featuredGames, SOL_TO_USD_RATE: exchange, wishlist };
+    return { games, featuredGames, hasSession, SOL_TO_USD_RATE: exchange, wishlist};
   },
   async mounted() {
     const games = inject("games");
-    console.log(games);
   },
   methods: {
     async addToWishList(juegoId) {
       try {
-        const res = await axios.post("/usuarios/wishlist/" + juegoId);
-        if (res.status == 200) {
-          this.wishlist.push(juegoId);
+        if(this.hasSession){
+          const res = await axios.post("/usuarios/wishlist/" + juegoId);
+          if (res.status == 200) {
+            this.wishlist.push(juegoId);
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Game added to favorites",
+            });
+          }
+        }
+        else{
           Swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: "Game added to favorites",
+            icon: "error",
+            title: "¡Error!",
+            text: "You need to log in to add games to favorites",
           });
         }
       } catch (error) {
@@ -146,6 +152,7 @@ export default {
     },
     async removeFromWishList(juegoId) {
       try {
+      if(this.hasSession){
         const res = await axios.delete("/usuarios/wishlist/" + juegoId);
         if (res.status == 200) {
           Swal.fire({
@@ -155,25 +162,30 @@ export default {
           });
           this.wishlist = this.wishlist.filter((id) => id !== juegoId);
         }
-      } catch (error) {
+      }
+    } catch (error) {
         console.error(error);
       }
     },
     async isFavorite(juegoId) {
       return this.wishlist != null ? this.wishlist.includes(juegoId) : false;
     },
-
-    async switchToBuy(gameid) {
+    /*async switchToBuy(gameid) {
       try {
-        const juego = this.games.find((game) => game._id === gameid);
-        if (!juego) {
-          throw new Error("Game not found");
+        if(this.hasSession){
+          const juego = this.games.find((game) => game._id === gameid);
+          if (!juego) {
+            throw new Error("Game not found");
+          }
+          this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
         }
-        this.$router.push(`/solanaPay?id=${juego._id}&price=${juego.precio}`);
+        else{
+          this.$router.push("/?needinfo='login'");
+        }
       } catch (error) {
         console.error(error);
       }
-    },
+    },*/
     async switchToDetails(gameid) {
       try {
         const juego = this.games.find((game) => game._id === gameid);

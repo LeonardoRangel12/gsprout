@@ -51,8 +51,8 @@ import QRCodeStyling from "qr-code-styling";
 import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import { WalletNotInitializedError, useWallet } from "solana-wallets-vue";
-import { createTransfer, parseURL } from "@solana/pay";
-import { getJuego, getExchange } from "../apis";
+import { createTransfer, CreateTransferError, parseURL } from "@solana/pay";
+import { getJuego, getExchange, getUserSession} from "../apis";
 import {ref} from 'vue';
 import { useRoute } from "vue-router";
 import Swal from "sweetalert2";
@@ -89,6 +89,12 @@ export default {
         });
       });
     return { juego, SOL_TO_USD_RATE, price: juego.value.precio};
+  },
+  mounted(){
+    const hasSession = getUserSession();
+    if(!hasSession){
+      this.$router.push("/login?id="+this.$route.query.id+"&price="+this.price+"&dir=solanaPay");
+    }
   },
   methods: {
     async getJuegos() {
@@ -133,19 +139,35 @@ export default {
     },
     async handleVerifyClick() {
       if (!this.reference) {
-        alert("Please generate a transaction first");
+        Swal.fire({
+          icon: "warning",
+          title: "Warning",
+          text: "Please generate a payment order first.",
+        });
         return;
       }
       try {
         const res = await axios.get("/solana/pay/" + this.reference);
         if (res.status == 200 || res.status == 201) {
-          alert("Transaction verified");
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Transaction verified successfully.\nYour NFT will be delivered soon.",
+          });
         } else {
-          alert("Transaction not found");
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Transaction verification failed",
+          });
         }
       } catch (error) {
         console.error("Error verifying transaction:", error);
-        alert("Error verifying transaction. Please try again later.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Transaction verification failed",
+        });
       }
     },
     async makePaymentWithWallet(url) {
@@ -170,8 +192,24 @@ export default {
         await this.handleVerifyClick();
         console.log("Transaction sent:", signature);
       } catch (error) {
-        console.error("Error making payment with wallet:", error);
-        alert("You can still make the payment by scanning the QR code");
+        if(error instanceof CreateTransferError)
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Not enough balance to make the payment. You can also pay scanning the QR code with a Solana wallet.",
+          });
+        else if(error instanceof WalletNotInitializedError)
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Wallet not initialized. Please try again later.",
+          });
+        else
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "An error occurred while making the payment",
+          });
       }
     },
     generateQRCode(url) {

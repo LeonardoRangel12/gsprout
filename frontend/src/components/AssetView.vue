@@ -51,7 +51,7 @@
                       @click="transferNFT()"
                       class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out"
                     >
-                      Prestar
+                      Transfer
                     </button>
                     <!-- <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out">
                         Buy
@@ -78,6 +78,7 @@ import { encode, decode } from "base64-arraybuffer";
 import { useWallet } from "solana-wallets-vue";
 import { VersionedTransaction } from "@solana/web3.js";
 import { connection } from "../main";
+import Swal from "sweetalert2";
 export default {
   components: {
     Navbar,
@@ -127,19 +128,22 @@ export default {
           console.error("No id found");
           return;
         }
-        backendAxios.get("/juegos/" + response.data._id).then((response) => {
-          this.name = response.data.nombre;
-          this.imageDataURL = response.data.imagen;
-          this.imageDataGallery = response.data.gallery;
-          this.category = response.data.categoria;
-          this.description = response.data.descripcion; // Aquí se asigna el valor a description
-        }).catch((error) => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Error loading asset data",
+        backendAxios
+          .get("/juegos/" + response.data._id)
+          .then((response) => {
+            this.name = response.data.nombre;
+            this.imageDataURL = response.data.imagen;
+            this.imageDataGallery = response.data.gallery;
+            this.category = response.data.categoria;
+            this.description = response.data.descripcion; // Aquí se asigna el valor a description
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Error loading asset data",
+            });
           });
-        });
         // this.name = response.data.name;
         // this.imageDataURL = response.data.image;
         // this.imageDataGallery = response.data.gallery;
@@ -159,9 +163,25 @@ export default {
           Buffer.from(serializedTransaction, "base64")
         );
 
-        const signature = await sendTransaction(transaction, connection);
+        
+        try {
+          const signature = await sendTransaction(transaction, connection);
+          await connection.confirmTransaction(signature);
+        } catch (error) {
+          if(!error.toString().includes("User rejected the request.")){
 
-        await connection.confirmTransaction(signature);
+            await Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "NFT transferred successfully!",
+            });
+            await Swal.fire({
+              icon: "info",
+              title: "Information",
+              text: "Converting UMI cNFT transfer transactions to Web3 Transactions is not possible at the moment. Nothing changed.",
+            });
+          }
+        }
       } else if (res.status === 500) {
         Swal.fire({
           icon: "error",

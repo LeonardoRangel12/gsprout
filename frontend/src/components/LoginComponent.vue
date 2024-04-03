@@ -19,7 +19,8 @@
               Welcome
             </h2>
             <p class="mt-3 text-gray-500 dark:text-gray-300">
-              Connect your wallet to continue
+              Connect your wallet to continue<br>
+              Make sure you are connected to the DEVNET cluster
             </p>
           </div>
 
@@ -117,17 +118,28 @@ import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-
 const { connected, disconnect, publicKey } = useWallet();
 disconnect();
-
 const router = useRouter(); // Obtener el enrutador de Vue
+const params = router.currentRoute.value;
 const formData = ref({
   username: "",
   password: "",
   publicKey: "",
 });
-
+if(params.query.dir != null){
+  if(!params.query.success){
+    switch(params.query.dir){
+      case 'solanaPay':
+        Swal.fire({
+          icon: 'info',
+          title: 'Information',
+          text: 'You need first to log in to buy'
+        });
+      break;
+    }
+  }
+}
 const validateForm = () => {
   if (!formData.value.username) {
     Swal.fire({
@@ -155,7 +167,6 @@ const getUser = async () => {
       password: formData.value.password,
       publicKey: publicKey.value.toBase58(),
     });
-    console.log(res.status, res.status===200);
     if(res.status === 200) {
       return res.data;
     }
@@ -202,20 +213,32 @@ const getUser = async () => {
 
 const login = async () => {
   if (!validateForm()) return;
-
   const userData = await getUser();
-  console.log(userData);
   if(!userData) return;
-
   localStorage.setItem("username", userData.username);
   localStorage.setItem("token", "Bearer " + userData.token);
-
-  router.push("/main");
+  if(params != null){
+    switch(params.query.dir){
+      case 'solanaPay':
+        router.push('/'+params.query.dir+"?id="+params.query.id);
+      break;
+      default:
+        router.push("/");
+      break;
+    }
+  }
 };
-
 const switchToRegister = () => {
-  // Redirige al usuario a la página de registro
-  router.push("/register");
+  if(params.query.dir != null){
+    switch(params.query.dir){
+      case 'solanaPay':
+        router.push("/register?dir="+params.query.dir+"&id="+params.query.id);
+      break;
+    }
+  }
+  else{
+    router.push("/register");
+  }
 };
 </script>
 

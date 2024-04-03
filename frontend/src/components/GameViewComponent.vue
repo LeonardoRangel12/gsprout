@@ -2,29 +2,30 @@
   <div class="bg-gray-950">
     <Navbar />
     <div class="container mx-auto py-8">
-      <!-- Código para pantallas grandes (md y superiores) -->
-      <div class="grid grid-cols-1 md:grid-cols-20 gap-6 px-4" v-if="$screenWidth >= 768">
-        <div class="col-span-1 md:col-span-9">
-          <div class="bg-gray-900 rounded-lg p-6 shadow-lg">
-            <div class="flex flex-col bg-gray-900 rounded-lg p-4 shadow-lg md:flex-row" style="height: 625px;">
-              <!-- Galeria -->
-              <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
-                  <div>
-                    <img class="h-auto w-full rounded-lg" style="width: 2800px; height: 450px;" :src="selectedImageUrl" alt="" >
-                  </div>
-                  <div class="overflow-x-auto custom-scrollbar flex items-center" style="height: 115px;">
-                    <div class="flex flex-nowrap mb-1" >
-                      <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mr-4">
-                        <img class="h-full w-full object-cover rounded-lg" 
-                        :class="{
-                          'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
-                          'ml-2': index === 0, // Agrega separación del borde izquierdo a la primera imagen
-                        }" style="width: 157.5px":src="imageUrl":alt="`Imagen ${index + 1}`"@click="selectImage(imageUrl, index)"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Datos Juego -->
+      <div :class="{ 'hidden md:block': !isSmallScreen }">
+        <!-- Código para pantallas grandes (md y superiores) -->
+        <div class="grid grid-cols-1 md:grid-cols-20 gap-6 px-4">
+          <div class="col-span-1 md:col-span-9">
+            <div class="bg-gray-900 rounded-lg p-6 shadow-lg">
+              <div class="flex flex-col bg-gray-900 rounded-lg p-4 shadow-lg md:flex-row" style="height: 625px;">
+                <!-- Galeria -->
+                <div class="grid gap-4 mb-4 md:mb-0 md:mr-4">
+                  <div> 
+                    <img class="h-auto w-full rounded-lg" style="width: 2800px; height: 450px;" :src="selectedImageUrl" alt="">
+                  </div> 
+                  <div class="overflow-x-auto custom-scrollbar flex items-center" style="height: 115px;"> 
+                    <div class="flex flex-nowrap mb-1">
+                      <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mr-4"> 
+                        <img class="h-full w-full object-cover rounded-lg"
+                             :class="{
+                               'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
+                               'ml-2': index === 0, // Agrega separación del borde izquierdo a la primera imagen
+                             }" style="width: 157.5px" :src="imageUrl" :alt="`Imagen ${index + 1}`" @click="selectImage(imageUrl, index)"/>
+                      </div> 
+                    </div> 
+                  </div> 
+                </div> 
+                <!-- Datos del Juego -->
                 <div class="flex flex-col relative">
                   <div>
                     <img class="w-full h-full object-cover" style="width: 600px;" :src="juego.imagen" :alt="juego.nombre" />
@@ -37,53 +38,57 @@
                       </div>
                       <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Description</h2>
                       <div>
-                        <p class="text-gray-400 text-justify text-sm md:text-base" >{{ truncar(juego.descripcion) }}</p>
+                        <p class="text-gray-400 text-justify text-sm md:text-base">{{ truncar(juego.descripcion) }}</p>
                       </div>
                     </div>
                     <div class="absolute bottom-0 left-0 right-0">
                       <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out text-sm md:text-base">
-                        Comprar
+                        Buy
                       </button>
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Código para pantallas pequeñas (sm y menores) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4" v-else>
-        <!-- Portada del juego -->
-        <div class="bg-gray-900 rounded-lg shadow-lg">
-          <img class="w-full h-auto rounded-t-lg" :src="juego.imagen" :alt="juego.nombre">
-        </div>
-        <!-- Detalles del juego -->
-        <div class="bg-gray-900 rounded-lg shadow-lg">
-          <div class="p-6">
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">{{ juego.nombre }}</h2>
-            <div class="mb-4">
-              <h3 class="text-lg md:text-xl font-bold text-white">{{ juego.categoria.join(", ") }}</h3>
-            </div>
-            <div class="mb-4">
-              <h3 class="text-lg md:text-xl font-bold text-white">Description</h3>
-              <p class="text-gray-400 text-justify text-sm md:text-base">{{ truncar(juego.descripcion) }}</p>
-            </div>
-            <div>
-              <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out text-sm md:text-base">
-                Buy
-              </button>
+
+      <div :class="{ 'md:hidden': !isSmallScreen }">
+        <!-- Código para pantallas pequeñas (sm y menores) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+          <!-- Portada del juego -->
+          <div class="bg-gray-900 rounded-lg shadow-lg">
+            <img class="w-full h-auto rounded-t-lg" :src="juego.imagen" :alt="juego.nombre">
+          </div>
+          <!-- Detalles del juego -->
+          <div class="bg-gray-900 rounded-lg shadow-lg">
+            <div class="p-6">
+              <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">{{ juego.nombre }}</h2>
+              <div class="mb-4">
+                <h3 class="text-lg md:text-xl font-bold text-white">{{ juego.categoria.join(", ") }}</h3>
+              </div>
+              <div class="mb-4">
+                <h3 class="text-lg md:text-xl font-bold text-white">Description</h3>
+                <p class="text-gray-400 text-justify text-sm md:text-base">{{ truncar(juego.descripcion) }}</p>
+              </div>
+              <div>
+                <button @click="switchToBuy()" class="w-full py-2 bg-indigo-700 text-white font-bold rounded hover:bg-indigo-500 transition duration-300 ease-in-out text-sm md:text-base">
+                  Buy
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Galería de imágenes -->
-        <div class="bg-gray-900 rounded-lg shadow-lg mt-6" ref="carousel">
-          <div class="p-4">
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Gallery</h2>
-            <div class="slick-carousel">
-              <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mb-2">
-                <img class="h-auto w-full object-cover rounded-lg" :class="{
-                  'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
-                }" :src="imageUrl" :alt="`Image ${index + 1}`" @click="selectImage(imageUrl, index)" />
+          <!-- Galería de imágenes -->
+          <div class="bg-gray-900 rounded-lg shadow-lg mt-6" ref="carousel">
+            <div class="p-4">
+              <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Gallery</h2>
+              <div class="slick-carousel">
+                <div v-for="(imageUrl, index) in juego.gallery" :key="index" class="h-auto max-w-full flex-none cursor-pointer mb-2">
+                  <img class="h-auto w-full object-cover rounded-lg" :class="{
+                    'border-4 border-white shadow-lg transform scale-110': index === selectedImageIndex,
+                  }" :src="imageUrl" :alt="`Image ${index + 1}`" @click="selectImage(imageUrl, index)" />
+                </div>
               </div>
             </div>
           </div>
@@ -115,6 +120,7 @@ export default {
       reference: "",
       isMobile: false,
       selectedImageIndex: 0,
+      isSmallScreen: false,
     };
   },
   created() {
@@ -124,6 +130,7 @@ export default {
     this.checkScreenSize();
     this.initCarousel();
     this.startSlideshow();
+    window.addEventListener('resize', this.checkScreen);
   },
 
   computed: {
@@ -141,6 +148,10 @@ export default {
         console.error(error);
       }
     },
+    /* El coco
+    checkScreen() {
+      this.isSmallScreen = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
+    },*/ 
     truncar(text, maxLength = 280) {
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
@@ -179,7 +190,8 @@ export default {
     },
     initCarousel() {
       $(this.$refs.carousel).find('.slick-carousel').slick({
-        slidesToShow: this.isMobile ? 1 : 1,
+        //slidesToShow: this.isMobile ? 1 : 1,
+        slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 2000,

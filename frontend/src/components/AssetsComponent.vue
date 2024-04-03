@@ -28,7 +28,7 @@ import Footer from "./FooterComponent.vue";
 import AssetComponent from "./AssetComponent.vue";
 import axios from "../main";
 import Swal from 'sweetalert2'; // Importa SweetAlert
-
+import { getUserSession } from "../apis";
 import { useWallet } from "solana-wallets-vue";
 
 export default {
@@ -39,6 +39,7 @@ export default {
   },
   name: "AssetsComponent",
   data() {
+    const hasSession = getUserSession();
     return {
       assets: [],
       isLoading: false,
@@ -46,9 +47,13 @@ export default {
       interval: null,
       retryCount: 0, // variable para el contador de intentos
       connected: useWallet().connected,
+      hasSession
     };
   },
   mounted() {
+    if(this.hasSession == false){
+      this.$router.push('/');
+    }
     this.getAssets();
     if (this.assets.length === 0) {
      this.interval = setInterval(this.getAssets, 4000); // Establecer el intervalo si no hay datos
