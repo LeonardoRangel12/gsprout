@@ -167,7 +167,7 @@ const getUser = async () => {
       password: formData.value.password,
       publicKey: publicKey.value.toBase58(),
     });
-    if(res.status === 200) {
+    if(res.status === 200 || res.status === 201) {
       return res.data;
     }
     else if(res.status === 401) {
