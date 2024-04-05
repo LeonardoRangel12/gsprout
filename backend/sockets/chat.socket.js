@@ -2,18 +2,32 @@ const jwtUtil = require("../utils/jwt.util");
 module.exports = (io) => {
   io.on("connection", async (socket) => {
     socket.on("login", async (token) => {
-      const { username } = await jwtUtil.verifyToken(token);
-      //  Check if the user is already connected to the room
-      socket.join(username);
-      console.log("User connected to chat: ", username);
-      socket.emit("login", "You are connected to chat");
+      try{
+        const  token  = await jwtUtil.verifyToken(token);
+        //  Check if the user is already connected to the room
+        socket.join(token.username);
+        console.log("User connected to chat: ", token.username);
+        socket.emit("login", "You are connected to chat");
+
+      }
+      catch(err){
+        console.log("Invalid token");
+        console.log(err);
+      }
     });
 
     socket.on("message", async (data) => {
-      const { to } = data;
-      const { username } = jwtUtil.verifyToken(data.from);
-      data.from = username;
-      io.to(to).emit("message", data);
+      try{
+        const { to } = data;
+        const  token  = await jwtUtil.verifyToken(data.from);
+        data.from = token.username;
+        io.to(to).emit("message", data);
+
+      }
+      catch(err){
+        console.log("Invalid token");
+        console.log(err);
+      }
     });
   });
 };
