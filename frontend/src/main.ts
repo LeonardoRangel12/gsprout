@@ -53,8 +53,6 @@ const routes: RouteRecordRaw[] = [
   { path: "/discord", component: DiscordComponentVue },
   { path: "/messenger", component: Messenger },
   { path: "/about", component: About },
-
-  
 ];
 
 const router = createRouter({
