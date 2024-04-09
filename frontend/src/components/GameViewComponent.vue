@@ -105,6 +105,8 @@ import Navbar from "./navbarComponent.vue";
 import Footer from "./FooterComponent.vue";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import $ from 'jquery';
 import 'slick-carousel';
 
@@ -115,7 +117,7 @@ export default {
   },
   data() {
     return {
-      juego: {},
+      juego: ref({}),
       selectedImageUrl: [],
       reference: "",
       isMobile: false,
@@ -123,10 +125,19 @@ export default {
       isSmallScreen: false,
     };
   },
-  created() {
-    this.getJuego();
+  async setup(){
+    const juego = ref({});
+    const route = useRoute();
+    await Promise.all([axios.get("/juegos/" + route.query.id)])
+      .then((values) => {
+        juego.value = values[0].data;
+      });
+    return { juego };
   },
-  mounted() {
+  created() {
+    // this.getJuego();
+  },
+  async mounted() {
     this.checkScreenSize();
     this.initCarousel();
     this.startSlideshow();
@@ -139,20 +150,12 @@ export default {
     }
   },
   methods: {
-    async getJuego() {
-      try {
-        const response = await axios.get("/juegos/" + this.$route.query.id);
-        this.juego = response.data;
-        this.selectedImageUrl = this.juego.gallery[0];
-      } catch (error) {
-        console.error(error);
-      }
-    },
     /* El coco
     checkScreen() {
       this.isSmallScreen = window.innerWidth <= 768; // Define el límite de ancho para dispositivos móviles
     },*/ 
     truncar(text, maxLength = 280) {
+      if(!text) return "";
       return text.slice(0, maxLength) + (text.length > maxLength ? "..." : "");
     },
     async switchToBuy() {
@@ -169,15 +172,16 @@ export default {
       }
     },
     startSlideshow() {
-      this.selectedImageUrl = this.juego.gallery[this.selectedImageIndex];
+      if(!this.juego.value) return;
+      this.selectedImageUrl = this.juego.value.gallery[this.selectedImageIndex];
       this.intervalId = setInterval(this.nextImage, 3000); //cambia cada 3 segundos
     },
     stopSlideshow() {
       clearInterval(this.intervalId);
     },
     nextImage() {
-      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.juego.gallery.length;
-      this.selectedImageUrl = this.juego.gallery[this.selectedImageIndex];
+      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.juego.value.gallery.length;
+      this.selectedImageUrl = this.juego.value.gallery[this.selectedImageIndex];
     },
 
     async selectImage(imageUrl, index) {
