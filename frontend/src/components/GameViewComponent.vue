@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       juego: ref({}),
-      selectedImageUrl: [],
+      selectedImageUrl: ref(""),
       reference: "",
       isMobile: false,
       selectedImageIndex: 0,
@@ -127,17 +127,20 @@ export default {
   },
   async setup(){
     const juego = ref({});
+    const selectedImageUrl = ref("");
     const route = useRoute();
     await Promise.all([axios.get("/juegos/" + route.query.id)])
       .then((values) => {
         juego.value = values[0].data;
+        selectedImageUrl.value = values[0].data.gallery[0];
       });
-    return { juego };
+    
+    return { juego, selectedImageUrl };
   },
   created() {
     // this.getJuego();
   },
-  async mounted() {
+  mounted() {
     this.checkScreenSize();
     this.initCarousel();
     this.startSlideshow();
@@ -172,16 +175,14 @@ export default {
       }
     },
     startSlideshow() {
-      if(!this.juego.value) return;
-      this.selectedImageUrl = this.juego.value.gallery[this.selectedImageIndex];
       this.intervalId = setInterval(this.nextImage, 3000); //cambia cada 3 segundos
     },
     stopSlideshow() {
       clearInterval(this.intervalId);
     },
     nextImage() {
-      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.juego.value.gallery.length;
-      this.selectedImageUrl = this.juego.value.gallery[this.selectedImageIndex];
+      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.juego.gallery.length;
+      this.selectedImageUrl = this.juego.gallery[this.selectedImageIndex];
     },
 
     async selectImage(imageUrl, index) {
